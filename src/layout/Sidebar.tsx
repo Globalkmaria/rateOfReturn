@@ -44,11 +44,19 @@ type MenuProps = { selected: boolean };
 
 const SidebarComponent = styled('nav')`
   width: 100px;
+  height: fit-content;
+  border: 1px solid ${({ theme }) => theme.colors.grey200};
 `;
+
 const Menu = styled('li')<MenuProps>`
-  margin: auto;
   padding: 10px;
   background: ${({ theme, selected }) =>
     selected ? theme.colors.grey100 : 'none'};
+  transition: '200ms';
   font-size: 1.5rem;
+  text-align: center;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.grey100};
+  }
 `;

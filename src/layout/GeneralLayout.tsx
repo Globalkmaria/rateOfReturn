@@ -11,7 +11,7 @@ const GeneralLayout: React.FC<GeneralLayoutProps> = ({ children }) => {
   return (
     <GeneralLayoutComponent>
       <Sidebar sidebarContent={SidebarContent} />
-      {children}
+      <MainLayoutComponent>{children}</MainLayoutComponent>
     </GeneralLayoutComponent>
   );
 };
@@ -20,4 +20,8 @@ export default GeneralLayout;
 
 const GeneralLayoutComponent = styled('div')`
   display: flex;
+`;
+
+const MainLayoutComponent = styled('main')`
+  margin: 40px;
 `;
