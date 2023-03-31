@@ -1,6 +1,6 @@
 import { DefaultTheme } from 'styled-components';
 
-const colors = {
+const colors: { [key: string]: string } = {
   white: '#FFFFFF',
   black: '#000000',
 
