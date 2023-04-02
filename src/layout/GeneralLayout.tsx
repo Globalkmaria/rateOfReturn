@@ -23,5 +23,6 @@ const GeneralLayoutComponent = styled('div')`
 `;
 
 const MainLayoutComponent = styled('main')`
-  margin: 40px;
+  width: calc(100% - 100px);
+  padding: 40px;
 `;
