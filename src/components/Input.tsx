@@ -2,6 +2,8 @@ import React, {
   ChangeEvent,
   FocusEvent,
   InputHTMLAttributes,
+  useEffect,
+  useRef,
   useState,
 } from 'react';
 import styled from 'styled-components';
@@ -67,19 +69,34 @@ export const Input: React.FC<InputProps> = ({
   value = '',
   ...args
 }) => {
+  const input = useRef<null | HTMLInputElement>(null);
+  const [selection, setSelection] = useState<number | null>(null);
   const [finalValue, setFinalValue] = useState<string>(value);
+  useEffect(() => {
+    if (selection) {
+      input.current?.setSelectionRange(selection, selection);
+    }
+  });
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const onChangeResult = onChange && onChange(e);
     const value = onChangeResult ?? e.target.value;
     const transformedValue = changeTransformValue(type, value, finalValue);
-    transformedValue && setFinalValue(transformedValue);
+    if (transformedValue) {
+      setFinalValue(transformedValue);
+      const nextSelection =
+        e.target.selectionStart! + transformedValue.length - value.length;
+      setSelection(nextSelection);
+    } else {
+      setSelection(null);
+    }
   };
   const onBlurHandler = (e: FocusEvent<HTMLInputElement>) => {
     const onBlurResult = onBlur && onBlur(e);
     const value = onBlurResult ?? e.target.value;
     const transformedValue = blurTransformValue(type, value, finalValue);
     transformedValue && setFinalValue(transformedValue);
+    setSelection(null);
   };
 
   const isDate = type === 'date';
@@ -87,6 +104,7 @@ export const Input: React.FC<InputProps> = ({
 
   return (
     <BaseInput
+      ref={input}
       onChange={onChangeHandler}
       onBlur={onBlurHandler}
       type={inputType}
