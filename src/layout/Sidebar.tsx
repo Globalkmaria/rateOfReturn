@@ -20,21 +20,21 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarContent }) => {
   };
 
   return (
-    <SidebarComponent>
+    <StyledSidebar>
       <ul>
         {sidebarContent.map((element) => {
           return (
-            <Menu
+            <StyledMenu
               key={element.path}
               selected={currentPath === element.path}
               onClick={() => sidebarMenuClickHandler(element.path)}
             >
               {element.label}
-            </Menu>
+            </StyledMenu>
           );
         })}
       </ul>
-    </SidebarComponent>
+    </StyledSidebar>
   );
 };
 
@@ -42,13 +42,13 @@ export default Sidebar;
 
 type MenuProps = { selected: boolean };
 
-const SidebarComponent = styled('nav')`
+const StyledSidebar = styled('nav')`
   width: 100px;
   height: fit-content;
   border: 1px solid ${({ theme }) => theme.colors.grey200};
 `;
 
-const Menu = styled('li')<MenuProps>`
+const StyledMenu = styled('li')<MenuProps>`
   padding: 10px;
   background: ${({ theme, selected }) =>
     selected ? theme.colors.grey100 : 'none'};

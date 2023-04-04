@@ -9,20 +9,20 @@ interface GeneralLayoutProps {
 
 const GeneralLayout: React.FC<GeneralLayoutProps> = ({ children }) => {
   return (
-    <GeneralLayoutComponent>
+    <StyledGeneralLayout>
       <Sidebar sidebarContent={SidebarContent} />
-      <MainLayoutComponent>{children}</MainLayoutComponent>
-    </GeneralLayoutComponent>
+      <StyledMainLayout>{children}</StyledMainLayout>
+    </StyledGeneralLayout>
   );
 };
 
 export default GeneralLayout;
 
-const GeneralLayoutComponent = styled('div')`
+const StyledGeneralLayout = styled('div')`
   display: flex;
 `;
 
-const MainLayoutComponent = styled('main')`
+const StyledMainLayout = styled('main')`
   width: calc(100% - 100px);
   padding: 40px;
 `;

@@ -1,10 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+import StockList from '../views/List/StockList';
 
-export default function List() {
-  return <Title>List</Title>;
-}
+interface ListProps {}
 
-const Title = styled('h1')`
-  color: ${(props) => props.theme.colors.grey100};
-`;
+const List: React.FC<ListProps> = () => {
+  return (
+    <StyledList>
+      <StockList />
+    </StyledList>
+  );
+};
+
+export default List;
+
+const StyledList = styled('div')``;
