@@ -9,7 +9,13 @@ import React, {
 import styled from 'styled-components';
 
 const INPUT_TYPES = ['text', 'number', 'date'] as const;
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface BaseInputProps {
+  align?: 'left' | 'right';
+  fullWidth?: boolean;
+}
+interface InputProps
+  extends InputHTMLAttributes<HTMLInputElement>,
+    BaseInputProps {
   type?: typeof INPUT_TYPES[number];
   value?: string;
 }
@@ -52,22 +58,27 @@ const blurTransformValue = (
   }
 };
 
-export const BaseInput = styled('input')(({ theme }) => ({
-  padding: '5px',
-  border: 'none',
-  borderRadius: '5px',
+export const BaseInput = styled('input')<BaseInputProps>(
+  ({ theme, align = 'left', width, fullWidth }) => ({
+    padding: '5px',
+    border: 'none',
+    borderRadius: '5px',
+    textAlign: align,
+    fontSize: '1rem',
+    width: width ? `${width}px` : fullWidth ? '100%' : 'auto',
 
-  '&:focus': {
-    background: theme.colors.grey000,
-  },
-}));
+    '&:focus': {
+      background: theme.colors.grey000,
+    },
+  }),
+);
 
 export const Input: React.FC<InputProps> = ({
   type = 'text',
   onChange,
   onBlur,
   value = '',
-  ...args
+  ...restProps
 }) => {
   const input = useRef<null | HTMLInputElement>(null);
   const [selection, setSelection] = useState<number | null>(null);
@@ -101,6 +112,7 @@ export const Input: React.FC<InputProps> = ({
 
   const isDate = type === 'date';
   const inputType = isDate ? 'datetime-local' : 'text';
+  const align = type === 'number' ? 'right' : 'left';
 
   return (
     <BaseInput
@@ -109,7 +121,8 @@ export const Input: React.FC<InputProps> = ({
       onBlur={onBlurHandler}
       type={inputType}
       value={finalValue}
-      {...args}
+      align={align}
+      {...restProps}
     />
   );
 };
