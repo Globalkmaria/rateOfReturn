@@ -3,6 +3,17 @@ import styled from 'styled-components';
 
 const SIZES = ['s', 'm', 'l'] as const;
 type Sizes = { [key in typeof SIZES[number]]: string };
+const COLOR_KEYS = ['primary', 'secondary1', 'secondary2', 'warning'] as const;
+type Colors = { [key in typeof COLOR_KEYS[number]]: string };
+const HEIGHTS = [32, 40] as const;
+interface BaseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  size?: typeof SIZES[number];
+  color?: typeof COLOR_KEYS[number];
+  height?: typeof HEIGHTS[number];
+  width?: number;
+  fullWidth?: boolean;
+}
+
 const FONT_SIZES: Sizes = {
   s: '1rem',
   m: '1.25rem',
@@ -14,23 +25,12 @@ const PADDING_SIZES: Sizes = {
   l: '0.875rem',
 };
 
-const COLOR_KEYS = ['primary', 'secondary', 'warning'] as const;
-type Colors = { [key in typeof COLOR_KEYS[number]]: string };
 const COLORS: Colors = {
   primary: 'grey',
-  secondary: 'blue',
+  secondary1: 'teal',
+  secondary2: 'indigo',
   warning: 'red',
 };
-
-const HEIGHTS = [32, 40] as const;
-
-interface BaseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  size?: typeof SIZES[number];
-  color?: typeof COLOR_KEYS[number];
-  height?: typeof HEIGHTS[number];
-  width?: number;
-  fullWidth?: boolean;
-}
 
 const BaseButton = styled('button')<BaseButtonProps>(
   ({ height = 40, width, fullWidth, size = 's' }) => ({
@@ -55,10 +55,10 @@ export const BorderButton = styled(BaseButton)<BaseButtonProps>(
 
 export const ContainedButton = styled(BaseButton)<BaseButtonProps>(
   ({ theme, color = 'primary' }) => ({
-    background: `${theme.colors[COLORS[color] + '200']}`,
+    background: `${theme.colors[COLORS[color] + '000']}`,
 
     '&:hover': {
-      background: `${theme.colors[COLORS[color] + '300']}`,
+      background: `${theme.colors[COLORS[color] + '100']}`,
     },
   }),
 );
