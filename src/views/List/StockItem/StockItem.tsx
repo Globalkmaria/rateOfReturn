@@ -2,42 +2,27 @@ import React from 'react';
 import SummaryInfo from './SummaryInfo';
 import PurchasedStock from './PurchasedStock';
 import { AddSameStockButton } from './components';
-import { getSummaryInfo } from './utils';
-
-export type SummaryInfoData = {
-  stockName: string;
-  stockId: number;
-  purchaseQuantitySum: number;
-  purchasePriceAverage: number;
-  currentPrice: number;
-};
-
-export type StockInfoData = {
-  stockName: string;
-  stockId: number;
-  currentPrice: number;
-  purchasedId: number;
-  purchaseDate: string;
-  purchaseQuantity: number;
-  purchasePrice: number;
-};
+import { StockList } from '../../../features/stockList/stockListSlice';
 
 export interface StockItemProps {
-  purchasedStockList: StockInfoData[];
+  stockInfo: StockList;
+  stockIdx: number;
 }
 
-const StockItem: React.FC<StockItemProps> = ({ purchasedStockList }) => {
-  const summaryInfo = getSummaryInfo(purchasedStockList);
+const StockItem: React.FC<StockItemProps> = ({ stockInfo, stockIdx }) => {
   return (
     <>
-      <SummaryInfo summaryInfoData={summaryInfo} />
-      {purchasedStockList.map((stockInfo) => (
+      <SummaryInfo stockInfo={stockInfo} stockIdx={stockIdx} />
+      {stockInfo.purchasedItems.map((purchasedItem, purchasedIdx) => (
         <PurchasedStock
-          key={stockInfo.purchasedId}
-          purchasedStockData={stockInfo}
+          key={purchasedItem.purchasedId}
+          purchasedItem={purchasedItem}
+          mainInfo={stockInfo.mainInfo}
+          stockIdx={stockIdx}
+          purchasedIdx={purchasedIdx}
         />
       ))}
-      <AddSameStockButton />
+      <AddSameStockButton stockId={stockInfo.mainInfo.stockId} />
     </>
   );
 };

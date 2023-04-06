@@ -1,52 +1,91 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { BorderButton } from '../../../components/Button';
 import { BaseInput, Input } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
+import {
+  deleteStock,
+  StockList,
+  StockMainInfo,
+} from '../../../features/stockList/stockListSlice';
 import { NumberCell, LockButton, DeleteButton } from './components';
-import { SummaryInfoData } from './StockItem';
+import { getSummaryInfo } from './utils';
+import { updateStock } from '../../../features/stockList/stockListSlice';
+
+export type SummaryInfoData = {
+  purchaseQuantitySum: number;
+  purchasePriceAverage: number;
+  totalPurchasePrice: number;
+  evaluationPrice: number;
+  evaluationProfit: number;
+  profitRate: number;
+};
 
 export interface SummaryInfoProps {
-  summaryInfoData: SummaryInfoData;
+  stockInfo: StockList;
+  stockIdx: number;
 }
 
-const SummaryInfo: React.FC<SummaryInfoProps> = ({ summaryInfoData }) => {
+const SummaryInfo: React.FC<SummaryInfoProps> = ({ stockInfo, stockIdx }) => {
+  const dispatch = useDispatch();
   const [isLock, setIsLock] = useState(true);
-  const onLockButtonClick = () => setIsLock((prev) => !prev);
-  const totalPurchasePrice =
-    summaryInfoData.purchaseQuantitySum * summaryInfoData.purchasePriceAverage;
-  const evaluationPrice =
-    summaryInfoData.purchaseQuantitySum * summaryInfoData.currentPrice;
-  const evaluationProfit = evaluationPrice - totalPurchasePrice;
-  const profitRate = (evaluationProfit / totalPurchasePrice) * 100;
+  const summaryData = getSummaryInfo(stockInfo);
+
+  const toggleLock = () => setIsLock((prev) => !prev);
+  const onInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldName: Omit<keyof StockMainInfo, 'stockId'>,
+  ) => {
+    dispatch(
+      updateStock({
+        stockIdx: stockIdx,
+        fieldName: fieldName,
+        value: e.target.value,
+      }),
+    );
+  };
+
+  const onDeleteStock = () => {
+    dispatch(deleteStock(stockIdx));
+  };
+
   return (
     <StyledSummaryRow>
       <TableCell>
-        <Input fullWidth value={summaryInfoData.stockName} disabled={isLock} />
+        <Input
+          fullWidth
+          onChange={(e) => onInputChange(e, 'stockName')}
+          value={stockInfo.mainInfo.stockName}
+          disabled={isLock}
+        />
       </TableCell>
       <TableCell align='center' colSpan={2}>
         요약
       </TableCell>
-      <NumberCell value={summaryInfoData.purchaseQuantitySum} />
-      <NumberCell value={summaryInfoData.purchasePriceAverage} />
-      <NumberCell value={totalPurchasePrice} />
+      <NumberCell value={summaryData.purchaseQuantitySum} />
+      <NumberCell value={summaryData.purchasePriceAverage} />
+      <NumberCell value={summaryData.totalPurchasePrice} />
       <TableCell>
         <Input
+          onChange={(e) => onInputChange(e, 'currentPrice')}
           type='number'
-          value={summaryInfoData.currentPrice.toString()}
+          value={stockInfo.mainInfo.currentPrice.toString()}
           disabled={isLock}
         />
       </TableCell>
-      <NumberCell value={evaluationPrice} />
-      <TableCell align='right'>{evaluationProfit.toLocaleString()}</TableCell>
+      <NumberCell value={summaryData.evaluationPrice} />
       <TableCell align='right'>
-        {profitRate.toFixed(2).toLocaleString()} %
+        {summaryData.evaluationProfit.toLocaleString()}
+      </TableCell>
+      <TableCell align='right'>
+        {summaryData.profitRate.toFixed(2).toLocaleString()} %
       </TableCell>
       <TableCell>
-        <LockButton isLock={isLock} onClick={onLockButtonClick} />
+        <LockButton isLock={isLock} onClick={toggleLock} />
       </TableCell>
       <TableCell>
-        <DeleteButton />
+        <DeleteButton onClick={onDeleteStock} />
       </TableCell>
     </StyledSummaryRow>
   );

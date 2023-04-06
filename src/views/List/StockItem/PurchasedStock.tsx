@@ -1,53 +1,100 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Input } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
+import {
+  deletePurchasedItem,
+  PurchasedItemInfo,
+  StockMainInfo,
+  updatePurchaseItem,
+} from '../../../features/stockList/stockListSlice';
 import { InputCell, NumberCell, LockButton, DeleteButton } from './components';
-import { StockInfoData } from './StockItem';
 
 interface PurchasedStockProps {
-  purchasedStockData: StockInfoData;
+  mainInfo: StockMainInfo;
+  purchasedItem: PurchasedItemInfo;
+  stockIdx: number;
+  purchasedIdx: number;
 }
 
 const PurchasedStock: React.FC<PurchasedStockProps> = ({
-  purchasedStockData,
+  mainInfo,
+  stockIdx,
+  purchasedItem,
+  purchasedIdx,
 }) => {
+  const dispatch = useDispatch();
   const [isLock, setIsLock] = useState(true);
-  const onLockButtonClick = () => setIsLock((prev) => !prev);
+  const toggleLock = () => setIsLock((prev) => !prev);
   const totalPurchasePrice =
-    purchasedStockData.purchaseQuantity * purchasedStockData.purchasePrice;
+    purchasedItem.purchasedQuantity * purchasedItem.purchasedPrice;
   const evaluationPrice =
-    purchasedStockData.purchaseQuantity * purchasedStockData.currentPrice;
+    purchasedItem.purchasedQuantity * mainInfo.currentPrice;
   const evaluationProfit = evaluationPrice - totalPurchasePrice;
   const profitRate = (evaluationProfit / totalPurchasePrice) * 100;
+
+  const onInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldName: Omit<keyof PurchasedItemInfo, 'purchasedId'>,
+  ) => {
+    const value =
+      fieldName === 'purchasedDate'
+        ? e.target.value.replace(/\:[\d]{2}.[\d]{3}Z/, '')
+        : e.target.value.replaceAll(',', '');
+    dispatch(
+      updatePurchaseItem({
+        stockIdx: stockIdx,
+        purchasedIdx: purchasedIdx,
+        fieldName,
+        value,
+      }),
+    );
+  };
+
+  const onDeletePurchasedStock = () => {
+    dispatch(
+      deletePurchasedItem({
+        stockIdx,
+        purchasedIdx,
+      }),
+    );
+  };
+
   return (
     <StyledPurchasedStockRow>
       <TableCell></TableCell>
-      <TableCell align='center'>{purchasedStockData.purchasedId}</TableCell>
+      <TableCell align='center'>{purchasedIdx + 1}</TableCell>
       <TableCell>
         <Input
+          onChange={(e) => onInputChange(e, 'purchasedDate')}
           disabled={isLock}
           type='date'
-          value={purchasedStockData.purchaseDate}
+          value={purchasedItem.purchasedDate}
         />
       </TableCell>
       <InputCell
-        value={purchasedStockData.purchaseQuantity}
+        onChange={(e) => onInputChange(e, 'purchasedQuantity')}
+        value={purchasedItem.purchasedQuantity}
         disabled={isLock}
       />
-      <InputCell value={purchasedStockData.purchasePrice} disabled={isLock} />
+      <InputCell
+        onChange={(e) => onInputChange(e, 'purchasedPrice')}
+        value={purchasedItem.purchasedPrice}
+        disabled={isLock}
+      />
       <NumberCell value={totalPurchasePrice} />
-      <InputCell value={purchasedStockData.currentPrice} disabled={isLock} />
+      <NumberCell value={mainInfo.currentPrice} />
       <NumberCell value={evaluationPrice} />
       <TableCell align='right'>{evaluationProfit.toLocaleString()}</TableCell>
       <TableCell align='right'>
         {profitRate.toFixed(2).toLocaleString()} %
       </TableCell>
       <TableCell>
-        <LockButton isLock={isLock} onClick={onLockButtonClick} />
+        <LockButton isLock={isLock} onClick={toggleLock} />
       </TableCell>
       <TableCell>
-        <DeleteButton />
+        <DeleteButton onClick={onDeletePurchasedStock} />
       </TableCell>
     </StyledPurchasedStockRow>
   );
