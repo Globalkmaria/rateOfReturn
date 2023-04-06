@@ -1,21 +1,30 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { ContainedButton } from '../../components/Button';
 import { BaseInput } from '../../components/Input';
 import { Table, TableBody, TableCell, TableRow } from '../../components/Table';
-import StockItem, { StockInfoData } from './StockItem/StockItem';
+import { addNewStock } from '../../features/stockList/stockListSlice';
+import { RootState } from '../../store';
+import StockItem from './StockItem/StockItem';
 import StockListHeader from './StockListHeader';
 
 interface StockListProps {}
 
 const StockList: React.FC<StockListProps> = () => {
+  const stocks = useSelector((state: RootState) => state.stockList.stocks);
   return (
     <StyledStockList>
       <Table>
         <StockListHeader />
         <TableBody>
-          <StockItem purchasedStockList={MOCK_DATA} />
-          <StockItem purchasedStockList={MOCK_DATA} />
+          {stocks.map((stock, stockIdx) => (
+            <StockItem
+              stockInfo={stock}
+              stockIdx={stockIdx}
+              key={stock.mainInfo.stockId}
+            />
+          ))}
           <AddNewStock />
         </TableBody>
       </Table>
@@ -36,34 +45,17 @@ const StyledStockList = styled('div')`
 `;
 
 const AddNewStock: React.FC = () => {
+  const dispatch = useDispatch();
+  const onAddNewStock = () => {
+    dispatch(addNewStock());
+  };
   return (
     <TableRow>
       <TableCell colSpan={12}>
-        <ContainedButton color='secondary2' fullWidth>
+        <ContainedButton onClick={onAddNewStock} color='secondary2' fullWidth>
           신규 종목 추가
         </ContainedButton>
       </TableCell>
     </TableRow>
   );
 };
-
-const MOCK_DATA: StockInfoData[] = [
-  {
-    stockName: '구글',
-    stockId: 1,
-    purchasedId: 1,
-    currentPrice: 100,
-    purchaseDate: '2023-04-04T09:57:11',
-    purchaseQuantity: 100,
-    purchasePrice: 200,
-  },
-  {
-    stockName: '구글',
-    stockId: 1,
-    currentPrice: 300,
-    purchasedId: 2,
-    purchaseDate: '2023-04-04T09:57:11',
-    purchaseQuantity: 201,
-    purchasePrice: 202,
-  },
-];
