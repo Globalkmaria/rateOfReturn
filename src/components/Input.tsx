@@ -13,7 +13,7 @@ interface BaseInputProps {
   align?: 'left' | 'right';
   fullWidth?: boolean;
 }
-interface InputProps
+export interface InputProps
   extends InputHTMLAttributes<HTMLInputElement>,
     BaseInputProps {
   type?: typeof INPUT_TYPES[number];
@@ -34,7 +34,6 @@ const changeTransformValue = (
       const noDot = decimal === undefined;
       const result = num.toLocaleString() + (noDot ? '' : `.${decimal}`);
       return prevValue !== result ? result : null;
-
     default:
       return prevValue !== value ? value : null;
   }
@@ -55,6 +54,17 @@ const blurTransformValue = (
 
     default:
       return prevValue !== value ? value : null;
+  }
+};
+
+const getInitialValue = (value: string, type: typeof INPUT_TYPES[number]) => {
+  switch (type) {
+    case 'number':
+      return Number(value).toLocaleString();
+    case 'date':
+      return new Date(value).toISOString().slice(0, 16);
+    default:
+      return value;
   }
 };
 
@@ -80,9 +90,15 @@ export const Input: React.FC<InputProps> = ({
   value = '',
   ...restProps
 }) => {
+  const isDate = type === 'date';
+  const inputType = isDate ? 'datetime-local' : 'text';
+  const align = type === 'number' ? 'right' : 'left';
+
+  const initialValue = getInitialValue(value, type);
+
   const input = useRef<null | HTMLInputElement>(null);
   const [selection, setSelection] = useState<number | null>(null);
-  const [finalValue, setFinalValue] = useState<string>(value);
+  const [finalValue, setFinalValue] = useState<string>(initialValue);
   useEffect(() => {
     if (selection) {
       input.current?.setSelectionRange(selection, selection);
@@ -109,10 +125,6 @@ export const Input: React.FC<InputProps> = ({
     transformedValue && setFinalValue(transformedValue);
     setSelection(null);
   };
-
-  const isDate = type === 'date';
-  const inputType = isDate ? 'datetime-local' : 'text';
-  const align = type === 'number' ? 'right' : 'left';
 
   return (
     <BaseInput

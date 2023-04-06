@@ -6,7 +6,8 @@ type Sizes = { [key in typeof SIZES[number]]: string };
 const COLOR_KEYS = ['primary', 'secondary1', 'secondary2', 'warning'] as const;
 type Colors = { [key in typeof COLOR_KEYS[number]]: string };
 const HEIGHTS = [32, 40] as const;
-interface BaseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface BaseButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: typeof SIZES[number];
   color?: typeof COLOR_KEYS[number];
   height?: typeof HEIGHTS[number];
@@ -32,16 +33,16 @@ const COLORS: Colors = {
   warning: 'red',
 };
 
-const BaseButton = styled('button')<BaseButtonProps>(
-  ({ height = 40, width, fullWidth, size = 's' }) => ({
-    padding: PADDING_SIZES[size],
-    height: `${height}px`,
-    width: width ? `${width}px` : fullWidth ? '100%' : 'auto',
-    borderRadius: '5px',
-    fontSize: FONT_SIZES[size],
-    transition: '200ms',
-  }),
-);
+const BaseButton = styled('button').attrs((props) => ({
+  type: props.type || 'button',
+}))<BaseButtonProps>(({ height = 40, width, fullWidth, size = 's' }) => ({
+  padding: PADDING_SIZES[size],
+  height: `${height}px`,
+  width: width ? `${width}px` : fullWidth ? '100%' : 'auto',
+  borderRadius: '5px',
+  fontSize: FONT_SIZES[size],
+  transition: '200ms',
+}));
 
 export const BorderButton = styled(BaseButton)<BaseButtonProps>(
   ({ theme, color = 'primary' }) => ({
