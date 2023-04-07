@@ -35,7 +35,7 @@ const SummaryInfo: React.FC<SummaryInfoProps> = ({ stockInfo, stockIdx }) => {
   const toggleLock = () => setIsLock((prev) => !prev);
   const onInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    fieldName: Omit<keyof StockMainInfo, 'stockId'>,
+    fieldName: keyof Omit<StockMainInfo, 'stockId'>,
   ) => {
     dispatch(
       updateStock({

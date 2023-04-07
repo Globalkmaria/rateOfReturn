@@ -36,7 +36,7 @@ const PurchasedStock: React.FC<PurchasedStockProps> = ({
 
   const onInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    fieldName: Omit<keyof PurchasedItemInfo, 'purchasedId'>,
+    fieldName: keyof Omit<PurchasedItemInfo, 'purchasedId'>,
   ) => {
     const value =
       fieldName === 'purchasedDate'

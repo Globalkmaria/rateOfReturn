@@ -2,17 +2,16 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { toDateInputValue } from '../../views/List/StockItem/utils';
 
-type UpdateStock = {
+type UpdateStockPayload<T extends keyof StockMainInfo> = {
   stockIdx: number;
-  fieldName: Omit<keyof StockMainInfo, 'stockId'>;
-  value: string;
+  fieldName: T;
+  value: StockMainInfo[T];
 };
-
-type UpdatePurchasedItem = {
-  fieldName: Omit<keyof PurchasedItemInfo, 'purchasedId'>;
-  value: string;
+type UpdatePurchasedItemPayload<T extends keyof PurchasedItemInfo> = {
   stockIdx: number;
   purchasedIdx: number;
+  fieldName: T;
+  value: PurchasedItemInfo[T];
 };
 
 export type StockMainInfo = {
@@ -75,15 +74,20 @@ export const stockListSlice = createSlice({
         purchasedPrice: 0,
       });
     },
-    updateStock: (state, action: PayloadAction<UpdateStock>) => {
+    updateStock: <T extends keyof Omit<StockMainInfo, 'stockId'>>(
+      state: StockListState,
+      action: PayloadAction<UpdateStockPayload<T>>,
+    ) => {
       const { stockIdx, fieldName, value } = action.payload;
-      // @ts-ignore
       state.stocks[stockIdx].mainInfo[fieldName] = value;
     },
-    updatePurchaseItem: (state, action: PayloadAction<UpdatePurchasedItem>) => {
+    updatePurchaseItem: <
+      T extends keyof Omit<PurchasedItemInfo, 'purchasedId'>,
+    >(
+      state: StockListState,
+      action: PayloadAction<UpdatePurchasedItemPayload<T>>,
+    ) => {
       const { stockIdx, purchasedIdx, fieldName, value } = action.payload;
-
-      // @ts-ignore
       state.stocks[stockIdx].purchasedItems[purchasedIdx][fieldName] = value;
     },
 
