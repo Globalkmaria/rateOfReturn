@@ -13,17 +13,14 @@ interface StockListProps {}
 
 const StockList: React.FC<StockListProps> = () => {
   const stocks = useSelector((state: RootState) => state.stockList.stocks);
+  const stocksArray = Object.values(stocks);
   return (
     <StyledStockList>
       <Table>
         <StockListHeader />
         <TableBody>
-          {stocks.map((stock, stockIdx) => (
-            <StockItem
-              stockInfo={stock}
-              stockIdx={stockIdx}
-              key={stock.mainInfo.stockId}
-            />
+          {stocksArray.map((stock) => (
+            <StockItem stockInfo={stock} key={stock.mainInfo.stockId} />
           ))}
           <AddNewStock />
         </TableBody>

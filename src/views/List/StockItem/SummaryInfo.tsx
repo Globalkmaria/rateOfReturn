@@ -24,10 +24,9 @@ export type SummaryInfoData = {
 
 export interface SummaryInfoProps {
   stockInfo: StockList;
-  stockIdx: number;
 }
 
-const SummaryInfo: React.FC<SummaryInfoProps> = ({ stockInfo, stockIdx }) => {
+const SummaryInfo: React.FC<SummaryInfoProps> = ({ stockInfo }) => {
   const dispatch = useDispatch();
   const [isLock, setIsLock] = useState(true);
   const summaryData = getSummaryInfo(stockInfo);
@@ -39,7 +38,7 @@ const SummaryInfo: React.FC<SummaryInfoProps> = ({ stockInfo, stockIdx }) => {
   ) => {
     dispatch(
       updateStock({
-        stockIdx: stockIdx,
+        stockId: stockInfo.mainInfo.stockId,
         fieldName: fieldName,
         value: e.target.value,
       }),
@@ -47,7 +46,7 @@ const SummaryInfo: React.FC<SummaryInfoProps> = ({ stockInfo, stockIdx }) => {
   };
 
   const onDeleteStock = () => {
-    dispatch(deleteStock(stockIdx));
+    dispatch(deleteStock(stockInfo.mainInfo.stockId));
   };
 
   return (

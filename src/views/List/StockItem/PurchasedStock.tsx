@@ -14,13 +14,11 @@ import { InputCell, NumberCell, LockButton, DeleteButton } from './components';
 interface PurchasedStockProps {
   mainInfo: StockMainInfo;
   purchasedItem: PurchasedItemInfo;
-  stockIdx: number;
   purchasedIdx: number;
 }
 
 const PurchasedStock: React.FC<PurchasedStockProps> = ({
   mainInfo,
-  stockIdx,
   purchasedItem,
   purchasedIdx,
 }) => {
@@ -44,8 +42,8 @@ const PurchasedStock: React.FC<PurchasedStockProps> = ({
         : e.target.value.replaceAll(',', '');
     dispatch(
       updatePurchaseItem({
-        stockIdx: stockIdx,
-        purchasedIdx: purchasedIdx,
+        stockId: mainInfo.stockId,
+        purchasedId: purchasedItem.purchasedId,
         fieldName,
         value,
       }),
@@ -55,8 +53,8 @@ const PurchasedStock: React.FC<PurchasedStockProps> = ({
   const onDeletePurchasedStock = () => {
     dispatch(
       deletePurchasedItem({
-        stockIdx,
-        purchasedIdx,
+        stockId: mainInfo.stockId,
+        purchasedId: purchasedItem.purchasedId,
       }),
     );
   };

@@ -3,22 +3,24 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { toDateInputValue } from '../../views/List/StockItem/utils';
 
 type UpdateStockPayload<T extends keyof StockMainInfo> = {
-  stockIdx: number;
+  stockId: number;
   fieldName: T;
   value: StockMainInfo[T];
 };
 type UpdatePurchasedItemPayload<T extends keyof PurchasedItemInfo> = {
-  stockIdx: number;
-  purchasedIdx: number;
+  stockId: number;
+  purchasedId: number;
   fieldName: T;
   value: PurchasedItemInfo[T];
 };
 
-export type StockMainInfo = {
+type DeletePurchasedItemPayload = { stockId: number; purchasedId: number };
+
+export interface StockMainInfo {
   stockName: string;
   currentPrice: number;
   stockId: number;
-};
+}
 
 export interface PurchasedItemInfo {
   purchasedId: number;
@@ -29,12 +31,12 @@ export interface PurchasedItemInfo {
 
 export interface StockList {
   mainInfo: StockMainInfo;
-  purchasedItems: PurchasedItemInfo[];
+  purchasedItems: { [key: number]: PurchasedItemInfo };
 }
 
-export type StockListState = {
-  stocks: StockList[];
-};
+export interface StockListState {
+  stocks: { [key: number]: StockList };
+}
 
 const initialState: StockListState = { stocks: [] };
 
@@ -46,40 +48,37 @@ export const stockListSlice = createSlice({
   initialState,
   reducers: {
     addNewStock: (state) => {
-      state.stocks.push({
+      state.stocks[nextStockId] = {
         mainInfo: {
           stockName: '',
           currentPrice: 0,
           stockId: nextStockId++,
         },
-        purchasedItems: [
-          {
+        purchasedItems: {
+          [nextPurchasedId]: {
             purchasedId: nextPurchasedId++,
             purchasedDate: toDateInputValue().toISOString(),
             purchasedQuantity: 0,
             purchasedPrice: 0,
           },
-        ],
-      });
+        },
+      };
     },
     addPurchasedItem: (state, action: PayloadAction<number>) => {
       const stockId = action.payload;
-      const stockIdx = state.stocks.findIndex(
-        (stock) => stock.mainInfo.stockId === stockId,
-      );
-      state.stocks[stockIdx].purchasedItems.push({
+      state.stocks[stockId].purchasedItems[nextPurchasedId] = {
         purchasedId: nextPurchasedId++,
         purchasedDate: toDateInputValue().toISOString(),
         purchasedQuantity: 0,
         purchasedPrice: 0,
-      });
+      };
     },
     updateStock: <T extends keyof Omit<StockMainInfo, 'stockId'>>(
       state: StockListState,
       action: PayloadAction<UpdateStockPayload<T>>,
     ) => {
-      const { stockIdx, fieldName, value } = action.payload;
-      state.stocks[stockIdx].mainInfo[fieldName] = value;
+      const { stockId, fieldName, value } = action.payload;
+      state.stocks[stockId].mainInfo[fieldName] = value;
     },
     updatePurchaseItem: <
       T extends keyof Omit<PurchasedItemInfo, 'purchasedId'>,
@@ -87,23 +86,24 @@ export const stockListSlice = createSlice({
       state: StockListState,
       action: PayloadAction<UpdatePurchasedItemPayload<T>>,
     ) => {
-      const { stockIdx, purchasedIdx, fieldName, value } = action.payload;
-      state.stocks[stockIdx].purchasedItems[purchasedIdx][fieldName] = value;
+      const { stockId, purchasedId, fieldName, value } = action.payload;
+      state.stocks[stockId].purchasedItems[purchasedId][fieldName] = value;
     },
 
     deleteStock: (state, action: PayloadAction<number>) => {
-      state.stocks.splice(action.payload, 1);
+      const stockId = action.payload;
+      delete state.stocks[stockId];
     },
     deletePurchasedItem: (
       state,
-      action: PayloadAction<{ stockIdx: number; purchasedIdx: number }>,
+      action: PayloadAction<DeletePurchasedItemPayload>,
     ) => {
-      const { stockIdx, purchasedIdx } = action.payload;
-      if (state.stocks[stockIdx].purchasedItems.length === 1) {
-        state.stocks.splice(stockIdx, 1);
+      const { stockId, purchasedId } = action.payload;
+      if (Object(state.stocks[stockId].purchasedItems).keys().length === 1) {
+        delete state.stocks[stockId];
         return;
       }
-      state.stocks[stockIdx].purchasedItems.splice(purchasedIdx, 1);
+      delete state.stocks[stockId].purchasedItems[purchasedId];
     },
   },
 });
@@ -119,52 +119,52 @@ export const {
 
 export default stockListSlice.reducer;
 
-// const MOCK_DATA: StockList[] = [
-//   {
+// const MOCK_DATA: { [key: number]: StockList } = {
+//   1: {
 //     mainInfo: {
 //       stockName: 'Google',
 //       currentPrice: 1000,
 //       stockId: 1,
 //     },
-//     purchasedItems: [
-//       {
+//     purchasedItems: {
+//       1: {
 //         purchasedId: 1,
 //         purchasedDate: '2023-04-04T09:57',
 //         purchasedQuantity: 10,
 //         purchasedPrice: 1000,
 //       },
-//       {
+//       2: {
 //         purchasedId: 2,
 //         purchasedDate: '2023-04-04T09:57',
 //         purchasedQuantity: 10,
 //         purchasedPrice: 1000,
 //       },
-//     ],
+//     },
 //   },
-//   {
+//   2: {
 //     mainInfo: {
 //       stockName: 'Apple',
 //       currentPrice: 2000,
 //       stockId: 2,
 //     },
-//     purchasedItems: [
-//       {
+//     purchasedItems: {
+//       3: {
 //         purchasedId: 3,
 //         purchasedDate: '2023-04-04T09:57',
 //         purchasedQuantity: 10,
 //         purchasedPrice: 1000,
 //       },
-//       {
+//       4: {
 //         purchasedId: 4,
 //         purchasedDate: '2023-04-04T09:57',
 //         purchasedQuantity: 10,
 //         purchasedPrice: 1000,
 //       },
-//     ],
+//     },
 //   },
-// ];
+// };
 
-// when mock data is used
+// // when mock data is used
 // let nextStockId = 3;
 // let nextPurchasedId = 5;
 

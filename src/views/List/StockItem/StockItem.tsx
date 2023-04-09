@@ -3,25 +3,26 @@ import SummaryInfo from './SummaryInfo';
 import PurchasedStock from './PurchasedStock';
 import { AddSameStockButton } from './components';
 import { StockList } from '../../../features/stockList/stockListSlice';
+import { objectToArray } from '../../../features/stockList/utils';
 
 export interface StockItemProps {
   stockInfo: StockList;
-  stockIdx: number;
 }
 
-const StockItem: React.FC<StockItemProps> = ({ stockInfo, stockIdx }) => {
+const StockItem: React.FC<StockItemProps> = ({ stockInfo }) => {
   return (
     <>
-      <SummaryInfo stockInfo={stockInfo} stockIdx={stockIdx} />
-      {stockInfo.purchasedItems.map((purchasedItem, purchasedIdx) => (
-        <PurchasedStock
-          key={purchasedItem.purchasedId}
-          purchasedItem={purchasedItem}
-          mainInfo={stockInfo.mainInfo}
-          stockIdx={stockIdx}
-          purchasedIdx={purchasedIdx}
-        />
-      ))}
+      <SummaryInfo stockInfo={stockInfo} />
+      {objectToArray(stockInfo.purchasedItems).map(
+        (purchasedItem, purchasedIdx) => (
+          <PurchasedStock
+            key={purchasedItem.purchasedId}
+            mainInfo={stockInfo.mainInfo}
+            purchasedItem={purchasedItem}
+            purchasedIdx={purchasedIdx}
+          />
+        ),
+      )}
       <AddSameStockButton stockId={stockInfo.mainInfo.stockId} />
     </>
   );
