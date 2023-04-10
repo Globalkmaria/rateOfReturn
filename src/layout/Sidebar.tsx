@@ -1,4 +1,3 @@
-import React from 'react';
 import { useRouter } from '../hooks/useRouter';
 import styled from 'styled-components';
 
@@ -12,7 +11,7 @@ interface SidebarProps {
   sidebarContent: SidebarElement[];
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ sidebarContent }) => {
+const Sidebar = ({ sidebarContent }: SidebarProps) => {
   const { currentPath, routeTo } = useRouter();
 
   const sidebarMenuClickHandler = (path: string) => {

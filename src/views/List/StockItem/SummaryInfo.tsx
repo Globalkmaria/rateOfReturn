@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { BorderButton } from '../../../components/Button';
@@ -34,10 +34,7 @@ export interface SummaryInfoProps {
   checkedItemsInfo: CheckedItemsInfo;
 }
 
-const SummaryInfo: React.FC<SummaryInfoProps> = ({
-  stockInfo,
-  checkedItemsInfo,
-}) => {
+const SummaryInfo = ({ stockInfo, checkedItemsInfo }: SummaryInfoProps) => {
   const dispatch = useDispatch();
   const [isLock, setIsLock] = useState(true);
   const summaryData = getSummaryInfo(stockInfo);

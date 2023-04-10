@@ -1,9 +1,8 @@
-import React from 'react';
 import styled from 'styled-components';
 
 interface ChartProps {}
 
-const Chart: React.FC<ChartProps> = () => {
+const Chart = (props: ChartProps) => {
   return <StyledChart>Chart</StyledChart>;
 };
 

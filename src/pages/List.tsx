@@ -1,10 +1,9 @@
-import React from 'react';
 import styled from 'styled-components';
 import StockList from '../views/List/StockList';
 
 interface ListProps {}
 
-const List: React.FC<ListProps> = () => {
+const List = (props: ListProps) => {
   return (
     <StyledList>
       <StockList />

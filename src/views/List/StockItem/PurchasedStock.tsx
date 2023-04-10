@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Input } from '../../../components/Input';
@@ -26,12 +26,12 @@ interface PurchasedStockProps {
   checkedItemsInfo: CheckedItemsInfo;
 }
 
-const PurchasedStock: React.FC<PurchasedStockProps> = ({
+const PurchasedStock = ({
   mainInfo,
   purchasedItem,
   purchasedIdx,
   checkedItemsInfo,
-}) => {
+}: PurchasedStockProps) => {
   const dispatch = useDispatch();
   const [isLock, setIsLock] = useState(true);
 

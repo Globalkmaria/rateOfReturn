@@ -1,4 +1,3 @@
-import React from 'react';
 import SummaryInfo from './SummaryInfo';
 import PurchasedStock from './PurchasedStock';
 import { AddSameStockButton } from './components';
@@ -13,10 +12,7 @@ export interface StockItemProps {
   checkedItemsInfo: CheckedItemsInfo;
 }
 
-const StockItem: React.FC<StockItemProps> = ({
-  stockInfo,
-  checkedItemsInfo,
-}) => {
+const StockItem = ({ stockInfo, checkedItemsInfo }: StockItemProps) => {
   return (
     <>
       <SummaryInfo stockInfo={stockInfo} checkedItemsInfo={checkedItemsInfo} />

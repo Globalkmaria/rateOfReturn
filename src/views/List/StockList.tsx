@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { ContainedButton } from '../../components/Button';
@@ -9,9 +8,7 @@ import { RootState } from '../../store';
 import StockItem from './StockItem/StockItem';
 import StockListHeader from './StockListHeader';
 
-interface StockListProps {}
-
-const StockList: React.FC<StockListProps> = () => {
+const StockList = () => {
   const stocks = useSelector((state: RootState) => state.stockList.stocks);
   const checkedItemsInfo = useSelector(
     (state: RootState) => state.stockList.checkedItemsInfo,
@@ -48,7 +45,7 @@ const StyledStockList = styled('div')`
   }
 `;
 
-const AddNewStock: React.FC = () => {
+const AddNewStock = () => {
   const dispatch = useDispatch();
   const onAddNewStock = () => {
     dispatch(addNewStock());

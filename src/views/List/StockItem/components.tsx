@@ -30,7 +30,7 @@ interface LockButtonProps {
   onClick: () => void;
 }
 
-export const NumberCell: React.FC<{ value: number | string }> = ({ value }) => {
+export const NumberCell = ({ value }: { value: number | string }) => {
   return (
     <TableCell align='right'>
       <StyledTextWrapper>{Number(value).toLocaleString()}</StyledTextWrapper>
@@ -58,12 +58,12 @@ export const InputCell: React.FC<InputCellProps> = ({
   );
 };
 
-export const CheckboxCell: React.FC<CheckboxCellProps> = ({
+export const CheckboxCell = ({
   onClick,
   value,
   type = 'td',
   ...restProps
-}) => {
+}: CheckboxCellProps) => {
   const Cell = type === 'td' ? TableCell : TableHead;
   const onClickHandler = (e: MouseEvent<HTMLTableCellElement>) => {
     if (e.target instanceof HTMLInputElement) return;
@@ -83,7 +83,7 @@ export const CheckboxCell: React.FC<CheckboxCellProps> = ({
   );
 };
 
-export const LockButton: React.FC<LockButtonProps> = ({ isLock, onClick }) => {
+export const LockButton = ({ isLock, onClick }: LockButtonProps) => {
   const Icon = isLock ? FaLock : FaLockOpen;
   return (
     <BorderButton width={40} onClick={onClick}>
@@ -92,9 +92,7 @@ export const LockButton: React.FC<LockButtonProps> = ({ isLock, onClick }) => {
   );
 };
 
-export const AddSameStockButton: React.FC<{
-  stockId: string;
-}> = ({ stockId }) => {
+export const AddSameStockButton = ({ stockId }: { stockId: string }) => {
   const dispatch = useDispatch();
   const onAddSameStock = () => {
     dispatch(addPurchasedItem(stockId));
@@ -112,7 +110,7 @@ export const AddSameStockButton: React.FC<{
   );
 };
 
-export const DeleteButton: React.FC<BaseButtonProps> = (props) => {
+export const DeleteButton = (props: BaseButtonProps) => {
   return (
     <BorderButton width={40} {...props}>
       <FaTrash />

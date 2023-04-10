@@ -1,4 +1,4 @@
-import React, {
+import {
   ChangeEvent,
   FocusEvent,
   InputHTMLAttributes,
@@ -83,13 +83,13 @@ export const BaseInput = styled('input')<BaseInputProps>(
   }),
 );
 
-export const Input: React.FC<InputProps> = ({
+export const Input = ({
   type = 'text',
   onChange,
   onBlur,
   value = '',
   ...restProps
-}) => {
+}: InputProps) => {
   const isDate = type === 'date';
   const inputType = isDate ? 'datetime-local' : 'text';
   const align = type === 'number' ? 'right' : 'left';

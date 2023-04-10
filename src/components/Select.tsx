@@ -1,4 +1,4 @@
-import React, { SelectHTMLAttributes, useState } from 'react';
+import { SelectHTMLAttributes, useState } from 'react';
 import styled from 'styled-components';
 
 type Option = {
@@ -30,12 +30,12 @@ const SelectComponent = styled('select')<SelectComponentProps>(
   }),
 );
 
-const Select: React.FC<SelectProps> = ({
+const Select = ({
   initialValue,
   options,
   onChange,
   ...restProps
-}) => {
+}: SelectProps) => {
   const [value, setValue] = useState(initialValue || '');
   const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const onChangeResult = onChange && onChange(e);
