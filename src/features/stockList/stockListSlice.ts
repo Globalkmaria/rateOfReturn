@@ -1,29 +1,48 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { toDateInputValue } from '../../views/List/StockItem/utils';
+import { getInitialCheckedItemsInfo } from './utils';
+import {
+  MOCK_DATA,
+  MOCK_DATA_NEXT_STOCK_ID,
+  MOCK_DATA_PURCHASED_ID,
+} from './mockData';
+
+type UpdateCheckedItemsInfoPayload =
+  | {
+      type: 'all';
+      checked: boolean;
+    }
+  | { type: 'stock'; stockId: string; checked: boolean }
+  | {
+      type: 'purchased';
+      stockId: string;
+      purchasedId: string;
+      checked: boolean;
+    };
 
 type UpdateStockPayload<T extends keyof StockMainInfo> = {
-  stockId: number;
+  stockId: string;
   fieldName: T;
   value: StockMainInfo[T];
 };
 type UpdatePurchasedItemPayload<T extends keyof PurchasedItemInfo> = {
-  stockId: number;
-  purchasedId: number;
+  stockId: string;
+  purchasedId: string;
   fieldName: T;
   value: PurchasedItemInfo[T];
 };
 
-type DeletePurchasedItemPayload = { stockId: number; purchasedId: number };
+type DeletePurchasedItemPayload = { stockId: string; purchasedId: string };
 
 export interface StockMainInfo {
   stockName: string;
   currentPrice: number;
-  stockId: number;
+  stockId: string;
 }
 
 export interface PurchasedItemInfo {
-  purchasedId: number;
+  purchasedId: string;
   purchasedDate: string;
   purchasedQuantity: number;
   purchasedPrice: number;
@@ -31,32 +50,99 @@ export interface PurchasedItemInfo {
 
 export interface StockList {
   mainInfo: StockMainInfo;
-  purchasedItems: { [key: number]: PurchasedItemInfo };
+  purchasedItems: { [key: string]: PurchasedItemInfo };
 }
+
+export type CheckedItemsInfo = {
+  allChecked: boolean;
+  selectedItems: {
+    [stockId: string]: { allChecked: boolean; items: string[] };
+  };
+};
 
 export interface StockListState {
-  stocks: { [key: number]: StockList };
+  stocks: { [key: string]: StockList };
+  checkedItemsInfo: CheckedItemsInfo;
 }
 
-const initialState: StockListState = { stocks: [] };
+let nextStockId = MOCK_DATA_NEXT_STOCK_ID;
+let nextPurchasedId = MOCK_DATA_PURCHASED_ID;
 
-let nextStockId = 0;
-let nextPurchasedId = 0;
+const initialState: StockListState = {
+  stocks: MOCK_DATA,
+  checkedItemsInfo: getInitialCheckedItemsInfo({
+    data: MOCK_DATA,
+    value: true,
+  }),
+};
 
 export const stockListSlice = createSlice({
   name: 'stockList',
   initialState,
   reducers: {
+    updateCheckedItemsInfo: (
+      state,
+      action: PayloadAction<UpdateCheckedItemsInfoPayload>,
+    ) => {
+      const { checked } = action.payload;
+      switch (action.payload.type) {
+        case 'all':
+          state.checkedItemsInfo = getInitialCheckedItemsInfo({
+            data: state.stocks,
+            value: checked,
+          });
+          break;
+        case 'stock':
+          const stock =
+            state.checkedItemsInfo.selectedItems[action.payload.stockId];
+          state.checkedItemsInfo.allChecked = false;
+          state.checkedItemsInfo.selectedItems[
+            action.payload.stockId
+          ].allChecked = checked;
+          if (checked) {
+            stock.items = [
+              ...Object.keys(
+                state.stocks[action.payload.stockId].purchasedItems,
+              ),
+            ];
+          } else {
+            stock.items = [];
+          }
+          break;
+        case 'purchased':
+          const selectedStock =
+            state.checkedItemsInfo.selectedItems[action.payload.stockId];
+
+          state.checkedItemsInfo.allChecked = false;
+          state.checkedItemsInfo.selectedItems[
+            action.payload.stockId
+          ].allChecked = false;
+
+          checked
+            ? selectedStock.items.push(action.payload.purchasedId)
+            : selectedStock.items.splice(
+                selectedStock.items.indexOf(action.payload.purchasedId),
+                1,
+              );
+          break;
+        default:
+          break;
+      }
+    },
     addNewStock: (state) => {
+      state.checkedItemsInfo.selectedItems[nextStockId] = {
+        allChecked: true,
+        items: [],
+      };
       state.stocks[nextStockId] = {
         mainInfo: {
           stockName: '',
           currentPrice: 0,
-          stockId: nextStockId++,
+          stockId: (nextStockId++).toString(),
         },
         purchasedItems: {
           [nextPurchasedId]: {
-            purchasedId: nextPurchasedId++,
+            purchasedId: (nextPurchasedId++).toString(),
             purchasedDate: toDateInputValue().toISOString(),
             purchasedQuantity: 0,
             purchasedPrice: 0,
@@ -64,14 +150,18 @@ export const stockListSlice = createSlice({
         },
       };
     },
-    addPurchasedItem: (state, action: PayloadAction<number>) => {
+    addPurchasedItem: (state, action: PayloadAction<string>) => {
       const stockId = action.payload;
+      state.checkedItemsInfo.selectedItems[stockId].items.push(
+        nextPurchasedId.toString(),
+      );
       state.stocks[stockId].purchasedItems[nextPurchasedId] = {
-        purchasedId: nextPurchasedId++,
+        purchasedId: nextPurchasedId.toString(),
         purchasedDate: toDateInputValue().toISOString(),
         purchasedQuantity: 0,
         purchasedPrice: 0,
       };
+      nextPurchasedId++;
     },
     updateStock: <T extends keyof Omit<StockMainInfo, 'stockId'>>(
       state: StockListState,
@@ -90,8 +180,9 @@ export const stockListSlice = createSlice({
       state.stocks[stockId].purchasedItems[purchasedId][fieldName] = value;
     },
 
-    deleteStock: (state, action: PayloadAction<number>) => {
+    deleteStock: (state, action: PayloadAction<string>) => {
       const stockId = action.payload;
+      delete state.checkedItemsInfo.selectedItems[stockId];
       delete state.stocks[stockId];
     },
     deletePurchasedItem: (
@@ -103,12 +194,15 @@ export const stockListSlice = createSlice({
         delete state.stocks[stockId];
         return;
       }
+      const selectedItem = state.checkedItemsInfo.selectedItems[stockId];
+      selectedItem.items.splice(selectedItem.items.indexOf(purchasedId), 1);
       delete state.stocks[stockId].purchasedItems[purchasedId];
     },
   },
 });
 
 export const {
+  updateCheckedItemsInfo,
   addNewStock,
   addPurchasedItem,
   updateStock,
@@ -118,54 +212,3 @@ export const {
 } = stockListSlice.actions;
 
 export default stockListSlice.reducer;
-
-// const MOCK_DATA: { [key: number]: StockList } = {
-//   1: {
-//     mainInfo: {
-//       stockName: 'Google',
-//       currentPrice: 1000,
-//       stockId: 1,
-//     },
-//     purchasedItems: {
-//       1: {
-//         purchasedId: 1,
-//         purchasedDate: '2023-04-04T09:57',
-//         purchasedQuantity: 10,
-//         purchasedPrice: 1000,
-//       },
-//       2: {
-//         purchasedId: 2,
-//         purchasedDate: '2023-04-04T09:57',
-//         purchasedQuantity: 10,
-//         purchasedPrice: 1000,
-//       },
-//     },
-//   },
-//   2: {
-//     mainInfo: {
-//       stockName: 'Apple',
-//       currentPrice: 2000,
-//       stockId: 2,
-//     },
-//     purchasedItems: {
-//       3: {
-//         purchasedId: 3,
-//         purchasedDate: '2023-04-04T09:57',
-//         purchasedQuantity: 10,
-//         purchasedPrice: 1000,
-//       },
-//       4: {
-//         purchasedId: 4,
-//         purchasedDate: '2023-04-04T09:57',
-//         purchasedQuantity: 10,
-//         purchasedPrice: 1000,
-//       },
-//     },
-//   },
-// };
-
-// // when mock data is used
-// let nextStockId = 3;
-// let nextPurchasedId = 5;
-
-// const initialState: StockListState = { stocks: MOCK_DATA };

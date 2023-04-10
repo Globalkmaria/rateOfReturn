@@ -2,20 +2,28 @@ import React from 'react';
 import SummaryInfo from './SummaryInfo';
 import PurchasedStock from './PurchasedStock';
 import { AddSameStockButton } from './components';
-import { StockList } from '../../../features/stockList/stockListSlice';
+import {
+  CheckedItemsInfo,
+  StockList,
+} from '../../../features/stockList/stockListSlice';
 import { objectToArray } from '../../../features/stockList/utils';
 
 export interface StockItemProps {
   stockInfo: StockList;
+  checkedItemsInfo: CheckedItemsInfo;
 }
 
-const StockItem: React.FC<StockItemProps> = ({ stockInfo }) => {
+const StockItem: React.FC<StockItemProps> = ({
+  stockInfo,
+  checkedItemsInfo,
+}) => {
   return (
     <>
-      <SummaryInfo stockInfo={stockInfo} />
+      <SummaryInfo stockInfo={stockInfo} checkedItemsInfo={checkedItemsInfo} />
       {objectToArray(stockInfo.purchasedItems).map(
         (purchasedItem, purchasedIdx) => (
           <PurchasedStock
+            checkedItemsInfo={checkedItemsInfo}
             key={purchasedItem.purchasedId}
             mainInfo={stockInfo.mainInfo}
             purchasedItem={purchasedItem}

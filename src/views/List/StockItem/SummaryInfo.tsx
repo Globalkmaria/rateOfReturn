@@ -5,11 +5,18 @@ import { BorderButton } from '../../../components/Button';
 import { BaseInput, Input } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
 import {
+  CheckedItemsInfo,
   deleteStock,
   StockList,
   StockMainInfo,
+  updateCheckedItemsInfo,
 } from '../../../features/stockList/stockListSlice';
-import { NumberCell, LockButton, DeleteButton } from './components';
+import {
+  NumberCell,
+  LockButton,
+  DeleteButton,
+  CheckboxCell,
+} from './components';
 import { getSummaryInfo } from './utils';
 import { updateStock } from '../../../features/stockList/stockListSlice';
 
@@ -24,21 +31,38 @@ export type SummaryInfoData = {
 
 export interface SummaryInfoProps {
   stockInfo: StockList;
+  checkedItemsInfo: CheckedItemsInfo;
 }
 
-const SummaryInfo: React.FC<SummaryInfoProps> = ({ stockInfo }) => {
+const SummaryInfo: React.FC<SummaryInfoProps> = ({
+  stockInfo,
+  checkedItemsInfo,
+}) => {
   const dispatch = useDispatch();
   const [isLock, setIsLock] = useState(true);
   const summaryData = getSummaryInfo(stockInfo);
+  const stockId = stockInfo.mainInfo.stockId;
+  const isNotChecked =
+    !checkedItemsInfo.allChecked &&
+    !checkedItemsInfo.selectedItems[stockId].allChecked;
 
   const toggleLock = () => setIsLock((prev) => !prev);
+  const onChangeCheckbox = (value: boolean) => {
+    dispatch(
+      updateCheckedItemsInfo({
+        type: 'stock',
+        checked: value,
+        stockId: stockId,
+      }),
+    );
+  };
   const onInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     fieldName: keyof Omit<StockMainInfo, 'stockId'>,
   ) => {
     dispatch(
       updateStock({
-        stockId: stockInfo.mainInfo.stockId,
+        stockId: stockId,
         fieldName: fieldName,
         value: e.target.value,
       }),
@@ -51,6 +75,7 @@ const SummaryInfo: React.FC<SummaryInfoProps> = ({ stockInfo }) => {
 
   return (
     <StyledSummaryRow>
+      <CheckboxCell onClick={onChangeCheckbox} value={!isNotChecked} />
       <TableCell>
         <Input
           fullWidth

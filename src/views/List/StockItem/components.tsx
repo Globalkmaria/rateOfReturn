@@ -5,15 +5,26 @@ import {
   ContainedButton,
 } from '../../../components/Button';
 import { Input, InputProps } from '../../../components/Input';
-import { TableCell, TableRow } from '../../../components/Table';
+import {
+  TableCell,
+  TableHead,
+  TableHeadProps,
+  TableRow,
+} from '../../../components/Table';
 import { FaTrash, FaLockOpen, FaLock } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { addPurchasedItem } from '../../../features/stockList/stockListSlice';
+import { ChangeEvent, MouseEvent } from 'react';
 
 type InputCellProps = {
   disabled: boolean;
   value: string | number;
 } & Omit<InputProps, 'value'>;
+type CheckboxCellProps = {
+  onClick: (checked: boolean) => void;
+  value: boolean;
+  type?: 'td' | 'th';
+} & Pick<TableHeadProps, 'width' | 'flexBasis'>;
 interface LockButtonProps {
   isLock: boolean;
   onClick: () => void;
@@ -47,6 +58,31 @@ export const InputCell: React.FC<InputCellProps> = ({
   );
 };
 
+export const CheckboxCell: React.FC<CheckboxCellProps> = ({
+  onClick,
+  value,
+  type = 'td',
+  ...restProps
+}) => {
+  const Cell = type === 'td' ? TableCell : TableHead;
+  const onClickHandler = (e: MouseEvent<HTMLTableCellElement>) => {
+    if (e.target instanceof HTMLInputElement) return;
+    const target = e.target as HTMLTableCellElement;
+    onClick(!(target.childNodes[0] as HTMLInputElement).checked);
+  };
+  return (
+    <Cell align='center' onClick={onClickHandler} {...restProps}>
+      <input
+        type='checkbox'
+        checked={value}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          onClick(e.target.checked);
+        }}
+      />
+    </Cell>
+  );
+};
+
 export const LockButton: React.FC<LockButtonProps> = ({ isLock, onClick }) => {
   const Icon = isLock ? FaLock : FaLockOpen;
   return (
@@ -57,7 +93,7 @@ export const LockButton: React.FC<LockButtonProps> = ({ isLock, onClick }) => {
 };
 
 export const AddSameStockButton: React.FC<{
-  stockId: number;
+  stockId: string;
 }> = ({ stockId }) => {
   const dispatch = useDispatch();
   const onAddSameStock = () => {

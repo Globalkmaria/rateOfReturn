@@ -1,11 +1,12 @@
-import React, { TableHTMLAttributes } from 'react';
+import { TableHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 interface TableProps extends TableHTMLAttributes<HTMLTableElement> {}
 interface TableHeaderProps
   extends TableHTMLAttributes<HTMLTableSectionElement> {}
 interface TableBodyProps extends TableHTMLAttributes<HTMLTableSectionElement> {}
-interface TableHeadProps extends TableHTMLAttributes<HTMLTableCellElement> {
+export interface TableHeadProps
+  extends TableHTMLAttributes<HTMLTableCellElement> {
   width?: number;
   flexBasis?: number;
 }

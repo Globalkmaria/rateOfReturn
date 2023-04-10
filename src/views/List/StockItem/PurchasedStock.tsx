@@ -4,27 +4,43 @@ import styled from 'styled-components';
 import { Input } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
 import {
+  CheckedItemsInfo,
   deletePurchasedItem,
   PurchasedItemInfo,
   StockMainInfo,
+  updateCheckedItemsInfo,
   updatePurchaseItem,
 } from '../../../features/stockList/stockListSlice';
-import { InputCell, NumberCell, LockButton, DeleteButton } from './components';
+import {
+  InputCell,
+  NumberCell,
+  LockButton,
+  DeleteButton,
+  CheckboxCell,
+} from './components';
 
 interface PurchasedStockProps {
   mainInfo: StockMainInfo;
   purchasedItem: PurchasedItemInfo;
   purchasedIdx: number;
+  checkedItemsInfo: CheckedItemsInfo;
 }
 
 const PurchasedStock: React.FC<PurchasedStockProps> = ({
   mainInfo,
   purchasedItem,
   purchasedIdx,
+  checkedItemsInfo,
 }) => {
   const dispatch = useDispatch();
   const [isLock, setIsLock] = useState(true);
-  const toggleLock = () => setIsLock((prev) => !prev);
+
+  const stockId = mainInfo.stockId;
+  const purchasedId = purchasedItem.purchasedId;
+  const isNotChecked =
+    !checkedItemsInfo.allChecked &&
+    !checkedItemsInfo.selectedItems[stockId].allChecked &&
+    !checkedItemsInfo.selectedItems[stockId].items.includes(purchasedId);
   const totalPurchasePrice =
     purchasedItem.purchasedQuantity * purchasedItem.purchasedPrice;
   const evaluationPrice =
@@ -32,6 +48,18 @@ const PurchasedStock: React.FC<PurchasedStockProps> = ({
   const evaluationProfit = evaluationPrice - totalPurchasePrice;
   const profitRate = (evaluationProfit / totalPurchasePrice) * 100;
 
+  const toggleLock = () => setIsLock((prev) => !prev);
+
+  const onChangeCheckbox = (value: boolean) => {
+    dispatch(
+      updateCheckedItemsInfo({
+        type: 'purchased',
+        checked: value,
+        stockId: stockId,
+        purchasedId: purchasedId,
+      }),
+    );
+  };
   const onInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     fieldName: keyof Omit<PurchasedItemInfo, 'purchasedId'>,
@@ -42,8 +70,8 @@ const PurchasedStock: React.FC<PurchasedStockProps> = ({
         : e.target.value.replaceAll(',', '');
     dispatch(
       updatePurchaseItem({
-        stockId: mainInfo.stockId,
-        purchasedId: purchasedItem.purchasedId,
+        stockId: stockId,
+        purchasedId: purchasedId,
         fieldName,
         value,
       }),
@@ -53,14 +81,15 @@ const PurchasedStock: React.FC<PurchasedStockProps> = ({
   const onDeletePurchasedStock = () => {
     dispatch(
       deletePurchasedItem({
-        stockId: mainInfo.stockId,
-        purchasedId: purchasedItem.purchasedId,
+        stockId: stockId,
+        purchasedId: purchasedId,
       }),
     );
   };
 
   return (
     <StyledPurchasedStockRow>
+      <CheckboxCell onClick={onChangeCheckbox} value={!isNotChecked} />
       <TableCell></TableCell>
       <TableCell align='center'>{purchasedIdx + 1}</TableCell>
       <TableCell>
