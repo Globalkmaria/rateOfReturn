@@ -5,8 +5,10 @@ import {
   TableHeadProps,
   TableRow,
 } from '../../components/Table';
-import { updateCheckedItemsInfo } from '../../features/stockList/stockListSlice';
-import { RootState } from '../../store';
+import {
+  selectCheckedItemsInfo,
+  updateCheckedItemsInfo,
+} from '../../features/stockList/stockListSlice';
 import { CheckboxCell } from './StockItem/components';
 
 type HeaderListComponent = typeof CheckAllCheckbox;
@@ -41,9 +43,7 @@ export default StockListHeader;
 
 const CheckAllCheckbox = ({ id, ...restProps }: TableHeadProps) => {
   const dispatch = useDispatch();
-  const checkedItemsInfo = useSelector(
-    (state: RootState) => state.stockList.checkedItemsInfo,
-  );
+  const checkedItemsInfo = useSelector(selectCheckedItemsInfo);
   const onChangeCheckbox = (value: boolean) => {
     dispatch(
       updateCheckedItemsInfo({

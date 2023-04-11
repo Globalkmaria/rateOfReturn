@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Input } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
 import {
-  CheckedItemsInfo,
   deletePurchasedItem,
   PurchasedItemInfo,
-  StockMainInfo,
+  selectIsPurchasedItemChecked,
+  selectPurchasedItemsById,
   updateCheckedItemsInfo,
   updatePurchaseItem,
 } from '../../../features/stockList/stockListSlice';
@@ -20,27 +20,25 @@ import {
 } from './components';
 
 interface PurchasedStockProps {
-  mainInfo: StockMainInfo;
-  purchasedItem: PurchasedItemInfo;
+  stockId: string;
+  purchasedId: string;
   purchasedIdx: number;
-  checkedItemsInfo: CheckedItemsInfo;
 }
 
 const PurchasedStock = ({
-  mainInfo,
-  purchasedItem,
+  stockId,
+  purchasedId,
   purchasedIdx,
-  checkedItemsInfo,
 }: PurchasedStockProps) => {
+  const { mainInfo, purchasedItem } = useSelector(
+    selectPurchasedItemsById(stockId, purchasedId),
+  );
+  const isPurchasedItemChecked = useSelector(
+    selectIsPurchasedItemChecked(stockId, purchasedId),
+  );
   const dispatch = useDispatch();
   const [isLock, setIsLock] = useState(true);
 
-  const stockId = mainInfo.stockId;
-  const purchasedId = purchasedItem.purchasedId;
-  const isNotChecked =
-    !checkedItemsInfo.allChecked &&
-    !checkedItemsInfo.selectedItems[stockId].allChecked &&
-    !checkedItemsInfo.selectedItems[stockId].items.includes(purchasedId);
   const totalPurchasePrice =
     purchasedItem.purchasedQuantity * purchasedItem.purchasedPrice;
   const evaluationPrice =
@@ -89,7 +87,7 @@ const PurchasedStock = ({
 
   return (
     <StyledPurchasedStockRow>
-      <CheckboxCell onClick={onChangeCheckbox} value={!isNotChecked} />
+      <CheckboxCell onClick={onChangeCheckbox} value={isPurchasedItemChecked} />
       <TableCell></TableCell>
       <TableCell align='center'>{purchasedIdx + 1}</TableCell>
       <TableCell>

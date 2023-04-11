@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { BorderButton } from '../../../components/Button';
 import { BaseInput, Input } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
 import {
-  CheckedItemsInfo,
   deleteStock,
-  StockList,
+  selectStockCheckedInfo,
+  selectStockInfoById,
   StockMainInfo,
   updateCheckedItemsInfo,
 } from '../../../features/stockList/stockListSlice';
@@ -30,19 +30,16 @@ export type SummaryInfoData = {
 };
 
 export interface SummaryInfoProps {
-  stockInfo: StockList;
-  checkedItemsInfo: CheckedItemsInfo;
+  stockId: string;
 }
 
-const SummaryInfo = ({ stockInfo, checkedItemsInfo }: SummaryInfoProps) => {
+const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
+  const stockInfo = useSelector(selectStockInfoById(stockId));
+  const checkedItemsInfo = useSelector(selectStockCheckedInfo(stockId));
+
   const dispatch = useDispatch();
   const [isLock, setIsLock] = useState(true);
   const summaryData = getSummaryInfo(stockInfo);
-  const stockId = stockInfo.mainInfo.stockId;
-  const isNotChecked =
-    !checkedItemsInfo.allChecked &&
-    !checkedItemsInfo.selectedItems[stockId].allChecked;
-
   const toggleLock = () => setIsLock((prev) => !prev);
   const onChangeCheckbox = (value: boolean) => {
     dispatch(
@@ -67,12 +64,15 @@ const SummaryInfo = ({ stockInfo, checkedItemsInfo }: SummaryInfoProps) => {
   };
 
   const onDeleteStock = () => {
-    dispatch(deleteStock(stockInfo.mainInfo.stockId));
+    dispatch(deleteStock(stockId));
   };
 
   return (
     <StyledSummaryRow>
-      <CheckboxCell onClick={onChangeCheckbox} value={!isNotChecked} />
+      <CheckboxCell
+        onClick={onChangeCheckbox}
+        value={checkedItemsInfo.allChecked}
+      />
       <TableCell>
         <Input
           fullWidth

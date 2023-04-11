@@ -1,5 +1,4 @@
 import { StockList } from '../../../features/stockList/stockListSlice';
-import { objectToArray } from '../../../features/stockList/utils';
 import { SummaryInfoData } from './SummaryInfo';
 
 export const getSummaryInfo = ({
@@ -15,16 +14,14 @@ export const getSummaryInfo = ({
     profitRate: 0,
   };
 
-  const purchasedItemsArray = objectToArray(purchasedItems);
-
-  for (let i = 0; i < purchasedItemsArray.length; i++) {
+  for (const purchasedItemKey of purchasedItems.allIds) {
     summaryInfo.purchaseQuantitySum +=
-      purchasedItemsArray[i].purchasedQuantity * 1;
+      purchasedItems.byId[purchasedItemKey].purchasedQuantity * 1;
     summaryInfo.purchasePriceAverage +=
-      purchasedItemsArray[i].purchasedPrice * 1;
+      purchasedItems.byId[purchasedItemKey].purchasedPrice * 1;
     summaryInfo.totalPurchasePrice +=
-      purchasedItemsArray[i].purchasedQuantity *
-      purchasedItemsArray[i].purchasedPrice;
+      purchasedItems.byId[purchasedItemKey].purchasedQuantity *
+      purchasedItems.byId[purchasedItemKey].purchasedPrice;
   }
 
   summaryInfo.evaluationPrice =

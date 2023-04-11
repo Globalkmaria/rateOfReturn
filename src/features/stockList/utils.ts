@@ -1,4 +1,4 @@
-import { CheckedItemsInfo, StockList } from './stockListSlice';
+import { CheckedItemsInfo, StockListState } from './stockListSlice';
 
 export const objectToArray = (Obj: { [key: string | number]: any }) => {
   return Object.keys(Obj).map((ObjKey) => Obj[ObjKey]);
@@ -8,18 +8,20 @@ export const getInitialCheckedItemsInfo = ({
   data,
   value,
 }: {
-  data: { [key: string]: StockList };
+  data: StockListState['stocks'];
   value: boolean;
 }): CheckedItemsInfo => {
   const checkedItemsInfo: CheckedItemsInfo = {
     allChecked: value,
-    selectedItems: {},
+    stocksCheckInfo: {},
   };
 
-  for (const stockId of Object.keys(data)) {
-    checkedItemsInfo.selectedItems[stockId] = {
+  for (const stockId of data.allIds) {
+    checkedItemsInfo.stocksCheckInfo[stockId] = {
       allChecked: value,
-      items: value ? Object.keys(data[stockId].purchasedItems) : [],
+      checkedPurchasedItems: value
+        ? data.byId[stockId].purchasedItems.allIds
+        : [],
     };
   }
 

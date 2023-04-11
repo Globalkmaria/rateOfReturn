@@ -1,32 +1,26 @@
 import SummaryInfo from './SummaryInfo';
 import PurchasedStock from './PurchasedStock';
 import { AddSameStockButton } from './components';
-import {
-  CheckedItemsInfo,
-  StockList,
-} from '../../../features/stockList/stockListSlice';
-import { objectToArray } from '../../../features/stockList/utils';
+import { useSelector } from 'react-redux';
+import { selectStockInfoById } from '../../../features/stockList/stockListSlice';
 
 export interface StockItemProps {
-  stockInfo: StockList;
-  checkedItemsInfo: CheckedItemsInfo;
+  stockId: string;
 }
 
-const StockItem = ({ stockInfo, checkedItemsInfo }: StockItemProps) => {
+const StockItem = ({ stockId }: StockItemProps) => {
+  const stockInfo = useSelector(selectStockInfoById(stockId));
   return (
     <>
-      <SummaryInfo stockInfo={stockInfo} checkedItemsInfo={checkedItemsInfo} />
-      {objectToArray(stockInfo.purchasedItems).map(
-        (purchasedItem, purchasedIdx) => (
-          <PurchasedStock
-            checkedItemsInfo={checkedItemsInfo}
-            key={purchasedItem.purchasedId}
-            mainInfo={stockInfo.mainInfo}
-            purchasedItem={purchasedItem}
-            purchasedIdx={purchasedIdx}
-          />
-        ),
-      )}
+      <SummaryInfo stockId={stockId} />
+      {stockInfo.purchasedItems.allIds.map((purchasedId, purchasedIdx) => (
+        <PurchasedStock
+          stockId={stockId}
+          purchasedId={purchasedId}
+          key={purchasedId}
+          purchasedIdx={purchasedIdx}
+        />
+      ))}
       <AddSameStockButton stockId={stockInfo.mainInfo.stockId} />
     </>
   );
