@@ -54,11 +54,15 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
     e: React.ChangeEvent<HTMLInputElement>,
     fieldName: keyof Omit<StockMainInfo, 'stockId'>,
   ) => {
+    const value =
+      fieldName === 'currentPrice'
+        ? e.target.value.replaceAll(',', '')
+        : e.target.value;
     dispatch(
       updateStock({
         stockId: stockId,
         fieldName: fieldName,
-        value: e.target.value,
+        value,
       }),
     );
   };
@@ -89,6 +93,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       <NumberCell value={summaryData.totalPurchasePrice} />
       <TableCell>
         <Input
+          fullWidth
           onChange={(e) => onInputChange(e, 'currentPrice')}
           type='number'
           value={stockInfo.mainInfo.currentPrice.toString()}
@@ -102,12 +107,8 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       <TableCell align='right'>
         {summaryData.profitRate.toFixed(2).toLocaleString()} %
       </TableCell>
-      <TableCell>
-        <LockButton isLock={isLock} onClick={toggleLock} />
-      </TableCell>
-      <TableCell>
-        <DeleteButton onClick={onDeleteStock} />
-      </TableCell>
+      <LockButton isLock={isLock} onClick={toggleLock} />
+      <DeleteButton onClick={onDeleteStock} />
     </StyledSummaryRow>
   );
 };

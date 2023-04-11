@@ -83,15 +83,6 @@ export const CheckboxCell = ({
   );
 };
 
-export const LockButton = ({ isLock, onClick }: LockButtonProps) => {
-  const Icon = isLock ? FaLock : FaLockOpen;
-  return (
-    <BorderButton width={40} onClick={onClick}>
-      <Icon />
-    </BorderButton>
-  );
-};
-
 export const AddSameStockButton = ({ stockId }: { stockId: string }) => {
   const dispatch = useDispatch();
   const onAddSameStock = () => {
@@ -110,11 +101,24 @@ export const AddSameStockButton = ({ stockId }: { stockId: string }) => {
   );
 };
 
+export const LockButton = ({ isLock, onClick }: LockButtonProps) => {
+  const Icon = isLock ? FaLock : FaLockOpen;
+  return (
+    <TableCell align='center'>
+      <BorderButton width={40} onClick={onClick}>
+        <Icon />
+      </BorderButton>
+    </TableCell>
+  );
+};
+
 export const DeleteButton = (props: BaseButtonProps) => {
   return (
-    <BorderButton width={40} {...props}>
-      <FaTrash />
-    </BorderButton>
+    <TableCell align='center'>
+      <BorderButton width={40} {...props}>
+        <FaTrash />
+      </BorderButton>
+    </TableCell>
   );
 };
 

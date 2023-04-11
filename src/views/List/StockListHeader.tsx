@@ -75,6 +75,6 @@ const HEADER_LIST: HeaderListProps = [
   { id: '9', label: '평가금액', flexBasis: 100 },
   { id: '10', label: '평가손익', flexBasis: 100 },
   { id: '11', label: '손익률', flexBasis: 100 },
-  { id: '12', label: '잠금' },
-  { id: '13', label: '삭제' },
+  { id: '12', label: '잠금', width: 50 },
+  { id: '13', label: '삭제', width: 50 },
 ];

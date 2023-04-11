@@ -38,7 +38,6 @@ const PurchasedStock = ({
   );
   const dispatch = useDispatch();
   const [isLock, setIsLock] = useState(true);
-
   const totalPurchasePrice =
     purchasedItem.purchasedQuantity * purchasedItem.purchasedPrice;
   const evaluationPrice =
@@ -96,6 +95,7 @@ const PurchasedStock = ({
           disabled={isLock}
           type='date'
           value={purchasedItem.purchasedDate}
+          fullWidth
         />
       </TableCell>
       <InputCell
@@ -115,12 +115,8 @@ const PurchasedStock = ({
       <TableCell align='right'>
         {profitRate.toFixed(2).toLocaleString()} %
       </TableCell>
-      <TableCell>
-        <LockButton isLock={isLock} onClick={toggleLock} />
-      </TableCell>
-      <TableCell>
-        <DeleteButton onClick={onDeletePurchasedStock} />
-      </TableCell>
+      <LockButton isLock={isLock} onClick={toggleLock} />
+      <DeleteButton onClick={onDeletePurchasedStock} />
     </StyledPurchasedStockRow>
   );
 };
