@@ -14,17 +14,27 @@ interface BaseInputProps {
   fullWidth?: boolean;
 }
 export interface InputProps
-  extends InputHTMLAttributes<HTMLInputElement>,
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onBlur'>,
     BaseInputProps {
-  type?: typeof INPUT_TYPES[number];
+  type?: (typeof INPUT_TYPES)[number];
   value?: string;
+  onChange?: (
+    e: ChangeEvent<HTMLInputElement>,
+    transformedValue: TransformedValue,
+  ) => void;
+  onBlur?: (
+    e: ChangeEvent<HTMLInputElement>,
+    transformedValue: TransformedValue,
+  ) => void;
 }
 
+export type TransformedValue = [localValue: string, pureValue: string] | null;
+
 const changeTransformValue = (
-  type: typeof INPUT_TYPES[number],
+  type: (typeof INPUT_TYPES)[number],
   value: string,
   prevValue: string,
-): string | null => {
+): TransformedValue => {
   switch (type) {
     case 'number':
       const [integer, decimal] = value.split('.');
@@ -32,32 +42,33 @@ const changeTransformValue = (
       const isValid = !isNaN(num) && !isNaN(Number(decimal || 0));
       if (!isValid) return null;
       const noDot = decimal === undefined;
-      const result = num.toLocaleString() + (noDot ? '' : `.${decimal}`);
-      return prevValue !== result ? result : null;
+      const localValue = num.toLocaleString() + (noDot ? '' : `.${decimal}`);
+      const pureValue = num.toString() + (noDot ? '' : `.${decimal}`);
+      return prevValue !== localValue ? [localValue, pureValue] : null;
     default:
-      return prevValue !== value ? value : null;
+      return prevValue !== value ? [value, value] : null;
   }
 };
 
 const blurTransformValue = (
-  type: typeof INPUT_TYPES[number],
+  type: (typeof INPUT_TYPES)[number],
   value: string,
   prevValue: string,
-): string | null => {
+): TransformedValue => {
   switch (type) {
     case 'number':
       const [integer, decimal] = value.split('.');
       const num = Number(integer.replaceAll(',', ''));
-      const dotNoNeed = decimal === '' || decimal === undefined;
-      const result = num.toLocaleString() + (dotNoNeed ? '' : `.${decimal}`);
-      return prevValue !== result ? result : null;
-
+      const noDot = decimal === '' || decimal === undefined;
+      const localValue = num.toLocaleString() + (noDot ? '' : `.${decimal}`);
+      const pureValue = num.toString() + (noDot ? '' : `.${decimal}`);
+      return prevValue !== localValue ? [localValue, pureValue] : null;
     default:
-      return prevValue !== value ? value : null;
+      return prevValue !== value ? [value, value] : null;
   }
 };
 
-const getInitialValue = (value: string, type: typeof INPUT_TYPES[number]) => {
+const getInitialValue = (value: string, type: (typeof INPUT_TYPES)[number]) => {
   switch (type) {
     case 'number':
       return Number(value).toLocaleString();
@@ -106,23 +117,23 @@ export const Input = ({
   });
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const onChangeResult = onChange && onChange(e);
-    const value = onChangeResult ?? e.target.value;
+    const value = e.target.value;
     const transformedValue = changeTransformValue(type, value, finalValue);
+    onChange && onChange(e, transformedValue);
     if (transformedValue) {
-      setFinalValue(transformedValue);
+      setFinalValue(transformedValue[0]);
       const nextSelection =
-        e.target.selectionStart! + transformedValue.length - value.length;
+        e.target.selectionStart! + transformedValue[0].length - value.length;
       setSelection(nextSelection);
     } else {
       setSelection(null);
     }
   };
   const onBlurHandler = (e: FocusEvent<HTMLInputElement>) => {
-    const onBlurResult = onBlur && onBlur(e);
-    const value = onBlurResult ?? e.target.value;
+    const value = e.target.value;
     const transformedValue = blurTransformValue(type, value, finalValue);
-    transformedValue && setFinalValue(transformedValue);
+    onBlur && onBlur(e, transformedValue);
+    transformedValue && setFinalValue(transformedValue[0]);
     setSelection(null);
   };
 

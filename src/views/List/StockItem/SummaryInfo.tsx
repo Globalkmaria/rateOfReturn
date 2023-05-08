@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { BorderButton } from '../../../components/Button';
-import { BaseInput, Input } from '../../../components/Input';
+import { BaseInput, Input, TransformedValue } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
 import {
   deleteStock,
@@ -52,12 +52,15 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   };
   const onInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
+    transformedValue: TransformedValue,
     fieldName: keyof Omit<StockMainInfo, 'stockId'>,
   ) => {
+    if (fieldName === 'currentPrice' && transformedValue === null) return;
     const value =
-      fieldName === 'currentPrice'
-        ? e.target.value.replaceAll(',', '')
-        : e.target.value;
+      fieldName === 'stockName'
+        ? e.target.value
+        : (transformedValue && transformedValue[1]) ||
+          e.target.value.replaceAll(',', '');
     dispatch(
       updateStock({
         stockId: stockId,
@@ -80,7 +83,9 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       <TableCell>
         <Input
           fullWidth
-          onChange={(e) => onInputChange(e, 'stockName')}
+          onChange={(e, transformedValue) =>
+            onInputChange(e, transformedValue, 'stockName')
+          }
           value={stockInfo.mainInfo.stockName}
           disabled={isLock}
         />
@@ -94,7 +99,9 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       <TableCell>
         <Input
           fullWidth
-          onChange={(e) => onInputChange(e, 'currentPrice')}
+          onChange={(e, transformedValue) =>
+            onInputChange(e, transformedValue, 'currentPrice')
+          }
           type='number'
           value={stockInfo.mainInfo.currentPrice.toString()}
           disabled={isLock}

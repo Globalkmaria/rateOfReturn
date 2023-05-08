@@ -59,12 +59,16 @@ const PurchasedStock = ({
   };
   const onInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
+    transformedValue: [string, string] | null,
     fieldName: keyof Omit<PurchasedItemInfo, 'purchasedId'>,
   ) => {
+    if (fieldName !== 'purchasedDate' && transformedValue === null) return;
     const value =
       fieldName === 'purchasedDate'
         ? e.target.value.replace(/\:[\d]{2}.[\d]{3}Z/, '')
-        : e.target.value.replaceAll(',', '');
+        : (transformedValue && transformedValue[1]) ||
+          e.target.value.replaceAll(',', '');
+
     dispatch(
       updatePurchaseItem({
         stockId: stockId,
@@ -91,7 +95,9 @@ const PurchasedStock = ({
       <TableCell align='center'>{purchasedIdx + 1}</TableCell>
       <TableCell>
         <Input
-          onChange={(e) => onInputChange(e, 'purchasedDate')}
+          onChange={(e, transformedValue) =>
+            onInputChange(e, transformedValue, 'purchasedDate')
+          }
           disabled={isLock}
           type='date'
           value={purchasedItem.purchasedDate}
@@ -99,12 +105,16 @@ const PurchasedStock = ({
         />
       </TableCell>
       <InputCell
-        onChange={(e) => onInputChange(e, 'purchasedQuantity')}
+        onChange={(e, transformedValue) =>
+          onInputChange(e, transformedValue, 'purchasedQuantity')
+        }
         value={purchasedItem.purchasedQuantity}
         disabled={isLock}
       />
       <InputCell
-        onChange={(e) => onInputChange(e, 'purchasedPrice')}
+        onChange={(e, transformedValue) =>
+          onInputChange(e, transformedValue, 'purchasedPrice')
+        }
         value={purchasedItem.purchasedPrice}
         disabled={isLock}
       />
