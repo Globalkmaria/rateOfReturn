@@ -6,9 +6,7 @@ import { TableCell, TableRow } from '../../../components/Table';
 import {
   deletePurchasedItem,
   PurchasedItemInfo,
-  selectIsPurchasedItemChecked,
   selectPurchasedItemsById,
-  updateCheckedItemsInfo,
   updatePurchaseItem,
 } from '../../../features/stockList/stockListSlice';
 import {
@@ -18,6 +16,10 @@ import {
   DeleteButton,
   CheckboxCell,
 } from './components';
+import {
+  selectIsPurchasedItemChecked,
+  updateCheckedItems,
+} from '../../../features/checkedItems/checkedItemsSlice';
 
 interface PurchasedStockProps {
   stockId: string;
@@ -49,7 +51,7 @@ const PurchasedStock = ({
 
   const onChangeCheckbox = (value: boolean) => {
     dispatch(
-      updateCheckedItemsInfo({
+      updateCheckedItems({
         type: 'purchased',
         checked: value,
         stockId: stockId,

@@ -9,6 +9,8 @@ import {
 } from '../../features/stockList/stockListSlice';
 import StockItem from './StockItem/StockItem';
 import StockListHeader from './StockListHeader';
+import { store } from '../../store';
+import { addStockCheckInfo } from '../../features/checkedItems/checkedItemsSlice';
 
 const StockList = () => {
   const stocks = useSelector(selectStocks);
@@ -43,6 +45,14 @@ const AddNewStock = () => {
   const dispatch = useDispatch();
   const onAddNewStock = () => {
     dispatch(addNewStock());
+    const stocks = store.getState().stockList.stocks;
+    const newStock = stocks.allIds[stocks.allIds.length - 1];
+    dispatch(
+      addStockCheckInfo({
+        stockId: newStock,
+        purchasedId: stocks.byId[newStock].purchasedItems.allIds[0],
+      }),
+    );
   };
   return (
     <TableRow>

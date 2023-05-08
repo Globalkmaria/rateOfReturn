@@ -6,10 +6,8 @@ import { BaseInput, Input, TransformedValue } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
 import {
   deleteStock,
-  selectStockCheckedInfo,
   selectStockInfoById,
   StockMainInfo,
-  updateCheckedItemsInfo,
 } from '../../../features/stockList/stockListSlice';
 import {
   NumberCell,
@@ -19,6 +17,10 @@ import {
 } from './components';
 import { getSummaryInfo } from './utils';
 import { updateStock } from '../../../features/stockList/stockListSlice';
+import {
+  selectStockCheckedInfo,
+  updateCheckedItems,
+} from '../../../features/checkedItems/checkedItemsSlice';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -43,7 +45,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const toggleLock = () => setIsLock((prev) => !prev);
   const onChangeCheckbox = (value: boolean) => {
     dispatch(
-      updateCheckedItemsInfo({
+      updateCheckedItems({
         type: 'stock',
         checked: value,
         stockId: stockId,
