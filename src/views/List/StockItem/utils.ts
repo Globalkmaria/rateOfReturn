@@ -17,13 +17,12 @@ export const getSummaryInfo = ({
   for (const purchasedItemKey of purchasedItems.allIds) {
     summaryInfo.purchaseQuantitySum +=
       purchasedItems.byId[purchasedItemKey].purchasedQuantity * 1;
-    summaryInfo.purchasePriceAverage +=
-      purchasedItems.byId[purchasedItemKey].purchasedPrice * 1;
     summaryInfo.totalPurchasePrice +=
       purchasedItems.byId[purchasedItemKey].purchasedQuantity *
       purchasedItems.byId[purchasedItemKey].purchasedPrice;
   }
-
+  summaryInfo.purchasePriceAverage =
+    summaryInfo.totalPurchasePrice / summaryInfo.purchaseQuantitySum;
   summaryInfo.evaluationPrice =
     summaryInfo.purchaseQuantitySum * mainInfo.currentPrice;
   summaryInfo.evaluationProfit =
