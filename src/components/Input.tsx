@@ -106,11 +106,11 @@ export const Input = ({
   const inputType = isDate ? 'datetime-local' : 'text';
   const align = type === 'number' ? 'right' : 'left';
 
-  const initialValue = getInitialValue(value, type);
+  const formattedValue = getInitialValue(value, type);
+  const [preValue, setPreValue] = useState(value);
 
   const input = useRef<null | HTMLInputElement>(null);
   const [selection, setSelection] = useState<number | null>(null);
-  const [finalValue, setFinalValue] = useState<string>(initialValue);
   useEffect(() => {
     if (selection) {
       input.current?.setSelectionRange(selection, selection);
@@ -119,10 +119,10 @@ export const Input = ({
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    const transformedValue = changeTransformValue(type, value, finalValue);
+    const transformedValue = changeTransformValue(type, value, preValue);
     onChange && onChange(e, transformedValue);
     if (transformedValue) {
-      setFinalValue(transformedValue[0]);
+      setPreValue(transformedValue[0]);
       const nextSelection =
         e.target.selectionStart! + transformedValue[0].length - value.length;
       setSelection(nextSelection);
@@ -132,9 +132,9 @@ export const Input = ({
   };
   const onBlurHandler = (e: FocusEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    const transformedValue = blurTransformValue(type, value, finalValue);
+    const transformedValue = blurTransformValue(type, value, preValue);
     onBlur && onBlur(e, transformedValue);
-    transformedValue && setFinalValue(transformedValue[0]);
+    transformedValue && setPreValue(transformedValue[0]);
     setSelection(null);
   };
 
@@ -144,7 +144,7 @@ export const Input = ({
       onChange={onChangeHandler}
       onBlur={onBlurHandler}
       type={inputType}
-      value={finalValue}
+      value={formattedValue}
       align={align}
       {...restProps}
     />
