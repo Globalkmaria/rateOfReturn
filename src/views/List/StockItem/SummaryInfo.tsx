@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { BorderButton } from '../../../components/Button';
-import { BaseInput, Input, TransformedValue } from '../../../components/Input';
+import {
+  BaseInput,
+  Input,
+  OnInputChangeType,
+  TransformedValue,
+} from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
 import {
   deleteStock,
@@ -41,6 +46,8 @@ export interface SummaryInfoProps {
 
 const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const dispatch = useDispatch();
+  const [isLock, setIsLock] = useState(true);
+
   const checkedInfo = useSelector(selectStockCheckedInfo(stockId));
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const stockInfo = useSelector(selectStockInfoById(stockId));
@@ -50,9 +57,15 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
     ? stockInfo.purchasedItems
     : getGroupPurchasedData(stockInfo.purchasedItems, groupPurchasedIds);
   const summaryData = getSummaryInfo(stockInfo.mainInfo, purchasedItems);
+  const formattedCurrentPrice = stockInfo.mainInfo.currentPrice.toString();
+  const formattedEvaluationProfit =
+    summaryData.evaluationProfit.toLocaleString();
+  const formattedProfitRate = `${summaryData.profitRate
+    .toFixed(2)
+    .toLocaleString()} %`;
 
-  const [isLock, setIsLock] = useState(true);
   const toggleLock = () => setIsLock((prev) => !prev);
+
   const onChangeCheckbox = (value: boolean) => {
     dispatch(
       updateCheckedItems({
@@ -62,6 +75,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       }),
     );
   };
+
   const onInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     transformedValue: TransformedValue,
@@ -81,6 +95,10 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       }),
     );
   };
+  const onStockNameChange: OnInputChangeType = (e, transformedValue) =>
+    onInputChange(e, transformedValue, 'stockName');
+  const onCurrentPriceChange: OnInputChangeType = (e, transformedValue) =>
+    onInputChange(e, transformedValue, 'currentPrice');
 
   const onDeleteStock = () => {
     dispatch(deleteStock(stockId));
@@ -92,9 +110,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       <TableCell>
         <Input
           fullWidth
-          onChange={(e, transformedValue) =>
-            onInputChange(e, transformedValue, 'stockName')
-          }
+          onChange={onStockNameChange}
           value={stockInfo.mainInfo.stockName}
           disabled={isLock}
         />
@@ -108,21 +124,15 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       <TableCell>
         <Input
           fullWidth
-          onChange={(e, transformedValue) =>
-            onInputChange(e, transformedValue, 'currentPrice')
-          }
+          onChange={onCurrentPriceChange}
           type='number'
-          value={stockInfo.mainInfo.currentPrice.toString()}
+          value={formattedCurrentPrice}
           disabled={isLock}
         />
       </TableCell>
       <NumberCell value={summaryData.evaluationPrice} />
-      <TableCell align='right'>
-        {summaryData.evaluationProfit.toLocaleString()}
-      </TableCell>
-      <TableCell align='right'>
-        {summaryData.profitRate.toFixed(2).toLocaleString()} %
-      </TableCell>
+      <TableCell align='right'>{formattedEvaluationProfit}</TableCell>
+      <TableCell align='right'>{formattedProfitRate} </TableCell>
       <LockButton isLock={isLock} onClick={toggleLock} />
       <DeleteButton onClick={onDeleteStock} />
     </StyledSummaryRow>

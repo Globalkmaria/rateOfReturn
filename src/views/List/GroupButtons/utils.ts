@@ -1,4 +1,3 @@
-import { CheckedItemsInfo } from '../../../features/checkedItems/checkedItemsSlice';
 import { Group, GroupsState } from '../../../features/groups/groupsSlice';
 
 export const getOptions = (groups: GroupsState) => {

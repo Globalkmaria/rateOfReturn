@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Input } from '../../../components/Input';
+import { Input, OnInputChangeType } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
 import {
   deletePurchasedItem,
@@ -21,31 +21,35 @@ import {
   updateCheckedItems,
 } from '../../../features/checkedItems/checkedItemsSlice';
 
+type InputChangeProps = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  transformedValue: [string, string] | null,
+  fieldName: keyof Omit<PurchasedItemInfo, 'purchasedId'>,
+) => void;
+
 interface PurchasedStockProps {
   stockId: string;
   purchasedId: string;
   purchasedIdx: number;
 }
 
-const PurchasedStock = ({
-  stockId,
-  purchasedId,
-  purchasedIdx,
-}: PurchasedStockProps) => {
+const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
+  const dispatch = useDispatch();
+  const [isLock, setIsLock] = useState(true);
   const { mainInfo, purchasedItem } = useSelector(
     selectPurchasedItemsById(stockId, purchasedId),
   );
   const isPurchasedItemChecked = useSelector(
     selectIsPurchasedItemChecked(stockId, purchasedId),
   );
-  const dispatch = useDispatch();
-  const [isLock, setIsLock] = useState(true);
   const totalPurchasePrice =
     purchasedItem.purchasedQuantity * purchasedItem.purchasedPrice;
   const evaluationPrice =
     purchasedItem.purchasedQuantity * mainInfo.currentPrice;
   const evaluationProfit = evaluationPrice - totalPurchasePrice;
+  const formattedEvaluationProfit = evaluationProfit.toLocaleString();
   const profitRate = (evaluationProfit / totalPurchasePrice) * 100;
+  const formattedProfitRate = `${profitRate.toFixed(2).toLocaleString()} %`;
 
   const toggleLock = () => setIsLock((prev) => !prev);
 
@@ -59,11 +63,8 @@ const PurchasedStock = ({
       }),
     );
   };
-  const onInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    transformedValue: [string, string] | null,
-    fieldName: keyof Omit<PurchasedItemInfo, 'purchasedId'>,
-  ) => {
+
+  const onInputChange: InputChangeProps = (e, transformedValue, fieldName) => {
     if (fieldName !== 'purchasedDate' && transformedValue === null) return;
     const value =
       fieldName === 'purchasedDate'
@@ -81,6 +82,13 @@ const PurchasedStock = ({
     );
   };
 
+  const onDateChange: OnInputChangeType = (e, transformedValue) =>
+    onInputChange(e, transformedValue, 'purchasedDate');
+  const onQuantityChange: OnInputChangeType = (e, transformedValue) =>
+    onInputChange(e, transformedValue, 'purchasedQuantity');
+  const onPriceChange: OnInputChangeType = (e, transformedValue) =>
+    onInputChange(e, transformedValue, 'purchasedPrice');
+
   const onDeletePurchasedStock = () => {
     dispatch(
       deletePurchasedItem({
@@ -94,12 +102,10 @@ const PurchasedStock = ({
     <StyledPurchasedStockRow>
       <CheckboxCell onClick={onChangeCheckbox} value={isPurchasedItemChecked} />
       <TableCell></TableCell>
-      <TableCell align='center'>{purchasedIdx + 1}</TableCell>
+      <TableCell align='center'>{purchasedId}</TableCell>
       <TableCell>
         <Input
-          onChange={(e, transformedValue) =>
-            onInputChange(e, transformedValue, 'purchasedDate')
-          }
+          onChange={onDateChange}
           disabled={isLock}
           type='date'
           value={purchasedItem.purchasedDate}
@@ -107,26 +113,20 @@ const PurchasedStock = ({
         />
       </TableCell>
       <InputCell
-        onChange={(e, transformedValue) =>
-          onInputChange(e, transformedValue, 'purchasedQuantity')
-        }
+        onChange={onQuantityChange}
         value={purchasedItem.purchasedQuantity}
         disabled={isLock}
       />
       <InputCell
-        onChange={(e, transformedValue) =>
-          onInputChange(e, transformedValue, 'purchasedPrice')
-        }
+        onChange={onPriceChange}
         value={purchasedItem.purchasedPrice}
         disabled={isLock}
       />
       <NumberCell value={totalPurchasePrice} />
       <NumberCell value={mainInfo.currentPrice} />
       <NumberCell value={evaluationPrice} />
-      <TableCell align='right'>{evaluationProfit.toLocaleString()}</TableCell>
-      <TableCell align='right'>
-        {profitRate.toFixed(2).toLocaleString()} %
-      </TableCell>
+      <TableCell align='right'>{formattedEvaluationProfit}</TableCell>
+      <TableCell align='right'>{formattedProfitRate}</TableCell>
       <LockButton isLock={isLock} onClick={toggleLock} />
       <DeleteButton onClick={onDeletePurchasedStock} />
     </StyledPurchasedStockRow>

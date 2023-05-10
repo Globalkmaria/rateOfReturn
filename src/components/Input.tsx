@@ -8,28 +8,27 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+export type OnInputChangeType = (
+  e: ChangeEvent<HTMLInputElement>,
+  transformedValue: TransformedValue,
+) => void;
+export type TransformedValue = [localValue: string, pureValue: string] | null;
+
 const INPUT_TYPES = ['text', 'number', 'date'] as const;
 interface BaseInputProps {
   align?: 'left' | 'right';
   fullWidth?: boolean;
   padding?: number;
 }
+
 export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onBlur'>,
     BaseInputProps {
   type?: (typeof INPUT_TYPES)[number];
   value?: string;
-  onChange?: (
-    e: ChangeEvent<HTMLInputElement>,
-    transformedValue: TransformedValue,
-  ) => void;
-  onBlur?: (
-    e: ChangeEvent<HTMLInputElement>,
-    transformedValue: TransformedValue,
-  ) => void;
+  onChange?: OnInputChangeType;
+  onBlur?: OnInputChangeType;
 }
-
-export type TransformedValue = [localValue: string, pureValue: string] | null;
 
 const changeTransformValue = (
   type: (typeof INPUT_TYPES)[number],

@@ -40,11 +40,11 @@ export const NumberCell = ({ value }: { value: number | string }) => {
   );
 };
 
-export const InputCell: React.FC<InputCellProps> = ({
+export const InputCell = ({
   value,
   disabled,
   ...restProps
-}) => {
+}: InputCellProps) => {
   value = value.toString();
 
   return (
@@ -67,20 +67,19 @@ export const CheckboxCell = ({
   ...restProps
 }: CheckboxCellProps) => {
   const Cell = type === 'td' ? TableCell : TableHead;
+
   const onClickHandler = (e: MouseEvent<HTMLTableCellElement>) => {
     if (e.target instanceof HTMLInputElement) return;
     const target = e.target as HTMLTableCellElement;
     onClick(!(target.childNodes[0] as HTMLInputElement).checked);
   };
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onClick(e.target.checked);
+  };
+
   return (
     <Cell align='center' onClick={onClickHandler} {...restProps}>
-      <input
-        type='checkbox'
-        checked={value}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          onClick(e.target.checked);
-        }}
-      />
+      <input type='checkbox' checked={value} onChange={onChange} />
     </Cell>
   );
 };
