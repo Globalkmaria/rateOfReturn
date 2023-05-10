@@ -17,9 +17,11 @@ import {
   CheckboxCell,
 } from './components';
 import {
+  deleteCheckedItems,
   selectIsPurchasedItemChecked,
   updateCheckedItems,
 } from '../../../features/checkedItems/checkedItemsSlice';
+import { deletePurchaseItemFromGroup } from '../../../features/groups/groupsSlice';
 
 type InputChangeProps = (
   e: React.ChangeEvent<HTMLInputElement>,
@@ -90,12 +92,9 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
     onInputChange(e, transformedValue, 'purchasedPrice');
 
   const onDeletePurchasedStock = () => {
-    dispatch(
-      deletePurchasedItem({
-        stockId: stockId,
-        purchasedId: purchasedId,
-      }),
-    );
+    dispatch(deletePurchasedItem({ stockId, purchasedId }));
+    dispatch(deletePurchaseItemFromGroup({ stockId, purchasedId }));
+    dispatch(deleteCheckedItems({ stockId, purchasedId }));
   };
 
   return (

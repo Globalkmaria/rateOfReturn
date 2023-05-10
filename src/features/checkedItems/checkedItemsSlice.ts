@@ -31,6 +31,11 @@ type UpdateCheckedItemsInfoPayload =
       checked: boolean;
     };
 
+export type DeletePurchaseItemFromCheckInfoPayload = {
+  stockId: string;
+  purchasedId: string;
+};
+
 export type CheckedItemsState = CheckedItemsInfo;
 
 const initialState: CheckedItemsState = {
@@ -101,6 +106,17 @@ export const checkedItemsSlice = createSlice({
           break;
       }
     },
+    deleteCheckedItems: (
+      state,
+      action: PayloadAction<DeletePurchaseItemFromCheckInfoPayload>,
+    ) => {
+      const { stockId, purchasedId } = action.payload;
+      const stockInfo = state.stocksCheckInfo[stockId];
+      if (Object.keys(stockInfo.purchasedItems).length === 1) {
+        delete state.stocksCheckInfo[stockId];
+      }
+      delete stockInfo.purchasedItems[purchasedId];
+    },
   },
 });
 
@@ -151,6 +167,7 @@ export const {
   updateCheckedItems,
   addStockCheckInfo,
   addPurchasedItemsCheckInfo,
+  deleteCheckedItems,
 } = checkedItemsSlice.actions;
 
 export default checkedItemsSlice.reducer;
