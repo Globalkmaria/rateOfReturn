@@ -15,12 +15,16 @@ import {
   DeleteButton,
   CheckboxCell,
 } from './components';
-import { getSummaryInfo } from './utils';
+import { getGroupPurchasedData, getSummaryInfo } from './utils';
 import { updateStock } from '../../../features/stockList/stockListSlice';
 import {
   selectStockCheckedInfo,
   updateCheckedItems,
 } from '../../../features/checkedItems/checkedItemsSlice';
+import {
+  selectIsMainGroupSelected,
+  selectSelectedGroupInfo,
+} from '../../../features/groups/groupsSlice';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -36,12 +40,18 @@ export interface SummaryInfoProps {
 }
 
 const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
-  const stockInfo = useSelector(selectStockInfoById(stockId));
-  const checkedItemsInfo = useSelector(selectStockCheckedInfo(stockId));
-
   const dispatch = useDispatch();
+  const checkedInfo = useSelector(selectStockCheckedInfo(stockId));
+  const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
+  const stockInfo = useSelector(selectStockInfoById(stockId));
+  const groupInfo = useSelector(selectSelectedGroupInfo());
+  const groupPurchasedIds = groupInfo.stocks.byId[stockId];
+  const purchasedItems = isMainGroupSelected
+    ? stockInfo.purchasedItems
+    : getGroupPurchasedData(stockInfo.purchasedItems, groupPurchasedIds);
+  const summaryData = getSummaryInfo(stockInfo.mainInfo, purchasedItems);
+
   const [isLock, setIsLock] = useState(true);
-  const summaryData = getSummaryInfo(stockInfo);
   const toggleLock = () => setIsLock((prev) => !prev);
   const onChangeCheckbox = (value: boolean) => {
     dispatch(
@@ -78,10 +88,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
 
   return (
     <StyledSummaryRow>
-      <CheckboxCell
-        onClick={onChangeCheckbox}
-        value={checkedItemsInfo.allChecked}
-      />
+      <CheckboxCell onClick={onChangeCheckbox} value={checkedInfo.allChecked} />
       <TableCell>
         <Input
           fullWidth

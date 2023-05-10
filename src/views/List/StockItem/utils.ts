@@ -1,10 +1,27 @@
 import { StockList } from '../../../features/stockList/stockListSlice';
 import { SummaryInfoData } from './SummaryInfo';
 
-export const getSummaryInfo = ({
-  mainInfo,
-  purchasedItems,
-}: StockList): SummaryInfoData => {
+export const getGroupPurchasedData = (
+  originalPurchasedData: StockList['purchasedItems'],
+  groupPurchasedIds: string[],
+) => {
+  const filteredData: StockList['purchasedItems'] = {
+    byId: {},
+    allIds: [],
+  };
+
+  for (const purchasedId of groupPurchasedIds) {
+    filteredData.byId[purchasedId] = originalPurchasedData.byId[purchasedId];
+    filteredData.allIds.push(purchasedId);
+  }
+
+  return filteredData;
+};
+
+export const getSummaryInfo = (
+  mainInfo: StockList['mainInfo'],
+  purchasedItems: StockList['purchasedItems'],
+): SummaryInfoData => {
   const summaryInfo: SummaryInfoData = {
     purchaseQuantitySum: 0,
     purchasePriceAverage: 0,

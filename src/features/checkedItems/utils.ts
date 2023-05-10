@@ -13,16 +13,15 @@ export const getInitialCheckedItemsInfo = ({
     stocksCheckInfo: {},
   };
 
-  for (const [stockId, purchasedIds] of data.stocks) {
+  for (const stockId of data.stocks.allIds) {
     checkedItemsInfo.stocksCheckInfo[stockId] = {
       allChecked: value,
-      purchasedItems: purchasedIds.reduce<{ [purchasedId: string]: boolean }>(
-        (acc, purchasedId) => {
-          acc[purchasedId] = value;
-          return acc;
-        },
-        {},
-      ),
+      purchasedItems: data.stocks.byId[stockId].reduce<{
+        [purchasedId: string]: boolean;
+      }>((acc, purchasedId) => {
+        acc[purchasedId] = value;
+        return acc;
+      }, {}),
     };
   }
 
@@ -59,6 +58,7 @@ export const updateStockCheckedItems = ({
   for (const purchasedId in state.stocksCheckInfo[stockId].purchasedItems) {
     state.stocksCheckInfo[stockId].purchasedItems[purchasedId] = value;
   }
+  state.allChecked = false;
   return state;
 };
 
@@ -74,5 +74,7 @@ export const updatePurchasedCheckedItems = ({
   value: boolean;
 }) => {
   state.stocksCheckInfo[stockId].purchasedItems[purchasedId] = value;
+  state.stocksCheckInfo[stockId].allChecked = false;
+  state.allChecked = false;
   return state;
 };

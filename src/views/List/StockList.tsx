@@ -11,15 +11,24 @@ import StockItem from './StockItem/StockItem';
 import StockListHeader from './StockListHeader';
 import { store } from '../../store';
 import { addStockCheckInfo } from '../../features/checkedItems/checkedItemsSlice';
+import {
+  selectIsMainGroupSelected,
+  selectSelectedGroupInfo,
+} from '../../features/groups/groupsSlice';
+import GroupButtons from './GroupButtons/GroupButtons';
 
 const StockList = () => {
+  const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const stocks = useSelector(selectStocks);
+  const groupInfo = useSelector(selectSelectedGroupInfo());
+  const info = isMainGroupSelected ? stocks.allIds : groupInfo.stocks.allIds;
   return (
     <StyledStockList>
+      <GroupButtons />
       <Table>
         <StockListHeader />
         <TableBody>
-          {stocks.allIds.map((stockId) => (
+          {info.map((stockId) => (
             <StockItem stockId={stockId} key={stockId} />
           ))}
           <AddNewStock />

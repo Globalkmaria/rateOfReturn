@@ -1,20 +1,27 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import { GROUPS_MOCK_DATA, GROUPS_MOCK_DATA_NEXT_GROUP_ID } from './mockData';
 
 export type Group = {
   groupId: string;
   groupName: string;
-  stocks: [stockId: string, purchaseIds: string[]][];
+  stocks: { byId: { [stockId: string]: string[] }; allIds: string[] };
 };
 
 export interface GroupsState {
-  groups: Group[];
+  groups: { byId: { [groupId: string]: Group }; allIds: string[] };
   selectedGroupId: string;
 }
 
 export type AddGroupPayload = {
   groupName: string;
   selectedStocks: Group['stocks'];
+};
+
+export type EditGroupPurchaseItemPayload = {
+  groupId: string;
+  stockId: string;
+  purchasedId: string;
+  type: 'add' | 'delete';
 };
 
 const initialState: GroupsState = {
@@ -32,11 +39,13 @@ export const groupsSlice = createSlice({
       state.selectedGroupId = action.payload;
     },
     addGroup: (state, action: PayloadAction<AddGroupPayload>) => {
-      state.groups.push({
-        groupId: nextGroupId++ + '',
+      state.groups.byId[nextGroupId] = {
+        groupId: nextGroupId + '',
         groupName: action.payload.groupName,
         stocks: action.payload.selectedStocks,
-      });
+      };
+      state.groups.allIds.push(nextGroupId + '');
+      nextGroupId++;
     },
   },
 });
@@ -44,7 +53,17 @@ export const groupsSlice = createSlice({
 export const selectGroups = (state: { groups: GroupsState }) => state.groups;
 export const selectSelectedGroupId = (state: { groups: GroupsState }) =>
   state.groups.selectedGroupId;
+export const selectIsMainGroupSelected = () =>
+  createSelector(
+    selectSelectedGroupId,
+    (selectedGroupId) => selectedGroupId === '1',
+  );
 
+export const selectSelectedGroupInfo = () =>
+  createSelector(
+    [selectSelectedGroupId, selectGroups],
+    (selectedGroupId, groupsInfo) => groupsInfo.groups.byId[selectedGroupId],
+  );
 export const { updateSelectedGroupId, addGroup } = groupsSlice.actions;
 
 export default groupsSlice.reducer;

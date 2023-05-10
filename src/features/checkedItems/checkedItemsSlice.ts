@@ -34,7 +34,7 @@ type UpdateCheckedItemsInfoPayload =
 export type CheckedItemsState = CheckedItemsInfo;
 
 const initialState: CheckedItemsState = getInitialCheckedItemsInfo({
-  data: GROUPS_MOCK_DATA[0],
+  data: GROUPS_MOCK_DATA.byId[1],
   value: true,
 });
 
@@ -116,6 +116,22 @@ export const selectIsPurchasedItemChecked = (
     [selectStockCheckedInfo(stockId)],
     (checkedStockInfo) => checkedStockInfo.purchasedItems[purchasedId],
   );
+
+export const selectCheckedPurchasedItems = () =>
+  createSelector([selectCheckItemsInfo()], (stocksCheckInfo) => {
+    const checkedPurchasedItems: { stockId: string; purchasedId: string }[] =
+      [];
+
+    Object.keys(stocksCheckInfo).forEach((stockId) => {
+      const purchasedItems = stocksCheckInfo[stockId].purchasedItems;
+      Object.keys(purchasedItems).forEach((purchasedId) => {
+        if (purchasedItems[purchasedId]) {
+          checkedPurchasedItems.push({ stockId, purchasedId });
+        }
+      });
+    });
+    return checkedPurchasedItems;
+  });
 
 export const {
   initCheckedItems,

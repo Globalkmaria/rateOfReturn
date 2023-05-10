@@ -12,6 +12,7 @@ const INPUT_TYPES = ['text', 'number', 'date'] as const;
 interface BaseInputProps {
   align?: 'left' | 'right';
   fullWidth?: boolean;
+  padding?: number;
 }
 export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onBlur'>,
@@ -80,8 +81,8 @@ const getInitialValue = (value: string, type: (typeof INPUT_TYPES)[number]) => {
 };
 
 export const BaseInput = styled('input')<BaseInputProps>(
-  ({ theme, align = 'left', width, fullWidth }) => ({
-    padding: '5px',
+  ({ theme, align = 'left', width, fullWidth, padding = 5 }) => ({
+    padding: `${padding}px`,
     border: 'none',
     borderRadius: '5px',
     textAlign: align,
