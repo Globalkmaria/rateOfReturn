@@ -1,11 +1,11 @@
-import { Group } from '../groups/groupsSlice';
+import { StockListState } from '../stockList/stockListSlice';
 import { CheckedItemsInfo } from './checkedItemsSlice';
 
 export const getInitialCheckedItemsInfo = ({
   data,
   value,
 }: {
-  data: Group;
+  data: StockListState['stocks'];
   value: boolean;
 }): CheckedItemsInfo => {
   const checkedItemsInfo: CheckedItemsInfo = {
@@ -13,10 +13,10 @@ export const getInitialCheckedItemsInfo = ({
     stocksCheckInfo: {},
   };
 
-  for (const stockId of data.stocks.allIds) {
+  for (const stockId of data.allIds) {
     checkedItemsInfo.stocksCheckInfo[stockId] = {
       allChecked: value,
-      purchasedItems: data.stocks.byId[stockId].reduce<{
+      purchasedItems: data.byId[stockId].purchasedItems.allIds.reduce<{
         [purchasedId: string]: boolean;
       }>((acc, purchasedId) => {
         acc[purchasedId] = value;

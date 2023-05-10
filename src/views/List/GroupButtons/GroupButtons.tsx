@@ -12,7 +12,7 @@ import {
 import { changeCheckInfoToGroupFormat, getOptions } from './utils';
 import { Input } from '../../../components/Input';
 import {
-  checkedItems,
+  initCheckedItems,
   selectCheckedPurchasedItems,
   selectIsPurchasedItemChecked,
   updateCheckedItems,
@@ -22,7 +22,10 @@ import { TableHeader } from '../../../components/Table';
 import { TableHead } from '../../../components/Table';
 import { TableRow } from '../../../components/Table';
 import { CheckboxCell } from '../StockItem/components';
-import { selectStockInfoById } from '../../../features/stockList/stockListSlice';
+import {
+  selectStockInfoById,
+  selectStocks,
+} from '../../../features/stockList/stockListSlice';
 
 interface HeaderItemProps {
   id: string;
@@ -43,14 +46,8 @@ const GroupButtons = () => {
     dispatch(updateSelectedGroupId(e.target.value));
   };
 
-  const onGroupAdd = () => {
+  const onOpenAddModal = () => {
     setIsOpen(true);
-    // dispatch(
-    //   addGroup({
-    //     groupName: '새 그룹',
-    //     selectedStocks: { byId: {}, allIds: [] },
-    //   }),
-    // );
   };
 
   return (
@@ -61,8 +58,9 @@ const GroupButtons = () => {
           width={140}
           initialValue='1'
           options={options}
+          value={groups.selectedGroupId}
         />
-        <BorderButton onClick={onGroupAdd} size='m'>
+        <BorderButton onClick={onOpenAddModal} size='m'>
           그룹 생성
         </BorderButton>
         <BorderButton size='m'>그룹 수정</BorderButton>
@@ -85,26 +83,21 @@ interface AppGroupModalProps {
 
 const AddGroupModal = ({ onClose }: AppGroupModalProps) => {
   const dispatch = useDispatch();
-  const groupsInfo = useSelector(selectGroups);
   const checkedItems = useSelector(selectCheckedPurchasedItems());
+  const stocks = useSelector(selectStocks);
   const [name, setName] = useState('');
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
 
   const onAddGroup = () => {
+    if (!name.trim().length) {
+      alert('그룹 이름을 입력해주세요.');
+      return;
+    }
     const selectedStocks = changeCheckInfoToGroupFormat(checkedItems);
-    dispatch(
-      addGroup({
-        groupName: name,
-        selectedStocks: selectedStocks,
-      }),
-    );
-    const newGroupId =
-      groupsInfo.groups.allIds[groupsInfo.groups.allIds.length - 1];
-
-    dispatch(updateSelectedGroupId(newGroupId));
-    setName('');
+    dispatch(addGroup({ groupName: name, selectedStocks }));
+    dispatch(initCheckedItems(stocks));
     onClose();
   };
   useEffect(() => {

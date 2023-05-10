@@ -5,8 +5,8 @@ import {
   updatePurchasedCheckedItems,
   updateStockCheckedItems,
 } from './utils';
-import { GROUPS_MOCK_DATA } from '../groups/mockData';
 import { RootState } from '../../store';
+import { StockListState } from '../stockList/stockListSlice';
 
 export type CheckedItemsInfo = {
   allChecked: boolean;
@@ -33,16 +33,26 @@ type UpdateCheckedItemsInfoPayload =
 
 export type CheckedItemsState = CheckedItemsInfo;
 
-const initialState: CheckedItemsState = getInitialCheckedItemsInfo({
-  data: GROUPS_MOCK_DATA.byId[1],
-  value: true,
-});
+const initialState: CheckedItemsState = {
+  allChecked: false,
+  stocksCheckInfo: {},
+};
 
 export const checkedItemsSlice = createSlice({
   name: 'checkedItems',
   initialState,
   reducers: {
-    initCheckedItems: (state) => {},
+    initCheckedItems: (
+      state,
+      action: PayloadAction<StockListState['stocks']>,
+    ) => {
+      const initData = getInitialCheckedItemsInfo({
+        data: action.payload,
+        value: true,
+      });
+      state.allChecked = initData.allChecked;
+      state.stocksCheckInfo = initData.stocksCheckInfo;
+    },
     addStockCheckInfo: (
       state,
       action: PayloadAction<{ stockId: string; purchasedId: string }>,
@@ -94,14 +104,17 @@ export const checkedItemsSlice = createSlice({
   },
 });
 
-export const checkedItems = (state: RootState) => state.checkedItems;
+export const selectCheckedItems = (state: RootState) => state.checkedItems;
 export const selectCheckItemsInfo = () =>
   createSelector(
-    [checkedItems],
+    [selectCheckedItems],
     (checkedItemsInfo) => checkedItemsInfo.stocksCheckInfo,
   );
 export const selectIsAllChecked = () =>
-  createSelector([checkedItems], (checkedItems) => checkedItems.allChecked);
+  createSelector(
+    [selectCheckedItems],
+    (checkedItems) => checkedItems.allChecked,
+  );
 
 export const selectStockCheckedInfo = (stockId: string) =>
   createSelector(

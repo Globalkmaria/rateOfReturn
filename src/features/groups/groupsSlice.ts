@@ -45,6 +45,7 @@ export const groupsSlice = createSlice({
         stocks: action.payload.selectedStocks,
       };
       state.groups.allIds.push(nextGroupId + '');
+      state.selectedGroupId = nextGroupId + '';
       nextGroupId++;
     },
   },
