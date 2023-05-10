@@ -6,14 +6,17 @@ import Select from '../../../components/Select';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectGroups,
+  selectIsMainGroupSelected,
   updateSelectedGroupId,
 } from '../../../features/groups/groupsSlice';
 import { getOptions } from './utils';
 import AddGroupModal from './AddGroupModal';
+import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
 
 const GroupButtons = () => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const groups = useSelector(selectGroups);
   const options = getOptions(groups);
 
@@ -21,6 +24,7 @@ const GroupButtons = () => {
 
   const onGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(updateSelectedGroupId(e.target.value));
+    dispatch(updateCheckedItems({ type: 'all', checked: true }));
   };
 
   const onOpenAddModal = () => {
@@ -37,11 +41,19 @@ const GroupButtons = () => {
           options={options}
           value={groups.selectedGroupId}
         />
-        <BorderButton onClick={onOpenAddModal} size='m'>
+        <BorderButton
+          onClick={onOpenAddModal}
+          size='m'
+          disabled={!isMainGroupSelected}
+        >
           그룹 생성
         </BorderButton>
-        <BorderButton size='m'>그룹 수정</BorderButton>
-        <BorderButton size='m'>그룹 삭제</BorderButton>
+        <BorderButton size='m' disabled={isMainGroupSelected}>
+          그룹 수정
+        </BorderButton>
+        <BorderButton size='m' disabled={isMainGroupSelected}>
+          그룹 삭제
+        </BorderButton>
       </StyledGroupButtons>
       <Modal isOpen={isOpen} onClose={onClose}>
         <StyledGroupModal>

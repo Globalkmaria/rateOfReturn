@@ -10,6 +10,7 @@ import {
   selectIsAllChecked,
   updateCheckedItems,
 } from '../../features/checkedItems/checkedItemsSlice';
+import { selectIsMainGroupSelected } from '../../features/groups/groupsSlice';
 
 type HeaderListComponent = typeof CheckAllCheckbox;
 
@@ -44,7 +45,7 @@ export default StockListHeader;
 const CheckAllCheckbox = ({ id, ...restProps }: TableHeadProps) => {
   const dispatch = useDispatch();
   const isAllChecked = useSelector(selectIsAllChecked());
-
+  const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const onChangeCheckbox = (value: boolean) => {
     dispatch(
       updateCheckedItems({
@@ -60,6 +61,7 @@ const CheckAllCheckbox = ({ id, ...restProps }: TableHeadProps) => {
       {...restProps}
       onClick={onChangeCheckbox}
       value={isAllChecked}
+      disabled={!isMainGroupSelected}
     />
   );
 };

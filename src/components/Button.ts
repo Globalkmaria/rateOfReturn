@@ -12,6 +12,7 @@ export interface BaseButtonProps
   height?: number;
   width?: number;
   fullWidth?: boolean;
+  disableIcon?: boolean;
 }
 
 const FONT_SIZES: Sizes = {
@@ -40,20 +41,34 @@ const HEIGHTS: Sizes = {
 
 const BaseButton = styled('button').attrs((props) => ({
   type: props.type || 'button',
-}))<BaseButtonProps>(({ height, width, fullWidth, size = 's' }) => ({
-  padding: PADDING_SIZES[size],
-  height: height ? `${height}px` : HEIGHTS[size],
-  width: width ? `${width}px` : fullWidth ? '100%' : 'auto',
-  borderRadius: '5px',
-  fontSize: FONT_SIZES[size],
-  transition: '200ms',
-}));
+}))<BaseButtonProps>(
+  ({ theme, height, width, fullWidth, disableIcon, size = 's' }) => ({
+    padding: PADDING_SIZES[size],
+    height: height ? `${height}px` : HEIGHTS[size],
+    width: width ? `${width}px` : fullWidth ? '100%' : 'auto',
+    borderRadius: '5px',
+    fontSize: FONT_SIZES[size],
+    transition: '200ms',
+
+    '&[class^="Button"]:disabled': {
+      color: theme.colors.grey500,
+      cursor: 'default',
+    },
+
+    svg: {
+      color: disableIcon ? theme.colors.grey500 : 'inherit',
+      path: {
+        color: disableIcon ? theme.colors.grey500 : 'inherit',
+      },
+    },
+  }),
+);
 
 export const BorderButton = styled(BaseButton)<BaseButtonProps>(
   ({ theme, color = 'primary' }) => ({
     border: `1px solid ${theme.colors[COLORS[color] + '300']}`,
 
-    '&:hover': {
+    '&:not([disabled]):hover': {
       background: `${theme.colors[COLORS[color] + '100']}`,
     },
   }),
@@ -65,7 +80,7 @@ export const ContainedButton = styled(BaseButton)<BaseButtonProps>(
       theme.colors[COLORS[color] + (color === 'primary' ? '100' : '000')]
     }`,
 
-    '&:hover': {
+    '&:not([disabled]):hover': {
       background: `${
         theme.colors[COLORS[color] + (color === 'primary' ? '200' : '100')]
       }`,

@@ -21,7 +21,10 @@ import {
   selectIsPurchasedItemChecked,
   updateCheckedItems,
 } from '../../../features/checkedItems/checkedItemsSlice';
-import { deletePurchaseItemFromGroup } from '../../../features/groups/groupsSlice';
+import {
+  deletePurchaseItemFromGroup,
+  selectIsMainGroupSelected,
+} from '../../../features/groups/groupsSlice';
 
 type InputChangeProps = (
   e: React.ChangeEvent<HTMLInputElement>,
@@ -44,6 +47,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const isPurchasedItemChecked = useSelector(
     selectIsPurchasedItemChecked(stockId, purchasedId),
   );
+  const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const totalPurchasePrice =
     purchasedItem.purchasedQuantity * purchasedItem.purchasedPrice;
   const evaluationPrice =
@@ -99,7 +103,11 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
 
   return (
     <StyledPurchasedStockRow>
-      <CheckboxCell onClick={onChangeCheckbox} value={isPurchasedItemChecked} />
+      <CheckboxCell
+        disabled={!isMainGroupSelected}
+        onClick={onChangeCheckbox}
+        value={isPurchasedItemChecked}
+      />
       <TableCell></TableCell>
       <TableCell align='center'>{purchasedId}</TableCell>
       <TableCell>
@@ -126,8 +134,15 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
       <NumberCell value={evaluationPrice} />
       <TableCell align='right'>{formattedEvaluationProfit}</TableCell>
       <TableCell align='right'>{formattedProfitRate}</TableCell>
-      <LockButton isLock={isLock} onClick={toggleLock} />
-      <DeleteButton onClick={onDeletePurchasedStock} />
+      <LockButton
+        isLock={isLock}
+        onClick={toggleLock}
+        disabled={!isMainGroupSelected}
+      />
+      <DeleteButton
+        onClick={onDeletePurchasedStock}
+        disabled={!isMainGroupSelected}
+      />
     </StyledPurchasedStockRow>
   );
 };

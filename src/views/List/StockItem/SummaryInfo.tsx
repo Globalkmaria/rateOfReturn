@@ -106,7 +106,11 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
 
   return (
     <StyledSummaryRow>
-      <CheckboxCell onClick={onChangeCheckbox} value={checkedInfo.allChecked} />
+      <CheckboxCell
+        disabled={!isMainGroupSelected}
+        onClick={onChangeCheckbox}
+        value={checkedInfo.allChecked}
+      />
       <TableCell>
         <Input
           fullWidth
@@ -133,8 +137,12 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       <NumberCell value={summaryData.evaluationPrice} />
       <TableCell align='right'>{formattedEvaluationProfit}</TableCell>
       <TableCell align='right'>{formattedProfitRate} </TableCell>
-      <LockButton isLock={isLock} onClick={toggleLock} />
-      <DeleteButton onClick={onDeleteStock} />
+      <LockButton
+        isLock={isLock}
+        onClick={toggleLock}
+        disabled={!isMainGroupSelected}
+      />
+      <DeleteButton onClick={onDeleteStock} disabled={!isMainGroupSelected} />
     </StyledSummaryRow>
   );
 };
@@ -151,7 +159,7 @@ export const StyledSummaryRow = styled(TableRow)`
   ${BorderButton} {
     border: ${({ theme }) => `1px solid ${theme.colors.grey400}`};
 
-    &:hover {
+    &:not([disabled]):hover {
       background: ${({ theme }) => theme.colors.grey300};
     }
   }

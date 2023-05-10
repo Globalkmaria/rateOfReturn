@@ -26,11 +26,16 @@ type CheckboxCellProps = {
   onClick: (checked: boolean) => void;
   value: boolean;
   type?: 'td' | 'th';
+  disabled?: boolean;
 } & Pick<TableHeadProps, 'width' | 'flexBasis'>;
-interface LockButtonProps {
+type LockButtonProps = {
   isLock: boolean;
+  disabled?: boolean;
   onClick: () => void;
-}
+};
+type DeleteButtonProps = {
+  disabled?: boolean;
+} & BaseButtonProps;
 
 export const NumberCell = ({ value }: { value: number | string }) => {
   return (
@@ -64,6 +69,7 @@ export const CheckboxCell = ({
   onClick,
   value,
   type = 'td',
+  disabled,
   ...restProps
 }: CheckboxCellProps) => {
   const Cell = type === 'td' ? TableCell : TableHead;
@@ -79,7 +85,12 @@ export const CheckboxCell = ({
 
   return (
     <Cell align='center' onClick={onClickHandler} {...restProps}>
-      <input type='checkbox' checked={value} onChange={onChange} />
+      <input
+        disabled={disabled}
+        type='checkbox'
+        checked={value}
+        onChange={onChange}
+      />
     </Cell>
   );
 };
@@ -108,21 +119,32 @@ export const AddSameStockButton = ({ stockId }: { stockId: string }) => {
   );
 };
 
-export const LockButton = ({ isLock, onClick }: LockButtonProps) => {
+export const LockButton = ({ isLock, onClick, disabled }: LockButtonProps) => {
   const Icon = isLock ? FaLock : FaLockOpen;
+
   return (
     <TableCell align='center'>
-      <BorderButton width={40} onClick={onClick}>
+      <BorderButton
+        disabled={disabled}
+        disableIcon={disabled}
+        width={40}
+        onClick={onClick}
+      >
         <Icon />
       </BorderButton>
     </TableCell>
   );
 };
 
-export const DeleteButton = (props: BaseButtonProps) => {
+export const DeleteButton = ({ disabled, ...resProps }: DeleteButtonProps) => {
   return (
     <TableCell align='center'>
-      <BorderButton width={40} {...props}>
+      <BorderButton
+        disabled={disabled}
+        disableIcon={disabled}
+        width={40}
+        {...resProps}
+      >
         <FaTrash />
       </BorderButton>
     </TableCell>
