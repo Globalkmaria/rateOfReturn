@@ -111,7 +111,12 @@ export const AddSameStockButton = ({ stockId }: { stockId: string }) => {
     <TableRow>
       <TableCell></TableCell>
       <TableCell colSpan={12}>
-        <ContainedButton onClick={onAddSameStock} color='secondary1' fullWidth>
+        <ContainedButton
+          mode='light'
+          onClick={onAddSameStock}
+          color='secondary1'
+          fullWidth
+        >
           동일 종목 추가
         </ContainedButton>
       </TableCell>

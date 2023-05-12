@@ -11,12 +11,14 @@ import {
 import { selectStocks } from '../../../features/stockList/stockListSlice';
 import GroupModalTable from './GroupModal/GroupModalTable';
 import styled from 'styled-components';
+import Modal from '../../../components/Modal';
 
 interface AppGroupModalProps {
   onClose: () => void;
+  isOpen: boolean;
 }
 
-const AddGroupModal = ({ onClose }: AppGroupModalProps) => {
+const AddGroupModal = ({ onClose, isOpen }: AppGroupModalProps) => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
 
@@ -36,39 +38,43 @@ const AddGroupModal = ({ onClose }: AppGroupModalProps) => {
     dispatch(initCheckedItems(stocks));
     onClose();
   };
+
   useEffect(() => {
     setName('');
   }, [onClose]);
 
   return (
-    <StyledAddGroupModal>
-      <div className='group-name'>
-        <label className='group-name__label' htmlFor='group-name'>
-          그룹 이름 :
-        </label>
-        <Input
-          value={name}
-          onChange={onChangeName}
-          width={150}
-          id='group-name'
-        />
-      </div>
-      <GroupModalTable />
-      <div className='button-groups'>
-        <BorderButton onClick={onAddGroup} width={150} size='m'>
-          생성
-        </BorderButton>
-        <ContainedButton width={150} size='m' onClick={onClose}>
-          취소
-        </ContainedButton>
-      </div>
-    </StyledAddGroupModal>
+    <Modal title='그룹 생성' isOpen={isOpen} onClose={onClose}>
+      <StyledAddGroupModal>
+        <div className='group-name'>
+          <label className='group-name__label' htmlFor='group-name'>
+            그룹 이름* :
+          </label>
+          <Input
+            value={name}
+            onChange={onChangeName}
+            width={150}
+            id='group-name'
+          />
+        </div>
+        <GroupModalTable />
+        <div className='button-groups'>
+          <ContainedButton onClick={onAddGroup} width={150} size='m'>
+            생성
+          </ContainedButton>
+        </div>
+      </StyledAddGroupModal>
+    </Modal>
   );
 };
 
 export default AddGroupModal;
 
 const StyledAddGroupModal = styled('div')`
+  width: 900px;
+  max-height: 500px;
+  overflow-y: auto;
+
   .group-name {
     display: flex;
     align-items: center;

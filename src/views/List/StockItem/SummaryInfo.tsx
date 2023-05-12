@@ -117,6 +117,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       />
       <TableCell>
         <Input
+          className='stockName'
           fullWidth
           onChange={onStockNameChange}
           value={stockInfo.mainInfo.stockName}
@@ -155,6 +156,10 @@ export default SummaryInfo;
 
 export const StyledSummaryRow = styled(TableRow)`
   background: ${({ theme }) => theme.colors.grey100};
+
+  .stockName {
+    font-weight: 700;
+  }
 
   ${TableCell} > ${BaseInput} {
     background: ${({ theme }) => theme.colors.grey300};

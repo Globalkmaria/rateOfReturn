@@ -25,6 +25,7 @@ import {
   deletePurchaseItemFromGroup,
   selectIsMainGroupSelected,
 } from '../../../features/groups/groupsSlice';
+import { BorderButton } from '../../../components/Button';
 
 type InputChangeProps = (
   e: React.ChangeEvent<HTMLInputElement>,
@@ -155,6 +156,12 @@ export default PurchasedStock;
 
 const StyledPurchasedStockRow = styled(TableRow)`
   &:hover {
-    background: ${({ theme }) => theme.colors.yellow000};
+    background: ${({ theme }) => theme.colors.indigo000};
+  }
+
+  ${BorderButton} {
+    &:not([disabled]):hover {
+      background: ${({ theme }) => theme.colors.grey400};
+    }
   }
 `;

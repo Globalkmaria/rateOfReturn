@@ -66,7 +66,12 @@ const AddNewStock = () => {
   return (
     <TableRow>
       <TableCell colSpan={13}>
-        <ContainedButton onClick={onAddNewStock} color='secondary2' fullWidth>
+        <ContainedButton
+          mode='light'
+          onClick={onAddNewStock}
+          color='secondary2'
+          fullWidth
+        >
           신규 종목 추가
         </ContainedButton>
       </TableCell>
