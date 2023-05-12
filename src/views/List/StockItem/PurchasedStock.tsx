@@ -36,12 +36,10 @@ type InputChangeProps = (
 interface PurchasedStockProps {
   stockId: string;
   purchasedId: string;
-  purchasedIdx: number;
 }
 
 const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const dispatch = useDispatch();
-  const [isLock, setIsLock] = useState(true);
   const { mainInfo, purchasedItem } = useSelector(
     selectPurchasedItemsById(stockId, purchasedId),
   );
@@ -49,6 +47,8 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
     selectIsPurchasedItemChecked(stockId, purchasedId),
   );
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
+  const [isLock, setIsLock] = useState(false);
+
   const totalPurchasePrice =
     purchasedItem.purchasedQuantity * purchasedItem.purchasedPrice;
   const evaluationPrice =
@@ -91,6 +91,8 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
 
   const onDateChange: OnInputChangeType = (e, transformedValue) =>
     onInputChange(e, transformedValue, 'purchasedDate');
+  const onTimeChange: OnInputChangeType = (e, transformedValue) =>
+    onInputChange(e, transformedValue, 'purchasedTime');
   const onQuantityChange: OnInputChangeType = (e, transformedValue) =>
     onInputChange(e, transformedValue, 'purchasedQuantity');
   const onPriceChange: OnInputChangeType = (e, transformedValue) =>
@@ -116,13 +118,22 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
       <TableCell></TableCell>
       <TableCell align='center'>{purchasedId}</TableCell>
       <TableCell>
-        <Input
-          onChange={onDateChange}
-          disabled={isLock}
-          type='date'
-          value={purchasedItem.purchasedDate}
-          fullWidth
-        />
+        <div className='datetime'>
+          <Input
+            onChange={onDateChange}
+            disabled={isLock}
+            type='date'
+            value={purchasedItem.purchasedDate}
+            fullWidth
+          />
+          <Input
+            onChange={onTimeChange}
+            disabled={isLock}
+            type='time'
+            value={purchasedItem.purchasedTime}
+            fullWidth
+          />
+        </div>
       </TableCell>
       <InputCell
         onChange={onQuantityChange}
@@ -155,6 +166,11 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
 export default PurchasedStock;
 
 const StyledPurchasedStockRow = styled(TableRow)`
+  .datetime {
+    display: flex;
+    gap: 5px;
+  }
+
   &:hover {
     background: ${({ theme }) => theme.colors.indigo000};
   }

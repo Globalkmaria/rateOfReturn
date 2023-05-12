@@ -14,7 +14,7 @@ export type OnInputChangeType = (
 ) => void;
 export type TransformedValue = [localValue: string, pureValue: string] | null;
 
-const INPUT_TYPES = ['text', 'number', 'date'] as const;
+const INPUT_TYPES = ['text', 'number', 'date', 'time'] as const;
 interface BaseInputProps {
   align?: 'left' | 'right';
   fullWidth?: boolean;
@@ -72,8 +72,6 @@ const getInitialValue = (value: string, type: (typeof INPUT_TYPES)[number]) => {
   switch (type) {
     case 'number':
       return Number(value).toLocaleString();
-    case 'date':
-      return new Date(value).toISOString().slice(0, 16);
     default:
       return value;
   }
@@ -101,8 +99,7 @@ export const Input = ({
   value = '',
   ...restProps
 }: InputProps) => {
-  const isDate = type === 'date';
-  const inputType = isDate ? 'datetime-local' : 'text';
+  const inputType = type === 'number' ? 'text' : type;
   const align = type === 'number' ? 'right' : 'left';
 
   const formattedValue = getInitialValue(value, type);

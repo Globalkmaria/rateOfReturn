@@ -12,15 +12,17 @@ export const MOCK_DATA: StockListState['stocks'] = {
         byId: {
           1: {
             purchasedId: '1',
-            purchasedDate: '2023-04-04T09:57',
+            purchasedDate: '2023-04-04',
             purchasedQuantity: 10,
             purchasedPrice: 1000,
+            purchasedTime: '09:57',
           },
           2: {
             purchasedId: '2',
-            purchasedDate: '2023-04-04T09:57',
+            purchasedDate: '2023-04-04',
             purchasedQuantity: 10,
             purchasedPrice: 1000,
+            purchasedTime: '09:57',
           },
         },
         allIds: ['1', '2'],
@@ -36,15 +38,17 @@ export const MOCK_DATA: StockListState['stocks'] = {
         byId: {
           3: {
             purchasedId: '3',
-            purchasedDate: '2023-04-04T09:57',
+            purchasedDate: '2023-04-04',
             purchasedQuantity: 10,
             purchasedPrice: 1000,
+            purchasedTime: '09:57',
           },
           4: {
             purchasedId: '4',
-            purchasedDate: '2023-04-04T09:57',
+            purchasedDate: '2023-04-04',
             purchasedQuantity: 10,
             purchasedPrice: 1000,
+            purchasedTime: '09:57',
           },
         },
         allIds: ['3', '4'],
