@@ -46,6 +46,14 @@ export const groupsSlice = createSlice({
       state.selectedGroupId = nextGroupId + '';
       nextGroupId++;
     },
+    deleteGroup: (state, action: PayloadAction<string>) => {
+      const groupId = action.payload;
+      if (groupId === '1') return;
+
+      delete state.groups.byId[groupId];
+      state.groups.allIds.splice(state.groups.allIds.indexOf(groupId), 1);
+      if (state.selectedGroupId === groupId) state.selectedGroupId = '1';
+    },
     deletePurchaseItemFromGroup: (
       state,
       action: PayloadAction<DeletePurchaseItemFromGroupPayload>,
@@ -92,6 +100,10 @@ export const selectSelectedGroupInfo = () =>
     (selectedGroupId, groupsInfo) => groupsInfo.groups.byId[selectedGroupId],
   );
 
-export const { updateSelectedGroupId, addGroup, deletePurchaseItemFromGroup } =
-  groupsSlice.actions;
+export const {
+  updateSelectedGroupId,
+  addGroup,
+  deletePurchaseItemFromGroup,
+  deleteGroup,
+} = groupsSlice.actions;
 export default groupsSlice.reducer;

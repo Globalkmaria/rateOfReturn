@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BorderButton } from '../../../components/Button';
-import Modal from '../../../components/Modal';
 import Select from '../../../components/Select';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -12,13 +11,19 @@ import {
 import { getOptions } from './utils';
 import AddGroupModal from './AddGroupModal';
 import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
+import DeleteGroupModal from './DeleteGroupModal';
+
+type ModalMode = 'add' | 'edit' | 'delete';
 
 const GroupButtons = () => {
   const dispatch = useDispatch();
+  const [mode, setMode] = useState<ModalMode>('add');
   const [isOpen, setIsOpen] = useState(false);
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const groups = useSelector(selectGroups);
   const options = getOptions(groups);
+  const noGroups = groups.groups.allIds.length === 1;
+  const Modal = mode === 'add' ? AddGroupModal : DeleteGroupModal;
 
   const onClose = () => setIsOpen(false);
 
@@ -26,9 +31,9 @@ const GroupButtons = () => {
     dispatch(updateSelectedGroupId(e.target.value));
     dispatch(updateCheckedItems({ type: 'all', checked: true }));
   };
-
-  const onOpenAddModal = () => {
+  const onOpenModal = (mode: ModalMode) => {
     setIsOpen(true);
+    setMode(mode);
   };
 
   return (
@@ -42,24 +47,24 @@ const GroupButtons = () => {
           value={groups.selectedGroupId}
         />
         <BorderButton
-          onClick={onOpenAddModal}
+          onClick={() => onOpenModal('add')}
           size='m'
           disabled={!isMainGroupSelected}
         >
           그룹 생성
         </BorderButton>
-        <BorderButton size='m' disabled={isMainGroupSelected}>
+        {/* <BorderButton size='m' disabled={isMainGroupSelected}>
           그룹 수정
-        </BorderButton>
-        <BorderButton size='m' disabled={isMainGroupSelected}>
+        </BorderButton> */}
+        <BorderButton
+          onClick={() => onOpenModal('delete')}
+          size='m'
+          disabled={noGroups}
+        >
           그룹 삭제
         </BorderButton>
       </StyledGroupButtons>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <StyledGroupModal>
-          <AddGroupModal onClose={onClose} />
-        </StyledGroupModal>
-      </Modal>
+      <Modal isOpen={isOpen} onClose={onClose} />
     </>
   );
 };
@@ -70,10 +75,4 @@ const StyledGroupButtons = styled('div')`
   margin-bottom: 20px;
   display: flex;
   gap: 10px;
-`;
-
-export const StyledGroupModal = styled('div')`
-  display: flex;
-  flex-direction: column;
-  width: 900px;
 `;
