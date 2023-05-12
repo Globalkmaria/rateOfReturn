@@ -31,7 +31,7 @@ const StockItem = ({ stockId }: StockItemProps) => {
           purchasedIdx={purchasedIdx}
         />
       ))}
-      <AddSameStockButton stockId={stockId} />
+      {isMainGroupSelected && <AddSameStockButton stockId={stockId} />}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { BorderButton } from '../../../components/Button';
@@ -103,6 +103,10 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const onDeleteStock = () => {
     dispatch(deleteStock(stockId));
   };
+
+  useEffect(() => {
+    setIsLock(true);
+  }, [isMainGroupSelected]);
 
   return (
     <StyledSummaryRow>

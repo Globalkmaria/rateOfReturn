@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Input, OnInputChangeType } from '../../../components/Input';
@@ -100,6 +100,10 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
     dispatch(deletePurchaseItemFromGroup({ stockId, purchasedId }));
     dispatch(deleteCheckedItems({ stockId, purchasedId }));
   };
+
+  useEffect(() => {
+    setIsLock(true);
+  }, [isMainGroupSelected]);
 
   return (
     <StyledPurchasedStockRow>

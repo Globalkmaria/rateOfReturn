@@ -31,7 +31,7 @@ const StockList = () => {
           {info.map((stockId) => (
             <StockItem stockId={stockId} key={stockId} />
           ))}
-          <AddNewStock />
+          {isMainGroupSelected && <AddNewStock />}
         </TableBody>
       </Table>
     </StyledStockList>
