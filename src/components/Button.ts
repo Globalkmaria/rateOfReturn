@@ -15,6 +15,13 @@ export interface BaseButtonProps
   disableIcon?: boolean;
 }
 
+export interface BorderButtonProps extends BaseButtonProps {
+  showLine?: boolean;
+}
+export interface ContainedButtonProps extends BaseButtonProps {
+  mode?: 'light' | 'dark';
+}
+
 const FONT_SIZES: Sizes = {
   s: '1rem',
   m: '1.2rem',
@@ -28,8 +35,8 @@ const PADDING_SIZES: Sizes = {
 
 const COLORS: Colors = {
   primary: 'grey',
-  secondary1: 'teal',
-  secondary2: 'indigo',
+  secondary1: 'indigo',
+  secondary2: 'violet',
   warning: 'red',
 };
 
@@ -43,6 +50,10 @@ const BaseButton = styled('button').attrs((props) => ({
   type: props.type || 'button',
 }))<BaseButtonProps>(
   ({ theme, height, width, fullWidth, disableIcon, size = 's' }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+
     padding: PADDING_SIZES[size],
     height: height ? `${height}px` : HEIGHTS[size],
     width: width ? `${width}px` : fullWidth ? '100%' : 'auto',
@@ -64,9 +75,11 @@ const BaseButton = styled('button').attrs((props) => ({
   }),
 );
 
-export const BorderButton = styled(BaseButton)<BaseButtonProps>(
-  ({ theme, color = 'primary' }) => ({
-    border: `1px solid ${theme.colors[COLORS[color] + '300']}`,
+export const BorderButton = styled(BaseButton)<BorderButtonProps>(
+  ({ theme, color = 'primary', showLine = true }) => ({
+    border: showLine
+      ? `1px solid ${theme.colors[COLORS[color] + '400']}`
+      : 'none',
 
     '&:not([disabled]):hover': {
       background: `${theme.colors[COLORS[color] + '100']}`,
@@ -74,15 +87,16 @@ export const BorderButton = styled(BaseButton)<BaseButtonProps>(
   }),
 );
 
-export const ContainedButton = styled(BaseButton)<BaseButtonProps>(
-  ({ theme, color = 'primary' }) => ({
+export const ContainedButton = styled(BaseButton)<ContainedButtonProps>(
+  ({ theme, color = 'primary', mode = 'dark' }) => ({
     background: `${
-      theme.colors[COLORS[color] + (color === 'primary' ? '100' : '000')]
+      theme.colors[COLORS[color] + (mode === 'dark' ? '800' : '100')]
     }`,
+    color: mode === 'dark' ? theme.colors.white : theme.colors.grey900,
 
     '&:not([disabled]):hover': {
       background: `${
-        theme.colors[COLORS[color] + (color === 'primary' ? '200' : '100')]
+        theme.colors[COLORS[color] + (mode === 'dark' ? '600' : '300')]
       }`,
     },
   }),
