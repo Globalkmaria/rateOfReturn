@@ -37,6 +37,17 @@ const colors: { [key: string]: string } = {
   indigo100: '#dbe4ff',
   indigo000: '#edf2ff',
 
+  violet900: '#5f3dc4',
+  violet800: '#6741d9',
+  violet700: '#7048e8',
+  violet600: '#7950f2',
+  violet500: '#845ef7',
+  violet400: '#9775fa',
+  violet300: '#b197fc',
+  violet200: '#d0bfff',
+  violet100: '#e5dbff',
+  violet000: '#f3f0ff',
+
   teal900: '#087f5b',
   teal800: '#099268',
   teal700: '#0ca678',
