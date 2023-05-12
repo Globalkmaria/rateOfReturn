@@ -24,7 +24,7 @@ const DeleteGroupModal = ({ onClose, isOpen }: DeleteGroupModalProps) => {
     <Modal title='그룹 삭제' isOpen={isOpen} onClose={onClose}>
       <StyledDeleteGroupModal>
         {groups.groups.allIds.map((id) => (
-          <GroupItem groupInfo={groups.groups.byId[id]} />
+          <GroupItem groupInfo={groups.groups.byId[id]} key={id} />
         ))}
         {noGroups && <span>{NO_GROUP_MESSAGE}</span>}
       </StyledDeleteGroupModal>

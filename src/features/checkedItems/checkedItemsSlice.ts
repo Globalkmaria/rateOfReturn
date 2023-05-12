@@ -117,6 +117,9 @@ export const checkedItemsSlice = createSlice({
       }
       delete stockInfo.purchasedItems[purchasedId];
     },
+    deleteStockCheck: (state, action: PayloadAction<string>) => {
+      delete state.stocksCheckInfo[action.payload];
+    },
   },
 });
 
@@ -168,6 +171,7 @@ export const {
   addStockCheckInfo,
   addPurchasedItemsCheckInfo,
   deleteCheckedItems,
+  deleteStockCheck,
 } = checkedItemsSlice.actions;
 
 export default checkedItemsSlice.reducer;

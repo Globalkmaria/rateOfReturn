@@ -50,8 +50,23 @@ export const getSummaryInfo = (
   return summaryInfo;
 };
 
-export const toDateInputValue = () => {
+export const getCurrentDateAndTime = () => {
+  const dateTime = new Date();
+  dateTime.setMinutes(dateTime.getMinutes() - dateTime.getTimezoneOffset());
+  const isoString = dateTime.toISOString();
+
+  const date = isoString.slice(0, 10);
+  const time = isoString.slice(11, 16);
+
+  return { date, time };
+};
+
+export const wasMadeLessThanMin = (date: string, time: string) => {
+  const dateTime = new Date(`${date} ${time}`);
   const now = new Date();
-  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-  return now;
+
+  const diff = now.getTime() - dateTime.getTime();
+  const diffMin = diff / 1000 / 60;
+
+  return diffMin < 1;
 };

@@ -23,12 +23,11 @@ const StockItem = ({ stockId }: StockItemProps) => {
   return (
     <>
       <SummaryInfo stockId={stockId} />
-      {purchasedItems.map((purchasedId, purchasedIdx) => (
+      {purchasedItems.map((purchasedId) => (
         <PurchasedStock
           stockId={stockId}
           purchasedId={purchasedId}
           key={purchasedId}
-          purchasedIdx={purchasedIdx}
         />
       ))}
       {isMainGroupSelected && <AddSameStockButton stockId={stockId} />}

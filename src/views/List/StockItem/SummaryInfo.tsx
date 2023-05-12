@@ -23,10 +23,12 @@ import {
 import { getGroupPurchasedData, getSummaryInfo } from './utils';
 import { updateStock } from '../../../features/stockList/stockListSlice';
 import {
+  deleteStockCheck,
   selectStockCheckedInfo,
   updateCheckedItems,
 } from '../../../features/checkedItems/checkedItemsSlice';
 import {
+  deleteStockFromGroup,
   selectIsMainGroupSelected,
   selectSelectedGroupInfo,
 } from '../../../features/groups/groupsSlice';
@@ -102,6 +104,8 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
 
   const onDeleteStock = () => {
     dispatch(deleteStock(stockId));
+    dispatch(deleteStockFromGroup(stockId));
+    dispatch(deleteStockCheck(stockId));
   };
 
   useEffect(() => {
