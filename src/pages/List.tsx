@@ -1,27 +1,55 @@
 import styled from 'styled-components';
 import StockList from '../views/List/StockList';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectStocks } from '../features/stockList/stockListSlice';
+import {
+  initStockList,
+  selectStockList,
+} from '../features/stockList/stockListSlice';
 import {
   initCheckedItems,
   selectCheckedItems,
 } from '../features/checkedItems/checkedItemsSlice';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { initGroups, selectGroups } from '../features/groups/groupsSlice';
 
-interface ListProps {}
-
-const List = (props: ListProps) => {
+const List = () => {
+  const [firstLoad, setFirstLoad] = useState(true);
   const dispatch = useDispatch();
-  const stocks = useSelector(selectStocks);
+  const stockList = useSelector(selectStockList);
   const checkedItems = useSelector(selectCheckedItems);
+  const groups = useSelector(selectGroups);
 
   useEffect(() => {
+    const localStock = localStorage.getItem('stockList');
+    const localGroups = localStorage.getItem('groups');
+    localStock && dispatch(initStockList(JSON.parse(localStock)));
+    localGroups && dispatch(initGroups(JSON.parse(localGroups)));
+
+    const stocks = localStock
+      ? JSON.parse(localStock).stocks
+      : stockList.stocks;
+    dispatch(initCheckedItems(stocks));
+    setFirstLoad(false);
     dispatch(initCheckedItems(stocks));
   }, []);
 
-  if (Object.keys(checkedItems.stocksCheckInfo).length !== stocks.allIds.length)
-    return <></>;
+  useEffect(() => {
+    if (!firstLoad) {
+      localStorage.setItem('groups', JSON.stringify(groups));
+    }
+  }, [groups.groups]);
 
+  useEffect(() => {
+    if (!firstLoad) {
+      localStorage.setItem('stockList', JSON.stringify(stockList));
+    }
+  }, [stockList]);
+
+  if (
+    Object.keys(checkedItems.stocksCheckInfo).length !==
+    stockList.stocks.allIds.length
+  )
+    return <></>;
   return (
     <StyledList>
       <StockList />

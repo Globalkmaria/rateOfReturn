@@ -1,6 +1,6 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { toDateInputValue } from '../../views/List/StockItem/utils';
+import { getCurrentDateAndTime } from '../../views/List/StockItem/utils';
 import {
   MOCK_DATA,
   MOCK_DATA_NEXT_STOCK_ID,
@@ -31,6 +31,7 @@ export interface StockMainInfo {
 export interface PurchasedItemInfo {
   purchasedId: string;
   purchasedDate: string;
+  purchasedTime: string;
   purchasedQuantity: number;
   purchasedPrice: number;
 }
@@ -45,22 +46,30 @@ export interface StockList {
 
 export interface StockListState {
   stocks: { byId: { [key: string]: StockList }; allIds: string[] };
+  nextStockId: number;
+  nextPurchasedId: number;
 }
-
-let nextStockId = MOCK_DATA_NEXT_STOCK_ID;
-let nextPurchasedId = MOCK_DATA_PURCHASED_ID;
 
 const initialState: StockListState = {
   stocks: MOCK_DATA,
+  nextStockId: MOCK_DATA_NEXT_STOCK_ID,
+  nextPurchasedId: MOCK_DATA_PURCHASED_ID,
 };
 
 export const stockListSlice = createSlice({
   name: 'stockList',
   initialState,
   reducers: {
+    initStockList: (state, action: PayloadAction<StockListState>) => {
+      state.stocks = action.payload.stocks;
+      state.nextStockId = action.payload.nextStockId;
+      state.nextPurchasedId = action.payload.nextPurchasedId;
+      return state;
+    },
     addNewStock: (state) => {
-      const newStockId = (nextStockId++).toString();
-      const newPurchaseId = (nextPurchasedId++).toString();
+      const newStockId = (state.nextStockId++).toString();
+      const newPurchaseId = (state.nextPurchasedId++).toString();
+      const { date, time } = getCurrentDateAndTime();
 
       state.stocks.byId[newStockId] = {
         mainInfo: {
@@ -72,9 +81,10 @@ export const stockListSlice = createSlice({
           byId: {
             [newPurchaseId]: {
               purchasedId: newPurchaseId,
-              purchasedDate: toDateInputValue().toISOString(),
+              purchasedDate: date,
               purchasedQuantity: 0,
               purchasedPrice: 0,
+              purchasedTime: time,
             },
           },
           allIds: [newPurchaseId],
@@ -84,11 +94,13 @@ export const stockListSlice = createSlice({
     },
     addPurchasedItem: (state, action: PayloadAction<string>) => {
       const stockId = action.payload;
-      const newPurchaseId = (nextPurchasedId++).toString();
+      const newPurchaseId = (state.nextPurchasedId++).toString();
+      const { date, time } = getCurrentDateAndTime();
 
       state.stocks.byId[stockId].purchasedItems.byId[newPurchaseId] = {
         purchasedId: newPurchaseId,
-        purchasedDate: toDateInputValue().toISOString(),
+        purchasedDate: date,
+        purchasedTime: time,
         purchasedQuantity: 0,
         purchasedPrice: 0,
       };
@@ -138,6 +150,8 @@ export const stockListSlice = createSlice({
     },
   },
 });
+
+export const selectStockList = (state: RootState) => state.stockList;
 export const selectStocks = (state: RootState) => state.stockList.stocks;
 export const selectStockInfoById = (stockId: string) =>
   createSelector([selectStocks], (stocks) => stocks.byId[stockId]);
@@ -157,6 +171,7 @@ export const {
   updatePurchaseItem,
   deleteStock,
   deletePurchasedItem,
+  initStockList,
 } = stockListSlice.actions;
 
 export default stockListSlice.reducer;
