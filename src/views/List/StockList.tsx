@@ -16,6 +16,7 @@ import {
   selectSelectedGroupInfo,
 } from '../../features/groups/groupsSlice';
 import GroupButtons from './GroupButtons/GroupButtons';
+import GroupSummary from './GroupSummary/GroupSummary';
 
 const StockList = () => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
@@ -25,6 +26,7 @@ const StockList = () => {
   return (
     <StyledStockList>
       <GroupButtons />
+      <GroupSummary />
       <Table>
         <StockListHeader />
         <TableBody>
