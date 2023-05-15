@@ -42,6 +42,7 @@ const changeTransformValue = (
       const isValid = !isNaN(num) && !isNaN(Number(decimal || 0));
       if (!isValid) return null;
       const noDot = decimal === undefined;
+
       const localValue = num.toLocaleString() + (noDot ? '' : `.${decimal}`);
       const pureValue = num.toString() + (noDot ? '' : `.${decimal}`);
       return prevValue !== localValue ? [localValue, pureValue] : null;
@@ -59,9 +60,14 @@ const blurTransformValue = (
     case 'number':
       const [integer, decimal] = value.split('.');
       const num = Number(integer.replaceAll(',', ''));
-      const noDot = decimal === '' || decimal === undefined;
-      const localValue = num.toLocaleString() + (noDot ? '' : `.${decimal}`);
-      const pureValue = num.toString() + (noDot ? '' : `.${decimal}`);
+      const finalDecimal =
+        decimal === undefined
+          ? ''
+          : decimal.length < 2
+          ? `.${decimal.padEnd(2, '0')}`
+          : `.${decimal}`;
+      const localValue = num.toLocaleString() + finalDecimal;
+      const pureValue = num.toString() + finalDecimal;
       return prevValue !== localValue ? [localValue, pureValue] : null;
     default:
       return prevValue !== value ? [value, value] : null;
@@ -71,7 +77,11 @@ const blurTransformValue = (
 const getInitialValue = (value: string, type: (typeof INPUT_TYPES)[number]) => {
   switch (type) {
     case 'number':
-      return Number(value).toLocaleString();
+      const [integer, decimal] = value.split('.');
+      return (
+        Number(integer).toLocaleString() +
+        (decimal !== undefined ? `.${decimal}` : '')
+      );
     default:
       return value;
   }
@@ -101,7 +111,6 @@ export const Input = ({
 }: InputProps) => {
   const inputType = type === 'number' ? 'text' : type;
   const align = type === 'number' ? 'right' : 'left';
-
   const formattedValue = getInitialValue(value, type);
   const [preValue, setPreValue] = useState(value);
 

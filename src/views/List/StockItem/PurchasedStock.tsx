@@ -143,6 +143,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
       />
       <InputCell
         onChange={onPriceChange}
+        onBlur={onPriceChange}
         value={purchasedItem.purchasedPrice}
         disabled={isLock}
       />

@@ -142,6 +142,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
         <Input
           fullWidth
           onChange={onCurrentPriceChange}
+          onBlur={onCurrentPriceChange}
           type='number'
           value={formattedCurrentPrice}
           disabled={isLock}
