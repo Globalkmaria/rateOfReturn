@@ -11,7 +11,8 @@ export interface TableHeadProps
   flexBasis?: number;
 }
 interface TableRowProps extends TableHTMLAttributes<HTMLTableRowElement> {}
-interface TableCellProps extends TableHTMLAttributes<HTMLTableCellElement> {
+export interface TableCellProps
+  extends TableHTMLAttributes<HTMLTableCellElement> {
   width?: number;
   flexBasis?: number;
   align?: 'left' | 'center' | 'right';
@@ -35,6 +36,7 @@ export const TableBody = styled('tbody')<TableBodyProps>(({ theme }) => ({
 export const TableHead = styled('th')<TableHeadProps>(
   ({ theme, width, flexBasis }) => ({
     padding: '0.4rem',
+
     ...(width ? { minWidth: width + 'px' } : { flex: 1 }),
     ...(flexBasis
       ? {
@@ -44,8 +46,12 @@ export const TableHead = styled('th')<TableHeadProps>(
         }
       : {}),
 
-    '&:nth-child(n+2)': {
-      borderLeft: `1px solid ${theme.colors.grey400}`,
+    '&:nth-child(n+1)': {
+      borderRight: `1px solid ${theme.colors.grey400}`,
+    },
+
+    '&:last-child': {
+      borderRight: 'none',
     },
 
     '&:nth-child(odd)': {
@@ -71,8 +77,11 @@ export const TableCell = styled('td')<TableCellProps>(
       : {}),
     textAlign: align,
 
-    '&:nth-child(n+2)': {
-      borderLeft: `1px solid ${theme.colors.grey400}`,
+    '&:nth-child(n+1)': {
+      borderRight: `1px solid ${theme.colors.grey400}`,
+    },
+    '&:last-child': {
+      borderRight: 'none',
     },
   }),
 );

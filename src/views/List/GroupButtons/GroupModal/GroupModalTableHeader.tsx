@@ -27,32 +27,32 @@ export default GroupModalTableHead;
 const HEADER_LIST: HeaderItemProps[] = [
   {
     id: '1',
-    label: '종목명',
+    label: 'Stock Name',
     width: 150,
   },
   {
     id: '2',
-    label: '번호',
+    label: 'Purchase ID',
     width: 50,
   },
   {
     id: '3',
-    label: '매입일',
+    label: 'Purchase Date',
     width: 200,
   },
   {
     id: '4',
-    label: '매입수량',
+    label: 'Purchase Quantity',
     width: 100,
   },
   {
     id: '5',
-    label: '매입가',
+    label: 'Purchase Unit Price',
     flexBasis: 120,
   },
   {
     id: '6',
-    label: '총매입금액',
+    label: 'Total Purchase Cost',
     flexBasis: 150,
   },
 ];

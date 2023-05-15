@@ -45,23 +45,26 @@ const GroupButtons = () => {
           initialValue='1'
           options={options}
           value={groups.selectedGroupId}
+          title='Choose group to show'
         />
         <BorderButton
           onClick={() => onOpenModal('add')}
           size='m'
           disabled={!isMainGroupSelected}
+          title='Add new group'
         >
-          그룹 생성
+          Add Group
         </BorderButton>
         {/* <BorderButton size='m' disabled={isMainGroupSelected}>
-          그룹 수정
+          Edit Group
         </BorderButton> */}
         <BorderButton
           onClick={() => onOpenModal('delete')}
           size='m'
           disabled={noGroups}
+          title='Delete group'
         >
-          그룹 삭제
+          Delete Group
         </BorderButton>
       </StyledGroupButtons>
       <Modal isOpen={isOpen} onClose={onClose} />

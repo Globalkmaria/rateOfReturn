@@ -7,6 +7,7 @@ import {
 import { Input, InputProps } from '../../../components/Input';
 import {
   TableCell,
+  TableCellProps,
   TableHead,
   TableHeadProps,
   TableRow,
@@ -27,6 +28,7 @@ type CheckboxCellProps = {
   value: boolean;
   type?: 'td' | 'th';
   disabled?: boolean;
+  title?: string;
 } & Pick<TableHeadProps, 'width' | 'flexBasis'>;
 type LockButtonProps = {
   isLock: boolean;
@@ -37,9 +39,13 @@ type DeleteButtonProps = {
   disabled?: boolean;
 } & BaseButtonProps;
 
-export const NumberCell = ({ value }: { value: number | string }) => {
+type NumberCellProps = {
+  value: number | string;
+} & TableCellProps;
+
+export const NumberCell = ({ value, ...props }: NumberCellProps) => {
   return (
-    <TableCell align='right'>
+    <TableCell align='right' {...props}>
       <StyledTextWrapper>{Number(value).toLocaleString()}</StyledTextWrapper>
     </TableCell>
   );
@@ -113,11 +119,12 @@ export const AddSameStockButton = ({ stockId }: { stockId: string }) => {
       <TableCell colSpan={12}>
         <ContainedButton
           mode='light'
+          title='Add same stock item'
           onClick={onAddSameStock}
           color='secondary1'
           fullWidth
         >
-          동일 종목 추가
+          Add Item
         </ContainedButton>
       </TableCell>
     </TableRow>
@@ -128,7 +135,7 @@ export const LockButton = ({ isLock, onClick, disabled }: LockButtonProps) => {
   const Icon = isLock ? FaLock : FaLockOpen;
 
   return (
-    <TableCell align='center'>
+    <StyledBtnWrapper>
       <BorderButton
         disabled={disabled}
         disableIcon={disabled}
@@ -137,13 +144,13 @@ export const LockButton = ({ isLock, onClick, disabled }: LockButtonProps) => {
       >
         <Icon />
       </BorderButton>
-    </TableCell>
+    </StyledBtnWrapper>
   );
 };
 
 export const DeleteButton = ({ disabled, ...resProps }: DeleteButtonProps) => {
   return (
-    <TableCell align='center'>
+    <StyledBtnWrapper>
       <BorderButton
         disabled={disabled}
         disableIcon={disabled}
@@ -152,10 +159,16 @@ export const DeleteButton = ({ disabled, ...resProps }: DeleteButtonProps) => {
       >
         <FaTrash />
       </BorderButton>
-    </TableCell>
+    </StyledBtnWrapper>
   );
 };
 
 export const StyledTextWrapper = styled('div')`
   padding: 5px;
+`;
+
+const StyledBtnWrapper = styled(TableCell)`
+  ${BorderButton} {
+    margin: 0 5px;
+  }
 `;

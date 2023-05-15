@@ -30,7 +30,7 @@ const AddGroupModal = ({ onClose, isOpen }: AppGroupModalProps) => {
 
   const onAddGroup = () => {
     if (!name.trim().length) {
-      alert('그룹 이름을 입력해주세요.');
+      alert('Group name is required');
       return;
     }
     const selectedStocks = changeCheckInfoToGroupFormat(checkedItems);
@@ -44,11 +44,11 @@ const AddGroupModal = ({ onClose, isOpen }: AppGroupModalProps) => {
   }, [onClose]);
 
   return (
-    <Modal title='그룹 생성' isOpen={isOpen} onClose={onClose}>
+    <Modal title='Add Group' isOpen={isOpen} onClose={onClose}>
       <StyledAddGroupModal>
         <div className='group-name'>
           <label className='group-name__label' htmlFor='group-name'>
-            그룹 이름* :
+            Group Name* :
           </label>
           <Input
             value={name}
@@ -60,7 +60,7 @@ const AddGroupModal = ({ onClose, isOpen }: AppGroupModalProps) => {
         <GroupModalTable />
         <div className='button-groups'>
           <ContainedButton onClick={onAddGroup} width={150} size='m'>
-            생성
+            Add
           </ContainedButton>
         </div>
       </StyledAddGroupModal>
@@ -81,7 +81,7 @@ const StyledAddGroupModal = styled('div')`
     margin-bottom: 10px;
 
     .group-name__label {
-      width: 90px;
+      width: 120px;
     }
   }
 

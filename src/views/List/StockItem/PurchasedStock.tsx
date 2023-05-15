@@ -111,6 +111,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   return (
     <StyledPurchasedStockRow>
       <CheckboxCell
+        title='Check item'
         disabled={!isMainGroupSelected}
         onClick={onChangeCheckbox}
         value={isPurchasedItemChecked}
@@ -145,7 +146,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
         value={purchasedItem.purchasedPrice}
         disabled={isLock}
       />
-      <NumberCell value={totalPurchasePrice} />
+      <NumberCell value={totalPurchasePrice} className='total-purchase' />
       <NumberCell value={mainInfo.currentPrice} />
       <NumberCell value={evaluationPrice} />
       <TableCell align='right'>{formattedEvaluationProfit}</TableCell>
@@ -179,5 +180,9 @@ const StyledPurchasedStockRow = styled(TableRow)`
     &:not([disabled]):hover {
       background: ${({ theme }) => theme.colors.grey400};
     }
+  }
+
+  .total-purchase {
+    border-right: ${({ theme }) => `4px double ${theme.colors.grey600}`};
   }
 `;

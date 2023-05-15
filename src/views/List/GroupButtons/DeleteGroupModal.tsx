@@ -21,7 +21,7 @@ const DeleteGroupModal = ({ onClose, isOpen }: DeleteGroupModalProps) => {
   const groups = useSelector(selectGroups);
   const noGroups = groups.groups.allIds.length === 1;
   return (
-    <Modal title='그룹 삭제' isOpen={isOpen} onClose={onClose}>
+    <Modal title='Delete Group' isOpen={isOpen} onClose={onClose}>
       <StyledDeleteGroupModal>
         {groups.groups.allIds.map((id) => (
           <GroupItem groupInfo={groups.groups.byId[id]} key={id} />

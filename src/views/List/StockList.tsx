@@ -71,8 +71,9 @@ const AddNewStock = () => {
           onClick={onAddNewStock}
           color='secondary2'
           fullWidth
+          title='Add new stock'
         >
-          신규 종목 추가
+          Add Stock
         </ContainedButton>
       </TableCell>
     </TableRow>

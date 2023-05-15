@@ -11,6 +11,7 @@ import {
   updateCheckedItems,
 } from '../../features/checkedItems/checkedItemsSlice';
 import { selectIsMainGroupSelected } from '../../features/groups/groupsSlice';
+import styled from 'styled-components';
 
 type HeaderListComponent = typeof CheckAllCheckbox;
 
@@ -20,12 +21,13 @@ type HeaderListProps = {
   Component?: HeaderListComponent;
   width?: number;
   flexBasis?: number;
+  className?: string;
 }[];
 
 const StockListHeader = () => {
   return (
     <TableHeader>
-      <TableRow>
+      <StyledStockTableRow>
         {HEADER_LIST.map(({ id, label, Component, ...restProps }) =>
           Component ? (
             <Component key={id} id={id} {...restProps} />
@@ -35,12 +37,18 @@ const StockListHeader = () => {
             </TableHead>
           ),
         )}
-      </TableRow>
+      </StyledStockTableRow>
     </TableHeader>
   );
 };
 
 export default StockListHeader;
+
+const StyledStockTableRow = styled(TableRow)`
+  .total-purchase {
+    border-right: ${({ theme }) => `4px double ${theme.colors.grey600}`};
+  }
+`;
 
 const CheckAllCheckbox = ({ id, ...restProps }: TableHeadProps) => {
   const dispatch = useDispatch();
@@ -56,6 +64,7 @@ const CheckAllCheckbox = ({ id, ...restProps }: TableHeadProps) => {
   };
   return (
     <CheckboxCell
+      title='Check all checkboxes'
       type='th'
       key={id}
       {...restProps}
@@ -67,17 +76,22 @@ const CheckAllCheckbox = ({ id, ...restProps }: TableHeadProps) => {
 };
 
 const HEADER_LIST: HeaderListProps = [
-  { id: '1', label: '전체선택', Component: CheckAllCheckbox, width: 50 },
-  { id: '2', label: '종목명', flexBasis: 150 },
-  { id: '3', label: '번호', width: 50 },
-  { id: '4', label: '매입일' },
-  { id: '5', label: '매입수량', width: 100 },
-  { id: '6', label: '매입가', flexBasis: 120 },
-  { id: '7', label: '총매입금액', flexBasis: 150 },
-  { id: '8', label: '현재가', flexBasis: 120 },
-  { id: '9', label: '평가금액', flexBasis: 100 },
-  { id: '10', label: '평가손익', flexBasis: 100 },
-  { id: '11', label: '손익률', flexBasis: 100 },
-  { id: '12', label: '잠금', width: 50 },
-  { id: '13', label: '삭제', width: 50 },
+  { id: '1', label: 'Select All', Component: CheckAllCheckbox, width: 50 },
+  { id: '2', label: 'Stock Name', flexBasis: 150 },
+  { id: '3', label: 'Purchase ID', width: 50 },
+  { id: '4', label: 'Purchase Date' },
+  { id: '5', label: 'Purchase Quantity', width: 100 },
+  { id: '6', label: 'Avg Purchase Unit Price', flexBasis: 120 },
+  {
+    id: '7',
+    label: 'Total Purchase Cost',
+    flexBasis: 150,
+    className: 'total-purchase',
+  },
+  { id: '8', label: 'Current Unit Price', flexBasis: 120 },
+  { id: '9', label: 'Current Total Value', flexBasis: 100 },
+  { id: '10', label: 'Return', flexBasis: 100 },
+  { id: '11', label: 'Rate of Return', flexBasis: 100 },
+  { id: '12', label: 'Lock', width: 65 },
+  { id: '13', label: 'Delete', width: 65 },
 ];

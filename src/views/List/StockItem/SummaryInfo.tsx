@@ -118,6 +118,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
         disabled={!isMainGroupSelected}
         onClick={onChangeCheckbox}
         value={checkedInfo.allChecked}
+        title='Check all group items'
       />
       <TableCell>
         <Input
@@ -129,11 +130,14 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
         />
       </TableCell>
       <TableCell align='center' colSpan={2}>
-        요약
+        Summary
       </TableCell>
       <NumberCell value={summaryData.purchaseQuantitySum} />
       <NumberCell value={summaryData.purchasePriceAverage} />
-      <NumberCell value={summaryData.totalPurchasePrice} />
+      <NumberCell
+        className='total-purchase'
+        value={summaryData.totalPurchasePrice}
+      />
       <TableCell>
         <Input
           fullWidth
@@ -163,6 +167,10 @@ export const StyledSummaryRow = styled(TableRow)`
 
   .stockName {
     font-weight: 700;
+  }
+
+  .total-purchase {
+    border-right: ${({ theme }) => `4px double ${theme.colors.grey600}`};
   }
 
   ${TableCell} > ${BaseInput} {

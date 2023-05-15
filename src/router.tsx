@@ -16,13 +16,13 @@ const routerData: RouterElement[] = [
   {
     id: 0,
     path: '/',
-    label: '목록',
+    label: 'List',
     element: <List />,
   },
   {
     id: 1,
     path: '/chart',
-    label: '차트',
+    label: 'Chart',
     element: <Chart />,
   },
 ];
