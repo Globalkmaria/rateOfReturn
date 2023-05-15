@@ -65,6 +65,7 @@ export const StyledDeleteModal = styled('div')`
   flex-direction: column;
   align-items: center;
   width: 500px;
+  margin-bottom: 20px;
 
   .message {
     padding: 20px 0 40px;

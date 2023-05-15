@@ -38,7 +38,11 @@ const Modal = ({
     } else {
       body!.style.overflow = 'auto';
     }
+    return () => {
+      body!.style.overflow = 'auto';
+    };
   }, [isOpen]);
+
   return (
     <StyledModal isOpen={isOpen} onClick={onClick}>
       <StyledModalContent needHeader={needHeader} ref={modalContent}>
