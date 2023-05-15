@@ -3,6 +3,11 @@ import styled from 'styled-components';
 import { BorderButton } from './Button';
 import { CgClose } from 'react-icons/cg';
 
+export interface ModalContentProps {
+  onClose: () => void;
+  isOpen: boolean;
+}
+
 interface ModalProps {
   children: React.ReactNode;
   isOpen: boolean;
@@ -34,7 +39,6 @@ const Modal = ({
       body!.style.overflow = 'auto';
     }
   }, [isOpen]);
-
   return (
     <StyledModal isOpen={isOpen} onClick={onClick}>
       <StyledModalContent needHeader={needHeader} ref={modalContent}>
@@ -97,7 +101,8 @@ const StyledModalContent = styled('div')<{ needHeader: boolean }>`
     font-size: 1.4rem;
   }
 
-  .close-btn {
+  ${BorderButton}.close-btn {
     align-self: flex-end;
+    border: none;
   }
 `;

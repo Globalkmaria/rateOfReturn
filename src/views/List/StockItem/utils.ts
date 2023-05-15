@@ -38,14 +38,16 @@ export const getSummaryInfo = (
       purchasedItems.byId[purchasedItemKey].purchasedQuantity *
       purchasedItems.byId[purchasedItemKey].purchasedPrice;
   }
-  summaryInfo.purchasePriceAverage =
-    summaryInfo.totalPurchasePrice / summaryInfo.purchaseQuantitySum;
+  summaryInfo.purchasePriceAverage = summaryInfo.purchaseQuantitySum
+    ? summaryInfo.totalPurchasePrice / summaryInfo.purchaseQuantitySum
+    : 0;
   summaryInfo.evaluationPrice =
     summaryInfo.purchaseQuantitySum * mainInfo.currentPrice;
   summaryInfo.evaluationProfit =
     summaryInfo.evaluationPrice - summaryInfo.totalPurchasePrice;
-  summaryInfo.profitRate =
-    (summaryInfo.evaluationProfit / summaryInfo.totalPurchasePrice) * 100;
+  summaryInfo.profitRate = summaryInfo.totalPurchasePrice
+    ? (summaryInfo.evaluationProfit / summaryInfo.totalPurchasePrice) * 100
+    : 0;
 
   return summaryInfo;
 };

@@ -56,7 +56,7 @@ const initialState: StockListState = {
   nextPurchasedId: MOCK_DATA_PURCHASED_ID,
 };
 
-export const stockListSlice = createSlice({
+const stockListSlice = createSlice({
   name: 'stockList',
   initialState,
   reducers: {

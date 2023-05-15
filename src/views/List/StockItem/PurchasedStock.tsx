@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Input, OnInputChangeType } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
 import {
-  deletePurchasedItem,
   PurchasedItemInfo,
   selectPurchasedItemsById,
   updatePurchaseItem,
@@ -16,16 +15,14 @@ import {
   DeleteButton,
   CheckboxCell,
 } from './components';
+
 import {
-  deleteCheckedItems,
   selectIsPurchasedItemChecked,
   updateCheckedItems,
 } from '../../../features/checkedItems/checkedItemsSlice';
-import {
-  deletePurchaseItemFromGroup,
-  selectIsMainGroupSelected,
-} from '../../../features/groups/groupsSlice';
+import { selectIsMainGroupSelected } from '../../../features/groups/groupsSlice';
 import { BorderButton } from '../../../components/Button';
+import { openStockModal } from '../../../features/stockModal/stockModalSlice';
 
 type InputChangeProps = (
   e: React.ChangeEvent<HTMLInputElement>,
@@ -46,6 +43,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const isPurchasedItemChecked = useSelector(
     selectIsPurchasedItemChecked(stockId, purchasedId),
   );
+
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const [isLock, setIsLock] = useState(false);
 
@@ -55,7 +53,9 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
     purchasedItem.purchasedQuantity * mainInfo.currentPrice;
   const evaluationProfit = evaluationPrice - totalPurchasePrice;
   const formattedEvaluationProfit = evaluationProfit.toLocaleString();
-  const profitRate = (evaluationProfit / totalPurchasePrice) * 100;
+  const profitRate = totalPurchasePrice
+    ? (evaluationProfit / totalPurchasePrice) * 100
+    : 0;
   const formattedProfitRate = `${profitRate.toFixed(2).toLocaleString()} %`;
 
   const toggleLock = () => setIsLock((prev) => !prev);
@@ -98,12 +98,8 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const onPriceChange: OnInputChangeType = (e, transformedValue) =>
     onInputChange(e, transformedValue, 'purchasedPrice');
 
-  const onDeletePurchasedStock = () => {
-    dispatch(deletePurchasedItem({ stockId, purchasedId }));
-    dispatch(deletePurchaseItemFromGroup({ stockId, purchasedId }));
-    dispatch(deleteCheckedItems({ stockId, purchasedId }));
-  };
-
+  const onOpenDeleteModal = () =>
+    dispatch(openStockModal({ type: 'purchase', stockId, purchasedId }));
   useEffect(() => {
     setIsLock(true);
   }, [isMainGroupSelected]);
@@ -158,7 +154,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
         disabled={!isMainGroupSelected}
       />
       <DeleteButton
-        onClick={onDeletePurchasedStock}
+        onClick={onOpenDeleteModal}
         disabled={!isMainGroupSelected}
       />
     </StyledPurchasedStockRow>

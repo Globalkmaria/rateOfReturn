@@ -10,7 +10,6 @@ import {
 } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
 import {
-  deleteStock,
   selectStockInfoById,
   StockMainInfo,
 } from '../../../features/stockList/stockListSlice';
@@ -20,18 +19,18 @@ import {
   DeleteButton,
   CheckboxCell,
 } from './components';
+
 import { getGroupPurchasedData, getSummaryInfo } from './utils';
 import { updateStock } from '../../../features/stockList/stockListSlice';
 import {
-  deleteStockCheck,
   selectStockCheckedInfo,
   updateCheckedItems,
 } from '../../../features/checkedItems/checkedItemsSlice';
 import {
-  deleteStockFromGroup,
   selectIsMainGroupSelected,
   selectSelectedGroupInfo,
 } from '../../../features/groups/groupsSlice';
+import { openStockModal } from '../../../features/stockModal/stockModalSlice';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -102,11 +101,8 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const onCurrentPriceChange: OnInputChangeType = (e, transformedValue) =>
     onInputChange(e, transformedValue, 'currentPrice');
 
-  const onDeleteStock = () => {
-    dispatch(deleteStock(stockId));
-    dispatch(deleteStockFromGroup(stockId));
-    dispatch(deleteStockCheck(stockId));
-  };
+  const onDeleteModalOpen = () =>
+    dispatch(openStockModal({ type: 'stock', stockId, purchasedId: '' }));
 
   useEffect(() => {
     setIsLock(true);
@@ -156,7 +152,10 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
         onClick={toggleLock}
         disabled={!isMainGroupSelected}
       />
-      <DeleteButton onClick={onDeleteStock} disabled={!isMainGroupSelected} />
+      <DeleteButton
+        onClick={onDeleteModalOpen}
+        disabled={!isMainGroupSelected}
+      />
     </StyledSummaryRow>
   );
 };

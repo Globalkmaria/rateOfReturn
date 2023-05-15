@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import stockListReducer from './features/stockList/stockListSlice';
 import checkedItemsReducer from './features/checkedItems/checkedItemsSlice';
 import groupsReducerReducer from './features/groups/groupsSlice';
+import stockModalSliceReducer from './features/stockModal/stockModalSlice';
 
 export const store = configureStore({
   reducer: {
     stockList: stockListReducer,
     checkedItems: checkedItemsReducer,
     groups: groupsReducerReducer,
+    stockModal: stockModalSliceReducer,
   },
 });
 
