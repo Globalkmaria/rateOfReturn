@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { SidebarContent } from '../router';
-import Sidebar from './Sidebar';
+import Navbar from './Navbar';
 
 interface GeneralLayoutProps {
   children: React.ReactNode;
@@ -9,7 +8,7 @@ interface GeneralLayoutProps {
 const GeneralLayout = ({ children }: GeneralLayoutProps) => {
   return (
     <StyledGeneralLayout>
-      <Sidebar sidebarContent={SidebarContent} />
+      <Navbar />
       <StyledMainLayout>{children}</StyledMainLayout>
     </StyledGeneralLayout>
   );
@@ -18,10 +17,9 @@ const GeneralLayout = ({ children }: GeneralLayoutProps) => {
 export default GeneralLayout;
 
 const StyledGeneralLayout = styled('div')`
-  display: flex;
+  min-width: 1440px;
 `;
 
 const StyledMainLayout = styled('main')`
-  width: calc(100% - 100px);
-  padding: 40px;
+  padding: 20px;
 `;

@@ -77,7 +77,7 @@ const CheckAllCheckbox = ({ id, ...restProps }: TableHeadProps) => {
 
 const HEADER_LIST: HeaderListProps = [
   { id: '1', label: 'Select All', Component: CheckAllCheckbox, width: 50 },
-  { id: '2', label: 'Stock Name', flexBasis: 150 },
+  { id: '2', label: 'Stock Name', flexBasis: 120 },
   { id: '3', label: 'Purchase ID', width: 50 },
   { id: '4', label: 'Purchase Date' },
   { id: '5', label: 'Purchase Quantity', width: 100 },
@@ -92,6 +92,6 @@ const HEADER_LIST: HeaderListProps = [
   { id: '9', label: 'Current Total Value', flexBasis: 100 },
   { id: '10', label: 'Return', flexBasis: 100 },
   { id: '11', label: 'Rate of Return', flexBasis: 100 },
-  { id: '12', label: 'Lock', width: 65 },
-  { id: '13', label: 'Delete', width: 65 },
+  { id: '12', label: 'Lock', width: 50 },
+  { id: '13', label: 'Delete', width: 50 },
 ];

@@ -117,6 +117,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
       <TableCell>
         <div className='datetime'>
           <Input
+            className='date'
             onChange={onDateChange}
             disabled={isLock}
             type='date'
@@ -124,6 +125,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
             fullWidth
           />
           <Input
+            className='date'
             onChange={onTimeChange}
             disabled={isLock}
             type='time'
@@ -167,6 +169,10 @@ const StyledPurchasedStockRow = styled(TableRow)`
   .datetime {
     display: flex;
     gap: 5px;
+
+    .date {
+      font-size: 0.8rem;
+    }
   }
 
   &:hover {

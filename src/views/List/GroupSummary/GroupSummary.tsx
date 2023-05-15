@@ -5,9 +5,7 @@ import { useSelector } from 'react-redux';
 import { selectStocks } from '../../../features/stockList/stockListSlice';
 import { getGroupSummary } from './utils';
 
-interface GroupSummaryProps {}
-
-const GroupSummary = ({}: GroupSummaryProps) => {
+const GroupSummary = () => {
   const groupInfo = useSelector(selectSelectedGroupInfo());
   const stocks = useSelector(selectStocks);
   const {
@@ -66,7 +64,6 @@ const StyledGroupSummary = styled('div')`
       margin-right: 15px;
       font-weight: 500;
       font-size: 1.2rem;
-      /* color: white; */
     }
     .text {
       font-weight: 600;

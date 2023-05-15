@@ -169,6 +169,6 @@ export const StyledTextWrapper = styled('div')`
 
 const StyledBtnWrapper = styled(TableCell)`
   ${BorderButton} {
-    margin: 0 5px;
+    margin: 0 2px;
   }
 `;

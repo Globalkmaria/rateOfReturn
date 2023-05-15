@@ -24,6 +24,7 @@ export const Table = styled('table')<TableProps>(({ theme }) => ({
 }));
 
 export const TableHeader = styled('thead')<TableHeaderProps>(({ theme }) => ({
+  fontSize: '0.9rem',
   height: '40px',
   borderTop: `1px solid ${theme.colors.grey400}`,
   borderBottom: `1px solid ${theme.colors.grey400}`,

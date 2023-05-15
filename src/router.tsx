@@ -1,15 +1,16 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { Router as RemixRouter } from '@remix-run/router/dist/router';
-import { SidebarElement } from './layout/Sidebar';
 import List from './pages/List';
 import Chart from './pages/Chart';
 import GeneralLayout from './layout/GeneralLayout';
+import { NavbarElement } from './layout/Navbar';
 
 interface RouterElement {
   id: number;
   path: string;
   label: string;
   element: React.ReactNode;
+  disabled?: boolean;
 }
 
 const routerData: RouterElement[] = [
@@ -24,6 +25,7 @@ const routerData: RouterElement[] = [
     path: '/chart',
     label: 'Chart',
     element: <Chart />,
+    disabled: true,
   },
 ];
 
@@ -36,7 +38,7 @@ export const routers: RemixRouter = createBrowserRouter(
   }),
 );
 
-export const SidebarContent: SidebarElement[] = routerData.reduce(
+export const SidebarContent: NavbarElement[] = routerData.reduce(
   (prev, router) => {
     return [
       ...prev,
@@ -44,8 +46,9 @@ export const SidebarContent: SidebarElement[] = routerData.reduce(
         id: router.id,
         path: router.path,
         label: router.label,
+        disabled: router.disabled,
       },
     ];
   },
-  [] as SidebarElement[],
+  [] as NavbarElement[],
 );
