@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { selectSelectedGroupInfo } from '../../../features/groups/groupsSlice';
 import { useSelector } from 'react-redux';

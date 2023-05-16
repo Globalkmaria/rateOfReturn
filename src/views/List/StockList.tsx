@@ -1,16 +1,10 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { ContainedButton } from '../../components/Button';
 import { BaseInput } from '../../components/Input';
-import { Table, TableBody, TableCell, TableRow } from '../../components/Table';
-import {
-  addNewStock,
-  selectStocks,
-} from '../../features/stockList/stockListSlice';
+import { Table, TableBody } from '../../components/Table';
+import { selectStocks } from '../../features/stockList/stockListSlice';
 import StockItem from './StockItem/StockItem';
 import StockListHeader from './StockListHeader';
-import { store } from '../../store';
-import { addStockCheckInfo } from '../../features/checkedItems/checkedItemsSlice';
 import {
   selectIsMainGroupSelected,
   selectSelectedGroupInfo,
@@ -19,6 +13,7 @@ import GroupButtons from './GroupButtons/GroupButtons';
 import GroupSummary from './GroupSummary/GroupSummary';
 import { DeleteStockModal } from './StockItem/DeleteStockModal';
 import { selectStockModal } from '../../features/stockModal/stockModalSlice';
+import { AddNewStock } from './AddNewStock';
 
 const StockList = () => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
@@ -55,33 +50,3 @@ const StyledStockList = styled('div')`
     }
   }
 `;
-
-const AddNewStock = () => {
-  const dispatch = useDispatch();
-  const onAddNewStock = () => {
-    dispatch(addNewStock());
-    const stocks = store.getState().stockList.stocks;
-    const newStock = stocks.allIds[stocks.allIds.length - 1];
-    dispatch(
-      addStockCheckInfo({
-        stockId: newStock,
-        purchasedId: stocks.byId[newStock].purchasedItems.allIds[0],
-      }),
-    );
-  };
-  return (
-    <TableRow>
-      <TableCell colSpan={13}>
-        <ContainedButton
-          mode='light'
-          onClick={onAddNewStock}
-          color='secondary2'
-          fullWidth
-          title='Add new stock'
-        >
-          Add Stock
-        </ContainedButton>
-      </TableCell>
-    </TableRow>
-  );
-};

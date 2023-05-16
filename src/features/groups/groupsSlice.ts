@@ -22,6 +22,11 @@ export type DeletePurchaseItemFromGroupPayload = {
   stockId: string;
   purchasedId: string;
 };
+export type UpdateMainGroupPayload = {
+  type: 'stock' | 'purchase';
+  stockId: string;
+  purchasedId: string;
+};
 
 const initialState: GroupsState = {
   groups: GROUPS_MOCK_DATA,
@@ -100,6 +105,18 @@ export const groupsSlice = createSlice({
         state.groups.allIds.splice(state.groups.allIds.indexOf(groupId), 1);
       }
     },
+    updateMainGroup: (state, action: PayloadAction<UpdateMainGroupPayload>) => {
+      const { type, stockId, purchasedId } = action.payload;
+      const mainGroup = state.groups.byId['1'];
+      if (type === 'stock') {
+        mainGroup.stocks.allIds.push(stockId);
+        mainGroup.stocks.byId[stockId] = [purchasedId];
+      }
+
+      if (type === 'purchase') {
+        mainGroup.stocks.byId[stockId].push(purchasedId);
+      }
+    },
   },
 });
 
@@ -124,5 +141,6 @@ export const {
   deleteGroup,
   initGroups,
   deleteStockFromGroup,
+  updateMainGroup,
 } = groupsSlice.actions;
 export default groupsSlice.reducer;

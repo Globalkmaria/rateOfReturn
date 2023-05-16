@@ -1,23 +1,14 @@
 import styled from 'styled-components';
-import {
-  BaseButtonProps,
-  BorderButton,
-  ContainedButton,
-} from '../../../components/Button';
+import { BaseButtonProps, BorderButton } from '../../../components/Button';
 import { Input, InputProps } from '../../../components/Input';
 import {
   TableCell,
   TableCellProps,
   TableHead,
   TableHeadProps,
-  TableRow,
 } from '../../../components/Table';
 import { FaTrash, FaLockOpen, FaLock } from 'react-icons/fa';
-import { useDispatch } from 'react-redux';
-import { addPurchasedItem } from '../../../features/stockList/stockListSlice';
 import { ChangeEvent, MouseEvent } from 'react';
-import { addPurchasedItemsCheckInfo } from '../../../features/checkedItems/checkedItemsSlice';
-import { store } from '../../../store';
 
 type InputCellProps = {
   disabled: boolean;
@@ -98,36 +89,6 @@ export const CheckboxCell = ({
         onChange={onChange}
       />
     </Cell>
-  );
-};
-
-export const AddSameStockButton = ({ stockId }: { stockId: string }) => {
-  const dispatch = useDispatch();
-  const onAddSameStock = () => {
-    dispatch(addPurchasedItem(stockId));
-    const purchasedIds =
-      store.getState().stockList.stocks.byId[stockId].purchasedItems.allIds;
-    const newPurchasedId = purchasedIds[purchasedIds.length - 1];
-    dispatch(
-      addPurchasedItemsCheckInfo({ stockId, purchasedId: newPurchasedId }),
-    );
-  };
-
-  return (
-    <TableRow>
-      <TableCell></TableCell>
-      <TableCell colSpan={12}>
-        <ContainedButton
-          mode='light'
-          title='Add same stock item'
-          onClick={onAddSameStock}
-          color='secondary1'
-          fullWidth
-        >
-          Add Item
-        </ContainedButton>
-      </TableCell>
-    </TableRow>
   );
 };
 

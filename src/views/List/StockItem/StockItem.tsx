@@ -1,6 +1,6 @@
 import SummaryInfo from './SummaryInfo';
 import PurchasedStock from './PurchasedStock';
-import { AddSameStockButton } from './components';
+import { AddSameStockButton } from './AddSameStockButton';
 import { useSelector } from 'react-redux';
 import {
   selectIsMainGroupSelected,
