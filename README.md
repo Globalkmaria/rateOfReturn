@@ -1,7 +1,10 @@
-# Show me rate of return
+# Show me RoR(Rate of Return)
 
-Want to track every stock you bought?
-With Show me RoR you can track every stock you bought
+Project Link :
+
+Interested in effortlessly tracking every stock you've purchased? Look no further than Show me RoR, where you can effortlessly monitor all your stock investments!
+
+# Release Notes
 
 # Project duration
 
