@@ -2,7 +2,7 @@
 
 Project Link : <https://showmeror.site/>
 
-## What is Fake it until you make it ?
+## What is Show me RoR ?
 
 Interested in effortlessly tracking every stock you've purchased? <br/>
 Look no further than Show me RoR, where you can effortlessly monitor all your stock investments!
