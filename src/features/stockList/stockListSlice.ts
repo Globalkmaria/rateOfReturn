@@ -26,6 +26,12 @@ const stockListSlice = createSlice({
   name: 'stockList',
   initialState,
   reducers: {
+    setBackupStockList: (state, action: PayloadAction<StockListState>) => {
+      state.stocks = action.payload.stocks;
+      state.nextStockId = action.payload.nextStockId;
+      state.nextPurchasedId = action.payload.nextPurchasedId;
+    },
+    restStockList: () => initialState,
     initStockList: (state, action: PayloadAction<StockListState>) => {
       state.stocks = action.payload.stocks;
       state.nextStockId = action.payload.nextStockId;
@@ -122,6 +128,7 @@ const stockListSlice = createSlice({
 });
 
 export const {
+  setBackupStockList,
   addNewStock,
   addPurchasedItem,
   updateStock,
@@ -129,6 +136,7 @@ export const {
   deleteStock,
   deletePurchasedItem,
   initStockList,
+  restStockList,
 } = stockListSlice.actions;
 
 export default stockListSlice.reducer;

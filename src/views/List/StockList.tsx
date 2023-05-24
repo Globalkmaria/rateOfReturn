@@ -14,6 +14,7 @@ import GroupSummary from './GroupSummary/GroupSummary';
 import { DeleteStockModal } from './StockItem/DeleteStockModal';
 import { selectStockModal } from '../../features/stockModal/stockModalSlice';
 import { AddNewStock } from './AddNewStock';
+import Backup from './Backup/Backup';
 
 const StockList = () => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
@@ -23,7 +24,14 @@ const StockList = () => {
   const info = isMainGroupSelected ? stocks.allIds : groupInfo.stocks.allIds;
   return (
     <StyledStockList>
-      <GroupButtons />
+      <div className='control-bar'>
+        <div className='control-bar__left'>
+          <GroupButtons />
+        </div>
+        <div className='control-bar__right'>
+          <Backup />
+        </div>
+      </div>
       <GroupSummary />
       <Table>
         <StockListHeader />
@@ -48,5 +56,10 @@ const StyledStockList = styled('div')`
     &:disabled {
       background: none;
     }
+  }
+
+  .control-bar {
+    display: flex;
+    justify-content: space-between;
   }
 `;

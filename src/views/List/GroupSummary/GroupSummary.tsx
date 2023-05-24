@@ -13,7 +13,7 @@ const GroupSummary = () => {
   return (
     <StyledGroupSummary>
       {CONTENTS.map(({ key, title, format }) => (
-        <div className='content'>
+        <div className='content' key={key}>
           <h1 className='title'>{title}</h1>
           <span className='text'>{format(summary[key])}</span>
         </div>

@@ -25,6 +25,8 @@ const stockModalSlice = createSlice({
   name: 'stockModal',
   initialState,
   reducers: {
+    resetStockModal: () => initialState,
+    initialStockModal: () => initialState,
     openStockModal: (state, action: PayloadAction<OpenStockModalPayload>) => {
       state.isOpen = true;
       state.stockId = action.payload.stockId;
@@ -39,6 +41,11 @@ const stockModalSlice = createSlice({
 
 export const selectStockModal = (state: RootState) => state.stockModal;
 
-export const { openStockModal, closeStockModal } = stockModalSlice.actions;
+export const {
+  openStockModal,
+  closeStockModal,
+  initialStockModal,
+  resetStockModal,
+} = stockModalSlice.actions;
 
 export default stockModalSlice.reducer;
