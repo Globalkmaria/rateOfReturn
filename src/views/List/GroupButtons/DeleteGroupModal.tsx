@@ -13,7 +13,7 @@ interface DeleteGroupModalProps {
   isOpen: boolean;
 }
 
-const NO_GROUP_MESSAGE = '그룹이 없습니다.';
+const NO_GROUP_MESSAGE = 'There is no group.';
 
 const DeleteGroupModal = ({ onClose, isOpen }: DeleteGroupModalProps) => {
   const groups = useSelector(selectGroups);

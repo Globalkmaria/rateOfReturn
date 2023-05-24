@@ -42,12 +42,6 @@ const StockListHeader = () => {
 
 export default StockListHeader;
 
-const StyledStockTableRow = styled(TableRow)`
-  .total-purchase {
-    border-right: ${({ theme }) => `4px double ${theme.colors.grey600}`};
-  }
-`;
-
 const CheckAllCheckbox = ({ id, ...restProps }: TableHeadProps) => {
   const dispatch = useDispatch();
   const isAllChecked = useSelector(selectIsAllChecked());
@@ -93,3 +87,9 @@ const HEADER_LIST: HeaderListProps = [
   { id: '12', label: 'Lock', width: 50 },
   { id: '13', label: 'Delete', width: 50 },
 ];
+
+const StyledStockTableRow = styled(TableRow)`
+  .total-purchase {
+    border-right: ${({ theme }) => `4px double ${theme.colors.grey600}`};
+  }
+`;
