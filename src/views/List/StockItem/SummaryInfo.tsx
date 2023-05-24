@@ -2,12 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { BorderButton } from '../../../components/Button';
-import {
-  BaseInput,
-  Input,
-  OnInputChangeType,
-  TransformedValue,
-} from '../../../components/Input';
+import { BaseInput, Input, TransformedValue } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
 import {
   selectStockInfoById,
@@ -80,8 +75,8 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const onInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     transformedValue: TransformedValue,
-    fieldName: keyof Omit<StockMainInfo, 'stockId'>,
   ) => {
+    const fieldName = e.target.name as keyof Omit<StockMainInfo, 'stockId'>;
     if (fieldName === 'currentPrice' && transformedValue === null) return;
     const value =
       fieldName === 'stockName'
@@ -96,10 +91,6 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       }),
     );
   };
-  const onStockNameChange: OnInputChangeType = (e, transformedValue) =>
-    onInputChange(e, transformedValue, 'stockName');
-  const onCurrentPriceChange: OnInputChangeType = (e, transformedValue) =>
-    onInputChange(e, transformedValue, 'currentPrice');
 
   const onDeleteModalOpen = () =>
     dispatch(openStockModal({ type: 'stock', stockId, purchasedId: '' }));
@@ -120,7 +111,8 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
         <Input
           className='stockName'
           fullWidth
-          onChange={onStockNameChange}
+          onChange={onInputChange}
+          name='stockName'
           value={stockInfo.mainInfo.stockName}
           disabled={isLock}
         />
@@ -137,8 +129,9 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       <TableCell>
         <Input
           fullWidth
-          onChange={onCurrentPriceChange}
-          onBlur={onCurrentPriceChange}
+          name='currentPrice'
+          onChange={onInputChange}
+          onBlur={onInputChange}
           type='number'
           value={formattedCurrentPrice}
           disabled={isLock}

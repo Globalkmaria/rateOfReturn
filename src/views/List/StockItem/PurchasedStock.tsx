@@ -27,7 +27,6 @@ import { openStockModal } from '../../../features/stockModal/stockModalSlice';
 type InputChangeProps = (
   e: React.ChangeEvent<HTMLInputElement>,
   transformedValue: [string, string] | null,
-  fieldName: keyof Omit<PurchasedItemInfo, 'purchasedId'>,
 ) => void;
 
 interface PurchasedStockProps {
@@ -71,7 +70,11 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
     );
   };
 
-  const onInputChange: InputChangeProps = (e, transformedValue, fieldName) => {
+  const onInputChange: InputChangeProps = (e, transformedValue) => {
+    const fieldName = e.target.name as keyof Omit<
+      PurchasedItemInfo,
+      'purchasedId'
+    >;
     if (fieldName !== 'purchasedDate' && transformedValue === null) return;
     const value =
       fieldName === 'purchasedDate'
@@ -88,15 +91,6 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
       }),
     );
   };
-
-  const onDateChange: OnInputChangeType = (e, transformedValue) =>
-    onInputChange(e, transformedValue, 'purchasedDate');
-  const onTimeChange: OnInputChangeType = (e, transformedValue) =>
-    onInputChange(e, transformedValue, 'purchasedTime');
-  const onQuantityChange: OnInputChangeType = (e, transformedValue) =>
-    onInputChange(e, transformedValue, 'purchasedQuantity');
-  const onPriceChange: OnInputChangeType = (e, transformedValue) =>
-    onInputChange(e, transformedValue, 'purchasedPrice');
 
   const onOpenDeleteModal = () =>
     dispatch(openStockModal({ type: 'purchase', stockId, purchasedId }));
@@ -118,7 +112,8 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
         <div className='datetime'>
           <Input
             className='date'
-            onChange={onDateChange}
+            name='purchasedDate'
+            onChange={onInputChange}
             disabled={isLock}
             type='date'
             value={purchasedItem.purchasedDate}
@@ -126,7 +121,8 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
           />
           <Input
             className='date'
-            onChange={onTimeChange}
+            name='purchasedTime'
+            onChange={onInputChange}
             disabled={isLock}
             type='time'
             value={purchasedItem.purchasedTime}
@@ -135,13 +131,15 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
         </div>
       </TableCell>
       <InputCell
-        onChange={onQuantityChange}
+        name='purchasedQuantity'
+        onChange={onInputChange}
         value={purchasedItem.purchasedQuantity}
         disabled={isLock}
       />
       <InputCell
-        onChange={onPriceChange}
-        onBlur={onPriceChange}
+        name='purchasedPrice'
+        onChange={onInputChange}
+        onBlur={onInputChange}
         value={purchasedItem.purchasedPrice}
         disabled={isLock}
       />
