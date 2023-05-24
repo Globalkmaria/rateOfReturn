@@ -6,11 +6,9 @@ import {
   TableRow,
 } from '../../components/Table';
 import { CheckboxCell } from './StockItem/components';
-import {
-  selectIsAllChecked,
-  updateCheckedItems,
-} from '../../features/checkedItems/checkedItemsSlice';
-import { selectIsMainGroupSelected } from '../../features/groups/groupsSlice';
+import { updateCheckedItems } from '../../features/checkedItems/checkedItemsSlice';
+import { selectIsAllChecked } from '../../features/checkedItems/selectors';
+import { selectIsMainGroupSelected } from '../../features/groups/selectors';
 import styled from 'styled-components';
 
 type HeaderListComponent = typeof CheckAllCheckbox;

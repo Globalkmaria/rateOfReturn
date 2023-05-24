@@ -2,13 +2,13 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { BaseInput } from '../../components/Input';
 import { Table, TableBody } from '../../components/Table';
-import { selectStocks } from '../../features/stockList/stockListSlice';
+import { selectStocks } from '../../features/stockList/selectors';
 import StockItem from './StockItem/StockItem';
 import StockListHeader from './StockListHeader';
 import {
   selectIsMainGroupSelected,
   selectSelectedGroupInfo,
-} from '../../features/groups/groupsSlice';
+} from '../../features/groups/selectors';
 import GroupButtons from './GroupButtons/GroupButtons';
 import GroupSummary from './GroupSummary/GroupSummary';
 import { DeleteStockModal } from './StockItem/DeleteStockModal';

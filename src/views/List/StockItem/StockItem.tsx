@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import {
   selectIsMainGroupSelected,
   selectSelectedGroupInfo,
-} from '../../../features/groups/groupsSlice';
-import { selectStockInfoById } from '../../../features/stockList/stockListSlice';
+} from '../../../features/groups/selectors';
+import { selectStockInfoById } from '../../../features/stockList/selectors';
 
 export interface StockItemProps {
   stockId: string;

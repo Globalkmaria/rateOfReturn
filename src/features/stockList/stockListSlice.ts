@@ -1,4 +1,4 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { getCurrentDateAndTime } from '../../views/List/StockItem/utils';
 import {
@@ -6,49 +6,15 @@ import {
   MOCK_DATA_NEXT_STOCK_ID,
   MOCK_DATA_PURCHASED_ID,
 } from './mockData';
-import { RootState } from '../../store';
-
-type UpdateStockPayload<T extends keyof StockMainInfo> = {
-  stockId: string;
-  fieldName: T;
-  value: StockMainInfo[T];
-};
-type UpdatePurchasedItemPayload<T extends keyof PurchasedItemInfo> = {
-  stockId: string;
-  purchasedId: string;
-  fieldName: T;
-  value: PurchasedItemInfo[T];
-};
-
-type DeletePurchasedItemPayload = { stockId: string; purchasedId: string };
-
-export interface StockMainInfo {
-  stockName: string;
-  currentPrice: number;
-  stockId: string;
-}
-
-export interface PurchasedItemInfo {
-  purchasedId: string;
-  purchasedDate: string;
-  purchasedTime: string;
-  purchasedQuantity: number;
-  purchasedPrice: number;
-}
-
-export interface StockList {
-  mainInfo: StockMainInfo;
-  purchasedItems: {
-    byId: { [purchasedId: string]: PurchasedItemInfo };
-    allIds: string[];
-  };
-}
-
-export interface StockListState {
-  stocks: { byId: { [key: string]: StockList }; allIds: string[] };
-  nextStockId: number;
-  nextPurchasedId: number;
-}
+import {
+  StockListState,
+  StockMainInfo,
+  UpdateStockPayload,
+  PurchasedItemInfo,
+  UpdatePurchasedItemPayload,
+  DeletePurchasedItemPayload,
+  StockList,
+} from './type';
 
 const initialState: StockListState = {
   stocks: MOCK_DATA,
@@ -70,25 +36,27 @@ const stockListSlice = createSlice({
       const newStockId = (state.nextStockId++).toString();
       const newPurchaseId = (state.nextPurchasedId++).toString();
       const { date, time } = getCurrentDateAndTime();
+      const newStockMainInfo: StockMainInfo = {
+        stockName: '',
+        currentPrice: 0,
+        stockId: newStockId,
+      };
+      const newPurchasedItemsInfo: StockList['purchasedItems'] = {
+        byId: {
+          [newPurchaseId]: {
+            purchasedId: newPurchaseId,
+            purchasedDate: date,
+            purchasedQuantity: 0,
+            purchasedPrice: 0,
+            purchasedTime: time,
+          },
+        },
+        allIds: [newPurchaseId],
+      };
 
       state.stocks.byId[newStockId] = {
-        mainInfo: {
-          stockName: '',
-          currentPrice: 0,
-          stockId: newStockId,
-        },
-        purchasedItems: {
-          byId: {
-            [newPurchaseId]: {
-              purchasedId: newPurchaseId,
-              purchasedDate: date,
-              purchasedQuantity: 0,
-              purchasedPrice: 0,
-              purchasedTime: time,
-            },
-          },
-          allIds: [newPurchaseId],
-        },
+        mainInfo: newStockMainInfo,
+        purchasedItems: newPurchasedItemsInfo,
       };
       state.stocks.allIds.push(newStockId);
     },
@@ -96,16 +64,19 @@ const stockListSlice = createSlice({
       const stockId = action.payload;
       const newPurchaseId = (state.nextPurchasedId++).toString();
       const { date, time } = getCurrentDateAndTime();
-
-      state.stocks.byId[stockId].purchasedItems.byId[newPurchaseId] = {
+      const initialPurchaseItem: PurchasedItemInfo = {
         purchasedId: newPurchaseId,
         purchasedDate: date,
         purchasedTime: time,
         purchasedQuantity: 0,
         purchasedPrice: 0,
       };
-      state.stocks.byId[stockId].purchasedItems.allIds.push(newPurchaseId);
+      const curStock = state.stocks.byId[stockId];
+
+      curStock.purchasedItems.byId[newPurchaseId] = initialPurchaseItem;
+      curStock.purchasedItems.allIds.push(newPurchaseId);
     },
+
     updateStock: <T extends keyof Omit<StockMainInfo, 'stockId'>>(
       state: StockListState,
       action: PayloadAction<UpdateStockPayload<T>>,
@@ -138,7 +109,6 @@ const stockListSlice = createSlice({
       if (purchasedItems.allIds.length === 1) {
         delete stocks.byId[stockId];
         stocks.allIds.splice(stocks.allIds.indexOf(stockId), 1);
-
         return;
       }
 
@@ -150,19 +120,6 @@ const stockListSlice = createSlice({
     },
   },
 });
-
-export const selectStockList = (state: RootState) => state.stockList;
-export const selectStocks = (state: RootState) => state.stockList.stocks;
-export const selectStockInfoById = (stockId: string) =>
-  createSelector([selectStocks], (stocks) => stocks.byId[stockId]);
-export const selectPurchasedItemsById = (
-  stockId: string,
-  purchasedId: string,
-) =>
-  createSelector([selectStockInfoById(stockId)], (stocks) => ({
-    mainInfo: stocks.mainInfo,
-    purchasedItem: stocks.purchasedItems.byId[purchasedId],
-  }));
 
 export const {
   addNewStock,

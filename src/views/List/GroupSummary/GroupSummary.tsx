@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { selectSelectedGroupInfo } from '../../../features/groups/groupsSlice';
+import { selectSelectedGroupInfo } from '../../../features/groups/selectors';
 import { useSelector } from 'react-redux';
-import { selectStocks } from '../../../features/stockList/stockListSlice';
+import { selectStocks } from '../../../features/stockList/selectors';
 import { getGroupSummary } from './utils';
 
 const GroupSummary = () => {

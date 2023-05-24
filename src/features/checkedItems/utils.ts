@@ -1,5 +1,5 @@
-import { StockListState } from '../stockList/stockListSlice';
-import { CheckedItemsInfo } from './checkedItemsSlice';
+import { StockListState } from '../stockList/type';
+import { CheckedItemsInfo } from './type';
 
 export const getInitialCheckedItemsInfo = ({
   data,

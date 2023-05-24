@@ -4,10 +4,8 @@ import styled from 'styled-components';
 import { BorderButton } from '../../../components/Button';
 import { BaseInput, Input, TransformedValue } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
-import {
-  selectStockInfoById,
-  StockMainInfo,
-} from '../../../features/stockList/stockListSlice';
+import { StockMainInfo } from '../../../features/stockList/type';
+import { selectStockInfoById } from '../../../features/stockList/selectors';
 import {
   NumberCell,
   LockButton,
@@ -17,14 +15,12 @@ import {
 
 import { getGroupPurchasedData, getSummaryInfo } from './utils';
 import { updateStock } from '../../../features/stockList/stockListSlice';
-import {
-  selectStockCheckedInfo,
-  updateCheckedItems,
-} from '../../../features/checkedItems/checkedItemsSlice';
+import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
+import { selectStockCheckedInfo } from '../../../features/checkedItems/selectors';
 import {
   selectIsMainGroupSelected,
   selectSelectedGroupInfo,
-} from '../../../features/groups/groupsSlice';
+} from '../../../features/groups/selectors';
 import { openStockModal } from '../../../features/stockModal/stockModalSlice';
 
 export type SummaryInfoData = {

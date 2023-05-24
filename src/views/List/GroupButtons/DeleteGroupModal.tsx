@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  Group,
-  deleteGroup,
-  selectGroups,
-} from '../../../features/groups/groupsSlice';
+import { deleteGroup } from '../../../features/groups/groupsSlice';
+import { Group } from '../../../features/groups/type';
+import { selectGroups } from '../../../features/groups/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../../../components/Modal';
 import { BorderButton } from '../../../components/Button';

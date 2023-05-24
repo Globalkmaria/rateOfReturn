@@ -1,4 +1,4 @@
-import { StockList } from '../../../features/stockList/stockListSlice';
+import { StockList } from '../../../features/stockList/type';
 import { SummaryInfoData } from './SummaryInfo';
 
 export const getGroupPurchasedData = (

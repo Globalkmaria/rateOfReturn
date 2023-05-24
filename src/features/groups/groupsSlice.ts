@@ -1,38 +1,20 @@
-import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { GROUPS_MOCK_DATA, GROUPS_MOCK_DATA_NEXT_GROUP_ID } from './mockData';
-
-export type Group = {
-  groupId: string;
-  groupName: string;
-  stocks: { byId: { [stockId: string]: string[] }; allIds: string[] };
-};
-
-export interface GroupsState {
-  groups: { byId: { [groupId: string]: Group }; allIds: string[] };
-  selectedGroupId: string;
-  nextGroupId: number;
-}
-
-export type AddGroupPayload = {
-  groupName: string;
-  selectedStocks: Group['stocks'];
-};
-
-export type DeletePurchaseItemFromGroupPayload = {
-  stockId: string;
-  purchasedId: string;
-};
-export type UpdateMainGroupPayload = {
-  type: 'stock' | 'purchase';
-  stockId: string;
-  purchasedId: string;
-};
+import {
+  GroupsState,
+  AddGroupPayload,
+  DeletePurchaseItemFromGroupPayload,
+  UpdateMainGroupPayload,
+  Group,
+} from './type';
 
 const initialState: GroupsState = {
   groups: GROUPS_MOCK_DATA,
   selectedGroupId: '1',
   nextGroupId: GROUPS_MOCK_DATA_NEXT_GROUP_ID,
 };
+
+const mainGroupId = '1';
 
 export const groupsSlice = createSlice({
   name: 'groups',
@@ -47,22 +29,24 @@ export const groupsSlice = createSlice({
       state.selectedGroupId = action.payload;
     },
     addGroup: (state, action: PayloadAction<AddGroupPayload>) => {
-      state.groups.byId[state.nextGroupId] = {
-        groupId: state.nextGroupId + '',
+      const nextGroupId = state.nextGroupId++ + '';
+      const newGroupInfo: Group = {
+        groupId: nextGroupId,
         groupName: action.payload.groupName,
         stocks: action.payload.selectedStocks,
       };
-      state.groups.allIds.push(state.nextGroupId + '');
-      state.selectedGroupId = state.nextGroupId + '';
-      state.nextGroupId++;
+      state.groups.byId[nextGroupId] = newGroupInfo;
+      state.groups.allIds.push(nextGroupId);
+      state.selectedGroupId = nextGroupId;
     },
     deleteGroup: (state, action: PayloadAction<string>) => {
       const groupId = action.payload;
-      if (groupId === '1') return;
+      if (groupId === mainGroupId) return;
 
       delete state.groups.byId[groupId];
       state.groups.allIds.splice(state.groups.allIds.indexOf(groupId), 1);
-      if (state.selectedGroupId === groupId) state.selectedGroupId = '1';
+      if (state.selectedGroupId === groupId)
+        state.selectedGroupId = mainGroupId;
     },
     deleteStockFromGroup: (state, action: PayloadAction<string>) => {
       const stockId = action.payload;
@@ -73,7 +57,7 @@ export const groupsSlice = createSlice({
         delete group.stocks.byId[stockId];
         group.stocks.allIds.splice(group.stocks.allIds.indexOf(stockId), 1);
         if (group.stocks.allIds.length) continue;
-        if (group.groupId === '1') continue;
+        if (group.groupId === mainGroupId) continue;
 
         delete state.groups.byId[groupId];
         state.groups.allIds.splice(state.groups.allIds.indexOf(groupId), 1);
@@ -99,7 +83,7 @@ export const groupsSlice = createSlice({
         delete group.stocks.byId[stockId];
         group.stocks.allIds.splice(group.stocks.allIds.indexOf(stockId), 1);
         if (group.stocks.allIds.length) continue;
-        if (group.groupId === '1') continue;
+        if (group.groupId === mainGroupId) continue;
 
         delete state.groups.byId[groupId];
         state.groups.allIds.splice(state.groups.allIds.indexOf(groupId), 1);
@@ -107,7 +91,7 @@ export const groupsSlice = createSlice({
     },
     updateMainGroup: (state, action: PayloadAction<UpdateMainGroupPayload>) => {
       const { type, stockId, purchasedId } = action.payload;
-      const mainGroup = state.groups.byId['1'];
+      const mainGroup = state.groups.byId[mainGroupId];
       if (type === 'stock') {
         mainGroup.stocks.allIds.push(stockId);
         mainGroup.stocks.byId[stockId] = [purchasedId];
@@ -119,20 +103,6 @@ export const groupsSlice = createSlice({
     },
   },
 });
-
-export const selectGroups = (state: { groups: GroupsState }) => state.groups;
-export const selectSelectedGroupId = (state: { groups: GroupsState }) =>
-  state.groups.selectedGroupId;
-export const selectIsMainGroupSelected = () =>
-  createSelector(
-    selectSelectedGroupId,
-    (selectedGroupId) => selectedGroupId === '1',
-  );
-export const selectSelectedGroupInfo = () =>
-  createSelector(
-    [selectSelectedGroupId, selectGroups],
-    (selectedGroupId, groupsInfo) => groupsInfo.groups.byId[selectedGroupId],
-  );
 
 export const {
   updateSelectedGroupId,

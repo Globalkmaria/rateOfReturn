@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { BorderButton, ContainedButton } from '../../../components/Button';
+import { ContainedButton } from '../../../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { addGroup } from '../../../features/groups/groupsSlice';
 import { changeCheckInfoToGroupFormat } from './utils';
 import { Input } from '../../../components/Input';
-import {
-  initCheckedItems,
-  selectCheckedPurchasedItems,
-} from '../../../features/checkedItems/checkedItemsSlice';
-import { selectStocks } from '../../../features/stockList/stockListSlice';
+import { initCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
+import { selectCheckedPurchasedItems } from '../../../features/checkedItems/selectors';
+import { selectStocks } from '../../../features/stockList/selectors';
 import GroupModalTable from './GroupModal/GroupModalTable';
 import styled from 'styled-components';
 import Modal from '../../../components/Modal';

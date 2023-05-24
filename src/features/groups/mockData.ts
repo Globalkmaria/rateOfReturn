@@ -1,4 +1,4 @@
-import { GroupsState } from './groupsSlice';
+import { GroupsState } from './type';
 
 export const GROUPS_MOCK_DATA: GroupsState['groups'] = {
   byId: {

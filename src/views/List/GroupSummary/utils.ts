@@ -1,5 +1,5 @@
-import { Group } from '../../../features/groups/groupsSlice';
-import { StockListState } from '../../../features/stockList/stockListSlice';
+import { Group } from '../../../features/groups/type';
+import { StockListState } from '../../../features/stockList/type';
 
 export const getGroupSummary = (
   groupInfo: Group,

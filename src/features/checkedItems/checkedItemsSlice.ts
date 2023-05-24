@@ -1,42 +1,16 @@
-import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import {
   getInitialCheckedItemsInfo,
   updateAllCheckedItems,
   updatePurchasedCheckedItems,
   updateStockCheckedItems,
 } from './utils';
-import { RootState } from '../../store';
-import { StockListState } from '../stockList/stockListSlice';
-
-export type CheckedItemsInfo = {
-  allChecked: boolean;
-  stocksCheckInfo: {
-    [stockId: string]: {
-      allChecked: boolean;
-      purchasedItems: { [purchasedId: string]: boolean };
-    };
-  };
-};
-
-type UpdateCheckedItemsInfoPayload =
-  | {
-      type: 'all';
-      checked: boolean;
-    }
-  | { type: 'stock'; stockId: string; checked: boolean }
-  | {
-      type: 'purchased';
-      stockId: string;
-      purchasedId: string;
-      checked: boolean;
-    };
-
-export type DeletePurchaseItemFromCheckInfoPayload = {
-  stockId: string;
-  purchasedId: string;
-};
-
-export type CheckedItemsState = CheckedItemsInfo;
+import { StockListState } from '../stockList/type';
+import {
+  CheckedItemsState,
+  CheckInfoPayload,
+  UpdateCheckedItemsInfoPayload,
+} from './type';
 
 const initialState: CheckedItemsState = {
   allChecked: false,
@@ -58,19 +32,17 @@ export const checkedItemsSlice = createSlice({
       state.allChecked = initData.allChecked;
       state.stocksCheckInfo = initData.stocksCheckInfo;
     },
-    addStockCheckInfo: (
-      state,
-      action: PayloadAction<{ stockId: string; purchasedId: string }>,
-    ) => {
+    addStockCheckInfo: (state, action: PayloadAction<CheckInfoPayload>) => {
       const { stockId, purchasedId } = action.payload;
-      state.stocksCheckInfo[stockId] = {
+      const newStockCheckInfo = {
         allChecked: true,
         purchasedItems: { [purchasedId]: true },
       };
+      state.stocksCheckInfo[stockId] = newStockCheckInfo;
     },
     addPurchasedItemsCheckInfo: (
       state,
-      action: PayloadAction<{ stockId: string; purchasedId: string }>,
+      action: PayloadAction<CheckInfoPayload>,
     ) => {
       const { stockId, purchasedId } = action.payload;
       state.stocksCheckInfo[stockId].purchasedItems[purchasedId] = true;
@@ -106,10 +78,7 @@ export const checkedItemsSlice = createSlice({
           break;
       }
     },
-    deleteCheckedItems: (
-      state,
-      action: PayloadAction<DeletePurchaseItemFromCheckInfoPayload>,
-    ) => {
+    deleteCheckedItems: (state, action: PayloadAction<CheckInfoPayload>) => {
       const { stockId, purchasedId } = action.payload;
       const stockInfo = state.stocksCheckInfo[stockId];
       if (Object.keys(stockInfo.purchasedItems).length === 1) {
@@ -122,48 +91,6 @@ export const checkedItemsSlice = createSlice({
     },
   },
 });
-
-export const selectCheckedItems = (state: RootState) => state.checkedItems;
-export const selectCheckItemsInfo = () =>
-  createSelector(
-    [selectCheckedItems],
-    (checkedItemsInfo) => checkedItemsInfo.stocksCheckInfo,
-  );
-export const selectIsAllChecked = () =>
-  createSelector(
-    [selectCheckedItems],
-    (checkedItems) => checkedItems.allChecked,
-  );
-
-export const selectStockCheckedInfo = (stockId: string) =>
-  createSelector(
-    [selectCheckItemsInfo()],
-    (stocksCheckInfo) => stocksCheckInfo[stockId],
-  );
-export const selectIsPurchasedItemChecked = (
-  stockId: string,
-  purchasedId: string,
-) =>
-  createSelector(
-    [selectStockCheckedInfo(stockId)],
-    (checkedStockInfo) => checkedStockInfo.purchasedItems[purchasedId],
-  );
-
-export const selectCheckedPurchasedItems = () =>
-  createSelector([selectCheckItemsInfo()], (stocksCheckInfo) => {
-    const checkedPurchasedItems: { stockId: string; purchasedId: string }[] =
-      [];
-
-    Object.keys(stocksCheckInfo).forEach((stockId) => {
-      const purchasedItems = stocksCheckInfo[stockId].purchasedItems;
-      Object.keys(purchasedItems).forEach((purchasedId) => {
-        if (purchasedItems[purchasedId]) {
-          checkedPurchasedItems.push({ stockId, purchasedId });
-        }
-      });
-    });
-    return checkedPurchasedItems;
-  });
 
 export const {
   initCheckedItems,

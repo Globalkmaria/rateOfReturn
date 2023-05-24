@@ -3,11 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Input, OnInputChangeType } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
-import {
-  PurchasedItemInfo,
-  selectPurchasedItemsById,
-  updatePurchaseItem,
-} from '../../../features/stockList/stockListSlice';
+import { updatePurchaseItem } from '../../../features/stockList/stockListSlice';
+import { PurchasedItemInfo } from '../../../features/stockList/type';
+import { selectPurchasedItemsById } from '../../../features/stockList/selectors';
 import {
   InputCell,
   NumberCell,
@@ -16,11 +14,9 @@ import {
   CheckboxCell,
 } from './components';
 
-import {
-  selectIsPurchasedItemChecked,
-  updateCheckedItems,
-} from '../../../features/checkedItems/checkedItemsSlice';
-import { selectIsMainGroupSelected } from '../../../features/groups/groupsSlice';
+import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
+import { selectIsPurchasedItemChecked } from '../../../features/checkedItems/selectors';
+import { selectIsMainGroupSelected } from '../../../features/groups/selectors';
 import { BorderButton } from '../../../components/Button';
 import { openStockModal } from '../../../features/stockModal/stockModalSlice';
 

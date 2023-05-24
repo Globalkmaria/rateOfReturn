@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { BorderButton } from '../../../components/Button';
 import Select from '../../../components/Select';
 import { useDispatch, useSelector } from 'react-redux';
+import { updateSelectedGroupId } from '../../../features/groups/groupsSlice';
 import {
   selectGroups,
   selectIsMainGroupSelected,
-  updateSelectedGroupId,
-} from '../../../features/groups/groupsSlice';
+} from '../../../features/groups/selectors';
 import { getOptions } from './utils';
 import AddGroupModal from './AddGroupModal';
 import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
