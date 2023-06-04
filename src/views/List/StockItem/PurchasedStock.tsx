@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Input, OnInputChangeType } from '../../../components/Input';
+import { Input } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
 import { updatePurchaseItem } from '../../../features/stockList/stockListSlice';
 import { PurchasedItemInfo } from '../../../features/stockList/type';
@@ -19,6 +19,7 @@ import { selectIsPurchasedItemChecked } from '../../../features/checkedItems/sel
 import { selectIsMainGroupSelected } from '../../../features/groups/selectors';
 import { BorderButton } from '../../../components/Button';
 import { openStockModal } from '../../../features/stockModal/stockModalSlice';
+import { DeleteModalProps } from './DeleteStockModal';
 
 type InputChangeProps = (
   e: React.ChangeEvent<HTMLInputElement>,
@@ -88,8 +89,21 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
     );
   };
 
-  const onOpenDeleteModal = () =>
-    dispatch(openStockModal({ type: 'purchase', stockId, purchasedId }));
+  const onOpenDeleteModal = () => {
+    const props: DeleteModalProps = {
+      stockId,
+      type: 'purchase',
+      purchasedId,
+    };
+
+    dispatch(
+      openStockModal({
+        modalName: 'DeleteStockModal',
+        props,
+      }),
+    );
+  };
+
   useEffect(() => {
     setIsLock(true);
   }, [isMainGroupSelected]);

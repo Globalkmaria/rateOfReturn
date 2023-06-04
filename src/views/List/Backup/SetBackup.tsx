@@ -2,15 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { RootState } from '../../../store';
 import { useDispatch } from 'react-redux';
-import { setBackupCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
-import { setBackupGroups } from '../../../features/groups/groupsSlice';
-import { setBackupStockList } from '../../../features/stockList/stockListSlice';
-import { initialStockModal } from '../../../features/stockModal/stockModalSlice';
+import { openStockModal } from '../../../features/stockModal/stockModalSlice';
 import { ContainedButton } from '../../../components/Button';
-import Modal from '../../../components/Modal';
+import { SetBackupWarningProps } from './SetBackupWarning';
 
 const SetBackup = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState<RootState | null>(null);
   const dispatch = useDispatch();
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,12 +27,11 @@ const SetBackup = () => {
     }
   };
 
-  const backupData = () => {
-    if (data === null || data === undefined) return;
-    dispatch(setBackupCheckedItems(data.checkedItems));
-    dispatch(setBackupGroups(data.groups));
-    dispatch(setBackupStockList(data.stockList));
-    dispatch(initialStockModal());
+  const onOpen = () => {
+    const props: SetBackupWarningProps = {
+      data,
+    };
+    dispatch(openStockModal({ modalName: 'SetBackupWarning', props }));
   };
 
   return (
@@ -48,29 +43,9 @@ const SetBackup = () => {
         accept='.json'
         onChange={handleFileChange}
       />
-      <ContainedButton
-        color='secondary1'
-        fullWidth
-        onClick={() => setIsOpen(true)}
-      >
+      <ContainedButton color='secondary1' fullWidth onClick={onOpen}>
         Set Backup
       </ContainedButton>
-      <Modal title='Warning' isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <div className='modal-content'>
-          <p className='text'>
-            If you set backup, all data will be deleted.
-            <br /> Are you sure you want to set backup?
-          </p>
-          <ContainedButton
-            className='set-btn'
-            color='warning'
-            onClick={backupData}
-            fullWidth
-          >
-            Set Backup
-          </ContainedButton>
-        </div>
-      </Modal>
     </StyledSetBackup>
   );
 };

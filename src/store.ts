@@ -9,7 +9,7 @@ export const store = configureStore({
     stockList: stockListReducer,
     checkedItems: checkedItemsReducer,
     groups: groupsReducerReducer,
-    stockModal: stockModalSliceReducer,
+    stockModals: stockModalSliceReducer,
   },
 });
 

@@ -11,8 +11,6 @@ import {
 } from '../../features/groups/selectors';
 import GroupButtons from './GroupButtons/GroupButtons';
 import GroupSummary from './GroupSummary/GroupSummary';
-import { DeleteStockModal } from './StockItem/DeleteStockModal';
-import { selectStockModal } from '../../features/stockModal/stockModalSlice';
 import { AddNewStock } from './AddNewStock';
 import Backup from './Backup/Backup';
 
@@ -20,7 +18,6 @@ const StockList = () => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const stocks = useSelector(selectStocks);
   const groupInfo = useSelector(selectSelectedGroupInfo());
-  const stockModalInfo = useSelector(selectStockModal);
   const info = isMainGroupSelected ? stocks.allIds : groupInfo.stocks.allIds;
   return (
     <StyledStockList>
@@ -42,7 +39,6 @@ const StockList = () => {
           {isMainGroupSelected && <AddNewStock />}
         </TableBody>
       </Table>
-      {stockModalInfo.isOpen && <DeleteStockModal />}
     </StyledStockList>
   );
 };

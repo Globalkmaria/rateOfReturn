@@ -1,45 +1,46 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
-export interface StockModalState {
+export type ModalState = {
   isOpen: boolean;
-  stockId: string;
-  purchasedId: string;
-  type: 'stock' | 'purchase';
+  props: any;
+};
+
+interface StockModalState {
+  [modalName: string]: ModalState;
 }
 
 type OpenStockModalPayload = {
-  stockId: string;
-  purchasedId: string;
-  type: 'stock' | 'purchase';
+  modalName: string;
+  props?: any;
 };
 
-const initialState: StockModalState = {
-  isOpen: false,
-  stockId: '',
-  purchasedId: '',
-  type: 'stock',
-};
+const initialState: StockModalState = {};
 
 const stockModalSlice = createSlice({
-  name: 'stockModal',
+  name: 'stockModals',
   initialState,
   reducers: {
     resetStockModal: () => initialState,
     initialStockModal: () => initialState,
     openStockModal: (state, action: PayloadAction<OpenStockModalPayload>) => {
-      state.isOpen = true;
-      state.stockId = action.payload.stockId;
-      state.purchasedId = action.payload.purchasedId;
-      state.type = action.payload.type;
+      state[action.payload.modalName] = {
+        isOpen: true,
+        props: action.payload.props,
+      };
     },
-    closeStockModal: (state) => {
-      state.isOpen = false;
+    closeStockModal: (state, action: PayloadAction<string>) => {
+      delete state[action.payload];
     },
   },
 });
 
-export const selectStockModal = (state: RootState) => state.stockModal;
+export const selectStockModals = (state: RootState) => state.stockModals;
+export const selectModalProps = (modalName: string) =>
+  createSelector(
+    [selectStockModals],
+    (stockModals) => stockModals[modalName]?.props,
+  );
 
 export const {
   openStockModal,

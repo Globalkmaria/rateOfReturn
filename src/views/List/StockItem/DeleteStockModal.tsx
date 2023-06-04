@@ -15,36 +15,40 @@ import {
 } from '../../../features/checkedItems/checkedItemsSlice';
 import {
   closeStockModal,
-  selectStockModal,
+  selectModalProps,
 } from '../../../features/stockModal/stockModalSlice';
 import styled from 'styled-components';
 
-type DeleteModalType = {
+export type DeleteModalProps = {
   type: 'stock' | 'purchase';
+  stockId: string;
+  purchasedId: string;
 };
 
 export const DeleteStockModal = () => {
-  const { stockId, purchasedId, type } = useSelector(selectStockModal);
   const dispatch = useDispatch();
-  const onClose = () => dispatch(closeStockModal());
+  const onClose = () => dispatch(closeStockModal('DeleteStockModal'));
+  const { stockId, purchasedId, type } = useSelector(
+    selectModalProps('DeleteStockModal'),
+  ) as DeleteModalProps;
 
   const onDeletePurchasedStock = () => {
     dispatch(deletePurchasedItem({ stockId, purchasedId }));
     dispatch(deletePurchaseItemFromGroup({ stockId, purchasedId }));
     dispatch(deleteCheckedItems({ stockId, purchasedId }));
-    dispatch(closeStockModal());
+    onClose();
   };
 
   const onDeleteStock = () => {
     dispatch(deleteStock(stockId));
     dispatch(deleteStockFromGroup(stockId));
     dispatch(deleteStockCheck(stockId));
-    dispatch(closeStockModal());
+    onClose();
   };
 
   const onDelete = type === 'stock' ? onDeleteStock : onDeletePurchasedStock;
   return (
-    <Modal onClose={onClose} isOpen={true}>
+    <Modal onClose={onClose}>
       <StyledDeleteModal>
         <p className='message'>{MESSAGES[type]}</p>
         <ContainedButton size='l' color='warning' onClick={onDelete}>
@@ -55,7 +59,7 @@ export const DeleteStockModal = () => {
   );
 };
 
-export const MESSAGES: { [key in DeleteModalType['type']]: string } = {
+export const MESSAGES: { [key in DeleteModalProps['type']]: string } = {
   stock: 'Are you sure you want to delete this stock?',
   purchase: 'Are you sure you want to delete this item?',
 };

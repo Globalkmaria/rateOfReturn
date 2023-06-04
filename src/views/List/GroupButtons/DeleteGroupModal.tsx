@@ -7,19 +7,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../../../components/Modal';
 import { BorderButton } from '../../../components/Button';
 import { FaTrash } from 'react-icons/fa';
-
-interface DeleteGroupModalProps {
-  onClose: () => void;
-  isOpen: boolean;
-}
+import { closeStockModal } from '../../../features/stockModal/stockModalSlice';
 
 const NO_GROUP_MESSAGE = 'There is no group.';
 
-const DeleteGroupModal = ({ onClose, isOpen }: DeleteGroupModalProps) => {
+const DeleteGroupModal = () => {
+  const dispatch = useDispatch();
+  const onClose = () => dispatch(closeStockModal('DeleteGroupModal'));
   const groups = useSelector(selectGroups);
   const noGroups = groups.groups.allIds.length === 1;
   return (
-    <Modal title='Delete Group' isOpen={isOpen} onClose={onClose}>
+    <Modal title='Delete Group' onClose={onClose}>
       <StyledDeleteGroupModal>
         {groups.groups.allIds.map((id) => (
           <GroupItem groupInfo={groups.groups.byId[id]} key={id} />

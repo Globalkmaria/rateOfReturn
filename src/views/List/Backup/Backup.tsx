@@ -1,27 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { BorderButton } from '../../../components/Button';
-import Modal from '../../../components/Modal';
-import SaveAsFile from './SaveAsFile';
-import SetBackup from './SetBackup';
-import Reset from './Reset';
+import { useDispatch } from 'react-redux';
+import { openStockModal } from '../../../features/stockModal/stockModalSlice';
 
 const Backup = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const onOpenModal = () => {
+    dispatch(openStockModal({ modalName: 'BackupModal' }));
+  };
   return (
     <StyledBackup>
-      <BorderButton size='m' onClick={() => setIsOpen(true)}>
+      <BorderButton size='m' onClick={onOpenModal}>
         Backup
       </BorderButton>
-      <Modal title={'Backup'} isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <div className='modal-content'>
-          <SaveAsFile />
-          <hr />
-          <SetBackup />
-          <hr />
-          <Reset />
-        </div>
-      </Modal>
     </StyledBackup>
   );
 };

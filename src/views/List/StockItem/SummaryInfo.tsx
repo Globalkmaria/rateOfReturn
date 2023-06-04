@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { BorderButton } from '../../../components/Button';
@@ -22,6 +22,7 @@ import {
   selectSelectedGroupInfo,
 } from '../../../features/groups/selectors';
 import { openStockModal } from '../../../features/stockModal/stockModalSlice';
+import { DeleteModalProps } from './DeleteStockModal';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -88,8 +89,20 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
     );
   };
 
-  const onDeleteModalOpen = () =>
-    dispatch(openStockModal({ type: 'stock', stockId, purchasedId: '' }));
+  const onDeleteModalOpen = () => {
+    const props: DeleteModalProps = {
+      stockId,
+      purchasedId: '',
+      type: 'stock',
+    };
+
+    dispatch(
+      openStockModal({
+        modalName: 'DeleteStockModal',
+        props,
+      }),
+    );
+  };
 
   useEffect(() => {
     setIsLock(true);

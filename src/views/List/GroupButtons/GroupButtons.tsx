@@ -9,31 +9,28 @@ import {
   selectIsMainGroupSelected,
 } from '../../../features/groups/selectors';
 import { getOptions } from './utils';
-import AddGroupModal from './AddGroupModal';
 import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
-import DeleteGroupModal from './DeleteGroupModal';
+import { openStockModal } from '../../../features/stockModal/stockModalSlice';
 
-type ModalMode = 'add' | 'edit' | 'delete';
+type ModalMode = 'AddGroupModal' | 'DeleteGroupModal';
 
 const GroupButtons = () => {
   const dispatch = useDispatch();
-  const [mode, setMode] = useState<ModalMode>('add');
-  const [isOpen, setIsOpen] = useState(false);
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const groups = useSelector(selectGroups);
   const options = getOptions(groups);
   const noGroups = groups.groups.allIds.length === 1;
-  const Modal = mode === 'add' ? AddGroupModal : DeleteGroupModal;
-
-  const onClose = () => setIsOpen(false);
 
   const onGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(updateSelectedGroupId(e.target.value));
     dispatch(updateCheckedItems({ type: 'all', checked: true }));
   };
   const onOpenModal = (mode: ModalMode) => {
-    setIsOpen(true);
-    setMode(mode);
+    dispatch(
+      openStockModal({
+        modalName: mode,
+      }),
+    );
   };
 
   return (
@@ -48,7 +45,7 @@ const GroupButtons = () => {
           title='Choose group to show'
         />
         <BorderButton
-          onClick={() => onOpenModal('add')}
+          onClick={() => onOpenModal('AddGroupModal')}
           size='m'
           disabled={!isMainGroupSelected}
           title='Add new group'
@@ -59,7 +56,7 @@ const GroupButtons = () => {
           Edit Group
         </BorderButton> */}
         <BorderButton
-          onClick={() => onOpenModal('delete')}
+          onClick={() => onOpenModal('DeleteGroupModal')}
           size='m'
           disabled={noGroups}
           title='Delete group'
@@ -67,7 +64,6 @@ const GroupButtons = () => {
           Delete Group
         </BorderButton>
       </StyledGroupButtons>
-      <Modal isOpen={isOpen} onClose={onClose} />
     </>
   );
 };
