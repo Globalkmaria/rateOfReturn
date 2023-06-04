@@ -5,21 +5,28 @@ import { closeStockModal } from '../../../features/stockModal/stockModalSlice';
 import SaveAsFile from './SaveAsFile';
 import SetBackup from './SetBackup';
 import Reset from './Reset';
+import styled from 'styled-components';
 
 const BackupModal = () => {
   const dispatch = useDispatch();
   const onClose = () => dispatch(closeStockModal('BackupModal'));
   return (
     <Modal title={'Backup'} onClose={onClose}>
-      <div className='modal-content'>
+      <StyledBackupModal>
         <SaveAsFile />
         <hr />
         <SetBackup />
         <hr />
         <Reset />
-      </div>
+      </StyledBackupModal>
     </Modal>
   );
 };
 
 export default BackupModal;
+
+const StyledBackupModal = styled('div')`
+  hr {
+    margin: 14px 0;
+  }
+`;

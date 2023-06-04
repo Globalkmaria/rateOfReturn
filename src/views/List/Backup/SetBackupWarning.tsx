@@ -1,6 +1,4 @@
 import React from 'react';
-import Modal from '../../../components/Modal';
-import { ContainedButton } from '../../../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { setBackupCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
 import { setBackupGroups } from '../../../features/groups/groupsSlice';
@@ -10,6 +8,7 @@ import {
   initialStockModal,
   selectModalProps,
 } from '../../../features/stockModal/stockModalSlice';
+import WarningModal from '../../../components/WarningModal';
 
 export type SetBackupWarningProps = {
   data: any;
@@ -32,23 +31,20 @@ const SetBackupWarning = () => {
   const onClose = () => dispatch(closeStockModal('SetBackupWarning'));
 
   return (
-    <Modal title='Warning' onClose={onClose}>
-      <div className='modal-content'>
-        <p className='text'>
-          If you set backup, all data will be deleted.
-          <br /> Are you sure you want to set backup?
-        </p>
-        <ContainedButton
-          className='set-btn'
-          color='warning'
-          onClick={backupData}
-          fullWidth
-        >
-          Set Backup
-        </ContainedButton>
-      </div>
-    </Modal>
+    <WarningModal
+      onClose={onClose}
+      onConfirm={backupData}
+      message={MESSAGE}
+      buttonName='Set Backup'
+    />
   );
 };
 
 export default SetBackupWarning;
+
+const MESSAGE = (
+  <>
+    If you set backup, current data will be deleted.
+    <br /> Are you sure you want to set backup?
+  </>
+);

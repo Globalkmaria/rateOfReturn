@@ -8,7 +8,7 @@ import { selectCheckedItems } from '../features/checkedItems/selectors';
 import { useEffect, useState } from 'react';
 import { initGroups } from '../features/groups/groupsSlice';
 import { selectGroups } from '../features/groups/selectors';
-import ModalSpace from '../components/ModalSpace';
+import ModalSpace from '../views/List/ModalSpace';
 
 const List = () => {
   const [firstLoad, setFirstLoad] = useState(true);

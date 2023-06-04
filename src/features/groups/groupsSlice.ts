@@ -49,6 +49,9 @@ export const groupsSlice = createSlice({
       const groupId = action.payload;
       if (groupId === mainGroupId) return;
 
+      const selectedGroup = state.groups.byId[groupId];
+      if (!selectedGroup) return;
+
       delete state.groups.byId[groupId];
       state.groups.allIds.splice(state.groups.allIds.indexOf(groupId), 1);
       if (state.selectedGroupId === groupId)

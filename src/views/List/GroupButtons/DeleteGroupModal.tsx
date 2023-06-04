@@ -1,13 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { deleteGroup } from '../../../features/groups/groupsSlice';
 import { Group } from '../../../features/groups/type';
 import { selectGroups } from '../../../features/groups/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../../../components/Modal';
 import { BorderButton } from '../../../components/Button';
 import { FaTrash } from 'react-icons/fa';
-import { closeStockModal } from '../../../features/stockModal/stockModalSlice';
+import {
+  closeStockModal,
+  openStockModal,
+} from '../../../features/stockModal/stockModalSlice';
+import { DeleteGroupWarningProps } from './DeleteGroupWarning';
 
 const NO_GROUP_MESSAGE = 'There is no group.';
 
@@ -35,14 +38,22 @@ const GroupItem = ({ groupInfo }: { groupInfo: Group }) => {
   const { groupId, groupName } = groupInfo;
   if (groupId === '1') return <></>;
 
-  const onDelete = () => {
-    dispatch(deleteGroup(groupId));
+  const onOpenDeleteModal = () => {
+    const props: DeleteGroupWarningProps = {
+      groupId,
+    };
+    dispatch(
+      openStockModal({
+        modalName: 'DeleteGroupWarning',
+        props,
+      }),
+    );
   };
 
   return (
     <StyledGroupItem>
       <h1 className='group-name'>{groupName}</h1>
-      <BorderButton onClick={onDelete} showLine={false}>
+      <BorderButton onClick={onOpenDeleteModal} showLine={false}>
         <FaTrash />
       </BorderButton>
     </StyledGroupItem>

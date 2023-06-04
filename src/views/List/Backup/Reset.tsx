@@ -2,19 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { ContainedButton } from '../../../components/Button';
 import { useDispatch } from 'react-redux';
-import { restStockList } from '../../../features/stockList/stockListSlice';
-import { resetStockModal } from '../../../features/stockModal/stockModalSlice';
-import { resetGroups } from '../../../features/groups/groupsSlice';
-import { resetCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
+import { openStockModal } from '../../../features/stockModal/stockModalSlice';
 
 const Reset = () => {
   const dispatch = useDispatch();
-  const onClick = () => {
-    dispatch(resetCheckedItems());
-    dispatch(restStockList());
-    dispatch(resetStockModal());
-    dispatch(resetGroups());
-  };
+  const onClick = () =>
+    dispatch(openStockModal({ modalName: 'ResetDataWarning' }));
 
   return (
     <StyledReset>

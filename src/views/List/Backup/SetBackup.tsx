@@ -28,6 +28,11 @@ const SetBackup = () => {
   };
 
   const onOpen = () => {
+    if (data === null || data === undefined) {
+      alert('Please select a file.');
+      return;
+    }
+
     const props: SetBackupWarningProps = {
       data,
     };
@@ -59,22 +64,5 @@ const StyledSetBackup = styled('div')`
     border: 1px solid ${({ theme }) => theme.colors.grey600};
     border-radius: 5px;
     padding: 5px;
-  }
-
-  .modal-content {
-    display: flex;
-    flex-direction: column;
-    width: 340px;
-    height: 145px;
-    text-align: center;
-    font-weight: 700;
-
-    .text {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1.7;
-      flex: 1;
-    }
   }
 `;
