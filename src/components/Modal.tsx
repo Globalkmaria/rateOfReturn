@@ -5,12 +5,11 @@ import { CgClose } from 'react-icons/cg';
 
 export interface ModalContentProps {
   onClose: () => void;
-  isOpen: boolean;
 }
 
 interface ModalProps {
   children: React.ReactNode;
-  isOpen: boolean;
+  isOpen?: boolean;
   onClose: () => void;
   showCloseButton?: boolean;
   title?: string;
@@ -18,7 +17,7 @@ interface ModalProps {
 
 const Modal = ({
   children,
-  isOpen,
+  isOpen = true,
   onClose,
   title = '',
   showCloseButton = true,

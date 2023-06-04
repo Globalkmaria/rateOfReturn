@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { selectCheckedPurchasedItems } from '../../../../features/checkedItems/checkedItemsSlice';
+import { selectCheckedPurchasedItems } from '../../../../features/checkedItems/selectors';
 import GroupModalTableHead from './GroupModalTableHeader';
 import { Table, TableBody } from '../../../../components/Table';
 import GroupModalTableRow from './GroupModalTableRow';

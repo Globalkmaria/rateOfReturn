@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Input, OnInputChangeType } from '../../../components/Input';
+import { Input } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
-import {
-  PurchasedItemInfo,
-  selectPurchasedItemsById,
-  updatePurchaseItem,
-} from '../../../features/stockList/stockListSlice';
+import { updatePurchaseItem } from '../../../features/stockList/stockListSlice';
+import { PurchasedItemInfo } from '../../../features/stockList/type';
+import { selectPurchasedItemsById } from '../../../features/stockList/selectors';
 import {
   InputCell,
   NumberCell,
@@ -16,18 +14,16 @@ import {
   CheckboxCell,
 } from './components';
 
-import {
-  selectIsPurchasedItemChecked,
-  updateCheckedItems,
-} from '../../../features/checkedItems/checkedItemsSlice';
-import { selectIsMainGroupSelected } from '../../../features/groups/groupsSlice';
+import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
+import { selectIsPurchasedItemChecked } from '../../../features/checkedItems/selectors';
+import { selectIsMainGroupSelected } from '../../../features/groups/selectors';
 import { BorderButton } from '../../../components/Button';
 import { openStockModal } from '../../../features/stockModal/stockModalSlice';
+import { DeleteModalProps } from './DeleteStockModal';
 
 type InputChangeProps = (
   e: React.ChangeEvent<HTMLInputElement>,
   transformedValue: [string, string] | null,
-  fieldName: keyof Omit<PurchasedItemInfo, 'purchasedId'>,
 ) => void;
 
 interface PurchasedStockProps {
@@ -71,7 +67,11 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
     );
   };
 
-  const onInputChange: InputChangeProps = (e, transformedValue, fieldName) => {
+  const onInputChange: InputChangeProps = (e, transformedValue) => {
+    const fieldName = e.target.name as keyof Omit<
+      PurchasedItemInfo,
+      'purchasedId'
+    >;
     if (fieldName !== 'purchasedDate' && transformedValue === null) return;
     const value =
       fieldName === 'purchasedDate'
@@ -89,17 +89,21 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
     );
   };
 
-  const onDateChange: OnInputChangeType = (e, transformedValue) =>
-    onInputChange(e, transformedValue, 'purchasedDate');
-  const onTimeChange: OnInputChangeType = (e, transformedValue) =>
-    onInputChange(e, transformedValue, 'purchasedTime');
-  const onQuantityChange: OnInputChangeType = (e, transformedValue) =>
-    onInputChange(e, transformedValue, 'purchasedQuantity');
-  const onPriceChange: OnInputChangeType = (e, transformedValue) =>
-    onInputChange(e, transformedValue, 'purchasedPrice');
+  const onOpenDeleteModal = () => {
+    const props: DeleteModalProps = {
+      stockId,
+      type: 'purchase',
+      purchasedId,
+    };
 
-  const onOpenDeleteModal = () =>
-    dispatch(openStockModal({ type: 'purchase', stockId, purchasedId }));
+    dispatch(
+      openStockModal({
+        modalName: 'DeleteStockModal',
+        props,
+      }),
+    );
+  };
+
   useEffect(() => {
     setIsLock(true);
   }, [isMainGroupSelected]);
@@ -118,7 +122,8 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
         <div className='datetime'>
           <Input
             className='date'
-            onChange={onDateChange}
+            name='purchasedDate'
+            onChange={onInputChange}
             disabled={isLock}
             type='date'
             value={purchasedItem.purchasedDate}
@@ -126,7 +131,8 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
           />
           <Input
             className='date'
-            onChange={onTimeChange}
+            name='purchasedTime'
+            onChange={onInputChange}
             disabled={isLock}
             type='time'
             value={purchasedItem.purchasedTime}
@@ -135,13 +141,15 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
         </div>
       </TableCell>
       <InputCell
-        onChange={onQuantityChange}
+        name='purchasedQuantity'
+        onChange={onInputChange}
         value={purchasedItem.purchasedQuantity}
         disabled={isLock}
       />
       <InputCell
-        onChange={onPriceChange}
-        onBlur={onPriceChange}
+        name='purchasedPrice'
+        onChange={onInputChange}
+        onBlur={onInputChange}
         value={purchasedItem.purchasedPrice}
         disabled={isLock}
       />

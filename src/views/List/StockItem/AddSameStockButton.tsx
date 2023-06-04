@@ -1,10 +1,8 @@
 import { ContainedButton } from '../../../components/Button';
 import { TableCell, TableRow } from '../../../components/Table';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  addPurchasedItem,
-  selectStockList,
-} from '../../../features/stockList/stockListSlice';
+import { addPurchasedItem } from '../../../features/stockList/stockListSlice';
+import { selectStockList } from '../../../features/stockList/selectors';
 import { addPurchasedItemsCheckInfo } from '../../../features/checkedItems/checkedItemsSlice';
 import { updateMainGroup } from '../../../features/groups/groupsSlice';
 

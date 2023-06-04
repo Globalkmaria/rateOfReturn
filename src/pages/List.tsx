@@ -1,16 +1,14 @@
 import styled from 'styled-components';
 import StockList from '../views/List/StockList';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  initStockList,
-  selectStockList,
-} from '../features/stockList/stockListSlice';
-import {
-  initCheckedItems,
-  selectCheckedItems,
-} from '../features/checkedItems/checkedItemsSlice';
+import { initStockList } from '../features/stockList/stockListSlice';
+import { selectStockList } from '../features/stockList/selectors';
+import { initCheckedItems } from '../features/checkedItems/checkedItemsSlice';
+import { selectCheckedItems } from '../features/checkedItems/selectors';
 import { useEffect, useState } from 'react';
-import { initGroups, selectGroups } from '../features/groups/groupsSlice';
+import { initGroups } from '../features/groups/groupsSlice';
+import { selectGroups } from '../features/groups/selectors';
+import ModalSpace from '../views/List/ModalSpace';
 
 const List = () => {
   const [firstLoad, setFirstLoad] = useState(true);
@@ -53,6 +51,7 @@ const List = () => {
   return (
     <StyledList>
       <StockList />
+      <ModalSpace />
     </StyledList>
   );
 };

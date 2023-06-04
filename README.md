@@ -10,6 +10,12 @@ Look no further than Show me RoR, where you can effortlessly monitor all your st
 - Seamlessly track your individual stock purchases, allowing you to conveniently access purchase details and average information for each stock.
 - Effortlessly group the stocks you have bought in multiple ways, enabling you to monitor the return and return ratio of each group with ease.
 
+## Updates
+
+1.1.0
+
+- Get backup file and set data with the file.
+
 ## Project duration
 
 2023/Mar/28 -

@@ -1,24 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { BorderButton, ContainedButton } from '../../../components/Button';
+import React, { useState } from 'react';
+import { ContainedButton } from '../../../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { addGroup } from '../../../features/groups/groupsSlice';
 import { changeCheckInfoToGroupFormat } from './utils';
 import { Input } from '../../../components/Input';
-import {
-  initCheckedItems,
-  selectCheckedPurchasedItems,
-} from '../../../features/checkedItems/checkedItemsSlice';
-import { selectStocks } from '../../../features/stockList/stockListSlice';
+import { initCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
+import { selectCheckedPurchasedItems } from '../../../features/checkedItems/selectors';
+import { selectStocks } from '../../../features/stockList/selectors';
 import GroupModalTable from './GroupModal/GroupModalTable';
 import styled from 'styled-components';
 import Modal from '../../../components/Modal';
+import { closeStockModal } from '../../../features/stockModal/stockModalSlice';
 
-interface AppGroupModalProps {
-  onClose: () => void;
-  isOpen: boolean;
-}
-
-const AddGroupModal = ({ onClose, isOpen }: AppGroupModalProps) => {
+const AddGroupModal = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
 
@@ -27,6 +21,8 @@ const AddGroupModal = ({ onClose, isOpen }: AppGroupModalProps) => {
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
+
+  const onClose = () => dispatch(closeStockModal('AddGroupModal'));
 
   const onAddGroup = () => {
     if (!name.trim().length) {
@@ -39,12 +35,8 @@ const AddGroupModal = ({ onClose, isOpen }: AppGroupModalProps) => {
     onClose();
   };
 
-  useEffect(() => {
-    setName('');
-  }, [onClose]);
-
   return (
-    <Modal title='Add Group' isOpen={isOpen} onClose={onClose}>
+    <Modal title='Add Group' onClose={onClose}>
       <StyledAddGroupModal>
         <div className='group-name'>
           <label className='group-name__label' htmlFor='group-name'>
@@ -82,6 +74,10 @@ const StyledAddGroupModal = styled('div')`
 
     .group-name__label {
       width: 120px;
+    }
+
+    input {
+      background-color: ${({ theme }) => theme.colors.grey100};
     }
   }
 

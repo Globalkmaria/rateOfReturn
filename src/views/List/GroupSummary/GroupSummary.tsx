@@ -1,49 +1,57 @@
 import React from 'react';
 import styled from 'styled-components';
-import { selectSelectedGroupInfo } from '../../../features/groups/groupsSlice';
+import { selectSelectedGroupInfo } from '../../../features/groups/selectors';
 import { useSelector } from 'react-redux';
-import { selectStocks } from '../../../features/stockList/stockListSlice';
+import { selectStocks } from '../../../features/stockList/selectors';
 import { getGroupSummary } from './utils';
 
 const GroupSummary = () => {
   const groupInfo = useSelector(selectSelectedGroupInfo());
   const stocks = useSelector(selectStocks);
-  const {
-    totalPurchasedPrice,
-    totalCurrentValue,
-    returnOfInvestment,
-    returnOfInvestmentRatio,
-  } = getGroupSummary(groupInfo, stocks);
-
-  const formattedTotalPurchasedPrice = totalPurchasedPrice.toLocaleString();
-  const formattedTotalCurrentValue = totalCurrentValue.toLocaleString();
-  const formattedReturnOfInvestment = returnOfInvestment.toLocaleString();
-  const formattedReturnOfInvestmentRatio =
-    returnOfInvestmentRatio.toLocaleString() + ' %';
+  const summary = getGroupSummary(groupInfo, stocks);
 
   return (
     <StyledGroupSummary>
-      <div className='content'>
-        <h1 className='title'>Total Purchased Price</h1>
-        <span className='text'>{formattedTotalPurchasedPrice}</span>
-      </div>
-      <div className='content'>
-        <h1 className='title'>Total Current Value</h1>
-        <span className='text'>{formattedTotalCurrentValue}</span>
-      </div>
-      <div className='content'>
-        <h1 className='title'>Return</h1>
-        <span className='text'>{formattedReturnOfInvestment}</span>
-      </div>
-      <div className='content'>
-        <h1 className='title'>Return of Ration</h1>
-        <span className='text'>{formattedReturnOfInvestmentRatio}</span>
-      </div>
+      {CONTENTS.map(({ key, title, format }) => (
+        <div className='content' key={key}>
+          <h1 className='title'>{title}</h1>
+          <span className='text'>{format(summary[key])}</span>
+        </div>
+      ))}
     </StyledGroupSummary>
   );
 };
 
 export default GroupSummary;
+
+type Contents = {
+  key: keyof ReturnType<typeof getGroupSummary>;
+  title: string;
+  format: (value: number) => string;
+}[];
+
+const CONTENTS: Contents = [
+  {
+    key: 'totalPurchasedPrice',
+    title: 'Total Purchased Price',
+    format: (value: number) => value.toLocaleString(),
+  },
+  {
+    key: 'totalCurrentValue',
+    title: 'Total Current Value',
+    format: (value: number) => value.toLocaleString(),
+  },
+  {
+    key: 'returnOfInvestment',
+    title: 'Return',
+    format: (value: number) => value.toLocaleString(),
+  },
+  {
+    key: 'returnOfInvestmentRatio',
+    title: 'Return of Ration',
+    format: (value: number) => `${value.toLocaleString()} %`,
+  },
+];
 
 const StyledGroupSummary = styled('div')`
   display: flex;

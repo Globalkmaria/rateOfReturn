@@ -1,32 +1,12 @@
-import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { GROUPS_MOCK_DATA, GROUPS_MOCK_DATA_NEXT_GROUP_ID } from './mockData';
-
-export type Group = {
-  groupId: string;
-  groupName: string;
-  stocks: { byId: { [stockId: string]: string[] }; allIds: string[] };
-};
-
-export interface GroupsState {
-  groups: { byId: { [groupId: string]: Group }; allIds: string[] };
-  selectedGroupId: string;
-  nextGroupId: number;
-}
-
-export type AddGroupPayload = {
-  groupName: string;
-  selectedStocks: Group['stocks'];
-};
-
-export type DeletePurchaseItemFromGroupPayload = {
-  stockId: string;
-  purchasedId: string;
-};
-export type UpdateMainGroupPayload = {
-  type: 'stock' | 'purchase';
-  stockId: string;
-  purchasedId: string;
-};
+import {
+  GroupsState,
+  AddGroupPayload,
+  DeletePurchaseItemFromGroupPayload,
+  UpdateMainGroupPayload,
+  Group,
+} from './type';
 
 const initialState: GroupsState = {
   groups: GROUPS_MOCK_DATA,
@@ -34,10 +14,18 @@ const initialState: GroupsState = {
   nextGroupId: GROUPS_MOCK_DATA_NEXT_GROUP_ID,
 };
 
+const mainGroupId = '1';
+
 export const groupsSlice = createSlice({
   name: 'groups',
   initialState,
   reducers: {
+    resetGroups: () => initialState,
+    setBackupGroups: (state, action: PayloadAction<GroupsState>) => {
+      state.groups = action.payload.groups;
+      state.selectedGroupId = action.payload.selectedGroupId;
+      state.nextGroupId = action.payload.nextGroupId;
+    },
     initGroups: (state, action: PayloadAction<GroupsState>) => {
       state.groups = action.payload.groups;
       state.selectedGroupId = '1';
@@ -47,33 +35,41 @@ export const groupsSlice = createSlice({
       state.selectedGroupId = action.payload;
     },
     addGroup: (state, action: PayloadAction<AddGroupPayload>) => {
-      state.groups.byId[state.nextGroupId] = {
-        groupId: state.nextGroupId + '',
+      const nextGroupId = state.nextGroupId++ + '';
+      const newGroupInfo: Group = {
+        groupId: nextGroupId,
         groupName: action.payload.groupName,
         stocks: action.payload.selectedStocks,
       };
-      state.groups.allIds.push(state.nextGroupId + '');
-      state.selectedGroupId = state.nextGroupId + '';
-      state.nextGroupId++;
+      state.groups.byId[nextGroupId] = newGroupInfo;
+      state.groups.allIds.push(nextGroupId);
+      state.selectedGroupId = nextGroupId;
     },
     deleteGroup: (state, action: PayloadAction<string>) => {
       const groupId = action.payload;
-      if (groupId === '1') return;
+      if (groupId === mainGroupId) return;
+
+      const selectedGroup = state.groups.byId[groupId];
+      if (!selectedGroup) return;
 
       delete state.groups.byId[groupId];
       state.groups.allIds.splice(state.groups.allIds.indexOf(groupId), 1);
-      if (state.selectedGroupId === groupId) state.selectedGroupId = '1';
+      if (state.selectedGroupId === groupId)
+        state.selectedGroupId = mainGroupId;
     },
     deleteStockFromGroup: (state, action: PayloadAction<string>) => {
       const stockId = action.payload;
-      for (const groupId of state.groups.allIds) {
-        const group = state.groups.byId[groupId];
+      const groupAllIds = [...state.groups.allIds];
+      for (let i = 0; i < groupAllIds.length; i++) {
+        const groupId = groupAllIds[i];
+        const group = state.groups.byId[groupAllIds[i]];
+        const stockAllIds = group.stocks.allIds;
         if (!group.stocks.byId[stockId]) continue;
 
         delete group.stocks.byId[stockId];
-        group.stocks.allIds.splice(group.stocks.allIds.indexOf(stockId), 1);
+        stockAllIds.splice(group.stocks.allIds.indexOf(stockId), 1);
         if (group.stocks.allIds.length) continue;
-        if (group.groupId === '1') continue;
+        if (group.groupId === mainGroupId) continue;
 
         delete state.groups.byId[groupId];
         state.groups.allIds.splice(state.groups.allIds.indexOf(groupId), 1);
@@ -85,7 +81,9 @@ export const groupsSlice = createSlice({
       action: PayloadAction<DeletePurchaseItemFromGroupPayload>,
     ) => {
       const { stockId, purchasedId } = action.payload;
-      for (const groupId of state.groups.allIds) {
+      const groupAllIds = [...state.groups.allIds];
+      for (let i = 0; i < groupAllIds.length; i++) {
+        const groupId = groupAllIds[i];
         const group = state.groups.byId[groupId];
         if (!group.stocks.byId[stockId]) continue;
 
@@ -99,7 +97,7 @@ export const groupsSlice = createSlice({
         delete group.stocks.byId[stockId];
         group.stocks.allIds.splice(group.stocks.allIds.indexOf(stockId), 1);
         if (group.stocks.allIds.length) continue;
-        if (group.groupId === '1') continue;
+        if (group.groupId === mainGroupId) continue;
 
         delete state.groups.byId[groupId];
         state.groups.allIds.splice(state.groups.allIds.indexOf(groupId), 1);
@@ -107,7 +105,7 @@ export const groupsSlice = createSlice({
     },
     updateMainGroup: (state, action: PayloadAction<UpdateMainGroupPayload>) => {
       const { type, stockId, purchasedId } = action.payload;
-      const mainGroup = state.groups.byId['1'];
+      const mainGroup = state.groups.byId[mainGroupId];
       if (type === 'stock') {
         mainGroup.stocks.allIds.push(stockId);
         mainGroup.stocks.byId[stockId] = [purchasedId];
@@ -120,21 +118,8 @@ export const groupsSlice = createSlice({
   },
 });
 
-export const selectGroups = (state: { groups: GroupsState }) => state.groups;
-export const selectSelectedGroupId = (state: { groups: GroupsState }) =>
-  state.groups.selectedGroupId;
-export const selectIsMainGroupSelected = () =>
-  createSelector(
-    selectSelectedGroupId,
-    (selectedGroupId) => selectedGroupId === '1',
-  );
-export const selectSelectedGroupInfo = () =>
-  createSelector(
-    [selectSelectedGroupId, selectGroups],
-    (selectedGroupId, groupsInfo) => groupsInfo.groups.byId[selectedGroupId],
-  );
-
 export const {
+  setBackupGroups,
   updateSelectedGroupId,
   addGroup,
   deletePurchaseItemFromGroup,
@@ -142,5 +127,6 @@ export const {
   initGroups,
   deleteStockFromGroup,
   updateMainGroup,
+  resetGroups,
 } = groupsSlice.actions;
 export default groupsSlice.reducer;

@@ -1,27 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  Group,
-  deleteGroup,
-  selectGroups,
-} from '../../../features/groups/groupsSlice';
+import { Group } from '../../../features/groups/type';
+import { selectGroups } from '../../../features/groups/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../../../components/Modal';
 import { BorderButton } from '../../../components/Button';
 import { FaTrash } from 'react-icons/fa';
+import {
+  closeStockModal,
+  openStockModal,
+} from '../../../features/stockModal/stockModalSlice';
+import { DeleteGroupWarningProps } from './DeleteGroupWarning';
 
-interface DeleteGroupModalProps {
-  onClose: () => void;
-  isOpen: boolean;
-}
+const NO_GROUP_MESSAGE = 'There is no group.';
 
-const NO_GROUP_MESSAGE = '그룹이 없습니다.';
-
-const DeleteGroupModal = ({ onClose, isOpen }: DeleteGroupModalProps) => {
+const DeleteGroupModal = () => {
+  const dispatch = useDispatch();
+  const onClose = () => dispatch(closeStockModal('DeleteGroupModal'));
   const groups = useSelector(selectGroups);
   const noGroups = groups.groups.allIds.length === 1;
   return (
-    <Modal title='Delete Group' isOpen={isOpen} onClose={onClose}>
+    <Modal title='Delete Group' onClose={onClose}>
       <StyledDeleteGroupModal>
         {groups.groups.allIds.map((id) => (
           <GroupItem groupInfo={groups.groups.byId[id]} key={id} />
@@ -39,14 +38,22 @@ const GroupItem = ({ groupInfo }: { groupInfo: Group }) => {
   const { groupId, groupName } = groupInfo;
   if (groupId === '1') return <></>;
 
-  const onDelete = () => {
-    dispatch(deleteGroup(groupId));
+  const onOpenDeleteModal = () => {
+    const props: DeleteGroupWarningProps = {
+      groupId,
+    };
+    dispatch(
+      openStockModal({
+        modalName: 'DeleteGroupWarning',
+        props,
+      }),
+    );
   };
 
   return (
     <StyledGroupItem>
       <h1 className='group-name'>{groupName}</h1>
-      <BorderButton onClick={onDelete} showLine={false}>
+      <BorderButton onClick={onOpenDeleteModal} showLine={false}>
         <FaTrash />
       </BorderButton>
     </StyledGroupItem>

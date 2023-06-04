@@ -78,7 +78,7 @@ const BaseButton = styled('button').attrs((props) => ({
 export const BorderButton = styled(BaseButton)<BorderButtonProps>(
   ({ theme, color = 'primary', showLine = true }) => ({
     border: showLine
-      ? `1px solid ${theme.colors[COLORS[color] + '400']}`
+      ? `1px solid ${theme.colors[COLORS[color] + '500']}`
       : 'none',
 
     '&:not([disabled]):hover': {

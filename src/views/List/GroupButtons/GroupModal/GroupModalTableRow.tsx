@@ -1,9 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  selectIsPurchasedItemChecked,
-  updateCheckedItems,
-} from '../../../../features/checkedItems/checkedItemsSlice';
-import { selectStockInfoById } from '../../../../features/stockList/stockListSlice';
+import { updateCheckedItems } from '../../../../features/checkedItems/checkedItemsSlice';
+import { selectIsPurchasedItemChecked } from '../../../../features/checkedItems/selectors';
+import { selectStockInfoById } from '../../../../features/stockList/selectors';
 import { CheckboxCell } from '../../StockItem/components';
 import { TableCell, TableRow } from '../../../../components/Table';
 import { Input } from '../../../../components/Input';

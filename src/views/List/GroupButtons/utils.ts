@@ -1,4 +1,4 @@
-import { Group, GroupsState } from '../../../features/groups/groupsSlice';
+import { Group, GroupsState } from '../../../features/groups/type';
 
 export const getOptions = (groups: GroupsState) => {
   return groups.groups.allIds.map((groupId) => {

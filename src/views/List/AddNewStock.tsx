@@ -4,7 +4,7 @@ import { TableCell, TableRow } from '../../components/Table';
 import { addNewStock } from '../../features/stockList/stockListSlice';
 import { addStockCheckInfo } from '../../features/checkedItems/checkedItemsSlice';
 import { updateMainGroup } from '../../features/groups/groupsSlice';
-import { selectStockList } from '../../features/stockList/stockListSlice';
+import { selectStockList } from '../../features/stockList/selectors';
 
 export const AddNewStock = () => {
   const dispatch = useDispatch();

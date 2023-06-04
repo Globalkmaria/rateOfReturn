@@ -1,18 +1,11 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { BorderButton } from '../../../components/Button';
-import {
-  BaseInput,
-  Input,
-  OnInputChangeType,
-  TransformedValue,
-} from '../../../components/Input';
+import { BaseInput, Input, TransformedValue } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
-import {
-  selectStockInfoById,
-  StockMainInfo,
-} from '../../../features/stockList/stockListSlice';
+import { StockMainInfo } from '../../../features/stockList/type';
+import { selectStockInfoById } from '../../../features/stockList/selectors';
 import {
   NumberCell,
   LockButton,
@@ -22,15 +15,14 @@ import {
 
 import { getGroupPurchasedData, getSummaryInfo } from './utils';
 import { updateStock } from '../../../features/stockList/stockListSlice';
-import {
-  selectStockCheckedInfo,
-  updateCheckedItems,
-} from '../../../features/checkedItems/checkedItemsSlice';
+import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
+import { selectStockCheckedInfo } from '../../../features/checkedItems/selectors';
 import {
   selectIsMainGroupSelected,
   selectSelectedGroupInfo,
-} from '../../../features/groups/groupsSlice';
+} from '../../../features/groups/selectors';
 import { openStockModal } from '../../../features/stockModal/stockModalSlice';
+import { DeleteModalProps } from './DeleteStockModal';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -80,8 +72,8 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const onInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     transformedValue: TransformedValue,
-    fieldName: keyof Omit<StockMainInfo, 'stockId'>,
   ) => {
+    const fieldName = e.target.name as keyof Omit<StockMainInfo, 'stockId'>;
     if (fieldName === 'currentPrice' && transformedValue === null) return;
     const value =
       fieldName === 'stockName'
@@ -96,13 +88,21 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       }),
     );
   };
-  const onStockNameChange: OnInputChangeType = (e, transformedValue) =>
-    onInputChange(e, transformedValue, 'stockName');
-  const onCurrentPriceChange: OnInputChangeType = (e, transformedValue) =>
-    onInputChange(e, transformedValue, 'currentPrice');
 
-  const onDeleteModalOpen = () =>
-    dispatch(openStockModal({ type: 'stock', stockId, purchasedId: '' }));
+  const onDeleteModalOpen = () => {
+    const props: DeleteModalProps = {
+      stockId,
+      purchasedId: '',
+      type: 'stock',
+    };
+
+    dispatch(
+      openStockModal({
+        modalName: 'DeleteStockModal',
+        props,
+      }),
+    );
+  };
 
   useEffect(() => {
     setIsLock(true);
@@ -120,7 +120,8 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
         <Input
           className='stockName'
           fullWidth
-          onChange={onStockNameChange}
+          onChange={onInputChange}
+          name='stockName'
           value={stockInfo.mainInfo.stockName}
           disabled={isLock}
         />
@@ -137,8 +138,9 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       <TableCell>
         <Input
           fullWidth
-          onChange={onCurrentPriceChange}
-          onBlur={onCurrentPriceChange}
+          name='currentPrice'
+          onChange={onInputChange}
+          onBlur={onInputChange}
           type='number'
           value={formattedCurrentPrice}
           disabled={isLock}

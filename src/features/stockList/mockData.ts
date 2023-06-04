@@ -1,4 +1,4 @@
-import { StockListState } from './stockListSlice';
+import { StockListState } from './type';
 
 export const MOCK_DATA: StockListState['stocks'] = {
   byId: {
