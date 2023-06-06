@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Navbar from './Navbar';
+import Footer from './Footer';
 
 interface GeneralLayoutProps {
   children: React.ReactNode;
@@ -10,6 +11,7 @@ const GeneralLayout = ({ children }: GeneralLayoutProps) => {
     <StyledGeneralLayout>
       <Navbar />
       <StyledMainLayout>{children}</StyledMainLayout>
+      <Footer />
     </StyledGeneralLayout>
   );
 };

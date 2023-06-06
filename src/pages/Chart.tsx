@@ -1,9 +1,14 @@
 import styled from 'styled-components';
+import ChartMenu from '../views/Chart/ChartMenu';
+import { Outlet } from 'react-router-dom';
 
-interface ChartProps {}
-
-const Chart = (props: ChartProps) => {
-  return <StyledChart>Chart</StyledChart>;
+const Chart = () => {
+  return (
+    <StyledChart>
+      <ChartMenu />
+      <Outlet />
+    </StyledChart>
+  );
 };
 
 export default Chart;

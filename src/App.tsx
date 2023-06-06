@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 import { store } from './store';
 import { Provider } from 'react-redux';
-import { routers } from './router';
+import { routers } from './router/router';
 
 function App() {
   return (

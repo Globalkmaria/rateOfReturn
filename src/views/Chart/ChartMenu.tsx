@@ -1,20 +1,20 @@
+import React from 'react';
 import styled from 'styled-components';
-import { SidebarContent } from '../router/router';
-import { useRouter } from '../hooks/useRouter';
-export interface NavbarElement {
-  id: number;
-  label: string;
-  path: string;
-  disabled?: boolean;
-}
+import { useRouter } from '../../hooks/useRouter';
+import { chartRouterData } from '../../router/routerData';
 
-const Navbar = () => {
-  const { routeTo, currentLevelPath } = useRouter(0);
+type MenuProps = { selected: boolean; disabled?: boolean };
+
+interface ChartMenuProps {}
+
+const ChartMenu = ({}: ChartMenuProps) => {
+  const { routeTo, currentLevelPath } = useRouter(1);
   const menuClickHandler = (path: string) => routeTo(path);
+
   return (
-    <StyledNav>
+    <StyledChartMenu>
       <ul className='menu-list'>
-        {SidebarContent.map((element) => {
+        {chartRouterData.map((element) => {
           return (
             <StyledMenu
               key={element.path}
@@ -29,17 +29,14 @@ const Navbar = () => {
           );
         })}
       </ul>
-    </StyledNav>
+    </StyledChartMenu>
   );
 };
 
-export default Navbar;
+export default ChartMenu;
 
-type MenuProps = { selected: boolean; disabled?: boolean };
-
-const StyledNav = styled('nav')`
+const StyledChartMenu = styled('nav')`
   height: fit-content;
-  border-bottom: 2px solid ${({ theme }) => theme.colors.grey200};
   padding: 10px;
 
   .menu-list {
@@ -51,12 +48,11 @@ const StyledNav = styled('nav')`
 
 const StyledMenu = styled('li')<MenuProps>`
   padding: 10px;
-  width: 100px;
   background: ${({ theme, selected }) =>
     selected ? theme.colors.grey100 : 'none'};
   border-radius: 10px;
   transition: '200ms';
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   text-align: center;
   cursor: pointer;
 

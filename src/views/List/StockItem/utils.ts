@@ -7,18 +7,17 @@ export const getGroupPurchasedData = (
 ) => {
   const filteredData: StockList['purchasedItems'] = {
     byId: {},
-    allIds: [],
+    allIds: [...groupPurchasedIds],
   };
 
   for (const purchasedId of groupPurchasedIds) {
     filteredData.byId[purchasedId] = originalPurchasedData.byId[purchasedId];
-    filteredData.allIds.push(purchasedId);
   }
 
   return filteredData;
 };
 
-export const getSummaryInfo = (
+export const getStockSummaryInfo = (
   mainInfo: StockList['mainInfo'],
   purchasedItems: StockList['purchasedItems'],
 ): SummaryInfoData => {
