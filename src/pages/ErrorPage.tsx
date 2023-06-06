@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { useRouteError, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ContainedButton } from '../components/Button';
@@ -11,9 +11,7 @@ import { resetGroups } from '../features/groups/groupsSlice';
 import { store } from '../store';
 import { getCurrentDateTimeString } from '../views/List/Backup/utils';
 
-interface ErrorPageProps {}
-
-const ErrorPage = ({}: ErrorPageProps) => {
+const ErrorPage = () => {
   const error: any = useRouteError();
   console.error(error);
 
