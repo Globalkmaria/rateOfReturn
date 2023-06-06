@@ -2,12 +2,39 @@ import React, { ReactNode } from 'react';
 import { useRouteError, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ContainedButton } from '../components/Button';
+import { useDispatch } from 'react-redux';
+import { resetStockModal } from '../features/stockModal/stockModalSlice';
+import { saveAs } from 'file-saver';
+import { resetCheckedItems } from '../features/checkedItems/checkedItemsSlice';
+import { restStockList } from '../features/stockList/stockListSlice';
+import { resetGroups } from '../features/groups/groupsSlice';
+import { store } from '../store';
+import { getCurrentDateTimeString } from '../views/List/Backup/utils';
 
 interface ErrorPageProps {}
 
 const ErrorPage = ({}: ErrorPageProps) => {
   const error: any = useRouteError();
   console.error(error);
+
+  const dispatch = useDispatch();
+
+  const handleSave = () => {
+    const data = store.getState();
+    const blob = new Blob([JSON.stringify(data)], {
+      type: 'application/json',
+    });
+    const date = getCurrentDateTimeString();
+    saveAs(blob, `RoR${date}.json`);
+  };
+
+  const onReset = () => {
+    dispatch(resetCheckedItems());
+    dispatch(restStockList());
+    dispatch(resetStockModal());
+    dispatch(resetGroups());
+  };
+
   return (
     <StyledErrorPage>
       <div className='content'>
@@ -19,6 +46,17 @@ const ErrorPage = ({}: ErrorPageProps) => {
       </div>
       <ContainedButton size='m'>
         <Link to='/'>Return Home</Link>
+      </ContainedButton>
+      If Returning Home Does Not Work, Try Resetting Data.
+      <br />
+      If you reset data, all data will be deleted.
+      <br />
+      If you want to get backup file before reset, click the button below.
+      <ContainedButton onClick={handleSave} title='Save File Button' fullWidth>
+        Get Backup File
+      </ContainedButton>
+      <ContainedButton onClick={onReset} size='m'>
+        Reset Data
       </ContainedButton>
     </StyledErrorPage>
   );
