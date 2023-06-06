@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { useRouteError, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ContainedButton } from '../components/Button';
@@ -11,9 +11,7 @@ import { resetGroups } from '../features/groups/groupsSlice';
 import { store } from '../store';
 import { getCurrentDateTimeString } from '../views/List/Backup/utils';
 
-interface ErrorPageProps {}
-
-const ErrorPage = ({}: ErrorPageProps) => {
+const ErrorPage = () => {
   const error: any = useRouteError();
   console.error(error);
 
@@ -47,14 +45,26 @@ const ErrorPage = ({}: ErrorPageProps) => {
       <ContainedButton size='m'>
         <Link to='/'>Return Home</Link>
       </ContainedButton>
-      If Returning Home Does Not Work, Try Resetting Data.
-      <br />
-      If you reset data, all data will be deleted.
-      <br />
-      If you want to get backup file before reset, click the button below.
-      <ContainedButton onClick={handleSave} title='Save File Button' fullWidth>
+
+      <p className='content'>
+        If 'Returning Home' Does Not Work, Try Resetting Data.
+      </p>
+      <ContainedButton
+        onClick={handleSave}
+        title='Save File Button'
+        size='m'
+        color={'warning'}
+      >
         Get Backup File
       </ContainedButton>
+
+      <p className='content warning'>
+        If you reset data, all data will be deleted.
+        <br />
+        If you want to get backup file before reset, click the 'Get Backup File'
+        first.
+      </p>
+
       <ContainedButton onClick={onReset} size='m'>
         Reset Data
       </ContainedButton>
@@ -70,14 +80,18 @@ const StyledErrorPage = styled('div')`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 15px;
 
   .content {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
     line-height: 2rem;
     font-size: 1.4rem;
+    text-align: center;
+  }
+  .warning {
+    color: red;
   }
 `;
