@@ -20,8 +20,8 @@ export const routers: RemixRouter = createBrowserRouter(
   rootRouterData.map((router) => {
     return {
       path: router.path,
-      errorElement: <ErrorPage />,
       element: <GeneralLayout>{router.element}</GeneralLayout>,
+      errorElement: <ErrorPage />,
       children: router?.children?.map((child) => {
         return {
           path: child.path,
