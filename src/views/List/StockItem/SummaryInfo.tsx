@@ -13,7 +13,7 @@ import {
   CheckboxCell,
 } from './components';
 
-import { getGroupPurchasedData, getSummaryInfo } from './utils';
+import { getGroupPurchasedData, getStockSummaryInfo } from './utils';
 import { updateStock } from '../../../features/stockList/stockListSlice';
 import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
 import { selectStockCheckedInfo } from '../../../features/checkedItems/selectors';
@@ -49,7 +49,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const purchasedItems = isMainGroupSelected
     ? stockInfo.purchasedItems
     : getGroupPurchasedData(stockInfo.purchasedItems, groupPurchasedIds);
-  const summaryData = getSummaryInfo(stockInfo.mainInfo, purchasedItems);
+  const summaryData = getStockSummaryInfo(stockInfo.mainInfo, purchasedItems);
   const formattedCurrentPrice = stockInfo.mainInfo.currentPrice.toString();
   const formattedEvaluationProfit =
     summaryData.evaluationProfit.toLocaleString();
