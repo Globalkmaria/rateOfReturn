@@ -4,6 +4,7 @@ import { Router as RemixRouter } from '@remix-run/router/dist/router';
 import GeneralLayout from '../layout/GeneralLayout';
 import { NavbarElement } from '../layout/Navbar';
 import { rootRouterData } from './routerData';
+import ErrorPage from '../pages/ErrorPage';
 
 export interface RouterElement {
   id: number;
@@ -19,6 +20,7 @@ export const routers: RemixRouter = createBrowserRouter(
   rootRouterData.map((router) => {
     return {
       path: router.path,
+      errorElement: <ErrorPage />,
       element: <GeneralLayout>{router.element}</GeneralLayout>,
       children: router?.children?.map((child) => {
         return {
