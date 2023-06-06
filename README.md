@@ -16,6 +16,10 @@ Look no further than Show me RoR, where you can effortlessly monitor all your st
 
 - Get backup file and set data with the file.
 
+  1.2.0
+
+- Add Portfolio Allocation Chart
+
 ## Project duration
 
 2023/Mar/28 -
@@ -28,5 +32,7 @@ Look no further than Show me RoR, where you can effortlessly monitor all your st
 
 <img src="https://drive.google.com/uc?export=view&id=1AC9v8sIyaQP5vDf3hRSScK0IMLCavAwq" alt="image" width="800" height="400">
 <img src="https://drive.google.com/uc?export=view&id=1wCb5kEbg8lBWrJUp1smwMr3jVPVFH606" alt="image" width="800" height="400">
+<img src="https://drive.google.com/uc?export=view&id=1wCb5kEbg8lBWrJUp1smwMr3jVPVFH606" alt="image" width="800" height="400">
+<img src="https://drive.google.com/uc?export=view&id=1stJ9pkIUFXE-wq1Nl2VQ_3XQRiOc6s6L" alt="image" width="800" height="400">
 
 Licensed under GNU v3.0

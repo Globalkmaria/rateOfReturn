@@ -1,10 +1,15 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
-export const useRouter = () => {
-  const router = useNavigate()
+export const useRouter = (level: number) => {
+  const router = useNavigate();
+  const currentPath = window.location.pathname;
+  const currentLevelPath = !level
+    ? '/' + currentPath.split('/')[1]
+    : currentPath.split('/')[level + 1];
 
   return {
-    currentPath: window.location.pathname,
-    routeTo: (path: string) => router(path)
-  }
-}
+    currentPath,
+    currentLevelPath,
+    routeTo: (path: string) => router(path),
+  };
+};

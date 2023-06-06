@@ -1,50 +1,42 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { Router as RemixRouter } from '@remix-run/router/dist/router';
-import List from './pages/List';
-import Chart from './pages/Chart';
-import GeneralLayout from './layout/GeneralLayout';
-import { NavbarElement } from './layout/Navbar';
 
-interface RouterElement {
+import GeneralLayout from '../layout/GeneralLayout';
+import { NavbarElement } from '../layout/Navbar';
+import { rootRouterData } from './routerData';
+
+export interface RouterElement {
   id: number;
   path: string;
+  relocatedPath?: string;
   label: string;
   element: React.ReactNode;
   disabled?: boolean;
+  children?: RouterElement[];
 }
 
-const routerData: RouterElement[] = [
-  {
-    id: 0,
-    path: '/',
-    label: 'List',
-    element: <List />,
-  },
-  {
-    id: 1,
-    path: '/chart',
-    label: 'Chart',
-    element: <Chart />,
-    disabled: true,
-  },
-];
-
 export const routers: RemixRouter = createBrowserRouter(
-  routerData.map((router) => {
+  rootRouterData.map((router) => {
     return {
       path: router.path,
       element: <GeneralLayout>{router.element}</GeneralLayout>,
+      children: router?.children?.map((child) => {
+        return {
+          path: child.path,
+          element: child.element,
+        };
+      }),
     };
   }),
 );
 
-export const SidebarContent: NavbarElement[] = routerData.reduce(
+export const SidebarContent: NavbarElement[] = rootRouterData.reduce(
   (prev, router) => {
     return [
       ...prev,
       {
         id: router.id,
-        path: router.path,
+        path: router.relocatedPath || router.path,
         label: router.label,
         disabled: router.disabled,
       },
