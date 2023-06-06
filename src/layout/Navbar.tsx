@@ -1,7 +1,6 @@
-import { useRouter } from '../hooks/useRouter';
 import styled from 'styled-components';
-import { SidebarContent } from '../router';
-
+import { SidebarContent } from '../router/router';
+import { useRouter } from '../hooks/useRouter';
 export interface NavbarElement {
   id: number;
   label: string;
@@ -10,21 +9,16 @@ export interface NavbarElement {
 }
 
 const Navbar = () => {
-  const { currentPath, routeTo } = useRouter();
-  const navbarContent = SidebarContent;
-
-  const menuClickHandler = (path: string) => {
-    routeTo(path);
-  };
-
+  const { routeTo, currentLevelPath } = useRouter(0);
+  const menuClickHandler = (path: string) => routeTo(path);
   return (
     <StyledNav>
       <ul className='menu-list'>
-        {navbarContent.map((element) => {
+        {SidebarContent.map((element) => {
           return (
             <StyledMenu
               key={element.path}
-              selected={currentPath === element.path}
+              selected={currentLevelPath === element.path}
               onClick={() =>
                 !element.disabled && menuClickHandler(element.path)
               }
