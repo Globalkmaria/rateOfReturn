@@ -31,6 +31,7 @@ const ErrorPage = () => {
     dispatch(restStockList());
     dispatch(resetStockModal());
     dispatch(resetGroups());
+    localStorage.clear();
   };
 
   return (
