@@ -33,7 +33,7 @@ type Contents = {
 const CONTENTS: Contents = [
   {
     key: 'totalPurchasedPrice',
-    title: 'Total Purchased Price',
+    title: 'Total Buy Price',
     format: (value: number) => value.toLocaleString(),
   },
   {
