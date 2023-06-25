@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouteError, Link } from 'react-router-dom';
+import { useRouteError, Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ContainedButton } from '../components/Button';
 import { useDispatch } from 'react-redux';
@@ -12,6 +12,7 @@ import { store } from '../store';
 import { getCurrentDateTimeString } from '../views/List/Backup/utils';
 
 const ErrorPage = () => {
+  const router = useNavigate();
   const error: any = useRouteError();
   console.error(error);
 
@@ -32,6 +33,11 @@ const ErrorPage = () => {
     dispatch(resetStockModal());
     dispatch(resetGroups());
     localStorage.clear();
+  };
+
+  const onResetAndReturnHome = () => {
+    onReset();
+    router('/');
   };
 
   return (
@@ -66,8 +72,8 @@ const ErrorPage = () => {
         first.
       </p>
 
-      <ContainedButton onClick={onReset} size='m'>
-        Reset Data
+      <ContainedButton onClick={onResetAndReturnHome} size='m'>
+        Reset Data and Return Home
       </ContainedButton>
     </StyledErrorPage>
   );
