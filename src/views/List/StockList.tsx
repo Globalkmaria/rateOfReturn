@@ -51,6 +51,8 @@ const StyledStockList = styled('div')`
 
     &:disabled {
       background: none;
+      -webkit-text-fill-color: ${({ theme }) => theme.colors.grey900};
+      opacity: 1;
     }
   }
 

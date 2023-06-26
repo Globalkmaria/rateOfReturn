@@ -17,8 +17,8 @@ type HeaderListProps = {
   id: string;
   label: string;
   Component?: HeaderListComponent;
-  width?: number;
-  flexBasis?: number;
+  fixedWidth?: number;
+  minWidth?: number;
   className?: string;
 }[];
 
@@ -68,24 +68,24 @@ const CheckAllCheckbox = ({ id, ...restProps }: TableHeadProps) => {
 };
 
 const HEADER_LIST: HeaderListProps = [
-  { id: '1', label: 'Select All', Component: CheckAllCheckbox, width: 50 },
-  { id: '2', label: 'Stock Name', flexBasis: 120 },
-  { id: '3', label: 'Buy ID', width: 50 },
-  { id: '4', label: 'Buy Date' },
-  { id: '5', label: 'Buy Quantity', width: 100 },
-  { id: '6', label: 'Avg Buy Unit Price', flexBasis: 120 },
+  { id: '1', label: 'Select All', Component: CheckAllCheckbox, fixedWidth: 50 },
+  { id: '2', label: 'Stock Name', minWidth: 120 },
+  { id: '3', label: 'Buy ID', fixedWidth: 50 },
+  { id: '4', label: 'Buy Date', fixedWidth: 230 },
+  { id: '5', label: 'Buy Quantity', fixedWidth: 100 },
+  { id: '6', label: 'Avg Buy Unit Price', minWidth: 120 },
   {
     id: '7',
     label: 'Total Buy Cost',
-    flexBasis: 150,
+    minWidth: 150,
     className: 'total-purchase',
   },
-  { id: '8', label: 'Current Unit Price', flexBasis: 120 },
-  { id: '9', label: 'Current Total Value', flexBasis: 100 },
-  { id: '10', label: 'Return', flexBasis: 100 },
-  { id: '11', label: 'Rate of Return', flexBasis: 100 },
-  { id: '12', label: 'Lock', width: 50 },
-  { id: '13', label: 'Delete', width: 50 },
+  { id: '8', label: 'Current Unit Price', minWidth: 120 },
+  { id: '9', label: 'Current Total Value', minWidth: 100 },
+  { id: '10', label: 'Return', minWidth: 100 },
+  { id: '11', label: 'Rate of Return', minWidth: 100 },
+  { id: '12', label: 'Lock', fixedWidth: 50 },
+  { id: '13', label: 'Delete', fixedWidth: 50 },
 ];
 
 const StyledStockTableRow = styled(TableRow)`
