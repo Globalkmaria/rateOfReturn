@@ -1,10 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { ContainedButton } from '../../components/Button';
 import { TableCell, TableRow } from '../../components/Table';
-import { addNewStock } from '../../features/stockList/stockListSlice';
+import {
+  addNewStock,
+  updateNextPurchasedId,
+  updateNextStockId,
+} from '../../features/stockList/stockListSlice';
 import { addStockCheckInfo } from '../../features/checkedItems/checkedItemsSlice';
 import { updateMainGroup } from '../../features/groups/groupsSlice';
 import { selectStockList } from '../../features/stockList/selectors';
+import { getNewStockInfo } from '../../features/stockList/utils';
 
 export const AddNewStock = () => {
   const dispatch = useDispatch();
@@ -12,8 +17,13 @@ export const AddNewStock = () => {
   const onAddNewStock = () => {
     const newStockId = stockList.nextStockId.toString();
     const newPurchasedId = stockList.nextPurchasedId.toString();
-
-    dispatch(addNewStock());
+    const newStockInfo = getNewStockInfo(newStockId, newPurchasedId);
+    dispatch(
+      addNewStock({
+        stockId: newStockId,
+        stockInfo: newStockInfo,
+      }),
+    );
     dispatch(
       addStockCheckInfo({
         stockId: newStockId.toString(),
@@ -27,6 +37,8 @@ export const AddNewStock = () => {
         purchasedId: newPurchasedId,
       }),
     );
+    dispatch(updateNextStockId());
+    dispatch(updateNextPurchasedId());
   };
 
   return (
