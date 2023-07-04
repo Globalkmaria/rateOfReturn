@@ -5,8 +5,12 @@ import {
   AddGroupPayload,
   DeletePurchaseItemFromGroupPayload,
   UpdateMainGroupPayload,
-  Group,
 } from './type';
+import {
+  deletePurchasedItemFromGroup,
+  deleteStockFromGroup,
+  validCheckGroupDelete,
+} from './utils';
 
 export const MAIN_GROUP_ID = '1';
 
@@ -20,99 +24,79 @@ export const groupsSlice = createSlice({
   name: 'groups',
   initialState,
   reducers: {
+    initGroups: (state, action: PayloadAction<GroupsState>) => {
+      state.groups = action.payload.groups;
+      state.selectedGroupId = MAIN_GROUP_ID;
+      state.nextGroupId = action.payload.nextGroupId;
+    },
     resetGroups: () => initialState,
     setBackupGroups: (state, action: PayloadAction<GroupsState>) => {
       state.groups = action.payload.groups;
       state.selectedGroupId = action.payload.selectedGroupId;
       state.nextGroupId = action.payload.nextGroupId;
     },
-    initGroups: (state, action: PayloadAction<GroupsState>) => {
-      state.groups = action.payload.groups;
-      state.selectedGroupId = MAIN_GROUP_ID;
-      state.nextGroupId = action.payload.nextGroupId;
-    },
+
     updateSelectedGroupId: (state, action: PayloadAction<string>) => {
       state.selectedGroupId = action.payload;
     },
-    addGroup: (state, action: PayloadAction<AddGroupPayload>) => {
-      const nextGroupId = state.nextGroupId++ + '';
-      const newGroupInfo: Group = {
-        groupId: nextGroupId,
-        groupName: action.payload.groupName,
-        stocks: action.payload.selectedStocks,
-      };
-      state.groups.byId[nextGroupId] = newGroupInfo;
-      state.groups.allIds.push(nextGroupId);
-      state.selectedGroupId = nextGroupId;
-    },
-    deleteGroup: (state, action: PayloadAction<string>) => {
-      const groupId = action.payload;
-      if (groupId === MAIN_GROUP_ID) return;
-
-      const selectedGroup = state.groups.byId[groupId];
-      if (!selectedGroup) return;
-
-      delete state.groups.byId[groupId];
-      state.groups.allIds.splice(state.groups.allIds.indexOf(groupId), 1);
-      if (state.selectedGroupId === groupId)
-        state.selectedGroupId = MAIN_GROUP_ID;
-    },
-    deleteStockFromGroup: (state, action: PayloadAction<string>) => {
-      const stockId = action.payload;
-      const groupAllIds = [...state.groups.allIds];
-      for (let i = 0; i < groupAllIds.length; i++) {
-        const groupId = groupAllIds[i];
-        const group = state.groups.byId[groupAllIds[i]];
-        const stockAllIds = group.stocks.allIds;
-        if (!group.stocks.byId[stockId]) continue;
-
-        delete group.stocks.byId[stockId];
-        stockAllIds.splice(group.stocks.allIds.indexOf(stockId), 1);
-        if (group.stocks.allIds.length) continue;
-        if (group.groupId === MAIN_GROUP_ID) continue;
-
-        delete state.groups.byId[groupId];
-        state.groups.allIds.splice(state.groups.allIds.indexOf(groupId), 1);
-      }
-    },
-
-    deletePurchaseItemFromGroup: (
-      state,
-      action: PayloadAction<DeletePurchaseItemFromGroupPayload>,
-    ) => {
-      const { stockId, purchasedId } = action.payload;
-      const groupAllIds = [...state.groups.allIds];
-      for (let i = 0; i < groupAllIds.length; i++) {
-        const groupId = groupAllIds[i];
-        const group = state.groups.byId[groupId];
-        if (!group.stocks.byId[stockId]) continue;
-
-        const purchasedIds = group.stocks.byId[stockId];
-        const index = purchasedIds.indexOf(purchasedId);
-        if (index === -1) continue;
-
-        purchasedIds.splice(index, 1);
-        if (purchasedIds.length) continue;
-
-        delete group.stocks.byId[stockId];
-        group.stocks.allIds.splice(group.stocks.allIds.indexOf(stockId), 1);
-        if (group.stocks.allIds.length) continue;
-        if (group.groupId === MAIN_GROUP_ID) continue;
-
-        delete state.groups.byId[groupId];
-        state.groups.allIds.splice(state.groups.allIds.indexOf(groupId), 1);
-      }
+    updateNextGroupId: (state) => {
+      state.nextGroupId += 1;
     },
     updateMainGroup: (state, action: PayloadAction<UpdateMainGroupPayload>) => {
       const { type, stockId, purchasedId } = action.payload;
       const mainGroup = state.groups.byId[MAIN_GROUP_ID];
       if (type === 'stock') {
         mainGroup.stocks.allIds.push(stockId);
-        mainGroup.stocks.byId[stockId] = [purchasedId];
+        mainGroup.stocks.byId[stockId] = [];
       }
 
-      if (type === 'purchase') {
-        mainGroup.stocks.byId[stockId].push(purchasedId);
+      mainGroup.stocks.byId[stockId].push(purchasedId);
+    },
+
+    addGroup: (state, action: PayloadAction<AddGroupPayload>) => {
+      const { groupInfo, groupId } = action.payload;
+      state.groups.byId[groupId] = groupInfo;
+      state.groups.allIds.push(groupId);
+      state.selectedGroupId = groupId;
+    },
+
+    deleteGroup: (state, action: PayloadAction<string>) => {
+      const groupId = action.payload;
+      if (validCheckGroupDelete(state, groupId)) return;
+
+      const selectedGroupIndex = state.groups.allIds.indexOf(groupId);
+      delete state.groups.byId[groupId];
+      state.groups.allIds.splice(selectedGroupIndex, 1);
+
+      if (state.selectedGroupId === groupId)
+        state.selectedGroupId = MAIN_GROUP_ID;
+    },
+    deleteStockFromGroups: (state, action: PayloadAction<string>) => {
+      const stockId = action.payload;
+
+      for (const groupId of state.groups.allIds) {
+        const group = state.groups.byId[groupId];
+        deleteStockFromGroup(group, stockId);
+      }
+    },
+    deletePurchaseItemFromGroups: (
+      state,
+      action: PayloadAction<DeletePurchaseItemFromGroupPayload>,
+    ) => {
+      const { stockId, purchasedId } = action.payload;
+
+      for (const groupId of state.groups.allIds) {
+        const group = state.groups.byId[groupId];
+
+        const isDeleted = deletePurchasedItemFromGroup(
+          group,
+          stockId,
+          purchasedId,
+        );
+        if (!isDeleted) continue;
+
+        const emptyPurchasedItems = !group.stocks.byId[stockId].length;
+        if (emptyPurchasedItems) deleteStockFromGroup(group, stockId);
       }
     },
   },
@@ -121,11 +105,12 @@ export const groupsSlice = createSlice({
 export const {
   setBackupGroups,
   updateSelectedGroupId,
+  updateNextGroupId,
   addGroup,
-  deletePurchaseItemFromGroup,
+  deletePurchaseItemFromGroups,
   deleteGroup,
   initGroups,
-  deleteStockFromGroup,
+  deleteStockFromGroups,
   updateMainGroup,
   resetGroups,
 } = groupsSlice.actions;

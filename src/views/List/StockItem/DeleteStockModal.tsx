@@ -6,8 +6,8 @@ import {
   deleteStock,
 } from '../../../features/stockList/stockListSlice';
 import {
-  deletePurchaseItemFromGroup,
-  deleteStockFromGroup,
+  deletePurchaseItemFromGroups,
+  deleteStockFromGroups,
 } from '../../../features/groups/groupsSlice';
 import {
   deleteCheckedItems,
@@ -34,14 +34,14 @@ export const DeleteStockModal = () => {
 
   const onDeletePurchasedStock = () => {
     dispatch(deletePurchasedItem({ stockId, purchasedId }));
-    dispatch(deletePurchaseItemFromGroup({ stockId, purchasedId }));
+    dispatch(deletePurchaseItemFromGroups({ stockId, purchasedId }));
     dispatch(deleteCheckedItems({ stockId, purchasedId }));
     onClose();
   };
 
   const onDeleteStock = () => {
     dispatch(deleteStock(stockId));
-    dispatch(deleteStockFromGroup(stockId));
+    dispatch(deleteStockFromGroups(stockId));
     dispatch(deleteStockCheck(stockId));
     onClose();
   };
