@@ -27,10 +27,10 @@ const stockListSlice = createSlice({
   initialState,
   reducers: {
     updateNextStockId: (state) => {
-      state.nextStockId += 1;
+      state.nextStockId = Number(state.nextStockId) + 1;
     },
     updateNextPurchasedId: (state) => {
-      state.nextPurchasedId += 1;
+      state.nextPurchasedId = Number(state.nextPurchasedId) + 1;
     },
 
     setBackupStockList: (state, action: PayloadAction<StockListState>) => {
