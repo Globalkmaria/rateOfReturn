@@ -20,6 +20,14 @@ Look no further than Show me RoR, where you can effortlessly monitor all your st
 
 - Add Portfolio Allocation Chart
 
+  1.2.1
+
+- Routing bug
+
+  1.2.2
+
+- Small changes
+
 ## Project duration
 
 2023/Mar/28 -
@@ -31,7 +39,6 @@ Look no further than Show me RoR, where you can effortlessly monitor all your st
 ## Snapshot
 
 <img src="https://drive.google.com/uc?export=view&id=1AC9v8sIyaQP5vDf3hRSScK0IMLCavAwq" alt="image" width="800" height="400">
-<img src="https://drive.google.com/uc?export=view&id=1wCb5kEbg8lBWrJUp1smwMr3jVPVFH606" alt="image" width="800" height="400">
 <img src="https://drive.google.com/uc?export=view&id=1wCb5kEbg8lBWrJUp1smwMr3jVPVFH606" alt="image" width="800" height="400">
 <img src="https://drive.google.com/uc?export=view&id=1stJ9pkIUFXE-wq1Nl2VQ_3XQRiOc6s6L" alt="image" width="800" height="400">
 

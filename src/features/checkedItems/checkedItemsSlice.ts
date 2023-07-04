@@ -1,12 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { getInitialCheckedItemsInfo, updateCheckedItemsState } from './utils';
 import {
-  getInitialCheckedItemsInfo,
-  updateAllCheckedItems,
-  updatePurchasedCheckedItems,
-  updateStockCheckedItems,
-} from './utils';
-import { StockListState } from '../stockList/type';
-import {
+  AddStockCheckInfoPayload,
+  CheckedItemsInfo,
   CheckedItemsState,
   CheckInfoPayload,
   UpdateCheckedItemsInfoPayload,
@@ -24,16 +20,9 @@ export const checkedItemsSlice = createSlice({
   initialState,
   reducers: {
     resetCheckedItems: () => initialState,
-    initCheckedItems: (
-      state,
-      action: PayloadAction<StockListState['stocks']>,
-    ) => {
-      const initData = getInitialCheckedItemsInfo({
-        data: action.payload,
-        value: true,
-      });
-      state.allChecked = initData.allChecked;
-      state.stocksCheckInfo = initData.stocksCheckInfo;
+    initCheckedItems: (state, action: PayloadAction<CheckedItemsInfo>) => {
+      state.allChecked = action.payload.allChecked;
+      state.stocksCheckInfo = action.payload.stocksCheckInfo;
     },
     setBackupCheckedItems: (
       state,
@@ -42,13 +31,12 @@ export const checkedItemsSlice = createSlice({
       state.allChecked = action.payload.allChecked;
       state.stocksCheckInfo = action.payload.stocksCheckInfo;
     },
-    addStockCheckInfo: (state, action: PayloadAction<CheckInfoPayload>) => {
-      const { stockId, purchasedId } = action.payload;
-      const newStockCheckInfo = {
-        allChecked: true,
-        purchasedItems: { [purchasedId]: true },
-      };
-      state.stocksCheckInfo[stockId] = newStockCheckInfo;
+    addStockCheckInfo: (
+      state,
+      action: PayloadAction<AddStockCheckInfoPayload>,
+    ) => {
+      const { stockId, stockCheckInfo } = action.payload;
+      state.stocksCheckInfo[stockId] = stockCheckInfo;
     },
     addPurchasedItemsCheckInfo: (
       state,
@@ -61,40 +49,15 @@ export const checkedItemsSlice = createSlice({
       state,
       action: PayloadAction<UpdateCheckedItemsInfoPayload>,
     ) => {
-      const { checked, type } = action.payload;
-      switch (type) {
-        case 'all':
-          state = updateAllCheckedItems({
-            state: state,
-            value: checked,
-          });
-          break;
-        case 'stock':
-          state = updateStockCheckedItems({
-            state: state,
-            stockId: action.payload.stockId,
-            value: checked,
-          });
-          break;
-        case 'purchased':
-          state = updatePurchasedCheckedItems({
-            state: state,
-            stockId: action.payload.stockId,
-            purchasedId: action.payload.purchasedId,
-            value: checked,
-          });
-          break;
-        default:
-          break;
-      }
+      updateCheckedItemsState(state, action.payload);
     },
     deleteCheckedItems: (state, action: PayloadAction<CheckInfoPayload>) => {
       const { stockId, purchasedId } = action.payload;
       const stockInfo = state.stocksCheckInfo[stockId];
-      if (Object.keys(stockInfo.purchasedItems).length === 1) {
-        delete state.stocksCheckInfo[stockId];
-      }
       delete stockInfo.purchasedItems[purchasedId];
+
+      const purchasedItemsExist = Object.keys(stockInfo.purchasedItems).length;
+      if (!purchasedItemsExist) delete state.stocksCheckInfo[stockId];
     },
     deleteStockCheck: (state, action: PayloadAction<string>) => {
       delete state.stocksCheckInfo[action.payload];

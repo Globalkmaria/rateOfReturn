@@ -47,10 +47,12 @@ export default StockList;
 
 const StyledStockList = styled('div')`
   ${BaseInput} {
-    background: ${({ theme }) => theme.colors.grey100};
+    background: ${({ theme }) => theme.colors.grey300};
 
     &:disabled {
       background: none;
+      -webkit-text-fill-color: ${({ theme }) => theme.colors.grey900};
+      opacity: 1;
     }
   }
 

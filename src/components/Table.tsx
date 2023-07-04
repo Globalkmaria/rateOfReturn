@@ -1,20 +1,22 @@
 import { TableHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
+export interface TableWithProps {
+  fixedWidth?: number;
+  minWidth?: number;
+}
+
 interface TableProps extends TableHTMLAttributes<HTMLTableElement> {}
 interface TableHeaderProps
   extends TableHTMLAttributes<HTMLTableSectionElement> {}
 interface TableBodyProps extends TableHTMLAttributes<HTMLTableSectionElement> {}
 export interface TableHeadProps
-  extends TableHTMLAttributes<HTMLTableCellElement> {
-  width?: number;
-  flexBasis?: number;
-}
+  extends TableHTMLAttributes<HTMLTableCellElement>,
+    TableWithProps {}
 interface TableRowProps extends TableHTMLAttributes<HTMLTableRowElement> {}
 export interface TableCellProps
-  extends TableHTMLAttributes<HTMLTableCellElement> {
-  width?: number;
-  flexBasis?: number;
+  extends TableHTMLAttributes<HTMLTableCellElement>,
+    TableWithProps {
   align?: 'left' | 'center' | 'right';
 }
 
@@ -35,17 +37,10 @@ export const TableBody = styled('tbody')<TableBodyProps>(({ theme }) => ({
 }));
 
 export const TableHead = styled('th')<TableHeadProps>(
-  ({ theme, width, flexBasis }) => ({
+  ({ theme, fixedWidth, minWidth }) => ({
     padding: '0.4rem',
-
-    ...(width ? { minWidth: width + 'px' } : { flex: 1 }),
-    ...(flexBasis
-      ? {
-          flexBasis: flexBasis + 'px',
-          minWidth: flexBasis + 'px',
-          flexShrink: 0,
-        }
-      : {}),
+    ...(fixedWidth && { width: fixedWidth + 'px' }),
+    ...(minWidth && { minWidth: minWidth + 'px' }),
 
     '&:nth-child(n+1)': {
       borderRight: `1px solid ${theme.colors.grey400}`,
@@ -66,16 +61,10 @@ export const TableRow = styled('tr')<TableRowProps>(({ theme }) => ({
 }));
 
 export const TableCell = styled('td')<TableCellProps>(
-  ({ theme, width, flexBasis, align = 'left' }) => ({
+  ({ theme, fixedWidth, minWidth, align = 'left' }) => ({
     padding: '0.4rem',
-    ...(width ? { minWidth: width + 'px' } : { flex: 1 }),
-    ...(flexBasis
-      ? {
-          flexBasis: flexBasis + 'px',
-          minWidth: flexBasis + 'px',
-          flexShrink: 0,
-        }
-      : {}),
+    ...(fixedWidth && { width: fixedWidth + 'px' }),
+    ...(minWidth && { minWidth: minWidth + 'px' }),
     textAlign: align,
 
     '&:nth-child(n+1)': {

@@ -20,7 +20,7 @@ type CheckboxCellProps = {
   type?: 'td' | 'th';
   disabled?: boolean;
   title?: string;
-} & Pick<TableHeadProps, 'width' | 'flexBasis'>;
+} & Pick<TableHeadProps, 'fixedWidth' | 'minWidth'>;
 type LockButtonProps = {
   isLock: boolean;
   disabled?: boolean;

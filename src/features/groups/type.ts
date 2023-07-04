@@ -11,8 +11,8 @@ export interface GroupsState {
 }
 
 export type AddGroupPayload = {
-  groupName: string;
-  selectedStocks: Group['stocks'];
+  groupInfo: Group;
+  groupId: string;
 };
 
 export type DeletePurchaseItemFromGroupPayload = {

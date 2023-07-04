@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { ContainedButton } from '../../../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { addGroup } from '../../../features/groups/groupsSlice';
+import {
+  addGroup,
+  updateNextGroupId,
+} from '../../../features/groups/groupsSlice';
 import { changeCheckInfoToGroupFormat } from './utils';
 import { Input } from '../../../components/Input';
 import { initCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
@@ -11,6 +14,9 @@ import GroupModalTable from './GroupModal/GroupModalTable';
 import styled from 'styled-components';
 import Modal from '../../../components/Modal';
 import { closeStockModal } from '../../../features/stockModal/stockModalSlice';
+import { getNewGroupInfo } from '../../../features/groups/utils';
+import { selectNextGroupId } from '../../../features/groups/selectors';
+import { getInitialCheckedItemsInfo } from '../../../features/checkedItems/utils';
 
 const AddGroupModal = () => {
   const dispatch = useDispatch();
@@ -18,6 +24,7 @@ const AddGroupModal = () => {
 
   const checkedItems = useSelector(selectCheckedPurchasedItems());
   const stocks = useSelector(selectStocks);
+  const nextGroupId = useSelector(selectNextGroupId);
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
@@ -30,8 +37,15 @@ const AddGroupModal = () => {
       return;
     }
     const selectedStocks = changeCheckInfoToGroupFormat(checkedItems);
-    dispatch(addGroup({ groupName: name, selectedStocks }));
-    dispatch(initCheckedItems(stocks));
+    const newGroupInfo = getNewGroupInfo(nextGroupId, name, selectedStocks);
+    const checkedItemsInfo = getInitialCheckedItemsInfo({
+      data: stocks,
+      value: true,
+    });
+
+    dispatch(addGroup({ groupInfo: newGroupInfo, groupId: nextGroupId }));
+    dispatch(initCheckedItems(checkedItemsInfo));
+    dispatch(updateNextGroupId());
     onClose();
   };
 

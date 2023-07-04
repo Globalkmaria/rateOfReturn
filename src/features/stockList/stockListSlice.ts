@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { getCurrentDateAndTime } from '../../views/List/StockItem/utils';
 import {
   MOCK_DATA,
   MOCK_DATA_NEXT_STOCK_ID,
@@ -13,7 +12,8 @@ import {
   PurchasedItemInfo,
   UpdatePurchasedItemPayload,
   DeletePurchasedItemPayload,
-  StockList,
+  AddNewStockPayload,
+  AddNewPurchasedItemPayload,
 } from './type';
 
 const initialState: StockListState = {
@@ -26,6 +26,13 @@ const stockListSlice = createSlice({
   name: 'stockList',
   initialState,
   reducers: {
+    updateNextStockId: (state) => {
+      state.nextStockId = Number(state.nextStockId) + 1;
+    },
+    updateNextPurchasedId: (state) => {
+      state.nextPurchasedId = Number(state.nextPurchasedId) + 1;
+    },
+
     setBackupStockList: (state, action: PayloadAction<StockListState>) => {
       state.stocks = action.payload.stocks;
       state.nextStockId = action.payload.nextStockId;
@@ -36,51 +43,21 @@ const stockListSlice = createSlice({
       state.stocks = action.payload.stocks;
       state.nextStockId = action.payload.nextStockId;
       state.nextPurchasedId = action.payload.nextPurchasedId;
-      return state;
     },
-    addNewStock: (state) => {
-      const newStockId = (state.nextStockId++).toString();
-      const newPurchaseId = (state.nextPurchasedId++).toString();
-      const { date, time } = getCurrentDateAndTime();
-      const newStockMainInfo: StockMainInfo = {
-        stockName: '',
-        currentPrice: 0,
-        stockId: newStockId,
-      };
-      const newPurchasedItemsInfo: StockList['purchasedItems'] = {
-        byId: {
-          [newPurchaseId]: {
-            purchasedId: newPurchaseId,
-            purchasedDate: date,
-            purchasedQuantity: 0,
-            purchasedPrice: 0,
-            purchasedTime: time,
-          },
-        },
-        allIds: [newPurchaseId],
-      };
 
-      state.stocks.byId[newStockId] = {
-        mainInfo: newStockMainInfo,
-        purchasedItems: newPurchasedItemsInfo,
-      };
-      state.stocks.allIds.push(newStockId);
+    addNewStock: (state, action: PayloadAction<AddNewStockPayload>) => {
+      const { stockId, stockInfo } = action.payload;
+      state.stocks.byId[stockId] = stockInfo;
+      state.stocks.allIds.push(stockId);
     },
-    addPurchasedItem: (state, action: PayloadAction<string>) => {
-      const stockId = action.payload;
-      const newPurchaseId = (state.nextPurchasedId++).toString();
-      const { date, time } = getCurrentDateAndTime();
-      const initialPurchaseItem: PurchasedItemInfo = {
-        purchasedId: newPurchaseId,
-        purchasedDate: date,
-        purchasedTime: time,
-        purchasedQuantity: 0,
-        purchasedPrice: 0,
-      };
+    addPurchasedItem: (
+      state,
+      action: PayloadAction<AddNewPurchasedItemPayload>,
+    ) => {
+      const { stockId, purchasedId, purchasedItem } = action.payload;
       const curStock = state.stocks.byId[stockId];
-
-      curStock.purchasedItems.byId[newPurchaseId] = initialPurchaseItem;
-      curStock.purchasedItems.allIds.push(newPurchaseId);
+      curStock.purchasedItems.byId[purchasedId] = purchasedItem;
+      curStock.purchasedItems.allIds.push(purchasedId);
     },
 
     updateStock: <T extends keyof Omit<StockMainInfo, 'stockId'>>(
@@ -112,17 +89,17 @@ const stockListSlice = createSlice({
     ) => {
       const { stockId, purchasedId } = action.payload;
       const purchasedItems = stocks.byId[stockId].purchasedItems;
+
+      const stockIdx = stocks.allIds.indexOf(stockId);
       if (purchasedItems.allIds.length === 1) {
         delete stocks.byId[stockId];
-        stocks.allIds.splice(stocks.allIds.indexOf(stockId), 1);
+        stocks.allIds.splice(stockIdx, 1);
         return;
       }
 
+      const purchasedItemIdx = purchasedItems.allIds.indexOf(purchasedId);
       delete purchasedItems.byId[purchasedId];
-      purchasedItems.allIds.splice(
-        purchasedItems.allIds.indexOf(purchasedId),
-        1,
-      );
+      purchasedItems.allIds.splice(purchasedItemIdx, 1);
     },
   },
 });
@@ -137,6 +114,8 @@ export const {
   deletePurchasedItem,
   initStockList,
   restStockList,
+  updateNextStockId,
+  updateNextPurchasedId,
 } = stockListSlice.actions;
 
 export default stockListSlice.reducer;

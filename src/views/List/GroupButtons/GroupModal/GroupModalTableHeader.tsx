@@ -1,10 +1,13 @@
-import { TableHead, TableHeader, TableRow } from '../../../../components/Table';
+import {
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableWithProps,
+} from '../../../../components/Table';
 
-interface HeaderItemProps {
+interface HeaderItemProps extends TableWithProps {
   id: string;
   label: string;
-  width?: number;
-  flexBasis?: number;
 }
 
 const GroupModalTableHead = () => {
@@ -28,31 +31,31 @@ const HEADER_LIST: HeaderItemProps[] = [
   {
     id: '1',
     label: 'Stock Name',
-    width: 150,
+    fixedWidth: 150,
   },
   {
     id: '2',
     label: 'Purchase ID',
-    width: 50,
+    fixedWidth: 50,
   },
   {
     id: '3',
     label: 'Purchase Date',
-    width: 200,
+    fixedWidth: 200,
   },
   {
     id: '4',
     label: 'Purchase Quantity',
-    width: 100,
+    fixedWidth: 100,
   },
   {
     id: '5',
     label: 'Purchase Unit Price',
-    flexBasis: 120,
+    minWidth: 120,
   },
   {
     id: '6',
     label: 'Total Purchase Cost',
-    flexBasis: 150,
+    minWidth: 150,
   },
 ];

@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { initGroups } from '../features/groups/groupsSlice';
 import { selectGroups } from '../features/groups/selectors';
 import ModalSpace from '../views/List/ModalSpace';
+import { getInitialCheckedItemsInfo } from '../features/checkedItems/utils';
 
 const List = () => {
   const [firstLoad, setFirstLoad] = useState(true);
@@ -26,21 +27,21 @@ const List = () => {
     const stocks = localStock
       ? JSON.parse(localStock).stocks
       : stockList.stocks;
-    dispatch(initCheckedItems(stocks));
+    const checkedItemsInfo = getInitialCheckedItemsInfo({
+      data: stocks,
+      value: true,
+    });
+    dispatch(initCheckedItems(checkedItemsInfo));
     setFirstLoad(false);
-    dispatch(initCheckedItems(stocks));
   }, []);
 
   useEffect(() => {
-    if (!firstLoad) {
-      localStorage.setItem('groups', JSON.stringify(groups));
-    }
+    if (!firstLoad) localStorage.setItem('groups', JSON.stringify(groups));
   }, [groups.groups]);
 
   useEffect(() => {
-    if (!firstLoad) {
+    if (!firstLoad)
       localStorage.setItem('stockList', JSON.stringify(stockList));
-    }
   }, [stockList]);
 
   if (

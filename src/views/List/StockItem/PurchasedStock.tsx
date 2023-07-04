@@ -196,4 +196,8 @@ const StyledPurchasedStockRow = styled(TableRow)`
   .total-purchase {
     border-right: ${({ theme }) => `4px double ${theme.colors.grey600}`};
   }
+
+  .date {
+    width: 108px;
+  }
 `;

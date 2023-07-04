@@ -1,7 +1,13 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
-export const selectStockList = (state: RootState) => state.stockList;
+export const selectStockList = (state: RootState) => {
+  return {
+    ...state.stockList,
+    nextStockId: state.stockList.nextStockId + '',
+    nextPurchasedId: state.stockList.nextPurchasedId + '',
+  };
+};
 export const selectStocks = (state: RootState) => state.stockList.stocks;
 export const selectStockInfoById = (stockId: string) =>
   createSelector([selectStocks], (stocks) => stocks.byId[stockId]);

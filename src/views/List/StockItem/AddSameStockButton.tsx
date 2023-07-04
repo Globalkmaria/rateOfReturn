@@ -1,18 +1,30 @@
 import { ContainedButton } from '../../../components/Button';
 import { TableCell, TableRow } from '../../../components/Table';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPurchasedItem } from '../../../features/stockList/stockListSlice';
+import {
+  addPurchasedItem,
+  updateNextPurchasedId,
+} from '../../../features/stockList/stockListSlice';
 import { selectStockList } from '../../../features/stockList/selectors';
 import { addPurchasedItemsCheckInfo } from '../../../features/checkedItems/checkedItemsSlice';
 import { updateMainGroup } from '../../../features/groups/groupsSlice';
+import { getNewPurchasedItemInfo } from '../../../features/stockList/utils';
 
 export const AddSameStockButton = ({ stockId }: { stockId: string }) => {
   const dispatch = useDispatch();
   const stockList = useSelector(selectStockList);
 
   const onAddSameStock = () => {
-    const newPurchasedId = stockList.nextPurchasedId.toString();
-    dispatch(addPurchasedItem(stockId));
+    const newPurchasedId = stockList.nextPurchasedId;
+    const newPurchasedItem = getNewPurchasedItemInfo(newPurchasedId);
+
+    dispatch(
+      addPurchasedItem({
+        stockId,
+        purchasedId: newPurchasedId,
+        purchasedItem: newPurchasedItem,
+      }),
+    );
     dispatch(
       addPurchasedItemsCheckInfo({ stockId, purchasedId: newPurchasedId }),
     );
@@ -23,6 +35,7 @@ export const AddSameStockButton = ({ stockId }: { stockId: string }) => {
         purchasedId: newPurchasedId,
       }),
     );
+    dispatch(updateNextPurchasedId());
   };
 
   return (
