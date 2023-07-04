@@ -1,28 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { BorderButton } from '../../../components/Button';
-import { BaseInput, Input, TransformedValue } from '../../../components/Input';
-import { TableCell, TableRow } from '../../../components/Table';
-import { StockMainInfo } from '../../../features/stockList/type';
-import { selectStockInfoById } from '../../../features/stockList/selectors';
+import { BorderButton } from '../../../../components/Button';
+import { BaseInput, Input } from '../../../../components/Input';
+import { TableCell, TableRow } from '../../../../components/Table';
+import { selectStockInfoById } from '../../../../features/stockList/selectors';
 import {
   NumberCell,
   LockButton,
   DeleteButton,
   CheckboxCell,
-} from './components';
-
-import { getGroupPurchasedData, getStockSummaryInfo } from './utils';
-import { updateStock } from '../../../features/stockList/stockListSlice';
-import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
-import { selectStockCheckedInfo } from '../../../features/checkedItems/selectors';
+} from '../components';
+import { selectStockCheckedInfo } from '../../../../features/checkedItems/selectors';
+import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
 import {
-  selectIsMainGroupSelected,
-  selectSelectedGroupInfo,
-} from '../../../features/groups/selectors';
-import { openStockModal } from '../../../features/stockModal/stockModalSlice';
-import { DeleteModalProps } from './DeleteStockModal';
+  useChangeStockCheckbox,
+  useGetStockSummaryData,
+  useStockDeleteModalOpen,
+  useStockSummaryInputChange,
+} from './hooks';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -38,71 +34,17 @@ export interface SummaryInfoProps {
 }
 
 const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
-  const dispatch = useDispatch();
   const [isLock, setIsLock] = useState(true);
+  const onDeleteModalOpen = useStockDeleteModalOpen(stockId);
+  const onInputChange = useStockSummaryInputChange(stockId);
+  const onChangeCheckbox = useChangeStockCheckbox(stockId);
+  const toggleLock = () => setIsLock((prev) => !prev);
 
   const checkedInfo = useSelector(selectStockCheckedInfo(stockId));
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const stockInfo = useSelector(selectStockInfoById(stockId));
-  const groupInfo = useSelector(selectSelectedGroupInfo());
-  const groupPurchasedIds = groupInfo.stocks.byId[stockId];
-  const purchasedItems = isMainGroupSelected
-    ? stockInfo.purchasedItems
-    : getGroupPurchasedData(stockInfo.purchasedItems, groupPurchasedIds);
-  const summaryData = getStockSummaryInfo(stockInfo.mainInfo, purchasedItems);
+  const summaryData = useGetStockSummaryData(stockId);
   const formattedCurrentPrice = stockInfo.mainInfo.currentPrice.toString();
-  const formattedEvaluationProfit =
-    summaryData.evaluationProfit.toLocaleString();
-  const formattedProfitRate = `${summaryData.profitRate
-    .toFixed(2)
-    .toLocaleString()} %`;
-
-  const toggleLock = () => setIsLock((prev) => !prev);
-
-  const onChangeCheckbox = (value: boolean) => {
-    dispatch(
-      updateCheckedItems({
-        type: 'stock',
-        checked: value,
-        stockId: stockId,
-      }),
-    );
-  };
-
-  const onInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    transformedValue: TransformedValue,
-  ) => {
-    const fieldName = e.target.name as keyof Omit<StockMainInfo, 'stockId'>;
-    if (fieldName === 'currentPrice' && transformedValue === null) return;
-    const value =
-      fieldName === 'stockName'
-        ? e.target.value
-        : (transformedValue && transformedValue[1]) ||
-          e.target.value.replaceAll(',', '');
-    dispatch(
-      updateStock({
-        stockId: stockId,
-        fieldName: fieldName,
-        value,
-      }),
-    );
-  };
-
-  const onDeleteModalOpen = () => {
-    const props: DeleteModalProps = {
-      stockId,
-      purchasedId: '',
-      type: 'stock',
-    };
-
-    dispatch(
-      openStockModal({
-        modalName: 'DeleteStockModal',
-        props,
-      }),
-    );
-  };
 
   useEffect(() => {
     setIsLock(true);
@@ -147,8 +89,8 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
         />
       </TableCell>
       <NumberCell value={summaryData.evaluationPrice} />
-      <TableCell align='right'>{formattedEvaluationProfit}</TableCell>
-      <TableCell align='right'>{formattedProfitRate} </TableCell>
+      <TableCell align='right'>{summaryData.evaluationProfit}</TableCell>
+      <TableCell align='right'>{summaryData.profitRate} </TableCell>
       <LockButton
         isLock={isLock}
         onClick={toggleLock}
