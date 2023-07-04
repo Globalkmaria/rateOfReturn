@@ -54,10 +54,10 @@ export const checkedItemsSlice = createSlice({
     deleteCheckedItems: (state, action: PayloadAction<CheckInfoPayload>) => {
       const { stockId, purchasedId } = action.payload;
       const stockInfo = state.stocksCheckInfo[stockId];
-      if (Object.keys(stockInfo.purchasedItems).length === 1) {
-        delete state.stocksCheckInfo[stockId];
-      }
       delete stockInfo.purchasedItems[purchasedId];
+
+      const purchasedItemsExist = Object.keys(stockInfo.purchasedItems).length;
+      if (!purchasedItemsExist) delete state.stocksCheckInfo[stockId];
     },
     deleteStockCheck: (state, action: PayloadAction<string>) => {
       delete state.stocksCheckInfo[action.payload];
