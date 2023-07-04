@@ -15,7 +15,7 @@ export const AddSameStockButton = ({ stockId }: { stockId: string }) => {
   const stockList = useSelector(selectStockList);
 
   const onAddSameStock = () => {
-    const newPurchasedId = stockList.nextPurchasedId.toString();
+    const newPurchasedId = stockList.nextPurchasedId;
     const newPurchasedItem = getNewPurchasedItemInfo(newPurchasedId);
 
     dispatch(
