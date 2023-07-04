@@ -16,7 +16,7 @@ const initialState: GroupsState = {
   nextGroupId: GROUPS_MOCK_DATA_NEXT_GROUP_ID,
 };
 
-export const groupsSlice = createSlice({
+const groupsSlice = createSlice({
   name: 'groups',
   initialState,
   reducers: {

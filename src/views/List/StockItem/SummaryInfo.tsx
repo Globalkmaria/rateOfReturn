@@ -22,7 +22,9 @@ import {
   selectSelectedGroupInfo,
 } from '../../../features/groups/selectors';
 import { openStockModal } from '../../../features/stockModal/stockModalSlice';
-import { DeleteModalProps } from './DeleteStockModal';
+import { DeleteModalProps } from './DeleteStockModal/DeleteStockModal';
+import { selectCurrentLanguage } from '../../../features/language/selectors';
+import { SUMMARY_LAN } from './StockItemLan';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -41,6 +43,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const dispatch = useDispatch();
   const [isLock, setIsLock] = useState(true);
 
+  const currentLanguage = useSelector(selectCurrentLanguage);
   const checkedInfo = useSelector(selectStockCheckedInfo(stockId));
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const stockInfo = useSelector(selectStockInfoById(stockId));
@@ -127,7 +130,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
         />
       </TableCell>
       <TableCell align='center' colSpan={2}>
-        Summary
+        {SUMMARY_LAN[currentLanguage]}
       </TableCell>
       <NumberCell value={summaryData.purchaseQuantitySum} />
       <NumberCell value={summaryData.purchasePriceAverage} />

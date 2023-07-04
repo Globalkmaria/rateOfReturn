@@ -19,7 +19,7 @@ import { selectIsPurchasedItemChecked } from '../../../features/checkedItems/sel
 import { selectIsMainGroupSelected } from '../../../features/groups/selectors';
 import { BorderButton } from '../../../components/Button';
 import { openStockModal } from '../../../features/stockModal/stockModalSlice';
-import { DeleteModalProps } from './DeleteStockModal';
+import { DeleteModalProps } from './DeleteStockModal/DeleteStockModal';
 
 type InputChangeProps = (
   e: React.ChangeEvent<HTMLInputElement>,

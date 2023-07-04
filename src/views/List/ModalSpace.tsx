@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { DeleteStockModal } from './StockItem/DeleteStockModal';
+import { DeleteStockModal } from './StockItem/DeleteStockModal/DeleteStockModal';
 import { selectStockModals } from '../../features/stockModal/stockModalSlice';
 import BackupModal from './Backup/BackupModal';
 import SetBackupWarning from './Backup/SetBackupWarning';

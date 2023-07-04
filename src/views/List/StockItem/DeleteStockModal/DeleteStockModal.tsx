@@ -1,23 +1,25 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { ContainedButton } from '../../../components/Button';
-import Modal from '../../../components/Modal';
+import { ContainedButton } from '../../../../components/Button';
+import Modal from '../../../../components/Modal';
 import {
   deletePurchasedItem,
   deleteStock,
-} from '../../../features/stockList/stockListSlice';
+} from '../../../../features/stockList/stockListSlice';
 import {
   deletePurchaseItemFromGroup,
   deleteStockFromGroup,
-} from '../../../features/groups/groupsSlice';
+} from '../../../../features/groups/groupsSlice';
 import {
   deleteCheckedItems,
   deleteStockCheck,
-} from '../../../features/checkedItems/checkedItemsSlice';
+} from '../../../../features/checkedItems/checkedItemsSlice';
 import {
   closeStockModal,
   selectModalProps,
-} from '../../../features/stockModal/stockModalSlice';
+} from '../../../../features/stockModal/stockModalSlice';
 import styled from 'styled-components';
+import { MESSAGES_LAN, DELETE_BTN_TITLE_LAN } from './DeleteStockModalLan';
+import { selectCurrentLanguage } from '../../../../features/language/selectors';
 
 export type DeleteModalProps = {
   type: 'stock' | 'purchase';
@@ -31,6 +33,7 @@ export const DeleteStockModal = () => {
   const { stockId, purchasedId, type } = useSelector(
     selectModalProps('DeleteStockModal'),
   ) as DeleteModalProps;
+  const currentLanguage = useSelector(selectCurrentLanguage);
 
   const onDeletePurchasedStock = () => {
     dispatch(deletePurchasedItem({ stockId, purchasedId }));
@@ -50,18 +53,13 @@ export const DeleteStockModal = () => {
   return (
     <Modal onClose={onClose}>
       <StyledDeleteModal>
-        <p className='message'>{MESSAGES[type]}</p>
+        <p className='message'>{MESSAGES_LAN[currentLanguage][type]}</p>
         <ContainedButton size='l' color='warning' onClick={onDelete}>
-          Delete
+          {DELETE_BTN_TITLE_LAN[currentLanguage]}
         </ContainedButton>
       </StyledDeleteModal>
     </Modal>
   );
-};
-
-export const MESSAGES: { [key in DeleteModalProps['type']]: string } = {
-  stock: 'Are you sure you want to delete this stock?',
-  purchase: 'Are you sure you want to delete this item?',
 };
 
 export const StyledDeleteModal = styled('div')`
