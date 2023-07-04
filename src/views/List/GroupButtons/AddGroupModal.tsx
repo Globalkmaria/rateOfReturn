@@ -16,6 +16,7 @@ import Modal from '../../../components/Modal';
 import { closeStockModal } from '../../../features/stockModal/stockModalSlice';
 import { getNewGroupInfo } from '../../../features/groups/utils';
 import { selectNextGroupId } from '../../../features/groups/selectors';
+import { getInitialCheckedItemsInfo } from '../../../features/checkedItems/utils';
 
 const AddGroupModal = () => {
   const dispatch = useDispatch();
@@ -37,9 +38,13 @@ const AddGroupModal = () => {
     }
     const selectedStocks = changeCheckInfoToGroupFormat(checkedItems);
     const newGroupInfo = getNewGroupInfo(nextGroupId, name, selectedStocks);
+    const checkedItemsInfo = getInitialCheckedItemsInfo({
+      data: stocks,
+      value: true,
+    });
 
     dispatch(addGroup({ groupInfo: newGroupInfo, groupId: nextGroupId }));
-    dispatch(initCheckedItems(stocks));
+    dispatch(initCheckedItems(checkedItemsInfo));
     dispatch(updateNextGroupId());
     onClose();
   };

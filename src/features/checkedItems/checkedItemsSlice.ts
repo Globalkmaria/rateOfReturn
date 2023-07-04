@@ -5,8 +5,8 @@ import {
   updatePurchasedCheckedItems,
   updateStockCheckedItems,
 } from './utils';
-import { StockListState } from '../stockList/type';
 import {
+  CheckedItemsInfo,
   CheckedItemsState,
   CheckInfoPayload,
   UpdateCheckedItemsInfoPayload,
@@ -24,16 +24,9 @@ export const checkedItemsSlice = createSlice({
   initialState,
   reducers: {
     resetCheckedItems: () => initialState,
-    initCheckedItems: (
-      state,
-      action: PayloadAction<StockListState['stocks']>,
-    ) => {
-      const initData = getInitialCheckedItemsInfo({
-        data: action.payload,
-        value: true,
-      });
-      state.allChecked = initData.allChecked;
-      state.stocksCheckInfo = initData.stocksCheckInfo;
+    initCheckedItems: (state, action: PayloadAction<CheckedItemsInfo>) => {
+      state.allChecked = action.payload.allChecked;
+      state.stocksCheckInfo = action.payload.stocksCheckInfo;
     },
     setBackupCheckedItems: (
       state,
