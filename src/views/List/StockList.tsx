@@ -2,10 +2,6 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { BaseInput } from '../../components/Input';
 import { Table, TableBody } from '../../components/Table';
-import {
-  selectStockList,
-  selectStocks,
-} from '../../features/stockList/selectors';
 import StockItem from './StockItem/StockItem';
 import StockListHeader from './StockListHeader';
 import {

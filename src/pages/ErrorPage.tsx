@@ -4,28 +4,16 @@ import styled from 'styled-components';
 import { ContainedButton } from '../components/Button';
 import { useDispatch } from 'react-redux';
 import { resetStockModal } from '../features/stockModal/stockModalSlice';
-import { saveAs } from 'file-saver';
 import { resetCheckedItems } from '../features/checkedItems/checkedItemsSlice';
 import { restStockList } from '../features/stockList/stockListSlice';
 import { resetGroups } from '../features/groups/groupsSlice';
-import { store } from '../store';
-import { getCurrentDateTimeString } from '../views/List/Backup/utils';
+import { handleGetDataFile } from '../utils/file';
 
 const ErrorPage = () => {
+  const dispatch = useDispatch();
   const router = useNavigate();
   const error: any = useRouteError();
   console.error(error);
-
-  const dispatch = useDispatch();
-
-  const handleSave = () => {
-    const data = store.getState();
-    const blob = new Blob([JSON.stringify(data)], {
-      type: 'application/json',
-    });
-    const date = getCurrentDateTimeString();
-    saveAs(blob, `RoR${date}.json`);
-  };
 
   const onReset = () => {
     dispatch(resetCheckedItems());
@@ -57,7 +45,7 @@ const ErrorPage = () => {
         If 'Returning Home' Does Not Work, Try Resetting Data.
       </p>
       <ContainedButton
-        onClick={handleSave}
+        onClick={handleGetDataFile}
         title='Save File Button'
         size='m'
         color={'warning'}
