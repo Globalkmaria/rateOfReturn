@@ -20,29 +20,42 @@ export const groupsSlice = createSlice({
   name: 'groups',
   initialState,
   reducers: {
+    initGroups: (state, action: PayloadAction<GroupsState>) => {
+      state.groups = action.payload.groups;
+      state.selectedGroupId = MAIN_GROUP_ID;
+      state.nextGroupId = action.payload.nextGroupId;
+    },
     resetGroups: () => initialState,
     setBackupGroups: (state, action: PayloadAction<GroupsState>) => {
       state.groups = action.payload.groups;
       state.selectedGroupId = action.payload.selectedGroupId;
       state.nextGroupId = action.payload.nextGroupId;
     },
-    initGroups: (state, action: PayloadAction<GroupsState>) => {
-      state.groups = action.payload.groups;
-      state.selectedGroupId = MAIN_GROUP_ID;
-      state.nextGroupId = action.payload.nextGroupId;
-    },
+
     updateSelectedGroupId: (state, action: PayloadAction<string>) => {
       state.selectedGroupId = action.payload;
     },
     updateNextGroupId: (state) => {
       state.nextGroupId += 1;
     },
+    updateMainGroup: (state, action: PayloadAction<UpdateMainGroupPayload>) => {
+      const { type, stockId, purchasedId } = action.payload;
+      const mainGroup = state.groups.byId[MAIN_GROUP_ID];
+      if (type === 'stock') {
+        mainGroup.stocks.allIds.push(stockId);
+        mainGroup.stocks.byId[stockId] = [];
+      }
+
+      mainGroup.stocks.byId[stockId].push(purchasedId);
+    },
+
     addGroup: (state, action: PayloadAction<AddGroupPayload>) => {
       const { groupInfo, groupId } = action.payload;
       state.groups.byId[groupId] = groupInfo;
       state.groups.allIds.push(groupId);
       state.selectedGroupId = groupId;
     },
+
     deleteGroup: (state, action: PayloadAction<string>) => {
       const groupId = action.payload;
       if (validCheckGroupDelete(state, groupId)) return;
@@ -56,9 +69,8 @@ export const groupsSlice = createSlice({
     },
     deleteStockFromGroup: (state, action: PayloadAction<string>) => {
       const stockId = action.payload;
-      const groupAllIds = [...state.groups.allIds];
-      for (let i = 0; i < groupAllIds.length; i++) {
-        const groupId = groupAllIds[i];
+
+      for (const groupId of state.groups.allIds) {
         const group = state.groups.byId[groupId];
         const stockInGroup = group.stocks.byId[stockId];
         if (!stockInGroup) continue;
@@ -69,13 +81,13 @@ export const groupsSlice = createSlice({
         stockAllIdsInGroup.splice(stockIndex, 1);
       }
     },
-
     deletePurchaseItemFromGroup: (
       state,
       action: PayloadAction<DeletePurchaseItemFromGroupPayload>,
     ) => {
       const { stockId, purchasedId } = action.payload;
       const groupAllIds = [...state.groups.allIds];
+
       for (let i = 0; i < groupAllIds.length; i++) {
         const groupId = groupAllIds[i];
         const group = state.groups.byId[groupId];
@@ -95,18 +107,6 @@ export const groupsSlice = createSlice({
 
         delete state.groups.byId[groupId];
         state.groups.allIds.splice(state.groups.allIds.indexOf(groupId), 1);
-      }
-    },
-    updateMainGroup: (state, action: PayloadAction<UpdateMainGroupPayload>) => {
-      const { type, stockId, purchasedId } = action.payload;
-      const mainGroup = state.groups.byId[MAIN_GROUP_ID];
-      if (type === 'stock') {
-        mainGroup.stocks.allIds.push(stockId);
-        mainGroup.stocks.byId[stockId] = [purchasedId];
-      }
-
-      if (type === 'purchase') {
-        mainGroup.stocks.byId[stockId].push(purchasedId);
       }
     },
   },
