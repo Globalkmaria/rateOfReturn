@@ -1,5 +1,5 @@
 import { StockListState } from '../stockList/type';
-import { CheckedItemsInfo } from './type';
+import { CheckedItemsInfo, UpdateCheckedItemsInfoPayload } from './type';
 
 export const getInitialCheckedItemsInfo = ({
   data,
@@ -28,7 +28,7 @@ export const getInitialCheckedItemsInfo = ({
   return checkedItemsInfo;
 };
 
-export const updateAllCheckedItems = ({
+const updateAllCheckedItems = ({
   state,
   value,
 }: {
@@ -45,7 +45,7 @@ export const updateAllCheckedItems = ({
   return state;
 };
 
-export const updateStockCheckedItems = ({
+const updateStockCheckedItems = ({
   state,
   stockId,
   value,
@@ -62,7 +62,7 @@ export const updateStockCheckedItems = ({
   return state;
 };
 
-export const updatePurchasedCheckedItems = ({
+const updatePurchasedCheckedItems = ({
   state,
   stockId,
   purchasedId,
@@ -76,5 +76,38 @@ export const updatePurchasedCheckedItems = ({
   state.stocksCheckInfo[stockId].purchasedItems[purchasedId] = value;
   state.stocksCheckInfo[stockId].allChecked = false;
   state.allChecked = false;
+  return state;
+};
+
+export const updateCheckedItemsState = (
+  state: CheckedItemsInfo,
+  payload: UpdateCheckedItemsInfoPayload,
+) => {
+  const { checked, type } = payload;
+  switch (type) {
+    case 'all':
+      state = updateAllCheckedItems({
+        state: state,
+        value: checked,
+      });
+      break;
+    case 'stock':
+      state = updateStockCheckedItems({
+        state: state,
+        stockId: payload.stockId,
+        value: checked,
+      });
+      break;
+    case 'purchased':
+      state = updatePurchasedCheckedItems({
+        state: state,
+        stockId: payload.stockId,
+        purchasedId: payload.purchasedId,
+        value: checked,
+      });
+      break;
+    default:
+      break;
+  }
   return state;
 };

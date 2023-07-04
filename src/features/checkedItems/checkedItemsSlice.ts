@@ -1,10 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import {
-  getInitialCheckedItemsInfo,
-  updateAllCheckedItems,
-  updatePurchasedCheckedItems,
-  updateStockCheckedItems,
-} from './utils';
+import { getInitialCheckedItemsInfo, updateCheckedItemsState } from './utils';
 import {
   AddStockCheckInfoPayload,
   CheckedItemsInfo,
@@ -54,32 +49,7 @@ export const checkedItemsSlice = createSlice({
       state,
       action: PayloadAction<UpdateCheckedItemsInfoPayload>,
     ) => {
-      const { checked, type } = action.payload;
-      switch (type) {
-        case 'all':
-          state = updateAllCheckedItems({
-            state: state,
-            value: checked,
-          });
-          break;
-        case 'stock':
-          state = updateStockCheckedItems({
-            state: state,
-            stockId: action.payload.stockId,
-            value: checked,
-          });
-          break;
-        case 'purchased':
-          state = updatePurchasedCheckedItems({
-            state: state,
-            stockId: action.payload.stockId,
-            purchasedId: action.payload.purchasedId,
-            value: checked,
-          });
-          break;
-        default:
-          break;
-      }
+      updateCheckedItemsState(state, action.payload);
     },
     deleteCheckedItems: (state, action: PayloadAction<CheckInfoPayload>) => {
       const { stockId, purchasedId } = action.payload;
