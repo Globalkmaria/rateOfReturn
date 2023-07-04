@@ -5,7 +5,6 @@ import {
   AddGroupPayload,
   DeletePurchaseItemFromGroupPayload,
   UpdateMainGroupPayload,
-  Group,
 } from './type';
 
 export const MAIN_GROUP_ID = '1';
@@ -34,16 +33,14 @@ export const groupsSlice = createSlice({
     updateSelectedGroupId: (state, action: PayloadAction<string>) => {
       state.selectedGroupId = action.payload;
     },
+    updateNextGroupId: (state) => {
+      state.nextGroupId += 1;
+    },
     addGroup: (state, action: PayloadAction<AddGroupPayload>) => {
-      const nextGroupId = state.nextGroupId++ + '';
-      const newGroupInfo: Group = {
-        groupId: nextGroupId,
-        groupName: action.payload.groupName,
-        stocks: action.payload.selectedStocks,
-      };
-      state.groups.byId[nextGroupId] = newGroupInfo;
-      state.groups.allIds.push(nextGroupId);
-      state.selectedGroupId = nextGroupId;
+      const { groupInfo, groupId } = action.payload;
+      state.groups.byId[groupId] = groupInfo;
+      state.groups.allIds.push(groupId);
+      state.selectedGroupId = groupId;
     },
     deleteGroup: (state, action: PayloadAction<string>) => {
       const groupId = action.payload;
@@ -121,6 +118,7 @@ export const groupsSlice = createSlice({
 export const {
   setBackupGroups,
   updateSelectedGroupId,
+  updateNextGroupId,
   addGroup,
   deletePurchaseItemFromGroup,
   deleteGroup,
