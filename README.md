@@ -24,6 +24,10 @@ Look no further than Show me RoR, where you can effortlessly monitor all your st
 
 - Routing bug
 
+  1.2.2
+
+- Small changes
+
 ## Project duration
 
 2023/Mar/28 -
