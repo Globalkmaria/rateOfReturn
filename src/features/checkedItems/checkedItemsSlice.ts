@@ -6,6 +6,7 @@ import {
   updateStockCheckedItems,
 } from './utils';
 import {
+  AddStockCheckInfoPayload,
   CheckedItemsInfo,
   CheckedItemsState,
   CheckInfoPayload,
@@ -35,13 +36,12 @@ export const checkedItemsSlice = createSlice({
       state.allChecked = action.payload.allChecked;
       state.stocksCheckInfo = action.payload.stocksCheckInfo;
     },
-    addStockCheckInfo: (state, action: PayloadAction<CheckInfoPayload>) => {
-      const { stockId, purchasedId } = action.payload;
-      const newStockCheckInfo = {
-        allChecked: true,
-        purchasedItems: { [purchasedId]: true },
-      };
-      state.stocksCheckInfo[stockId] = newStockCheckInfo;
+    addStockCheckInfo: (
+      state,
+      action: PayloadAction<AddStockCheckInfoPayload>,
+    ) => {
+      const { stockId, stockCheckInfo } = action.payload;
+      state.stocksCheckInfo[stockId] = stockCheckInfo;
     },
     addPurchasedItemsCheckInfo: (
       state,

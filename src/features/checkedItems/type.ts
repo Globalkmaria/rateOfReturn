@@ -1,10 +1,12 @@
+export type StockCheckInfo = {
+  allChecked: boolean;
+  purchasedItems: { [purchasedId: string]: boolean };
+};
+
 export type CheckedItemsInfo = {
   allChecked: boolean;
   stocksCheckInfo: {
-    [stockId: string]: {
-      allChecked: boolean;
-      purchasedItems: { [purchasedId: string]: boolean };
-    };
+    [stockId: string]: StockCheckInfo;
   };
 };
 export type UpdateCheckedItemsInfoPayload =
@@ -19,6 +21,11 @@ export type UpdateCheckedItemsInfoPayload =
       purchasedId: string;
       checked: boolean;
     };
+
+export type AddStockCheckInfoPayload = {
+  stockId: string;
+  stockCheckInfo: StockCheckInfo;
+};
 export type CheckInfoPayload = {
   stockId: string;
   purchasedId: string;
