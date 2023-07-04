@@ -6,7 +6,11 @@ import {
   DeletePurchaseItemFromGroupPayload,
   UpdateMainGroupPayload,
 } from './type';
-import { validCheckGroupDelete } from './utils';
+import {
+  deletePurchasedItemFromGroup,
+  deleteStockFromGroup,
+  validCheckGroupDelete,
+} from './utils';
 
 export const MAIN_GROUP_ID = '1';
 
@@ -67,46 +71,32 @@ export const groupsSlice = createSlice({
       if (state.selectedGroupId === groupId)
         state.selectedGroupId = MAIN_GROUP_ID;
     },
-    deleteStockFromGroup: (state, action: PayloadAction<string>) => {
+    deleteStockFromGroups: (state, action: PayloadAction<string>) => {
       const stockId = action.payload;
 
       for (const groupId of state.groups.allIds) {
         const group = state.groups.byId[groupId];
-        const stockInGroup = group.stocks.byId[stockId];
-        if (!stockInGroup) continue;
-
-        delete group.stocks.byId[stockId];
-        const stockAllIdsInGroup = group.stocks.allIds;
-        const stockIndex = stockAllIdsInGroup.indexOf(stockId);
-        stockAllIdsInGroup.splice(stockIndex, 1);
+        deleteStockFromGroup(group, stockId);
       }
     },
-    deletePurchaseItemFromGroup: (
+    deletePurchaseItemFromGroups: (
       state,
       action: PayloadAction<DeletePurchaseItemFromGroupPayload>,
     ) => {
       const { stockId, purchasedId } = action.payload;
-      const groupAllIds = [...state.groups.allIds];
 
-      for (let i = 0; i < groupAllIds.length; i++) {
-        const groupId = groupAllIds[i];
+      for (const groupId of state.groups.allIds) {
         const group = state.groups.byId[groupId];
-        if (!group.stocks.byId[stockId]) continue;
 
-        const purchasedIds = group.stocks.byId[stockId];
-        const index = purchasedIds.indexOf(purchasedId);
-        if (index === -1) continue;
+        const isDeleted = deletePurchasedItemFromGroup(
+          group,
+          stockId,
+          purchasedId,
+        );
+        if (!isDeleted) continue;
 
-        purchasedIds.splice(index, 1);
-        if (purchasedIds.length) continue;
-
-        delete group.stocks.byId[stockId];
-        group.stocks.allIds.splice(group.stocks.allIds.indexOf(stockId), 1);
-        if (group.stocks.allIds.length) continue;
-        if (group.groupId === MAIN_GROUP_ID) continue;
-
-        delete state.groups.byId[groupId];
-        state.groups.allIds.splice(state.groups.allIds.indexOf(groupId), 1);
+        const emptyPurchasedItems = !group.stocks.byId[stockId].length;
+        if (emptyPurchasedItems) deleteStockFromGroup(group, stockId);
       }
     },
   },
@@ -117,10 +107,10 @@ export const {
   updateSelectedGroupId,
   updateNextGroupId,
   addGroup,
-  deletePurchaseItemFromGroup,
+  deletePurchaseItemFromGroups,
   deleteGroup,
   initGroups,
-  deleteStockFromGroup,
+  deleteStockFromGroups,
   updateMainGroup,
   resetGroups,
 } = groupsSlice.actions;
