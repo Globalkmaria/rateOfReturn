@@ -1,4 +1,5 @@
-import { Group } from './type';
+import { MAIN_GROUP_ID } from './groupsSlice';
+import { Group, GroupsState } from './type';
 
 export const getNewGroupInfo = (
   groupId: string,
@@ -10,4 +11,10 @@ export const getNewGroupInfo = (
     groupName,
     stocks,
   };
+};
+
+export const validCheckGroupDelete = (state: GroupsState, groupId: string) => {
+  const notMainGroup = groupId !== MAIN_GROUP_ID;
+  const selectedGroup = state.groups.byId[groupId];
+  return notMainGroup && selectedGroup;
 };

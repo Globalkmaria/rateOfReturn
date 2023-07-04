@@ -6,6 +6,7 @@ import {
   DeletePurchaseItemFromGroupPayload,
   UpdateMainGroupPayload,
 } from './type';
+import { validCheckGroupDelete } from './utils';
 
 export const MAIN_GROUP_ID = '1';
 
@@ -44,13 +45,12 @@ export const groupsSlice = createSlice({
     },
     deleteGroup: (state, action: PayloadAction<string>) => {
       const groupId = action.payload;
-      if (groupId === MAIN_GROUP_ID) return;
+      if (validCheckGroupDelete(state, groupId)) return;
 
-      const selectedGroup = state.groups.byId[groupId];
-      if (!selectedGroup) return;
-
+      const selectedGroupIndex = state.groups.allIds.indexOf(groupId);
       delete state.groups.byId[groupId];
-      state.groups.allIds.splice(state.groups.allIds.indexOf(groupId), 1);
+      state.groups.allIds.splice(selectedGroupIndex, 1);
+
       if (state.selectedGroupId === groupId)
         state.selectedGroupId = MAIN_GROUP_ID;
     },
