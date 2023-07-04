@@ -59,17 +59,14 @@ export const groupsSlice = createSlice({
       const groupAllIds = [...state.groups.allIds];
       for (let i = 0; i < groupAllIds.length; i++) {
         const groupId = groupAllIds[i];
-        const group = state.groups.byId[groupAllIds[i]];
-        const stockAllIds = group.stocks.allIds;
-        if (!group.stocks.byId[stockId]) continue;
+        const group = state.groups.byId[groupId];
+        const stockInGroup = group.stocks.byId[stockId];
+        if (!stockInGroup) continue;
 
         delete group.stocks.byId[stockId];
-        stockAllIds.splice(group.stocks.allIds.indexOf(stockId), 1);
-        if (group.stocks.allIds.length) continue;
-        if (group.groupId === MAIN_GROUP_ID) continue;
-
-        delete state.groups.byId[groupId];
-        state.groups.allIds.splice(state.groups.allIds.indexOf(groupId), 1);
+        const stockAllIdsInGroup = group.stocks.allIds;
+        const stockIndex = stockAllIdsInGroup.indexOf(stockId);
+        stockAllIdsInGroup.splice(stockIndex, 1);
       }
     },
 
