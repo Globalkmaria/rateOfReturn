@@ -10,7 +10,7 @@ import {
 } from '../../features/groups/selectors';
 import GroupButtons from './GroupButtons/GroupButtons';
 import GroupSummary from './GroupSummary/GroupSummary';
-import { AddNewStock } from './AddNewStock';
+import { AddNewStock } from './AddNewStock/AddNewStock';
 import Backup from './Backup/Backup';
 import { useState } from 'react';
 import {
