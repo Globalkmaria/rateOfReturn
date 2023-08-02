@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { BaseInput } from '../../components/Input';
 import { Table, TableBody } from '../../components/Table';
-import { selectStocks } from '../../features/stockList/selectors';
 import StockItem from './StockItem/StockItem';
 import StockListHeader from './StockListHeader';
 import {
@@ -11,14 +10,25 @@ import {
 } from '../../features/groups/selectors';
 import GroupButtons from './GroupButtons/GroupButtons';
 import GroupSummary from './GroupSummary/GroupSummary';
-import { AddNewStock } from './AddNewStock';
+import { AddNewStock } from './AddNewStock/AddNewStock';
 import Backup from './Backup/Backup';
+import { useState } from 'react';
+import {
+  useInitData,
+  useSaveChangedGroupsData,
+  useSaveChangedStocksData,
+} from './hooks';
 
 const StockList = () => {
+  const [firstLoad, setFirstLoad] = useState(true);
+  useInitData(setFirstLoad);
+  useSaveChangedGroupsData(firstLoad);
+  useSaveChangedStocksData(firstLoad);
+
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
-  const stocks = useSelector(selectStocks);
   const groupInfo = useSelector(selectSelectedGroupInfo());
-  const info = isMainGroupSelected ? stocks.allIds : groupInfo.stocks.allIds;
+  const stockIds = groupInfo.stocks.allIds;
+  if (firstLoad) return <></>;
   return (
     <StyledStockList>
       <div className='control-bar'>
@@ -33,7 +43,7 @@ const StockList = () => {
       <Table>
         <StockListHeader />
         <TableBody>
-          {info.map((stockId) => (
+          {stockIds.map((stockId) => (
             <StockItem stockId={stockId} key={stockId} />
           ))}
           {isMainGroupSelected && <AddNewStock />}

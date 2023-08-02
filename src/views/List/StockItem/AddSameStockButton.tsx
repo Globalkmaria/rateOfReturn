@@ -5,17 +5,16 @@ import {
   addPurchasedItem,
   updateNextPurchasedId,
 } from '../../../features/stockList/stockListSlice';
-import { selectStockList } from '../../../features/stockList/selectors';
+import { selectNextPurchasedId } from '../../../features/stockList/selectors';
 import { addPurchasedItemsCheckInfo } from '../../../features/checkedItems/checkedItemsSlice';
 import { updateMainGroup } from '../../../features/groups/groupsSlice';
 import { getNewPurchasedItemInfo } from '../../../features/stockList/utils';
 
 export const AddSameStockButton = ({ stockId }: { stockId: string }) => {
   const dispatch = useDispatch();
-  const stockList = useSelector(selectStockList);
+  const newPurchasedId = useSelector(selectNextPurchasedId);
 
   const onAddSameStock = () => {
-    const newPurchasedId = stockList.nextPurchasedId;
     const newPurchasedItem = getNewPurchasedItemInfo(newPurchasedId);
 
     dispatch(

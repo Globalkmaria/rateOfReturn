@@ -20,7 +20,7 @@ const ModalSpace = () => {
   return (
     <StyledModalSpace className='modal-space'>
       {MODALS.map(
-        ({ modalName, Component }, i) =>
+        ({ modalName, Component }) =>
           stockModal?.[modalName]?.isOpen && <Component key={modalName} />,
       )}
     </StyledModalSpace>

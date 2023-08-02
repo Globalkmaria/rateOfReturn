@@ -41,7 +41,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   );
 
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
-  const [isLock, setIsLock] = useState(false);
+  const [isLock, setIsLock] = useState(true);
 
   const totalPurchasePrice =
     purchasedItem.purchasedQuantity * purchasedItem.purchasedPrice;

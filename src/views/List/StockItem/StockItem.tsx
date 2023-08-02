@@ -1,4 +1,4 @@
-import SummaryInfo from './SummaryInfo';
+import SummaryInfo from './SummaryInfo/SummaryInfo';
 import PurchasedStock from './PurchasedStock';
 import { AddSameStockButton } from './AddSameStockButton';
 import { useSelector } from 'react-redux';
