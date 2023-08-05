@@ -14,6 +14,7 @@ export interface RouterElement {
   element: React.ReactNode;
   disabled?: boolean;
   children?: RouterElement[];
+  isNav?: boolean;
 }
 
 export const routers: RemixRouter = createBrowserRouter(
