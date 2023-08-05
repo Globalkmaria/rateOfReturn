@@ -12,6 +12,8 @@
     "@types/node": "16.7.13",
     "@types/react": "18.0.0",
     "@types/react-dom": "18.0.0",
+    "axios": "^1.4.0",
+    "axios-retry": "^3.6.0",
     "chart.js": "4.3.0",
     "chartjs-plugin-datalabels": "2.2.0",
     "file-saver": "2.0.5",
@@ -23,7 +25,8 @@
     "react-router-dom": "6.9.0",
     "react-scripts": "^5.0.1",
     "styled-components": "5.3.9",
-    "typescript": "4.4.2"
+    "typescript": "4.4.2",
+    "zod": "^3.21.4"
   },
   "scripts": {
     "start": "react-scripts start",
