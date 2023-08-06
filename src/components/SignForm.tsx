@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactElement } from 'react';
+import { ChangeEvent, FormEvent, ReactElement } from 'react';
 import styled from 'styled-components/macro';
 import { Link } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
@@ -10,7 +10,7 @@ import { loginGoogleURL } from '../api/auth';
 import { ValidityTextProps } from './form/ValidityText';
 
 type SignFormProps = {
-  onSubmit: () => void;
+  onSubmit: (e: FormEvent<HTMLFormElement | HTMLButtonElement>) => void;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   title: string;
   titleSubtext: string;
@@ -66,7 +66,12 @@ const SignForm = ({
         />
         {AdditionalFormInput}
 
-        <ContainedButton className='signup-btn' size='m' onClick={onSubmit}>
+        <ContainedButton
+          type='submit'
+          className='signup-btn'
+          size='m'
+          onClick={onSubmit}
+        >
           {submitBtnTitle}
         </ContainedButton>
       </Form>

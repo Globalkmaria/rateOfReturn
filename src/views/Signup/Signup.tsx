@@ -1,14 +1,9 @@
-import { ChangeEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import authService from '../../service/auth';
-import FormInput from '../../components/form/Input';
+import { useState } from 'react';
 import SignForm from '../../components/SignForm';
-import {
-  checkSignFormValidity,
-  getEmailValidConfig,
-  getPasswordValidConfig,
-} from './helper';
+import { useFormChange } from '../../hooks/useFormChange';
+import { getEmailValidConfig, getPasswordValidConfig } from './helper';
+import { useSignupSubmit } from './hooks/useSignupSubmit';
+import ConfirmInput from './ConfirmInput';
 
 export type SignupInfoState = {
   username: string;
@@ -17,39 +12,11 @@ export type SignupInfoState = {
 };
 
 const Signup = () => {
-  const navigate = useNavigate();
-  const [signupInfo, setSignupInfo] = useState<SignupInfoState>({
-    username: '',
-    password: '',
-    confirmPassword: '',
-  });
-
-  const onSubmit = async () => {
-    const validity = checkSignFormValidity(signupInfo);
-    if (!validity.isValid) {
-      alert(validity.message);
-      return;
-    }
-
-    const result = await authService.signup(
-      signupInfo.username,
-      signupInfo.password,
-    );
-
-    // TODO should add user to auth store
-    if (result) {
-      navigate('/');
-      return;
-    }
-  };
-
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSignupInfo({
-      ...signupInfo,
-      [e.target.name]: e.target.value,
-    });
-  };
-
+  const [signupInfo, setSignupInfo] = useState<SignupInfoState>(
+    SIGNUP_INFO_INITIAL_STATE,
+  );
+  const onChange = useFormChange<SignupInfoState>(setSignupInfo);
+  const onSubmit = useSignupSubmit(signupInfo);
   const emailValidConfig = getEmailValidConfig(signupInfo);
   const passwordValidConfig = getPasswordValidConfig(signupInfo);
 
@@ -75,6 +42,12 @@ const Signup = () => {
 
 export default Signup;
 
+const SIGNUP_INFO_INITIAL_STATE = {
+  username: '',
+  password: '',
+  confirmPassword: '',
+};
+
 const TITLE = 'Get started';
 const TITLE_SUBTEXT = 'Create your account';
 const SUBMIT_BTN_TITLE = 'Sign up';
@@ -82,39 +55,3 @@ const GOOGLE_BTN_TITLE = 'Sign up with Google';
 const OTHER_OPTION_SUBTEXT = 'Already have an account?';
 const OTHER_OPTION_TITLE = 'Log in';
 const OTHER_OPTION_LINK = '/login';
-
-type ConfirmInputProps = {
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  signupInfo: SignupInfoState;
-};
-
-const ConfirmInput = ({ onChange, signupInfo }: ConfirmInputProps) => {
-  const { password, confirmPassword } = signupInfo;
-  const isValid = password === confirmPassword;
-  const validPassword = confirmPassword.length > 0;
-
-  const validText = validPassword
-    ? isValid
-      ? 'Matched!'
-      : 'Check your password'
-    : '';
-
-  const validityConfig = {
-    text: validText,
-    isValid: isValid,
-  };
-
-  return (
-    <FormInput
-      labelText='Confirm Password'
-      id='password-conform'
-      placeholder='Confirm your password'
-      type='password'
-      className='form-input'
-      name='confirmPassword'
-      onChange={onChange}
-      validityConfig={validityConfig}
-      required
-    />
-  );
-};

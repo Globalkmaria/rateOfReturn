@@ -1,44 +1,19 @@
-import { ChangeEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import authService from '../../service/auth';
+import { useState } from 'react';
 import SignForm from '../../components/SignForm';
+import { useFormChange } from '../../hooks/useFormChange';
+import useLoginSubmit from './hooks/useLoginSubmit';
+
+export type LoginInfoState = {
+  username: string;
+  password: string;
+};
 
 const Login = () => {
-  const navigate = useNavigate();
-  const [loginInfo, setLoginInfo] = useState({
-    username: '',
-    password: '',
-  });
-
-  const onSubmit = async () => {
-    if (loginInfo.username.length < 1) {
-      alert('Please enter your email');
-      return;
-    }
-    if (loginInfo.password.length < 1) {
-      alert('Please enter your password');
-      return;
-    }
-
-    const result = await authService.login(
-      loginInfo.username,
-      loginInfo.password,
-    );
-
-    // TODO should add user to auth store
-    if (result) {
-      navigate('/');
-      return;
-    }
-  };
-
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setLoginInfo({
-      ...loginInfo,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const [loginInfo, setLoginInfo] = useState<LoginInfoState>(
+    LOGIN_INFO_INITIAL_STATE,
+  );
+  const onChange = useFormChange<LoginInfoState>(setLoginInfo);
+  const onSubmit = useLoginSubmit(loginInfo);
 
   return (
     <SignForm
@@ -56,6 +31,11 @@ const Login = () => {
 };
 
 export default Login;
+
+const LOGIN_INFO_INITIAL_STATE = {
+  username: '',
+  password: '',
+};
 
 const TITLE = 'Log in';
 const TITLE_SUBTEXT = 'Welcome back!';
