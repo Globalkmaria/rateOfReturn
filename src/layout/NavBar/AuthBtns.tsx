@@ -23,12 +23,16 @@ const AuthBtns = () => {
         </ContainedButton>
       ) : (
         <>
-          <ContainedButton size='s' mode='light' width={80}>
-            <Link to='/login'>Login</Link>
-          </ContainedButton>
-          <ContainedButton size='s' width={80}>
-            <Link to='/signup'>Sign up</Link>
-          </ContainedButton>
+          <Link to='/login'>
+            <ContainedButton size='s' mode='light' width={80}>
+              Login
+            </ContainedButton>
+          </Link>
+          <Link to='/signup'>
+            <ContainedButton size='s' width={80}>
+              Sign up
+            </ContainedButton>
+          </Link>
         </>
       )}
     </StyledAuthBtns>

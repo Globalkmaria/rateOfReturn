@@ -14,7 +14,7 @@ const Menu = () => {
         return (
           <StyledMenu
             key={element.path}
-            selected={currentLevelPath === element.path}
+            selected={currentLevelPath === element.path.split('/')[1]}
             onClick={() => !element.disabled && menuClickHandler(element.path)}
             disabled={element.disabled}
           >
