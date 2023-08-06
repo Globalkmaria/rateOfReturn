@@ -19,7 +19,7 @@ type SignFormProps = {
   otherOptionSubtext: string;
   otherOptionTitle: string;
   otherOptionLink: string;
-  AdditionalFormInput?: ReactElement | null;
+  AdditionalFormInput?: ReactElement;
   emailValidConfig?: ValidityTextProps;
   passwordValidConfig?: ValidityTextProps;
 };
@@ -34,7 +34,7 @@ const SignForm = ({
   otherOptionSubtext,
   otherOptionTitle,
   otherOptionLink,
-  AdditionalFormInput = null,
+  AdditionalFormInput,
   emailValidConfig,
   passwordValidConfig,
 }: SignFormProps) => {
@@ -49,7 +49,6 @@ const SignForm = ({
           id='email'
           placeholder='Enter your email address'
           type='email'
-          className='form-input'
           name='username'
           onChange={onChange}
           validityConfig={emailValidConfig}
@@ -60,7 +59,6 @@ const SignForm = ({
           id='password'
           placeholder='Enter your password'
           type='password'
-          className='form-input'
           name='password'
           onChange={onChange}
           validityConfig={passwordValidConfig}
@@ -82,7 +80,7 @@ const SignForm = ({
         </div>
       </BorderButton>
 
-      <div className='otherOption'>
+      <div className='other-option'>
         <span className='subtext'>{otherOptionSubtext}</span>
         <Link className='link' to={otherOptionLink}>
           {otherOptionTitle}
@@ -97,9 +95,10 @@ export default SignForm;
 const StyledSignForm = styled('div')`
   width: 400px;
   margin: 3rem auto;
+
   .title {
-    font-size: 2rem;
     margin-bottom: 0.5rem;
+    font-size: 2rem;
   }
 
   .subtext {
@@ -129,7 +128,7 @@ const StyledSignForm = styled('div')`
     }
   }
 
-  .otherOption {
+  .other-option {
     margin-top: 3rem;
     text-align: center;
 

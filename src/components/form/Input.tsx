@@ -14,15 +14,16 @@ const FormInput = ({
   labelText,
   validityConfig,
   required,
+  className,
   ...props
 }: FormInputProps) => {
   const inputInfo = labelText || validityConfig;
   return (
-    <StyledFormInput>
+    <StyledFormInput className={className}>
       {inputInfo && (
         <div className='input-info'>
           {labelText && (
-            <label htmlFor={id}>
+            <label className='input-label' htmlFor={id}>
               {labelText}
               {required && <span className='required'>*</span>}
             </label>
@@ -35,7 +36,7 @@ const FormInput = ({
           )}
         </div>
       )}
-      <input id={id} {...props} />
+      <input id={id} {...props} className='input' />
     </StyledFormInput>
   );
 };
@@ -56,13 +57,13 @@ const StyledFormInput = styled('div')`
     color: ${({ theme }) => theme.colors.red600};
   }
 
-  label {
+  .input-label {
     font-weight: 600;
   }
 
-  input {
+  .input {
+    padding: 0.5rem 1rem;
     border: 1px solid ${({ theme }) => theme.colors.grey400};
     border-radius: 4px;
-    padding: 0.5rem 1rem;
   }
 `;
