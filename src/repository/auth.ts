@@ -1,5 +1,11 @@
 import { config } from '../config.js';
-import HttpClient from '../network/http';
+import HttpClient, { ErrorResponse } from '../network/http';
+import {
+  LoginRepRes,
+  LoginResReq,
+  SignupRepReq,
+  SignupRepRes,
+} from './type.js';
 
 class AuthRepository {
   http: HttpClient;
@@ -7,7 +13,10 @@ class AuthRepository {
     this.http = http;
   }
 
-  async signup(username: string, password: string) {
+  async signup({
+    username,
+    password,
+  }: SignupRepReq): Promise<SignupRepRes | ErrorResponse> {
     return this.http.fetch('/register', {
       method: 'POST',
       body: {
@@ -17,13 +26,22 @@ class AuthRepository {
     });
   }
 
-  async login(username: string, password: string) {
+  async login({
+    username,
+    password,
+  }: LoginResReq): Promise<LoginRepRes | ErrorResponse> {
     return this.http.fetch('/login', {
       method: 'POST',
       body: {
         username,
         password,
       },
+    });
+  }
+
+  async logout(): Promise<any | ErrorResponse> {
+    return this.http.fetch('/logout', {
+      method: 'GET',
     });
   }
 }

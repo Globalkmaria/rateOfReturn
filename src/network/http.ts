@@ -1,5 +1,19 @@
-import axios from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import axiosRetry from 'axios-retry';
+
+interface FetchOptions {
+  body?: any;
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+  headers?: Record<string, string>;
+}
+
+export interface ErrorResponse {
+  error: boolean;
+  message: string;
+  response: AxiosResponse;
+}
+
+type FetchError = AxiosError<any, { data?: { message?: string } }>;
 
 const defaultRetryConfig = {
   retries: 5,
@@ -7,7 +21,8 @@ const defaultRetryConfig = {
 };
 
 export default class HttpClient {
-  constructor(baseURL, config = defaultRetryConfig) {
+  client: AxiosInstance;
+  constructor(baseURL: string, config = defaultRetryConfig) {
     this.client = axios.create({
       baseURL: baseURL,
       headers: { 'Content-Type': 'application/json' },
@@ -22,11 +37,14 @@ export default class HttpClient {
       },
       retryCondition: (err) =>
         axiosRetry.isNetworkOrIdempotentRequestError(err) ||
-        err.response.status === 429,
+        err.response?.status === 429,
     });
   }
 
-  async fetch(url, options) {
+  async fetch(
+    url: string,
+    options: FetchOptions,
+  ): Promise<any | ErrorResponse> {
     const { body, method, headers } = options;
     const req = {
       url,
@@ -41,14 +59,15 @@ export default class HttpClient {
       const res = await this.client(req);
       return res.data;
     } catch (err) {
-      if (err.response) {
-        const data = err.response.data;
+      const axiosError = err as FetchError;
+      if (axiosError.response) {
+        const data = axiosError.response.data;
         const message =
           data && data.message ? data.message : 'Something went wrong!';
         return {
           error: true,
           message,
-          response: err.response,
+          response: axiosError.response,
         };
       }
       throw new Error('connection error');
