@@ -27,12 +27,14 @@ export const rootRouterData: RouterElement[] = [
     path: '/login',
     label: 'Login',
     element: <Login />,
+    notNav: true,
   },
   {
     id: 2,
     path: '/signup',
     label: 'Sign up',
     element: <Signup />,
+    notNav: true,
   },
   {
     id: 3,
