@@ -28,7 +28,7 @@ export const checkSignFormValidity = (state: SignupInfoState) => {
     (!passwordMatched && 'Please check Confirm Password');
 
   return {
-    isValid: message === undefined,
+    isValid: !message,
     message,
   };
 };
