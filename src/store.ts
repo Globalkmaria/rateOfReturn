@@ -3,6 +3,7 @@ import stockListReducer from './features/stockList/stockListSlice';
 import checkedItemsReducer from './features/checkedItems/checkedItemsSlice';
 import groupsReducerReducer from './features/groups/groupsSlice';
 import stockModalSliceReducer from './features/stockModal/stockModalSlice';
+import userSliceReducer from './features/user/userSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     checkedItems: checkedItemsReducer,
     groups: groupsReducerReducer,
     stockModals: stockModalSliceReducer,
+    user: userSliceReducer,
   },
 });
 
