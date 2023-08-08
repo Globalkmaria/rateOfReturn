@@ -1,9 +1,7 @@
-import styled from 'styled-components/macro';
+import HomeComponent from '../views/Home/Home';
 
 const Home = () => {
-  return <StyledHome>Home</StyledHome>;
+  return <HomeComponent />;
 };
 
 export default Home;
-
-const StyledHome = styled('div')``;
