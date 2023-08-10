@@ -13,4 +13,6 @@ const Chart = () => {
 
 export default Chart;
 
-const StyledChart = styled('div')``;
+const StyledChart = styled('div')`
+  padding: 20px;
+`;

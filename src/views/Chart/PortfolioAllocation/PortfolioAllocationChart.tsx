@@ -43,5 +43,7 @@ export default PortfolioAllocationChart;
 
 const StyledPortfolioAllocationChart = styled('div')`
   margin: auto;
-  width: 700px;
+  max-width: 700px;
+  width: min(calc(100vw - 60px), calc(100vh - 383px));
+  min-width: 300px;
 `;
