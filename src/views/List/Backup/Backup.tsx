@@ -28,4 +28,10 @@ const StyledBackup = styled('div')`
   .modal-content {
     width: 340px;
   }
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    ${BorderButton} {
+      font-size: min(0.8rem, 5vw);
+    }
+  }
 `;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { BorderButton } from '../../../../components/Button';
 import { BaseInput, Input } from '../../../../components/Input';
 import { TableCell, TableRow } from '../../../../components/Table';

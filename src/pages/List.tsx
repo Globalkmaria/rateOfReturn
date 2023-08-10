@@ -13,4 +13,7 @@ const List = () => {
 
 export default List;
 
-const StyledList = styled('div')``;
+const StyledList = styled('div')`
+  padding: 20px;
+  background: ${({ theme }) => theme.colors.grey000};
+`;

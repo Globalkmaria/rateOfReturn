@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { Input } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
 import { updatePurchaseItem } from '../../../features/stockList/stockListSlice';
