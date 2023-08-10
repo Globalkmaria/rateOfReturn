@@ -210,4 +210,15 @@ const StyledCard = styled('div')`
       gap: 5px;
     }
   }
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    .content {
+      width: 300px;
+      font-size: 0.8rem;
+
+      .logo img {
+        height: 150px;
+      }
+    }
+  }
 `;

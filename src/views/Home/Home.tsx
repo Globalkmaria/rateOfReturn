@@ -27,7 +27,7 @@ const Home = () => {
 export default Home;
 
 const StyledHome = styled('div')`
-  padding: 20px;
+  padding: 40px;
   display: flex;
   gap: 50px;
   justify-content: space-around;
