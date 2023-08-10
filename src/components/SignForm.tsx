@@ -98,8 +98,8 @@ const SignForm = ({
 export default SignForm;
 
 const StyledSignForm = styled('div')`
-  width: 400px;
-  margin: 3rem auto;
+  width: 500px;
+  padding: 20px;
 
   .title {
     margin-bottom: 0.5rem;
@@ -140,6 +140,16 @@ const StyledSignForm = styled('div')`
     .link {
       margin-left: 0.5rem;
       text-decoration: underline;
+    }
+  }
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    width: 70vw;
+    min-width: 260px;
+
+    .other-option {
+      display: flex;
+      flex-direction: column;
     }
   }
 `;
