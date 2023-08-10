@@ -19,9 +19,12 @@ const GeneralLayout = ({ children }: GeneralLayoutProps) => {
 export default GeneralLayout;
 
 const StyledGeneralLayout = styled('div')`
-  /* min-width: 1440px; */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 350px;
 `;
 
 const StyledMainLayout = styled('main')`
-  padding: 20px;
+  flex: 1 0 fit-content;
 `;

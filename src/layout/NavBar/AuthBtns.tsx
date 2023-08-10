@@ -45,7 +45,7 @@ const StyledAuthBtns = styled('div')`
   display: flex;
   justify-content: end;
   gap: 10px;
-  width: 170px;
+  grid-area: auth-btns;
 
   ${ContainedButton} {
     font-weight: 500;

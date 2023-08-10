@@ -32,11 +32,12 @@ const StyledList = styled('ul')`
   display: flex;
   justify-content: center;
   gap: 10px;
+  grid-area: menu;
 `;
 
 const StyledMenu = styled('li')<MenuProps>`
   padding: 10px;
-  width: 100px;
+  width: min(100px, 20vw);
   background: ${({ theme, selected }) =>
     selected ? theme.colors.grey100 : 'none'};
   border-radius: 10px;
@@ -44,6 +45,8 @@ const StyledMenu = styled('li')<MenuProps>`
   font-weight: 500;
   text-align: center;
   cursor: pointer;
+
+  font-size: min(1.2rem, 5vw);
 
   &:hover {
     background: ${({ theme, disabled }) => !disabled && theme.colors.grey100};

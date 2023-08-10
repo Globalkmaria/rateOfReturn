@@ -93,8 +93,16 @@ const colors: { [key: string]: string } = {
   red000: '#fff5f5',
 };
 
+const devices = {
+  mobileS: `(maxWidth: 360px)`,
+  mobile: `(max-width: 576px)`,
+  tablet: `(max-width: 768px)`,
+};
+
 export type ColorsTypes = typeof colors;
+export type DevicesTypes = typeof devices;
 
 export const theme: DefaultTheme = {
   colors,
+  devices,
 };
