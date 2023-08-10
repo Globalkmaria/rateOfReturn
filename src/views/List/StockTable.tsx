@@ -33,7 +33,8 @@ export default StockTable;
 
 const StyledStockTable = styled('div')`
   width: 100%;
-  height: 65vh;
+  height: fit-content;
+  max-height: calc(100vh - 376px);
   overflow: auto;
 
   thead tr > th {
@@ -49,12 +50,10 @@ const StyledStockTable = styled('div')`
   }
   thead tr > :nth-child(2) {
     z-index: 3;
-    left: 0;
     left: 50px;
   }
   thead tr > :nth-child(3) {
     z-index: 3;
-    left: 0;
     left: 170px;
   }
 
@@ -75,5 +74,41 @@ const StyledStockTable = styled('div')`
     position: sticky;
     z-index: 1;
     left: 170px;
+  }
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    th,
+    td,
+    input {
+      font-size: min(0.7rem, 3vw);
+    }
+
+    .check-all {
+      min-width: 30px;
+    }
+
+    .stock-name {
+      min-width: 70px;
+    }
+
+    .buy-id {
+      min-width: 40px;
+    }
+
+    thead tr > :nth-child(2) {
+      z-index: 3;
+      left: 30px;
+    }
+    thead tr > :nth-child(3) {
+      z-index: 3;
+      left: 100px;
+    }
+
+    tbody tr > :nth-child(2) {
+      left: 30px;
+    }
+    tbody tr > :nth-child(3):not(.stock-summary) {
+      left: 100px;
+    }
   }
 `;

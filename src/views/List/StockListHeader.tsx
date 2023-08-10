@@ -1,4 +1,6 @@
+import styled from 'styled-components/macro';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   TableHead,
   TableHeader,
@@ -9,7 +11,6 @@ import { CheckboxCell } from './StockItem/components';
 import { updateCheckedItems } from '../../features/checkedItems/checkedItemsSlice';
 import { selectIsAllChecked } from '../../features/checkedItems/selectors';
 import { selectIsMainGroupSelected } from '../../features/groups/selectors';
-import styled from 'styled-components';
 
 type HeaderListComponent = typeof CheckAllCheckbox;
 
@@ -68,9 +69,15 @@ const CheckAllCheckbox = ({ id, ...restProps }: TableHeadProps) => {
 };
 
 const HEADER_LIST: HeaderListProps = [
-  { id: '1', label: 'Select All', Component: CheckAllCheckbox, fixedWidth: 50 },
-  { id: '2', label: 'Stock Name', fixedWidth: 120 },
-  { id: '3', label: 'Buy ID', fixedWidth: 50 },
+  {
+    id: '1',
+    label: 'Select All',
+    Component: CheckAllCheckbox,
+    fixedWidth: 50,
+    className: 'check-all',
+  },
+  { id: '2', label: 'Stock Name', fixedWidth: 120, className: 'stock-name' },
+  { id: '3', label: '#', fixedWidth: 50, className: 'buy-id' },
   { id: '4', label: 'Buy Date', fixedWidth: 230 },
   { id: '5', label: 'Buy Quantity', fixedWidth: 100 },
   { id: '6', label: 'Avg Buy Unit Price', minWidth: 120 },

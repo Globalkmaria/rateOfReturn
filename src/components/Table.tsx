@@ -1,5 +1,5 @@
 import { TableHTMLAttributes } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 export interface TableWithProps {
   fixedWidth?: number;
@@ -74,8 +74,12 @@ export const TableCell = styled('td')<TableCellProps>(
       width: fixedWidth + 'px',
       minWidth: fixedWidth + 'px',
     }),
+
+    background: theme.colors.white,
+
     borderBottom: `1px solid ${theme.colors.grey400}`,
     ...(minWidth && { minWidth: minWidth + 'px' }),
+
     textAlign: align,
 
     '&:nth-child(n+1)': {
