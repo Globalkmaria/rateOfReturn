@@ -41,4 +41,5 @@ const MODALS: Modal[] = [
 
 const StyledModalSpace = styled('div')`
   position: relative;
+  z-index: 9999;
 `;

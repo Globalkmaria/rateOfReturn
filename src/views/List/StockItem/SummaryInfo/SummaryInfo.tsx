@@ -68,7 +68,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
           disabled={isLock}
         />
       </TableCell>
-      <TableCell align='center' colSpan={2}>
+      <TableCell align='center' colSpan={2} className='stock-summary'>
         Summary
       </TableCell>
       <NumberCell value={summaryData.purchaseQuantitySum} />

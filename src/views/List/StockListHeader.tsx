@@ -69,7 +69,7 @@ const CheckAllCheckbox = ({ id, ...restProps }: TableHeadProps) => {
 
 const HEADER_LIST: HeaderListProps = [
   { id: '1', label: 'Select All', Component: CheckAllCheckbox, fixedWidth: 50 },
-  { id: '2', label: 'Stock Name', minWidth: 120 },
+  { id: '2', label: 'Stock Name', fixedWidth: 120 },
   { id: '3', label: 'Buy ID', fixedWidth: 50 },
   { id: '4', label: 'Buy Date', fixedWidth: 230 },
   { id: '5', label: 'Buy Quantity', fixedWidth: 100 },

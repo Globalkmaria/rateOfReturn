@@ -19,7 +19,7 @@ const GeneralLayout = ({ children }: GeneralLayoutProps) => {
 export default GeneralLayout;
 
 const StyledGeneralLayout = styled('div')`
-  min-width: 1440px;
+  /* min-width: 1440px; */
 `;
 
 const StyledMainLayout = styled('main')`

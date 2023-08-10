@@ -21,7 +21,8 @@ export interface TableCellProps
 }
 
 export const Table = styled('table')<TableProps>(({ theme }) => ({
-  borderCollapse: 'collapse',
+  borderSpacing: '0px',
+  borderCollapse: 'separate',
   width: '100%',
 }));
 
@@ -38,9 +39,15 @@ export const TableBody = styled('tbody')<TableBodyProps>(({ theme }) => ({
 
 export const TableHead = styled('th')<TableHeadProps>(
   ({ theme, fixedWidth, minWidth }) => ({
+    borderTop: `1px solid ${theme.colors.grey400}`,
+    borderBottom: `1px solid ${theme.colors.grey400}`,
     padding: '0.4rem',
-    ...(fixedWidth && { width: fixedWidth + 'px' }),
+    ...(fixedWidth && {
+      width: fixedWidth + 'px',
+      minWidth: fixedWidth + 'px',
+    }),
     ...(minWidth && { minWidth: minWidth + 'px' }),
+    background: theme.colors.white,
 
     '&:nth-child(n+1)': {
       borderRight: `1px solid ${theme.colors.grey400}`,
@@ -63,7 +70,11 @@ export const TableRow = styled('tr')<TableRowProps>(({ theme }) => ({
 export const TableCell = styled('td')<TableCellProps>(
   ({ theme, fixedWidth, minWidth, align = 'left' }) => ({
     padding: '0.4rem',
-    ...(fixedWidth && { width: fixedWidth + 'px' }),
+    ...(fixedWidth && {
+      width: fixedWidth + 'px',
+      minWidth: fixedWidth + 'px',
+    }),
+    borderBottom: `1px solid ${theme.colors.grey400}`,
     ...(minWidth && { minWidth: minWidth + 'px' }),
     textAlign: align,
 

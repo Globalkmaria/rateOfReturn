@@ -55,6 +55,7 @@ const CONTENTS: Contents = [
 
 const StyledGroupSummary = styled('div')`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   margin: 20px auto;
