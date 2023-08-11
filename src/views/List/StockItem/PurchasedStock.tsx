@@ -116,7 +116,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
         onClick={onChangeCheckbox}
         value={isPurchasedItemChecked}
       />
-      <TableCell></TableCell>
+      <TableCell className='stock-name'>{mainInfo.stockName}</TableCell>
       <TableCell align='center'>{purchasedId}</TableCell>
       <TableCell>
         <div className='datetime'>
@@ -174,6 +174,10 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
 export default PurchasedStock;
 
 const StyledPurchasedStockRow = styled(TableRow)`
+  .stock-name {
+    color: ${({ theme }) => theme.colors.subtitle};
+  }
+
   .datetime {
     display: flex;
     gap: 5px;

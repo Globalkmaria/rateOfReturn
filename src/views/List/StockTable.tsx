@@ -43,36 +43,32 @@ const StyledStockTable = styled('div')`
     top: 0;
   }
 
-  thead tr > :first-child {
+  thead tr > :first-child,
+  thead tr > :nth-child(2),
+  thead tr > :nth-child(3) {
     z-index: 3;
     left: 0;
     top: 0;
   }
   thead tr > :nth-child(2) {
-    z-index: 3;
     left: 50px;
   }
   thead tr > :nth-child(3) {
-    z-index: 3;
     left: 170px;
   }
 
-  tbody tr > :first-child {
-    background: white;
+  tbody tr > :first-child,
+  tbody tr > :nth-child(2),
+  tbody tr > :nth-child(3):not(.stock-summary) {
+    background: ${({ theme }) => theme.colors.grey100};
     position: sticky;
     z-index: 1;
     left: 0;
   }
   tbody tr > :nth-child(2) {
-    background: white;
-    position: sticky;
-    z-index: 1;
     left: 50px;
   }
   tbody tr > :nth-child(3):not(.stock-summary) {
-    background: white;
-    position: sticky;
-    z-index: 1;
     left: 170px;
   }
 
@@ -96,11 +92,9 @@ const StyledStockTable = styled('div')`
     }
 
     thead tr > :nth-child(2) {
-      z-index: 3;
       left: 30px;
     }
     thead tr > :nth-child(3) {
-      z-index: 3;
       left: 100px;
     }
 
