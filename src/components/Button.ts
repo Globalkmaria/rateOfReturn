@@ -1,5 +1,6 @@
 import { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
+import { ColorsTypes } from '../styles/theme';
 
 const SIZES = ['s', 'm', 'l'] as const;
 type Sizes = { [key in (typeof SIZES)[number]]: string };
@@ -84,7 +85,9 @@ export const BorderButton = styled(BaseButton)<BorderButtonProps>(
     boxShadow: `rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px`,
 
     '&:not([disabled]):hover': {
-      background: `${theme.colors[COLORS[color] + '100']}`,
+      background: `${
+        theme.colors[(COLORS[color] + '100') as keyof ColorsTypes]
+      }`,
     },
   }),
 );
@@ -92,13 +95,18 @@ export const BorderButton = styled(BaseButton)<BorderButtonProps>(
 export const ContainedButton = styled(BaseButton)<ContainedButtonProps>(
   ({ theme, color = 'primary', mode = 'dark' }) => ({
     background: `${
-      theme.colors[COLORS[color] + (mode === 'dark' ? '800' : '100')]
+      theme.colors[
+        (COLORS[color] + (mode === 'dark' ? '800' : '100')) as keyof ColorsTypes
+      ]
     }`,
     color: mode === 'dark' ? theme.colors.white : theme.colors.grey900,
 
     '&:not([disabled]):hover': {
       background: `${
-        theme.colors[COLORS[color] + (mode === 'dark' ? '600' : '300')]
+        theme.colors[
+          (COLORS[color] +
+            (mode === 'dark' ? '600' : '300')) as keyof ColorsTypes
+        ]
       }`,
     },
   }),

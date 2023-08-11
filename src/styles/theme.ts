@@ -1,6 +1,9 @@
 import { DefaultTheme } from 'styled-components';
 
-const colors: { [key: string]: string } = {
+const colors = {
+  greyBackground: '#f8f9fa',
+  subtitle: '#868e96',
+
   white: '#FFFFFF',
   black: '#000000',
 

@@ -15,5 +15,5 @@ export default List;
 
 const StyledList = styled('div')`
   padding: 20px;
-  background: ${({ theme }) => theme.colors.grey000};
+  background: ${({ theme }) => theme.colors.greyBackground};
 `;
