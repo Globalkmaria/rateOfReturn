@@ -8,14 +8,14 @@ class StocksRepository {
     this.httpClient = httpClient;
   }
 
-  async getStocks(): Promise<StocksRes | ErrorResponse> {
-    return this.httpClient.fetch('/', {
+  async getTopStocks(): Promise<StocksRes | ErrorResponse> {
+    return this.httpClient.fetch('/top-stocks', {
       method: 'GET',
     });
   }
 }
 
-const StocksBaseURL = `${config.server.url}/stocks`;
+const StocksBaseURL = `${config.server.url}/const`;
 export const httpClient = new HttpClient(StocksBaseURL);
 export const stocksRepository = new StocksRepository(httpClient);
 

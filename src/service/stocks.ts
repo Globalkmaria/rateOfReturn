@@ -9,7 +9,7 @@ class StocksService {
 
   async getStocks(): Promise<StocksRes> {
     try {
-      const result = await this.repo.getStocks();
+      const result = await this.repo.getTopStocks();
       if ('error' in result) {
         throw new Error(result.message);
       }
