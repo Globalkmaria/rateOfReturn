@@ -70,7 +70,6 @@ const GroupButtons = () => {
 export default GroupButtons;
 
 const StyledGroupButtons = styled('div')`
-  margin-bottom: 20px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
