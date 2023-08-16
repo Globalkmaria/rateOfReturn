@@ -1,5 +1,5 @@
-import AuthRepository, { authRepository } from '../repository/auth';
-import { LoginRepRes, SignupRepRes } from '../repository/type';
+import AuthRepository, { authRepository } from '../repository/auth/auth';
+import { LoginRepRes, SignupRepRes } from '../repository/auth/type';
 
 class AuthService {
   repo: AuthRepository;
