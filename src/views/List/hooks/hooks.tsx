@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { initStockList } from '../../features/stockList/stockListSlice';
-import { initGroups } from '../../features/groups/groupsSlice';
-import { getInitialCheckedItemsInfo } from '../../features/checkedItems/utils';
-import { initCheckedItems } from '../../features/checkedItems/checkedItemsSlice';
-import { selectStockList } from '../../features/stockList/selectors';
-import { selectGroups } from '../../features/groups/selectors';
+import { initStockList } from '../../../features/stockList/stockListSlice';
+import { initGroups } from '../../../features/groups/groupsSlice';
+import { getInitialCheckedItemsInfo } from '../../../features/checkedItems/utils';
+import { initCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
+import { selectStockList } from '../../../features/stockList/selectors';
+import { selectGroups } from '../../../features/groups/selectors';
 
 export const useInitData = (setFirstLoad: (value: boolean) => void) => {
   const dispatch = useDispatch();
