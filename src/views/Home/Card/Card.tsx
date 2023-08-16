@@ -1,7 +1,7 @@
 import { MouseEvent, useRef, useState } from 'react';
 import styled from 'styled-components/macro';
 
-import { Stock } from '../../../repository/type';
+import { TopStock } from '../../../repository/topStocks/type';
 import ExpandCard from '../../../components/ExpandCard';
 import Metrics from './Metrics';
 import Ratios from './Ratios';
@@ -10,7 +10,7 @@ import Logo from './Logo';
 import CardHeader from './CardHeader';
 
 type CardProps = {
-  stock: Stock;
+  stock: TopStock;
 };
 
 const Card = ({ stock }: CardProps) => {

@@ -1,10 +1,10 @@
 import { RefObject } from 'react';
 import styled from 'styled-components/macro';
 
-import { Stock } from '../../../repository/type';
+import { TopStock } from '../../../repository/topStocks/type';
 
 type CardHeaderProps = {
-  stock: Stock;
+  stock: TopStock;
   investRef: RefObject<HTMLAnchorElement>;
 };
 

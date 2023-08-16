@@ -1,13 +1,13 @@
 import styled from 'styled-components/macro';
 import Card from './Card/Card';
-import stocksService from '../../service/stocks';
+import topStocksService from '../../service/topStocks';
 import { useEffect, useState } from 'react';
-import { Stock } from '../../repository/type';
+import { TopStock } from '../../repository/topStocks/type';
 
 const Home = () => {
-  const [stocks, setStocks] = useState<Stock[]>([]);
+  const [stocks, setStocks] = useState<TopStock[]>([]);
   const getStocks = async () => {
-    const stocks = await stocksService.getStocks();
+    const stocks = await topStocksService.getTopStocks();
     setStocks(stocks);
   };
 

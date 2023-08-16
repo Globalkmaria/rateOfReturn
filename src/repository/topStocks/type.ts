@@ -1,13 +1,4 @@
-export type LoginResReq = {
-  username: string;
-  password: string;
-};
-export type LoginRepRes = { user: { username: string } };
-
-export type SignupRepReq = LoginResReq;
-export type SignupRepRes = LoginRepRes;
-
-export type Stock = {
+export type TopStock = {
   name: string;
   symbol: string;
   description: string;
@@ -30,4 +21,4 @@ export type Stock = {
   investUrl: string;
 };
 
-export type StocksRes = Stock[];
+export type TopStocksRes = TopStock[];

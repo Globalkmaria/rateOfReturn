@@ -1,8 +1,8 @@
 import styled from 'styled-components/macro';
-import { Stock } from '../../../repository/type';
+import { TopStock } from '../../../repository/topStocks/type';
 
 type LogoProps = {
-  stock: Stock;
+  stock: TopStock;
 };
 
 const Logo = ({ stock }: LogoProps) => {
