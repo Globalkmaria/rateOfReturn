@@ -1,3 +1,5 @@
+import { Collections } from '../../typeUtils/typeGenerators';
+
 export type AddNewStockPayload = {
   stockId: string;
   stockInfo: StockList;
@@ -40,16 +42,17 @@ export interface PurchasedItemInfo {
   purchasedPrice: number;
 }
 
+export type PurchaseItemCollection = Collections<PurchasedItemInfo>;
+
 export interface StockList {
   mainInfo: StockMainInfo;
-  purchasedItems: {
-    byId: { [purchasedId: string]: PurchasedItemInfo };
-    allIds: string[];
-  };
+  purchasedItems: PurchaseItemCollection;
 }
 
+export type StocksCollection = Collections<StockList>;
+
 export interface StockListState {
-  stocks: { byId: { [key: string]: StockList }; allIds: string[] };
+  stocks: StocksCollection;
   nextStockId: number;
   nextPurchasedId: number;
 }

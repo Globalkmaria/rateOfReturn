@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { GROUPS_MOCK_DATA, GROUPS_MOCK_DATA_NEXT_GROUP_ID } from './mockData';
+import { GROUPS_MOCK_DATA } from './mockData';
 import {
   GroupsState,
   AddGroupPayload,
@@ -17,17 +17,17 @@ export const MAIN_GROUP_ID = '1';
 const initialState: GroupsState = {
   groups: GROUPS_MOCK_DATA,
   selectedGroupId: MAIN_GROUP_ID,
-  nextGroupId: GROUPS_MOCK_DATA_NEXT_GROUP_ID,
+  nextGroupId: 2,
 };
 
 export const groupsSlice = createSlice({
   name: 'groups',
   initialState,
   reducers: {
-    initGroups: (state, action: PayloadAction<GroupsState>) => {
-      state.groups = action.payload.groups;
+    initGroups: (state, action: PayloadAction<GroupsState['groups']>) => {
+      state.groups = action.payload;
       state.selectedGroupId = MAIN_GROUP_ID;
-      state.nextGroupId = action.payload.nextGroupId;
+      state.nextGroupId = 2;
     },
     resetGroups: () => initialState,
     setBackupGroups: (state, action: PayloadAction<GroupsState>) => {

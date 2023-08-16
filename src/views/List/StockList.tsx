@@ -4,21 +4,13 @@ import { BaseInput } from '../../components/Input';
 import GroupButtons from './GroupButtons/GroupButtons';
 import GroupSummary from './GroupSummary/GroupSummary';
 import Backup from './Backup/Backup';
-import { useState } from 'react';
-import {
-  useInitData,
-  useSaveChangedGroupsData,
-  useSaveChangedStocksData,
-} from './hooks';
 import StockTable from './StockTable';
+import useGetUserData from './hooks/useGetUserData';
 
 const StockList = () => {
-  const [firstLoad, setFirstLoad] = useState(true);
-  useInitData(setFirstLoad);
-  useSaveChangedGroupsData(firstLoad);
-  useSaveChangedStocksData(firstLoad);
+  const { loading } = useGetUserData();
 
-  if (firstLoad) return <></>;
+  if (loading) return <></>;
   return (
     <StyledStockList>
       <div className='control-bar'>

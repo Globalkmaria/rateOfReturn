@@ -1,5 +1,5 @@
 import { config } from '../../config.js';
-import HttpClient, { ErrorResponse } from '../../network/http.js';
+import HttpClient, { ErrorResponse } from '../../network/http';
 import {
   LoginRepRes,
   LoginResReq,
