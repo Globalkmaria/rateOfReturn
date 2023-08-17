@@ -10,37 +10,52 @@ import { updateMainGroup } from '../../../features/groups/groupsSlice';
 import { selectNextIds } from '../../../features/stockList/selectors';
 import { getNewStockInfo } from '../../../features/stockList/utils';
 import { StockCheckInfo } from '../../../features/checkedItems/type';
+import userStocksService from '../../../service/userStocks/userStocks';
+import { selectIsLoggedIn } from '../../../features/user/selectors';
 
 export const useAddNewStock = () => {
   const dispatch = useDispatch();
-  const { nextStockId, nextPurchasedId } = useSelector(selectNextIds());
+  const localNextIds = useSelector(selectNextIds());
+  const isLogin = useSelector(selectIsLoggedIn());
 
-  const onAddNewStock = () => {
-    const newStockInfo = getNewStockInfo(nextStockId, nextPurchasedId);
+  const onAddNewStock = async () => {
+    let stockId = localNextIds.nextPurchasedId;
+    let itemId = localNextIds.nextPurchasedId;
+
+    if (isLogin) {
+      const result = await userStocksService.addNewUserStock();
+      if (result) {
+        stockId = result.stockId;
+        itemId = result.itemId;
+      }
+    }
+
     const newStockCheckInfo: StockCheckInfo = {
       allChecked: true,
-      purchasedItems: { [nextPurchasedId]: true },
+      purchasedItems: { [itemId]: true },
     };
+    const newStockInfo = getNewStockInfo(stockId, itemId);
 
     dispatch(
       addNewStock({
-        stockId: nextStockId,
+        stockId: stockId,
         stockInfo: newStockInfo,
       }),
     );
     dispatch(
       addStockCheckInfo({
         stockCheckInfo: newStockCheckInfo,
-        stockId: nextStockId,
+        stockId: stockId,
       }),
     );
     dispatch(
       updateMainGroup({
         type: 'stock',
-        stockId: nextStockId,
-        purchasedId: nextPurchasedId,
+        stockId: stockId,
+        purchasedId: itemId,
       }),
     );
+
     dispatch(updateNextStockId());
     dispatch(updateNextPurchasedId());
   };

@@ -1,3 +1,4 @@
+import { AddNewUserStockRepRes } from '../../repository/userStocks/type';
 import UserStocksRepository, {
   userStocksRepository,
 } from '../../repository/userStocks/userStocks';
@@ -23,6 +24,21 @@ class UserStocksService {
       return {
         success: false,
       };
+    }
+  }
+
+  async addNewUserStock(): Promise<AddNewUserStockRepRes | null> {
+    try {
+      const result = await this.repo.addNewUserStock();
+      if ('stockId' in result) {
+        return result;
+      }
+
+      throw new Error('Could not add new stock');
+    } catch (err) {
+      console.log(err);
+      alert('Could not add new stock');
+      return null;
     }
   }
 }
