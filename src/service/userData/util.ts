@@ -29,7 +29,6 @@ export const transformStocksDataForFrontend = (
       allIds: [],
     };
 
-    // TODO: check data, time format
     for (const itemId in stock.items) {
       const item = stock.items[itemId];
       purchasedItems.byId[itemId] = {

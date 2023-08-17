@@ -1,19 +1,16 @@
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/macro';
 
-import {
-  selectIsMainGroupSelected,
-  selectSelectedGroupInfo,
-} from '../../features/groups/selectors';
+import { selectIsMainGroupSelected } from '../../features/groups/selectors';
 import { Table, TableBody } from '../../components/Table';
 import StockItem from './StockItem/StockItem';
 import StockListHeader from './StockListHeader';
 import { AddNewStock } from './AddNewStock/AddNewStock';
+import { selectStockIds } from '../../features/selectors';
 
 const StockTable = () => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
-  const groupInfo = useSelector(selectSelectedGroupInfo());
-  const stockIds = groupInfo.stocks.allIds;
+  const stockIds = useSelector(selectStockIds());
   return (
     <StyledStockTable>
       <Table>
