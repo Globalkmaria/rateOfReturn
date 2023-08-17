@@ -1,4 +1,7 @@
-import { AddNewUserStockRepRes } from '../../repository/userStocks/type';
+import {
+  AddNewUserStockRepRes,
+  DeleteUserItemRepReq,
+} from '../../repository/userStocks/type';
 import UserStocksRepository, {
   userStocksRepository,
 } from '../../repository/userStocks/userStocks';
@@ -8,6 +11,21 @@ class UserStocksService {
   repo: UserStocksRepository;
   constructor(repo: UserStocksRepository) {
     this.repo = repo;
+  }
+
+  async addNewUserStock(): Promise<AddNewUserStockRepRes | null> {
+    try {
+      const result = await this.repo.addNewUserStock();
+      if ('stockId' in result) {
+        return result;
+      }
+
+      throw new Error('Could not add new stock');
+    } catch (err) {
+      console.log(err);
+      alert('Could not add new stock');
+      return null;
+    }
   }
 
   async deleteUserStock(stockId: string): Promise<Result> {
@@ -27,18 +45,23 @@ class UserStocksService {
     }
   }
 
-  async addNewUserStock(): Promise<AddNewUserStockRepRes | null> {
+  async deleteUserItem({
+    stockId,
+    itemId,
+  }: DeleteUserItemRepReq): Promise<Result> {
     try {
-      const result = await this.repo.addNewUserStock();
-      if ('stockId' in result) {
-        return result;
+      const result = await this.repo.deleteUserItem({ stockId, itemId });
+      if (result && result.response.status === 400) {
+        throw new Error('Wrong itemId id');
       }
 
-      throw new Error('Could not add new stock');
+      return { success: true };
     } catch (err) {
       console.log(err);
-      alert('Could not add new stock');
-      return null;
+      alert('Could not delete stock');
+      return {
+        success: false,
+      };
     }
   }
 }

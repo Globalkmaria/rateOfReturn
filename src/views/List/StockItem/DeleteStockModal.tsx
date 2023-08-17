@@ -19,6 +19,7 @@ import {
 } from '../../../features/stockModal/stockModalSlice';
 import styled from 'styled-components';
 import userStocksService from '../../../service/userStocks/userStocks';
+import { selectStockInfoById } from '../../../features/stockList/selectors';
 
 export type DeleteModalProps = {
   type: 'stock' | 'purchase';
@@ -32,12 +33,26 @@ export const DeleteStockModal = () => {
   const { stockId, purchasedId, type } = useSelector(
     selectModalProps('DeleteStockModal'),
   ) as DeleteModalProps;
+  const stocks = useSelector(selectStockInfoById(stockId));
 
-  const onDeletePurchasedStock = () => {
-    dispatch(deletePurchasedItem({ stockId, purchasedId }));
-    dispatch(deletePurchaseItemFromGroups({ stockId, purchasedId }));
-    dispatch(deleteCheckedItems({ stockId, purchasedId }));
-    onClose();
+  const onDeletePurchasedStock = async () => {
+    let result;
+
+    if (stocks.purchasedItems.allIds.length === 1) {
+      result = await userStocksService.deleteUserStock(stockId);
+    } else {
+      result = await userStocksService.deleteUserItem({
+        stockId,
+        itemId: purchasedId,
+      });
+    }
+
+    if (result.success) {
+      dispatch(deletePurchasedItem({ stockId, purchasedId }));
+      dispatch(deletePurchaseItemFromGroups({ stockId, purchasedId }));
+      dispatch(deleteCheckedItems({ stockId, purchasedId }));
+      onClose();
+    }
   };
 
   const onDeleteStock = async () => {
