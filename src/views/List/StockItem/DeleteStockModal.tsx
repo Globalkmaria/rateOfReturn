@@ -18,6 +18,7 @@ import {
   selectModalProps,
 } from '../../../features/stockModal/stockModalSlice';
 import styled from 'styled-components';
+import userStocksService from '../../../service/userStocks/userStocks';
 
 export type DeleteModalProps = {
   type: 'stock' | 'purchase';
@@ -39,11 +40,14 @@ export const DeleteStockModal = () => {
     onClose();
   };
 
-  const onDeleteStock = () => {
-    dispatch(deleteStock(stockId));
-    dispatch(deleteStockFromGroups(stockId));
-    dispatch(deleteStockCheck(stockId));
-    onClose();
+  const onDeleteStock = async () => {
+    const result = await userStocksService.deleteUserStock(stockId);
+    if (result.success) {
+      dispatch(deleteStock(stockId));
+      dispatch(deleteStockFromGroups(stockId));
+      dispatch(deleteStockCheck(stockId));
+      onClose();
+    }
   };
 
   const onDelete = type === 'stock' ? onDeleteStock : onDeletePurchasedStock;
