@@ -4,14 +4,14 @@ import {
   addNewStock,
   updateNextPurchasedId,
   updateNextStockId,
-} from '../../../features/stockList/stockListSlice';
-import { addStockCheckInfo } from '../../../features/checkedItems/checkedItemsSlice';
-import { updateMainGroup } from '../../../features/groups/groupsSlice';
-import { selectNextIds } from '../../../features/stockList/selectors';
-import { getNewStockInfo } from '../../../features/stockList/utils';
-import { StockCheckInfo } from '../../../features/checkedItems/type';
-import userStocksService from '../../../service/userStocks/userStocks';
-import { selectIsLoggedIn } from '../../../features/user/selectors';
+} from '../../../../features/stockList/stockListSlice';
+import { addStockCheckInfo } from '../../../../features/checkedItems/checkedItemsSlice';
+import { updateMainGroup } from '../../../../features/groups/groupsSlice';
+import { selectNextIds } from '../../../../features/stockList/selectors';
+import { getNewStockInfo } from '../../../../features/stockList/utils';
+import { StockCheckInfo } from '../../../../features/checkedItems/type';
+import userStocksService from '../../../../service/userStocks/userStocks';
+import { selectIsLoggedIn } from '../../../../features/user/selectors';
 
 export const useAddNewStock = () => {
   const dispatch = useDispatch();

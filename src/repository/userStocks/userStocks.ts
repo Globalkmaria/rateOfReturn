@@ -1,6 +1,10 @@
 import { config } from '../../config';
 import HttpClient, { ErrorResponse } from '../../network/http';
-import { AddNewUserStockRepRes, DeleteUserItemRepReq } from './type';
+import {
+  AddNewUserItemRepRes,
+  AddNewUserStockRepRes,
+  DeleteUserItemRepReq,
+} from './type';
 
 class UserStocksRepository {
   httpClient: HttpClient;
@@ -17,6 +21,14 @@ class UserStocksRepository {
   async deleteUserStock(stockId: string): Promise<void | ErrorResponse> {
     return this.httpClient.fetch(`/${stockId}`, {
       method: 'DELETE',
+    });
+  }
+
+  async addNewUserItem(
+    stockId: string,
+  ): Promise<AddNewUserItemRepRes | ErrorResponse> {
+    return this.httpClient.fetch(`/${stockId}/items`, {
+      method: 'POST',
     });
   }
 

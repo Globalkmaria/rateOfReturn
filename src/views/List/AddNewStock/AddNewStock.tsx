@@ -1,6 +1,6 @@
 import { ContainedButton } from '../../../components/Button';
 import { TableCell, TableRow } from '../../../components/Table';
-import { useAddNewStock } from './hooks';
+import { useAddNewStock } from './hooks/useAddNewStock';
 
 export const AddNewStock = () => {
   const { onAddNewStock } = useAddNewStock();

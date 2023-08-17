@@ -1,4 +1,5 @@
 import {
+  AddNewUserItemRepRes,
   AddNewUserStockRepRes,
   DeleteUserItemRepReq,
 } from '../../repository/userStocks/type';
@@ -42,6 +43,21 @@ class UserStocksService {
       return {
         success: false,
       };
+    }
+  }
+
+  async addNewUserItem(stockId: string): Promise<AddNewUserItemRepRes | null> {
+    try {
+      const result = await this.repo.addNewUserItem(stockId);
+      if ('stockId' in result) {
+        return result;
+      }
+
+      throw new Error('Could not add new purchase item');
+    } catch (err) {
+      console.log(err);
+      alert('Could not add new purchase item');
+      return null;
     }
   }
 
