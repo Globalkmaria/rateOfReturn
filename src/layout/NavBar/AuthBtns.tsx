@@ -2,14 +2,13 @@ import styled from 'styled-components';
 import { ContainedButton } from '../../components/Button';
 import { Link } from 'react-router-dom';
 import authService from '../../service/auth';
-import { selectIsUserLoggedIn } from '../../features/user/selectors';
+import { selectIsLoggedIn } from '../../features/user/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetUser } from '../../features/user/userSlice';
 
 const AuthBtns = () => {
   const dispatch = useDispatch();
-
-  const isLoggedIn = useSelector(selectIsUserLoggedIn());
+  const isLoggedIn = useSelector(selectIsLoggedIn());
 
   const onLogout = async () => {
     await authService.logout();
