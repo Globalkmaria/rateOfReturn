@@ -24,10 +24,12 @@ type HeaderListProps = {
 }[];
 
 const StockListHeader = () => {
+  const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
+  const header = isMainGroupSelected ? HEADER_LIST : SUB_GROUP_HEADER_LIST;
   return (
     <TableHeader>
       <StyledStockTableRow>
-        {HEADER_LIST.map(({ id, label, Component, ...restProps }) =>
+        {header.map(({ id, label, Component, ...restProps }) =>
           Component ? (
             <Component key={id} id={id} {...restProps} />
           ) : (
@@ -94,6 +96,11 @@ const HEADER_LIST: HeaderListProps = [
   { id: '12', label: 'Lock', fixedWidth: 50 },
   { id: '13', label: 'Delete', fixedWidth: 50 },
 ];
+
+const NOT_SUBGROUP_COL = ['1', '12', '13'];
+const SUB_GROUP_HEADER_LIST: HeaderListProps = HEADER_LIST.filter(
+  (h) => !NOT_SUBGROUP_COL.includes(h.id),
+);
 
 const StyledStockTableRow = styled(TableRow)`
   .total-purchase {

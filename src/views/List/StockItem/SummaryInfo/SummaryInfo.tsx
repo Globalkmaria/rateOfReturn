@@ -52,12 +52,14 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
 
   return (
     <StyledSummaryRow>
-      <CheckboxCell
-        disabled={!isMainGroupSelected}
-        onClick={onChangeCheckbox}
-        value={checkedInfo.allChecked}
-        title='Check all group items'
-      />
+      {isMainGroupSelected ? (
+        <CheckboxCell
+          disabled={!isMainGroupSelected}
+          onClick={onChangeCheckbox}
+          value={checkedInfo.allChecked}
+          title='Check all group items'
+        />
+      ) : null}
       <TableCell>
         <Input
           className='stockName'
@@ -91,15 +93,20 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       <NumberCell value={summaryData.evaluationPrice} />
       <TableCell align='right'>{summaryData.evaluationProfit}</TableCell>
       <TableCell align='right'>{summaryData.profitRate} </TableCell>
-      <LockButton
-        isLock={isLock}
-        onClick={toggleLock}
-        disabled={!isMainGroupSelected}
-      />
-      <DeleteButton
-        onClick={onDeleteModalOpen}
-        disabled={!isMainGroupSelected}
-      />
+
+      {isMainGroupSelected ? (
+        <>
+          <LockButton
+            isLock={isLock}
+            onClick={toggleLock}
+            disabled={!isMainGroupSelected}
+          />
+          <DeleteButton
+            onClick={onDeleteModalOpen}
+            disabled={!isMainGroupSelected}
+          />
+        </>
+      ) : null}
     </StyledSummaryRow>
   );
 };

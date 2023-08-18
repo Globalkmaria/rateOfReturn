@@ -11,8 +11,11 @@ import { selectStockIds } from '../../features/selectors';
 const StockTable = () => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const stockIds = useSelector(selectStockIds());
+  const StyledTable = isMainGroupSelected
+    ? StyledMainStockTable
+    : StyledSubStockTable;
   return (
-    <StyledStockTable>
+    <StyledTable>
       <Table>
         <StockListHeader />
         <TableBody>
@@ -22,13 +25,13 @@ const StockTable = () => {
           {isMainGroupSelected && <AddNewStock />}
         </TableBody>
       </Table>
-    </StyledStockTable>
+    </StyledTable>
   );
 };
 
 export default StockTable;
 
-const StyledStockTable = styled('div')`
+const StyledStockTableBase = styled('div')`
   width: 100%;
   height: fit-content;
   max-height: calc(100vh - 376px);
@@ -40,6 +43,28 @@ const StyledStockTable = styled('div')`
     top: 0;
   }
 
+  @media ${({ theme }) => theme.devices.mobile} {
+    th,
+    td,
+    input {
+      font-size: min(0.7rem, 3vw);
+    }
+
+    .check-all {
+      min-width: 30px;
+    }
+
+    .stock-name {
+      min-width: 70px;
+    }
+
+    .buy-id {
+      min-width: 40px;
+    }
+  }
+`;
+
+const StyledMainStockTable = styled(StyledStockTableBase)`
   thead tr > :first-child,
   thead tr > :nth-child(2),
   thead tr > :nth-child(3) {
@@ -70,24 +95,6 @@ const StyledStockTable = styled('div')`
   }
 
   @media ${({ theme }) => theme.devices.mobile} {
-    th,
-    td,
-    input {
-      font-size: min(0.7rem, 3vw);
-    }
-
-    .check-all {
-      min-width: 30px;
-    }
-
-    .stock-name {
-      min-width: 70px;
-    }
-
-    .buy-id {
-      min-width: 40px;
-    }
-
     thead tr > :nth-child(2) {
       left: 30px;
     }
@@ -100,6 +107,40 @@ const StyledStockTable = styled('div')`
     }
     tbody tr > :nth-child(3):not(.stock-summary) {
       left: 100px;
+    }
+  }
+`;
+
+const StyledSubStockTable = styled(StyledStockTableBase)`
+  thead tr > :first-child,
+  thead tr > :nth-child(2) {
+    z-index: 3;
+    left: 0;
+    top: 0;
+  }
+  thead tr > :nth-child(2) {
+    left: 120px;
+  }
+
+  tbody tr > :first-child,
+  tbody tr > :nth-child(2):not(.stock-summary) {
+    background: ${({ theme }) => theme.colors.grey100};
+    position: sticky;
+    z-index: 1;
+    left: 0px;
+  }
+
+  tbody tr > :nth-child(2):not(.stock-summary) {
+    left: 120px;
+  }
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    thead tr > :nth-child(2) {
+      left: 70px;
+    }
+
+    tbody tr > :nth-child(2):not(.stock-summary) {
+      left: 70px;
     }
   }
 `;

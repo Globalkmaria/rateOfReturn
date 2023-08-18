@@ -66,7 +66,7 @@ const BaseButton = styled('button').attrs((props) => ({
     fontSize: `min(${FONT_SIZES[size]}, 5vw)`,
     whiteSpace: 'nowrap',
 
-    '&[class^="Button"]:disabled': {
+    '&:disabled': {
       color: theme.colors.grey500,
       cursor: 'default',
     },

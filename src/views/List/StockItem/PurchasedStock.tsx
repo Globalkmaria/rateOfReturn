@@ -110,12 +110,14 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
 
   return (
     <StyledPurchasedStockRow>
-      <CheckboxCell
-        title='Check item'
-        disabled={!isMainGroupSelected}
-        onClick={onChangeCheckbox}
-        value={isPurchasedItemChecked}
-      />
+      {isMainGroupSelected ? (
+        <CheckboxCell
+          title='Check item'
+          disabled={!isMainGroupSelected}
+          onClick={onChangeCheckbox}
+          value={isPurchasedItemChecked}
+        />
+      ) : null}
       <TableCell className='stock-name'>{mainInfo.stockName}</TableCell>
       <TableCell align='center'>{purchasedId}</TableCell>
       <TableCell>
@@ -158,15 +160,19 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
       <NumberCell value={evaluationPrice} />
       <TableCell align='right'>{formattedEvaluationProfit}</TableCell>
       <TableCell align='right'>{formattedProfitRate}</TableCell>
-      <LockButton
-        isLock={isLock}
-        onClick={toggleLock}
-        disabled={!isMainGroupSelected}
-      />
-      <DeleteButton
-        onClick={onOpenDeleteModal}
-        disabled={!isMainGroupSelected}
-      />
+      {isMainGroupSelected ? (
+        <>
+          <LockButton
+            isLock={isLock}
+            onClick={toggleLock}
+            disabled={!isMainGroupSelected}
+          />
+          <DeleteButton
+            onClick={onOpenDeleteModal}
+            disabled={!isMainGroupSelected}
+          />
+        </>
+      ) : null}
     </StyledPurchasedStockRow>
   );
 };
