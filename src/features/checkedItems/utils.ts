@@ -1,3 +1,4 @@
+import { Group } from '../groups/type';
 import { StockListState } from '../stockList/type';
 import { CheckedItemsInfo, UpdateCheckedItemsInfoPayload } from './type';
 
@@ -17,6 +18,33 @@ export const getInitialCheckedItemsInfo = ({
     checkedItemsInfo.stocksCheckInfo[stockId] = {
       allChecked: value,
       purchasedItems: data.byId[stockId].purchasedItems.allIds.reduce<{
+        [purchasedId: string]: boolean;
+      }>((acc, purchasedId) => {
+        acc[purchasedId] = value;
+        return acc;
+      }, {}),
+    };
+  }
+
+  return checkedItemsInfo;
+};
+
+export const getInitialCheckedItemsInfoFromGroupFormat = ({
+  data,
+  value,
+}: {
+  data: Group['stocks'];
+  value: boolean;
+}): CheckedItemsInfo => {
+  const checkedItemsInfo: CheckedItemsInfo = {
+    allChecked: value,
+    stocksCheckInfo: {},
+  };
+
+  for (const stockId of data.allIds) {
+    checkedItemsInfo.stocksCheckInfo[stockId] = {
+      allChecked: value,
+      purchasedItems: data.byId[stockId].reduce<{
         [purchasedId: string]: boolean;
       }>((acc, purchasedId) => {
         acc[purchasedId] = value;

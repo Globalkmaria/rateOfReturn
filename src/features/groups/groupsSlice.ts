@@ -62,7 +62,7 @@ export const groupsSlice = createSlice({
 
     deleteGroup: (state, action: PayloadAction<string>) => {
       const groupId = action.payload;
-      if (validCheckGroupDelete(state, groupId)) return;
+      if (!validCheckGroupDelete(state, groupId)) return;
 
       const selectedGroupIndex = state.groups.allIds.indexOf(groupId);
       delete state.groups.byId[groupId];
