@@ -1,9 +1,9 @@
 import { CheckedItemsState } from '../../features/checkedItems/type';
-import { Groups } from '../../features/groups/type';
-import { StocksCollection } from '../../features/stockList/type';
+import { GroupsState } from '../../features/groups/type';
+import { StockListState } from '../../features/stockList/type';
 
 export type UserDataServiceRes = {
-  stocks: StocksCollection;
+  stocks: StockListState;
   checkedItems: CheckedItemsState;
-  groups: Groups;
+  groups: Omit<GroupsState, 'selectedGroupId'>;
 };
