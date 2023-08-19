@@ -9,6 +9,7 @@ import AddGroupModal from './GroupButtons/AddGroupModal';
 import DeleteGroupModal from './GroupButtons/DeleteGroupModal';
 import DeleteGroupWarning from './GroupButtons/DeleteGroupWarning';
 import ResetDataWarning from './Backup/ResetDataWarning';
+import StoreRemoteBackupWarning from './Backup/StoreRemoteBackupWarning';
 
 type Modal = {
   modalName: string;
@@ -37,6 +38,10 @@ const MODALS: Modal[] = [
   { modalName: 'DeleteGroupModal', Component: DeleteGroupModal },
   { modalName: 'DeleteGroupWarning', Component: DeleteGroupWarning },
   { modalName: 'ResetDataWarning', Component: ResetDataWarning },
+  {
+    modalName: 'StoreRemoteBackupWarning',
+    Component: StoreRemoteBackupWarning,
+  },
 ];
 
 const StyledModalSpace = styled('div')`

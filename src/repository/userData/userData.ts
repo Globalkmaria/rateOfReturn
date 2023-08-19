@@ -1,6 +1,6 @@
 import { config } from '../../config';
 import HttpClient, { ErrorResponse } from '../../network/http';
-import { UserDataRepRes } from './type';
+import { ReplaceUserDataRepReq, UserDataRepRes } from './type';
 
 class UserDataRepository {
   httpClient: HttpClient;
@@ -11,6 +11,15 @@ class UserDataRepository {
   async getUserData(): Promise<UserDataRepRes | ErrorResponse> {
     return this.httpClient.fetch('/', {
       method: 'GET',
+    });
+  }
+
+  async replaceUserData(
+    data: ReplaceUserDataRepReq,
+  ): Promise<null | ErrorResponse> {
+    return this.httpClient.fetch('/', {
+      method: 'PUT',
+      body: JSON.stringify(data),
     });
   }
 }
