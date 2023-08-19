@@ -1,14 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import { selectSelectedGroupInfo } from '../../../features/groups/selectors';
+import {
+  selectIsMainGroupSelected,
+  selectSelectedGroupInfo,
+} from '../../../features/groups/selectors';
 import { useSelector } from 'react-redux';
 import { selectStocks } from '../../../features/stockList/selectors';
-import { getGroupSummary } from './utils';
+import { getGroupSummary, getMainGroupSummary } from './utils';
 
 const GroupSummary = () => {
+  const isMainSelected = useSelector(selectIsMainGroupSelected());
   const groupInfo = useSelector(selectSelectedGroupInfo());
   const stocks = useSelector(selectStocks);
-  const summary = getGroupSummary(groupInfo, stocks);
+  const summary = isMainSelected
+    ? getMainGroupSummary(stocks)
+    : getGroupSummary(groupInfo, stocks);
 
   return (
     <StyledGroupSummary>
