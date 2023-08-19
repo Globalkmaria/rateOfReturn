@@ -24,10 +24,13 @@ export const groupsSlice = createSlice({
   name: 'groups',
   initialState,
   reducers: {
-    initGroups: (state, action: PayloadAction<GroupsState['groups']>) => {
-      state.groups = action.payload;
+    initGroups: (
+      state,
+      action: PayloadAction<Omit<GroupsState, 'selectedGroupId'>>,
+    ) => {
+      state.groups = action.payload.groups;
       state.selectedGroupId = MAIN_GROUP_ID;
-      state.nextGroupId = 2;
+      state.nextGroupId = action.payload.nextGroupId;
     },
     resetGroups: () => initialState,
     setBackupGroups: (state, action: PayloadAction<GroupsState>) => {

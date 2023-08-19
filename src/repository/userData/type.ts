@@ -4,7 +4,7 @@ export type UserGroup = {
   stocks: {
     [key: string]: string[];
   };
-  docId: string;
+  docId?: string;
 };
 
 export type UserGroups = {
@@ -18,13 +18,14 @@ export type Item = {
   quantity: number;
   buyPrice: number;
   createdAt: Date;
-  docId: string;
+  docId?: string;
 };
 
 export type StockInfo = {
   name: string;
   currentPrice: number;
   createdAt: Date;
+  id: string;
 };
 
 export type UserStock = {
@@ -32,8 +33,7 @@ export type UserStock = {
   items: {
     [itemId: string]: Item;
   };
-  id: string;
-  docId: string;
+  docId?: string;
 };
 
 export type UserStocks = {
@@ -44,10 +44,25 @@ export type UserDataRepRes = {
   docId: string;
   stocks: {
     stocks: UserStocks;
+    nextStockId: number;
+    nextItemId: number;
     docId: string;
   };
   groups: {
     groups: UserGroups;
+    nextGroupId: number;
     docId: string;
+  };
+};
+
+export type ReplaceUserDataRepReq = {
+  stocks: {
+    stocks: UserStocks;
+    nextStockId: number;
+    nextItemId: number;
+  };
+  groups: {
+    groups: UserGroups;
+    nextGroupId: number;
   };
 };

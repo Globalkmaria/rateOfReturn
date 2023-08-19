@@ -39,8 +39,10 @@ const stockListSlice = createSlice({
       state.nextPurchasedId = action.payload.nextPurchasedId;
     },
     restStockList: () => initialState,
-    initStockList: (state, action: PayloadAction<StockListState['stocks']>) => {
-      state.stocks = action.payload;
+    initStockList: (state, action: PayloadAction<StockListState>) => {
+      state.stocks = action.payload.stocks;
+      state.nextStockId = action.payload.nextStockId;
+      state.nextPurchasedId = action.payload.nextPurchasedId;
     },
 
     addNewStock: (state, action: PayloadAction<AddNewStockPayload>) => {
