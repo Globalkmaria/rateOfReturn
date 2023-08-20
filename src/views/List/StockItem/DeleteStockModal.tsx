@@ -20,6 +20,7 @@ import {
 import styled from 'styled-components';
 import userStocksService from '../../../service/userStocks/userStocks';
 import { selectStockInfoById } from '../../../features/stockList/selectors';
+import { selectIsLoggedIn } from '../../../features/user/selectors';
 
 export type DeleteModalProps = {
   type: 'stock' | 'purchase';
@@ -28,6 +29,7 @@ export type DeleteModalProps = {
 };
 
 export const DeleteStockModal = () => {
+  const isLoggedIn = useSelector(selectIsLoggedIn());
   const dispatch = useDispatch();
   const onClose = () => dispatch(closeStockModal('DeleteStockModal'));
   const { stockId, purchasedId, type } = useSelector(
@@ -36,33 +38,35 @@ export const DeleteStockModal = () => {
   const stocks = useSelector(selectStockInfoById(stockId));
 
   const onDeletePurchasedStock = async () => {
-    let result;
+    if (isLoggedIn) {
+      let result;
+      if (stocks.purchasedItems.allIds.length === 1) {
+        result = await userStocksService.deleteUserStock(stockId);
+      } else {
+        result = await userStocksService.deleteUserItem({
+          stockId,
+          itemId: purchasedId,
+        });
+      }
 
-    if (stocks.purchasedItems.allIds.length === 1) {
-      result = await userStocksService.deleteUserStock(stockId);
-    } else {
-      result = await userStocksService.deleteUserItem({
-        stockId,
-        itemId: purchasedId,
-      });
+      if (!result.success) return;
     }
 
-    if (result.success) {
-      dispatch(deletePurchasedItem({ stockId, purchasedId }));
-      dispatch(deletePurchaseItemFromGroups({ stockId, purchasedId }));
-      dispatch(deleteCheckedItems({ stockId, purchasedId }));
-      onClose();
-    }
+    dispatch(deletePurchasedItem({ stockId, purchasedId }));
+    dispatch(deletePurchaseItemFromGroups({ stockId, purchasedId }));
+    dispatch(deleteCheckedItems({ stockId, purchasedId }));
+    onClose();
   };
 
   const onDeleteStock = async () => {
-    const result = await userStocksService.deleteUserStock(stockId);
-    if (result.success) {
-      dispatch(deleteStock(stockId));
-      dispatch(deleteStockFromGroups(stockId));
-      dispatch(deleteStockCheck(stockId));
-      onClose();
+    if (isLoggedIn) {
+      const result = await userStocksService.deleteUserStock(stockId);
+      if (!result.success) return;
     }
+    dispatch(deleteStock(stockId));
+    dispatch(deleteStockFromGroups(stockId));
+    dispatch(deleteStockCheck(stockId));
+    onClose();
   };
 
   const onDelete = type === 'stock' ? onDeleteStock : onDeletePurchasedStock;

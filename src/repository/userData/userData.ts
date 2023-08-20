@@ -22,6 +22,12 @@ class UserDataRepository {
       body: JSON.stringify(data),
     });
   }
+
+  async addSampleUserData(): Promise<null | ErrorResponse> {
+    return this.httpClient.fetch('/sample', {
+      method: 'POST',
+    });
+  }
 }
 
 const UserDataBaseURL = `${config.server.url}/user/user-data`;

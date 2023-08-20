@@ -53,6 +53,18 @@ class UserDataService {
       return { success: false };
     }
   }
+
+  async addSampleUserData(): Promise<Result> {
+    try {
+      const result = await this.repo.addSampleUserData();
+      if (!result) return { success: true };
+      throw new Error(result.message);
+    } catch (error) {
+      alert(error);
+      console.log(error);
+      return { success: false };
+    }
+  }
 }
 
 const userDataService = new UserDataService(userDataRepository);

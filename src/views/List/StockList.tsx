@@ -6,9 +6,12 @@ import GroupSummary from './GroupSummary/GroupSummary';
 import Backup from './Backup/Backup';
 import StockTable from './StockTable';
 import useGetUserData from './hooks/useGetUserData';
+import AddSampleData from './AddSampleData/AddSampleData';
+import { useShowAddSampleBtn } from './AddSampleData/useShowAddSampleBtn';
 
 const StockList = () => {
   const { loading } = useGetUserData();
+  const [showAddSampleBtn] = useShowAddSampleBtn();
 
   if (loading) return <></>;
   return (
@@ -18,6 +21,7 @@ const StockList = () => {
           <GroupButtons />
         </div>
         <div className='control-bar__right'>
+          {showAddSampleBtn && <AddSampleData />}
           <Backup />
         </div>
       </div>
@@ -44,5 +48,10 @@ const StyledStockList = styled('div')`
   .control-bar {
     display: flex;
     justify-content: space-between;
+  }
+
+  .control-bar__right {
+    display: flex;
+    gap: 10px;
   }
 `;

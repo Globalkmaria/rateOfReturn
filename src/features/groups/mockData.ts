@@ -2,24 +2,24 @@ import { GroupsState } from './type';
 
 export const GROUPS_MOCK_DATA: GroupsState['groups'] = {
   byId: {
-    '8': {
-      groupId: '8',
+    '2': {
+      groupId: '2',
       groupName: 'Group1',
       stocks: {
         byId: { '1': ['2', '9'], '2': ['3', '4'] },
         allIds: ['1', '2'],
       },
     },
-    '9': {
-      groupId: '9',
+    '3': {
+      groupId: '3',
       groupName: 'Group2',
       stocks: {
         byId: { '1': ['2'], '2': ['3', '4'], '3': ['13'], '4': ['14'] },
         allIds: ['1', '2', '3', '4'],
       },
     },
-    '10': {
-      groupId: '10',
+    '4': {
+      groupId: '4',
       groupName: 'Hello Group',
       stocks: {
         byId: { '1': ['2'], '2': ['3'], '3': ['6', '13'] },
@@ -27,7 +27,7 @@ export const GROUPS_MOCK_DATA: GroupsState['groups'] = {
       },
     },
   },
-  allIds: ['8', '9', '10'],
+  allIds: ['2', '3', '4'],
 };
 
-export const GROUPS_MOCK_DATA_NEXT_GROUP_ID = 11;
+export const GROUPS_MOCK_DATA_NEXT_GROUP_ID = 5;

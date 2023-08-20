@@ -26,6 +26,11 @@ const stockListSlice = createSlice({
   name: 'stockList',
   initialState,
   reducers: {
+    addSampleStockList: (state) => {
+      state.stocks = MOCK_DATA;
+      state.nextStockId = MOCK_DATA_NEXT_STOCK_ID;
+      state.nextPurchasedId = MOCK_DATA_PURCHASED_ID;
+    },
     updateNextStockId: (state) => {
       state.nextStockId = Number(state.nextStockId) + 1;
     },
@@ -105,6 +110,7 @@ const stockListSlice = createSlice({
 });
 
 export const {
+  addSampleStockList,
   setBackupStockList,
   addNewStock,
   addPurchasedItem,
