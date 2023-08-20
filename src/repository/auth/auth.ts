@@ -3,6 +3,7 @@ import HttpClient, { ErrorResponse } from '../../network/http';
 import {
   LoginRepRes,
   LoginResReq,
+  MeRepRes,
   SignupRepReq,
   SignupRepRes,
 } from './type.js';
@@ -11,6 +12,12 @@ class AuthRepository {
   http: HttpClient;
   constructor(http: HttpClient) {
     this.http = http;
+  }
+
+  async me(): Promise<MeRepRes | ErrorResponse> {
+    return this.http.fetch('/me', {
+      method: 'GET',
+    });
   }
 
   async signup({

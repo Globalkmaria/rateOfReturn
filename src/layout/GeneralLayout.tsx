@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 import Navbar from './NavBar/Navbar';
 import Footer from './Footer';
+import { useCheckMe } from './useCheckMe';
 
 interface GeneralLayoutProps {
   children: React.ReactNode;
 }
 
 const GeneralLayout = ({ children }: GeneralLayoutProps) => {
+  useCheckMe();
+
   return (
     <StyledGeneralLayout>
       <Navbar />

@@ -1,10 +1,21 @@
 import AuthRepository, { authRepository } from '../repository/auth/auth';
-import { LoginRepRes, SignupRepRes } from '../repository/auth/type';
+import { LoginRepRes, MeRepRes, SignupRepRes } from '../repository/auth/type';
 
 class AuthService {
   repo: AuthRepository;
   constructor(repo: AuthRepository) {
     this.repo = repo;
+  }
+
+  async me(): Promise<MeRepRes | null> {
+    try {
+      const result = await this.repo.me();
+      if ('user' in result) return result;
+      return null;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
   }
 
   async signup(
