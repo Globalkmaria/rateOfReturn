@@ -1,15 +1,16 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import userDataService from '../../../service/userData/userData';
+import { selectIsLoggedIn } from '../../../features/user/selectors';
 import { initStockList } from '../../../features/stockList/stockListSlice';
 import { initCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
 import { initGroups } from '../../../features/groups/groupsSlice';
-import { useEffect, useState } from 'react';
-import { selectIsLoggedIn } from '../../../features/user/selectors';
 
 const useGetUserData = () => {
+  const dispatch = useDispatch();
   const isLoggingIn = useSelector(selectIsLoggedIn());
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
   const getUserData = async () => {
     setLoading(true);
 
@@ -30,11 +31,7 @@ const useGetUserData = () => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    getUserData();
-  }, []);
-
-  return { loading };
+  return { loading, getUserData };
 };
 
 export default useGetUserData;
