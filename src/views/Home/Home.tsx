@@ -6,13 +6,14 @@ import { TopStock } from '../../repository/topStocks/type';
 
 const Home = () => {
   const [stocks, setStocks] = useState<TopStock[]>([]);
-  const getStocks = async () => {
+
+  const getTopStocks = async () => {
     const stocks = await topStocksService.getTopStocks();
     setStocks(stocks);
   };
 
   useEffect(() => {
-    getStocks();
+    getTopStocks();
   }, []);
 
   return (

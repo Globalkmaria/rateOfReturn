@@ -97,7 +97,7 @@ const colors = {
 };
 
 const devices = {
-  mobileS: `(maxWidth: 360px)`,
+  mobileS: `(max-width: 360px)`,
   mobile: `(max-width: 576px)`,
   tablet: `(max-width: 768px)`,
 };
