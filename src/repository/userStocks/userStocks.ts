@@ -4,6 +4,8 @@ import {
   AddNewUserItemRepRes,
   AddNewUserStockRepRes,
   DeleteUserItemRepReq,
+  EditUserItemRepReq,
+  EditUserStockRepReq,
 } from './type';
 
 class UserStocksRepository {
@@ -18,6 +20,16 @@ class UserStocksRepository {
     });
   }
 
+  async editUserStock({
+    stockId,
+    data,
+  }: EditUserStockRepReq): Promise<void | ErrorResponse> {
+    return this.httpClient.fetch(`/${stockId}`, {
+      method: 'PATCH',
+      body: { ...data },
+    });
+  }
+
   async deleteUserStock(stockId: string): Promise<void | ErrorResponse> {
     return this.httpClient.fetch(`/${stockId}`, {
       method: 'DELETE',
@@ -29,6 +41,17 @@ class UserStocksRepository {
   ): Promise<AddNewUserItemRepRes | ErrorResponse> {
     return this.httpClient.fetch(`/${stockId}/items`, {
       method: 'POST',
+    });
+  }
+
+  async editUserItem({
+    stockId,
+    itemId,
+    data,
+  }: EditUserItemRepReq): Promise<void | ErrorResponse> {
+    return this.httpClient.fetch(`/${stockId}/items/${itemId}`, {
+      method: 'PATCH',
+      body: { ...data },
     });
   }
 

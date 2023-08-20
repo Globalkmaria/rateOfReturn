@@ -11,6 +11,8 @@ import {
 } from '../../../../features/groups/selectors';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
 import { getGroupPurchasedData, getStockSummaryInfo } from '../utils';
+import { useState } from 'react';
+import { EditUserStockServiceData } from '../../../../service/userStocks/type';
 
 export const useStockDeleteModalOpen = (stockId: string) => {
   const dispatch = useDispatch();
@@ -32,8 +34,13 @@ export const useStockDeleteModalOpen = (stockId: string) => {
   return onDeleteModalOpen;
 };
 
+type ChangedInputs = EditUserStockServiceData;
+
 export const useStockSummaryInputChange = (stockId: string) => {
   const dispatch = useDispatch();
+  const [changedInputs, setChangedInputs] = useState<ChangedInputs>({});
+  const initChangedInputs = () => setChangedInputs({});
+
   const onInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     transformedValue: TransformedValue,
@@ -47,6 +54,11 @@ export const useStockSummaryInputChange = (stockId: string) => {
         : (transformedValue && transformedValue[1]) ||
           e.target.value.replaceAll(',', '');
 
+    setChangedInputs((prev) => ({
+      ...prev,
+      [fieldName]: value,
+    }));
+
     dispatch(
       updateStock({
         stockId: stockId,
@@ -55,7 +67,8 @@ export const useStockSummaryInputChange = (stockId: string) => {
       }),
     );
   };
-  return onInputChange;
+
+  return { changedInputs, initChangedInputs, onInputChange };
 };
 
 export const useChangeStockCheckbox = (stockId: string) => {

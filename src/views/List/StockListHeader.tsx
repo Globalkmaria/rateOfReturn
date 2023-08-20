@@ -93,7 +93,7 @@ const HEADER_LIST: HeaderListProps = [
   { id: '9', label: 'Current Total Value', minWidth: 100 },
   { id: '10', label: 'Return', minWidth: 100 },
   { id: '11', label: 'Rate of Return', minWidth: 100 },
-  { id: '12', label: 'Lock', fixedWidth: 50 },
+  { id: '12', label: 'Edit', fixedWidth: 50 },
   { id: '13', label: 'Delete', fixedWidth: 50 },
 ];
 

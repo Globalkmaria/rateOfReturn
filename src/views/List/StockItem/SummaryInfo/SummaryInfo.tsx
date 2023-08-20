@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/macro';
 import { BorderButton } from '../../../../components/Button';
@@ -7,9 +7,9 @@ import { TableCell, TableRow } from '../../../../components/Table';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
 import {
   NumberCell,
-  LockButton,
   DeleteButton,
   CheckboxCell,
+  EditButton,
 } from '../components';
 import { selectStockCheckedInfo } from '../../../../features/checkedItems/selectors';
 import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
@@ -19,6 +19,8 @@ import {
   useStockDeleteModalOpen,
   useStockSummaryInputChange,
 } from './hooks';
+import { selectIsLoggedIn } from '../../../../features/user/selectors';
+import userStocksService from '../../../../service/userStocks/userStocks';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -35,10 +37,31 @@ export interface SummaryInfoProps {
 
 const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const [isLock, setIsLock] = useState(true);
+  const isLoggedIn = useSelector(selectIsLoggedIn());
   const onDeleteModalOpen = useStockDeleteModalOpen(stockId);
-  const onInputChange = useStockSummaryInputChange(stockId);
+  const { changedInputs, initChangedInputs, onInputChange } =
+    useStockSummaryInputChange(stockId);
   const onChangeCheckbox = useChangeStockCheckbox(stockId);
-  const toggleLock = () => setIsLock((prev) => !prev);
+  const toggleLock = async () => {
+    if (!isLoggedIn) {
+      return setIsLock((prev) => !prev);
+    }
+    if (!isLock) {
+      if (Object.keys(changedInputs).length === 0) return setIsLock(true);
+
+      const result = await userStocksService.editUserStock({
+        stockId,
+        data: changedInputs,
+      });
+      if (!result.success) return;
+
+      initChangedInputs();
+      setIsLock(true);
+      return;
+    }
+
+    setIsLock(false);
+  };
 
   const checkedInfo = useSelector(selectStockCheckedInfo(stockId));
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
@@ -96,7 +119,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
 
       {isMainGroupSelected ? (
         <>
-          <LockButton
+          <EditButton
             isLock={isLock}
             onClick={toggleLock}
             disabled={!isMainGroupSelected}
