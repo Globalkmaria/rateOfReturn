@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 import { ContainedButton } from '../../../components/Button';
 import { Input } from '../../../components/Input';
@@ -51,7 +51,7 @@ export default AddGroupModal;
 const StyledAddGroupModal = styled('div')`
   width: 900px;
   max-height: 500px;
-  overflow-y: auto;
+  overflow: auto;
 
   .group-name {
     display: flex;
@@ -72,5 +72,9 @@ const StyledAddGroupModal = styled('div')`
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
+  }
+
+  @media ${({ theme }) => theme.devices.tablet} {
+    width: 70vw;
   }
 `;

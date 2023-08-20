@@ -108,4 +108,10 @@ const StyledModalContent = styled('div')<{ needHeader: boolean }>`
     align-self: flex-end;
     border: none;
   }
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    .title {
+      font-size: 1.2rem;
+    }
+  }
 `;
