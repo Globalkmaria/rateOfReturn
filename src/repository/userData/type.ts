@@ -66,3 +66,8 @@ export type ReplaceUserDataRepReq = {
     nextGroupId: number;
   };
 };
+
+export type mergeUserDataRepReq = {
+  stocks: UserStocks;
+  groups: UserGroups;
+};

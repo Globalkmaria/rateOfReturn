@@ -1,4 +1,7 @@
-import { ReplaceUserDataRepReq } from '../../repository/userData/type';
+import {
+  ReplaceUserDataRepReq,
+  mergeUserDataRepReq,
+} from '../../repository/userData/type';
 import UserDataRepository, {
   userDataRepository,
 } from '../../repository/userData/userData';
@@ -14,6 +17,19 @@ class UserDataService {
   repo: UserDataRepository;
   constructor(repo: UserDataRepository) {
     this.repo = repo;
+  }
+
+  async mergeUserData(data: mergeUserDataRepReq): Promise<Result> {
+    try {
+      const result = await this.repo.mergeUserData(data);
+      if ('success' in result) return result;
+
+      throw new Error(result.message);
+    } catch (error) {
+      console.log(error);
+      alert(error);
+      return { success: false };
+    }
   }
 
   async getUserData(): Promise<UserDataServiceRes | null> {
