@@ -1,19 +1,28 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
-import { BaseInput } from '../../components/Input';
 
+import { BaseInput } from '../../components/Input';
 import GroupButtons from './GroupButtons/GroupButtons';
 import GroupSummary from './GroupSummary/GroupSummary';
 import Backup from './Backup/Backup';
 import StockTable from './StockTable';
-import useGetUserData from './hooks/useGetUserData';
 import AddSampleData from './AddSampleData/AddSampleData';
 import { useShowAddSampleBtn } from './AddSampleData/useShowAddSampleBtn';
+import {
+  useSaveChangedGroupsData,
+  useSaveChangedStocksData,
+} from './hooks/hooks';
 
 const StockList = () => {
-  const { loading } = useGetUserData();
+  const [firstLoad, setFirstLoad] = useState(true);
   const [showAddSampleBtn] = useShowAddSampleBtn();
+  useSaveChangedGroupsData(firstLoad);
+  useSaveChangedStocksData(firstLoad);
 
-  if (loading) return <></>;
+  useEffect(() => {
+    setFirstLoad(false);
+  }, []);
+
   return (
     <StyledStockList>
       <div className='control-bar'>
