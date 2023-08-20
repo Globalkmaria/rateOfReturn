@@ -1,7 +1,9 @@
 import styled from 'styled-components';
+
 import Navbar from './NavBar/Navbar';
 import Footer from './Footer';
 import { useCheckMe } from './useCheckMe';
+import useSyncUserData from './useSyncUserData';
 
 interface GeneralLayoutProps {
   children: React.ReactNode;
@@ -9,6 +11,7 @@ interface GeneralLayoutProps {
 
 const GeneralLayout = ({ children }: GeneralLayoutProps) => {
   useCheckMe();
+  useSyncUserData();
 
   return (
     <StyledGeneralLayout>
