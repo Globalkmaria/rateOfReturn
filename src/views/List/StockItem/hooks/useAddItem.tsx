@@ -7,7 +7,6 @@ import {
   updateNextPurchasedId,
 } from '../../../../features/stockList/stockListSlice';
 import { addPurchasedItemsCheckInfo } from '../../../../features/checkedItems/checkedItemsSlice';
-import { updateMainGroup } from '../../../../features/groups/groupsSlice';
 import { getNewPurchasedItemInfo } from '../../../../features/stockList/utils';
 import userStocksService from '../../../../service/userStocks/userStocks';
 
@@ -35,13 +34,6 @@ export function useAddItem(stockId: string) {
     );
 
     dispatch(addPurchasedItemsCheckInfo({ stockId, purchasedId: itemId }));
-    dispatch(
-      updateMainGroup({
-        type: 'purchase',
-        stockId: stockId,
-        purchasedId: itemId,
-      }),
-    );
 
     dispatch(updateNextPurchasedId());
   };

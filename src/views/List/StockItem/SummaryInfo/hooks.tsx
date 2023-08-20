@@ -89,11 +89,13 @@ export const useGetStockSummaryData = (stockId: string) => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const stockInfo = useSelector(selectStockInfoById(stockId));
   const groupInfo = useSelector(selectSelectedGroupInfo());
-  const groupPurchasedIds = groupInfo.stocks.byId[stockId];
 
   const purchasedItems = isMainGroupSelected
     ? stockInfo.purchasedItems
-    : getGroupPurchasedData(stockInfo.purchasedItems, groupPurchasedIds);
+    : getGroupPurchasedData(
+        stockInfo.purchasedItems,
+        groupInfo?.stocks.byId[stockId],
+      );
   const summaryData = getStockSummaryInfo(stockInfo.mainInfo, purchasedItems);
 
   return {

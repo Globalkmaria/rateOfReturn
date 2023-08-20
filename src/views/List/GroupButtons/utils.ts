@@ -1,12 +1,21 @@
 import { Group, GroupsState } from '../../../features/groups/type';
 
 export const getOptions = (groups: GroupsState) => {
-  return groups.groups.allIds.map((groupId) => {
-    return {
+  const groupOptions = [
+    {
+      value: '1',
+      label: 'Main Group',
+    },
+  ];
+
+  for (const groupId of groups.groups.allIds) {
+    groupOptions.push({
       value: groupId,
       label: groups.groups.byId[groupId].groupName,
-    };
-  });
+    });
+  }
+
+  return groupOptions;
 };
 
 export const changeCheckInfoToGroupFormat = (

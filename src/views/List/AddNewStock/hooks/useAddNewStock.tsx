@@ -6,7 +6,6 @@ import {
   updateNextStockId,
 } from '../../../../features/stockList/stockListSlice';
 import { addStockCheckInfo } from '../../../../features/checkedItems/checkedItemsSlice';
-import { updateMainGroup } from '../../../../features/groups/groupsSlice';
 import { selectNextIds } from '../../../../features/stockList/selectors';
 import { getNewStockInfo } from '../../../../features/stockList/utils';
 import { StockCheckInfo } from '../../../../features/checkedItems/type';
@@ -46,13 +45,6 @@ export const useAddNewStock = () => {
       addStockCheckInfo({
         stockCheckInfo: newStockCheckInfo,
         stockId: stockId,
-      }),
-    );
-    dispatch(
-      updateMainGroup({
-        type: 'stock',
-        stockId: stockId,
-        purchasedId: itemId,
       }),
     );
 
