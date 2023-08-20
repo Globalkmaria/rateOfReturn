@@ -16,6 +16,7 @@ const AuthBtns = () => {
     await authService.logout();
     dispatch(resetUser());
     resetUserData();
+    localStorage.clear();
   };
   return (
     <StyledAuthBtns>
