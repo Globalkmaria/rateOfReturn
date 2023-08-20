@@ -5,14 +5,17 @@ import authService from '../../service/auth';
 import { selectIsLoggedIn } from '../../features/user/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetUser } from '../../features/user/userSlice';
+import { useResetUserData } from '../useResetUserData';
 
 const AuthBtns = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn());
+  const resetUserData = useResetUserData();
 
   const onLogout = async () => {
     await authService.logout();
     dispatch(resetUser());
+    resetUserData();
   };
   return (
     <StyledAuthBtns>
