@@ -18,7 +18,7 @@ const DeleteGroupModal = () => {
   const dispatch = useDispatch();
   const onClose = () => dispatch(closeStockModal('DeleteGroupModal'));
   const groups = useSelector(selectGroups);
-  const noGroups = groups.groups.allIds.length === 1;
+  const noGroups = groups.groups.allIds.length === 0;
   return (
     <Modal title='Delete Group' onClose={onClose}>
       <StyledDeleteGroupModal>

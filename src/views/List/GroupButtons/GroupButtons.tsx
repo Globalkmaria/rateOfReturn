@@ -19,7 +19,7 @@ const GroupButtons = () => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const groups = useSelector(selectGroups);
   const options = getOptions(groups);
-  const noGroups = groups.groups.allIds.length === 1;
+  const noGroups = groups.groups.allIds.length === 0;
 
   const onGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(updateSelectedGroupId(e.target.value));
