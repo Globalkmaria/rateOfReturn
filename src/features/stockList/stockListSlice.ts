@@ -17,9 +17,12 @@ import {
 } from './type';
 
 const initialState: StockListState = {
-  stocks: MOCK_DATA,
-  nextStockId: MOCK_DATA_NEXT_STOCK_ID,
-  nextPurchasedId: MOCK_DATA_PURCHASED_ID,
+  stocks: {
+    byId: {},
+    allIds: [],
+  },
+  nextStockId: 1,
+  nextPurchasedId: 1,
 };
 
 const stockListSlice = createSlice({

@@ -11,8 +11,7 @@ import { MOCK_DATA } from '../stockList/mockData';
 
 const initialState: CheckedItemsState = {
   allChecked: true,
-  stocksCheckInfo: getInitialCheckedItemsInfo({ data: MOCK_DATA, value: true })
-    .stocksCheckInfo,
+  stocksCheckInfo: {},
 };
 
 export const checkedItemsSlice = createSlice({

@@ -15,9 +15,12 @@ import {
 export const MAIN_GROUP_ID = '1';
 
 const initialState: GroupsState = {
-  groups: GROUPS_MOCK_DATA,
+  groups: {
+    byId: {},
+    allIds: [],
+  },
   selectedGroupId: MAIN_GROUP_ID,
-  nextGroupId: GROUPS_MOCK_DATA_NEXT_GROUP_ID,
+  nextGroupId: 2,
 };
 
 export const groupsSlice = createSlice({
