@@ -75,8 +75,6 @@ export const TableCell = styled('td')<TableCellProps>(
       minWidth: fixedWidth + 'px',
     }),
 
-    background: theme.colors.white,
-
     borderBottom: `1px solid ${theme.colors.grey400}`,
     ...(minWidth && { minWidth: minWidth + 'px' }),
 

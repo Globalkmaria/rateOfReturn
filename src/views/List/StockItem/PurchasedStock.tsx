@@ -212,6 +212,8 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
 export default PurchasedStock;
 
 const StyledPurchasedStockRow = styled(TableRow)`
+  background: ${({ theme }) => theme.colors.white};
+
   .stock-name {
     color: ${({ theme }) => theme.colors.subtitle};
   }
