@@ -65,5 +65,6 @@ const StyledFormInput = styled('div')`
     padding: 0.5rem 1rem;
     border: 1px solid ${({ theme }) => theme.colors.grey400};
     border-radius: 4px;
+    background: ${({ theme }) => theme.colors.white};
   }
 `;
