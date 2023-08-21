@@ -1,5 +1,5 @@
 import { StockList } from '../../../features/stockList/type';
-import { SummaryInfoData } from './SummaryInfo';
+import { SummaryInfoData } from './SummaryInfo/SummaryInfo';
 
 export const getGroupPurchasedData = (
   originalPurchasedData: StockList['purchasedItems'],
@@ -60,14 +60,4 @@ export const getCurrentDateAndTime = () => {
   const time = isoString.slice(11, 16);
 
   return { date, time };
-};
-
-export const wasMadeLessThanMin = (date: string, time: string) => {
-  const dateTime = new Date(`${date} ${time}`);
-  const now = new Date();
-
-  const diff = now.getTime() - dateTime.getTime();
-  const diffMin = diff / 1000 / 60;
-
-  return diffMin < 1;
 };

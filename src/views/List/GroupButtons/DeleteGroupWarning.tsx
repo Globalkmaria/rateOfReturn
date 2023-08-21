@@ -6,6 +6,8 @@ import {
 } from '../../../features/stockModal/stockModalSlice';
 import { deleteGroup } from '../../../features/groups/groupsSlice';
 import DeleteWarningModal from '../../../components/DeleteWarningModal';
+import { selectIsLoggedIn } from '../../../features/user/selectors';
+import userGroupsService from '../../../service/userGroups/userGroups';
 
 export type DeleteGroupWarningProps = {
   groupId: string;
@@ -13,6 +15,7 @@ export type DeleteGroupWarningProps = {
 
 const DeleteGroupWarning = () => {
   const dispatch = useDispatch();
+  const isLogin = useSelector(selectIsLoggedIn());
   const { groupId } = useSelector(
     selectModalProps('DeleteGroupWarning'),
   ) as DeleteGroupWarningProps;
@@ -21,7 +24,12 @@ const DeleteGroupWarning = () => {
     dispatch(closeStockModal('DeleteGroupWarning'));
   };
 
-  const onDelete = () => {
+  const onDelete = async () => {
+    if (isLogin) {
+      const result = await userGroupsService.deleteUserGroup(groupId);
+      if (!result.success) return;
+    }
+
     dispatch(deleteGroup(groupId));
     onClose();
   };

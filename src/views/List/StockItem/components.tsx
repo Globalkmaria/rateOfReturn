@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeadProps,
 } from '../../../components/Table';
-import { FaTrash, FaLockOpen, FaLock } from 'react-icons/fa';
+import { FaTrash, FaLockOpen, FaLock, FaEdit, FaSave } from 'react-icons/fa';
 import { ChangeEvent, MouseEvent } from 'react';
 
 type InputCellProps = {
@@ -124,6 +124,24 @@ export const DeleteButton = ({ disabled, ...resProps }: DeleteButtonProps) => {
   );
 };
 
+export const EditButton = ({ isLock, onClick, disabled }: LockButtonProps) => {
+  const Icon = isLock ? FaEdit : FaSave;
+  const title = isLock ? 'Edit' : 'Save';
+  return (
+    <StyledEditBtnWrapper isLock={isLock}>
+      <BorderButton
+        disabled={disabled}
+        disableIcon={disabled}
+        width={40}
+        onClick={onClick}
+        title={title}
+      >
+        <Icon />
+      </BorderButton>
+    </StyledEditBtnWrapper>
+  );
+};
+
 export const StyledTextWrapper = styled('div')`
   padding: 5px;
 `;
@@ -131,5 +149,11 @@ export const StyledTextWrapper = styled('div')`
 const StyledBtnWrapper = styled(TableCell)`
   ${BorderButton} {
     margin: 0 2px;
+  }
+`;
+
+const StyledEditBtnWrapper = styled(StyledBtnWrapper)<{ isLock: boolean }>`
+  ${BorderButton} {
+    ${({ isLock, theme }) => !isLock && `background: ${theme.colors.grey400}`}
   }
 `;

@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import { Router as RemixRouter } from '@remix-run/router/dist/router';
 
 import GeneralLayout from '../layout/GeneralLayout';
-import { NavbarElement } from '../layout/Navbar';
+import { NavbarElement } from '../layout/NavBar/Navbar';
 import { rootRouterData } from './routerData';
 import ErrorPage from '../pages/ErrorPage';
 
@@ -14,6 +14,7 @@ export interface RouterElement {
   element: React.ReactNode;
   disabled?: boolean;
   children?: RouterElement[];
+  notNav?: boolean;
 }
 
 export const routers: RemixRouter = createBrowserRouter(
@@ -34,6 +35,7 @@ export const routers: RemixRouter = createBrowserRouter(
 
 export const SidebarContent: NavbarElement[] = rootRouterData.reduce(
   (prev, router) => {
+    if (router.notNav) return prev;
     return [
       ...prev,
       {

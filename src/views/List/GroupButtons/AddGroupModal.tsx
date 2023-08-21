@@ -1,53 +1,25 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components/macro';
+
 import { ContainedButton } from '../../../components/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  addGroup,
-  updateNextGroupId,
-} from '../../../features/groups/groupsSlice';
-import { changeCheckInfoToGroupFormat } from './utils';
 import { Input } from '../../../components/Input';
-import { initCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
-import { selectCheckedPurchasedItems } from '../../../features/checkedItems/selectors';
-import { selectStocks } from '../../../features/stockList/selectors';
 import GroupModalTable from './GroupModal/GroupModalTable';
-import styled from 'styled-components';
 import Modal from '../../../components/Modal';
 import { closeStockModal } from '../../../features/stockModal/stockModalSlice';
-import { getNewGroupInfo } from '../../../features/groups/utils';
-import { selectNextGroupId } from '../../../features/groups/selectors';
-import { getInitialCheckedItemsInfo } from '../../../features/checkedItems/utils';
+import { useAddGroup } from './hooks/useAddGroup';
 
 const AddGroupModal = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
+  const handleAddGroup = useAddGroup();
+  const onAddGroup = () => handleAddGroup(name);
 
-  const checkedItems = useSelector(selectCheckedPurchasedItems());
-  const stocks = useSelector(selectStocks);
-  const nextGroupId = useSelector(selectNextGroupId);
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
 
   const onClose = () => dispatch(closeStockModal('AddGroupModal'));
-
-  const onAddGroup = () => {
-    if (!name.trim().length) {
-      alert('Group name is required');
-      return;
-    }
-    const selectedStocks = changeCheckInfoToGroupFormat(checkedItems);
-    const newGroupInfo = getNewGroupInfo(nextGroupId, name, selectedStocks);
-    const checkedItemsInfo = getInitialCheckedItemsInfo({
-      data: stocks,
-      value: true,
-    });
-
-    dispatch(addGroup({ groupInfo: newGroupInfo, groupId: nextGroupId }));
-    dispatch(initCheckedItems(checkedItemsInfo));
-    dispatch(updateNextGroupId());
-    onClose();
-  };
 
   return (
     <Modal title='Add Group' onClose={onClose}>
@@ -79,7 +51,7 @@ export default AddGroupModal;
 const StyledAddGroupModal = styled('div')`
   width: 900px;
   max-height: 500px;
-  overflow-y: auto;
+  overflow: auto;
 
   .group-name {
     display: flex;
@@ -100,5 +72,9 @@ const StyledAddGroupModal = styled('div')`
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
+  }
+
+  @media ${({ theme }) => theme.devices.tablet} {
+    width: 70vw;
   }
 `;

@@ -1,4 +1,6 @@
+import styled from 'styled-components/macro';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   TableHead,
   TableHeader,
@@ -9,7 +11,6 @@ import { CheckboxCell } from './StockItem/components';
 import { updateCheckedItems } from '../../features/checkedItems/checkedItemsSlice';
 import { selectIsAllChecked } from '../../features/checkedItems/selectors';
 import { selectIsMainGroupSelected } from '../../features/groups/selectors';
-import styled from 'styled-components';
 
 type HeaderListComponent = typeof CheckAllCheckbox;
 
@@ -23,10 +24,12 @@ type HeaderListProps = {
 }[];
 
 const StockListHeader = () => {
+  const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
+  const header = isMainGroupSelected ? HEADER_LIST : SUB_GROUP_HEADER_LIST;
   return (
     <TableHeader>
       <StyledStockTableRow>
-        {HEADER_LIST.map(({ id, label, Component, ...restProps }) =>
+        {header.map(({ id, label, Component, ...restProps }) =>
           Component ? (
             <Component key={id} id={id} {...restProps} />
           ) : (
@@ -68,9 +71,15 @@ const CheckAllCheckbox = ({ id, ...restProps }: TableHeadProps) => {
 };
 
 const HEADER_LIST: HeaderListProps = [
-  { id: '1', label: 'Select All', Component: CheckAllCheckbox, fixedWidth: 50 },
-  { id: '2', label: 'Stock Name', minWidth: 120 },
-  { id: '3', label: 'Buy ID', fixedWidth: 50 },
+  {
+    id: '1',
+    label: 'Select All',
+    Component: CheckAllCheckbox,
+    fixedWidth: 50,
+    className: 'check-all',
+  },
+  { id: '2', label: 'Stock Name', fixedWidth: 120, className: 'stock-name' },
+  { id: '3', label: '#', fixedWidth: 50, className: 'buy-id' },
   { id: '4', label: 'Buy Date', fixedWidth: 230 },
   { id: '5', label: 'Buy Quantity', fixedWidth: 100 },
   { id: '6', label: 'Avg Buy Unit Price', minWidth: 120 },
@@ -84,9 +93,14 @@ const HEADER_LIST: HeaderListProps = [
   { id: '9', label: 'Current Total Value', minWidth: 100 },
   { id: '10', label: 'Return', minWidth: 100 },
   { id: '11', label: 'Rate of Return', minWidth: 100 },
-  { id: '12', label: 'Lock', fixedWidth: 50 },
+  { id: '12', label: 'Edit', fixedWidth: 50 },
   { id: '13', label: 'Delete', fixedWidth: 50 },
 ];
+
+const NOT_SUBGROUP_COL = ['1', '12', '13'];
+const SUB_GROUP_HEADER_LIST: HeaderListProps = HEADER_LIST.filter(
+  (h) => !NOT_SUBGROUP_COL.includes(h.id),
+);
 
 const StyledStockTableRow = styled(TableRow)`
   .total-purchase {

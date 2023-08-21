@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { openStockModal } from '../../../features/stockModal/stockModalSlice';
 import { ContainedButton } from '../../../components/Button';
 import { SetBackupWarningProps } from './SetBackupWarning';
+import { StoreRemoteBackupWarningProps } from './StoreRemoteBackupWarning';
 
 const SetBackup = () => {
   const [data, setData] = useState<RootState | null>(null);
@@ -27,7 +28,7 @@ const SetBackup = () => {
     }
   };
 
-  const onOpen = () => {
+  const onLocalOpen = () => {
     if (data === null || data === undefined) {
       alert('Please select a file.');
       return;
@@ -39,6 +40,18 @@ const SetBackup = () => {
     dispatch(openStockModal({ modalName: 'SetBackupWarning', props }));
   };
 
+  const onRemoteOpen = () => {
+    if (data === null || data === undefined) {
+      alert('Please select a file.');
+      return;
+    }
+
+    const props: StoreRemoteBackupWarningProps = {
+      data,
+    };
+    dispatch(openStockModal({ modalName: 'StoreRemoteBackupWarning', props }));
+  };
+
   return (
     <StyledSetBackup>
       <input
@@ -48,8 +61,17 @@ const SetBackup = () => {
         accept='.json'
         onChange={handleFileChange}
       />
-      <ContainedButton color='secondary1' fullWidth onClick={onOpen}>
+      <ContainedButton color='secondary1' fullWidth onClick={onLocalOpen}>
         Set Backup
+      </ContainedButton>
+
+      <ContainedButton
+        className='store-remote-data'
+        color='warning'
+        fullWidth
+        onClick={onRemoteOpen}
+      >
+        Store Remote Data as Backup
       </ContainedButton>
     </StyledSetBackup>
   );
@@ -64,5 +86,8 @@ const StyledSetBackup = styled('div')`
     border: 1px solid ${({ theme }) => theme.colors.grey600};
     border-radius: 5px;
     padding: 5px;
+  }
+  .store-remote-data {
+    margin-top: 10px;
   }
 `;

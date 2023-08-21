@@ -11,14 +11,20 @@ import { MOCK_DATA } from '../stockList/mockData';
 
 const initialState: CheckedItemsState = {
   allChecked: true,
-  stocksCheckInfo: getInitialCheckedItemsInfo({ data: MOCK_DATA, value: true })
-    .stocksCheckInfo,
+  stocksCheckInfo: {},
 };
 
 export const checkedItemsSlice = createSlice({
   name: 'checkedItems',
   initialState,
   reducers: {
+    addSampleCheckedItems: (state) => {
+      state.allChecked = true;
+      state.stocksCheckInfo = getInitialCheckedItemsInfo({
+        data: MOCK_DATA,
+        value: true,
+      }).stocksCheckInfo;
+    },
     resetCheckedItems: () => initialState,
     initCheckedItems: (state, action: PayloadAction<CheckedItemsInfo>) => {
       state.allChecked = action.payload.allChecked;
@@ -74,6 +80,7 @@ export const {
   deleteCheckedItems,
   deleteStockCheck,
   resetCheckedItems,
+  addSampleCheckedItems,
 } = checkedItemsSlice.actions;
 
 export default checkedItemsSlice.reducer;

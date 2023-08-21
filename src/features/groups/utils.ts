@@ -15,8 +15,7 @@ export const getNewGroupInfo = (
 
 export const validCheckGroupDelete = (state: GroupsState, groupId: string) => {
   const notMainGroup = groupId !== MAIN_GROUP_ID;
-  const selectedGroup = state.groups.byId[groupId];
-  return notMainGroup && selectedGroup;
+  return notMainGroup;
 };
 
 export const deletePurchasedItemFromGroup = (

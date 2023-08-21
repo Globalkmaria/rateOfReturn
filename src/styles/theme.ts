@@ -1,6 +1,9 @@
 import { DefaultTheme } from 'styled-components';
 
-const colors: { [key: string]: string } = {
+const colors = {
+  greyBackground: '#f8f9fa',
+  subtitle: '#868e96',
+
   white: '#FFFFFF',
   black: '#000000',
 
@@ -93,8 +96,16 @@ const colors: { [key: string]: string } = {
   red000: '#fff5f5',
 };
 
+const devices = {
+  mobileS: `(max-width: 360px)`,
+  mobile: `(max-width: 576px)`,
+  tablet: `(max-width: 768px)`,
+};
+
 export type ColorsTypes = typeof colors;
+export type DevicesTypes = typeof devices;
 
 export const theme: DefaultTheme = {
   colors,
+  devices,
 };

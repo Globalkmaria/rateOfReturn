@@ -1,12 +1,18 @@
 import styled from 'styled-components';
-import Navbar from './Navbar';
+
+import Navbar from './NavBar/Navbar';
 import Footer from './Footer';
+import { useCheckMe } from './useCheckMe';
+import useSyncUserData from './useSyncUserData';
 
 interface GeneralLayoutProps {
   children: React.ReactNode;
 }
 
 const GeneralLayout = ({ children }: GeneralLayoutProps) => {
+  useCheckMe();
+  useSyncUserData();
+
   return (
     <StyledGeneralLayout>
       <Navbar />
@@ -19,9 +25,13 @@ const GeneralLayout = ({ children }: GeneralLayoutProps) => {
 export default GeneralLayout;
 
 const StyledGeneralLayout = styled('div')`
-  min-width: 1440px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 350px;
 `;
 
 const StyledMainLayout = styled('main')`
-  padding: 20px;
+  flex: 1 0 fit-content;
+  background: ${({ theme }) => theme.colors.greyBackground};
 `;

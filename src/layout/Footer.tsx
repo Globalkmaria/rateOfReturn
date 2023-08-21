@@ -10,6 +10,7 @@ const Footer = () => {
 export default Footer;
 
 const StyledFooter = styled('footer')`
+  flex: 0 0 fit-content;
   margin: 20px;
   text-align: center;
   color: ${({ theme }) => theme.colors.grey500};

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { Input } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
 import { updatePurchaseItem } from '../../../features/stockList/stockListSlice';
@@ -9,9 +9,9 @@ import { selectPurchasedItemsById } from '../../../features/stockList/selectors'
 import {
   InputCell,
   NumberCell,
-  LockButton,
   DeleteButton,
   CheckboxCell,
+  EditButton,
 } from './components';
 
 import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
@@ -20,6 +20,9 @@ import { selectIsMainGroupSelected } from '../../../features/groups/selectors';
 import { BorderButton } from '../../../components/Button';
 import { openStockModal } from '../../../features/stockModal/stockModalSlice';
 import { DeleteModalProps } from './DeleteStockModal';
+import userStocksService from '../../../service/userStocks/userStocks';
+import { EditUserItemServiceData } from '../../../service/userStocks/type';
+import { selectIsLoggedIn } from '../../../features/user/selectors';
 
 type InputChangeProps = (
   e: React.ChangeEvent<HTMLInputElement>,
@@ -31,8 +34,12 @@ interface PurchasedStockProps {
   purchasedId: string;
 }
 
+type ChangedInputs = EditUserItemServiceData;
+
 const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn());
+  const [changedInputs, setChangedInputs] = useState<ChangedInputs>({});
   const { mainInfo, purchasedItem } = useSelector(
     selectPurchasedItemsById(stockId, purchasedId),
   );
@@ -41,7 +48,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   );
 
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
-  const [isLock, setIsLock] = useState(false);
+  const [isLock, setIsLock] = useState(true);
 
   const totalPurchasePrice =
     purchasedItem.purchasedQuantity * purchasedItem.purchasedPrice;
@@ -54,7 +61,28 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
     : 0;
   const formattedProfitRate = `${profitRate.toFixed(2).toLocaleString()} %`;
 
-  const toggleLock = () => setIsLock((prev) => !prev);
+  const toggleLock = async () => {
+    if (!isLoggedIn) {
+      return setIsLock((prev) => !prev);
+    }
+
+    if (!isLock) {
+      if (Object.keys(changedInputs).length === 0) return setIsLock(true);
+
+      const result = await userStocksService.editUserItem({
+        stockId,
+        itemId: purchasedId,
+        data: changedInputs,
+      });
+      if (!result.success) return;
+
+      setChangedInputs({});
+      setIsLock(true);
+      return;
+    }
+
+    setIsLock(false);
+  };
 
   const onChangeCheckbox = (value: boolean) => {
     dispatch(
@@ -79,6 +107,10 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
         : (transformedValue && transformedValue[1]) ||
           e.target.value.replaceAll(',', '');
 
+    setChangedInputs((prev) => ({
+      ...prev,
+      [fieldName]: value,
+    }));
     dispatch(
       updatePurchaseItem({
         stockId: stockId,
@@ -110,13 +142,15 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
 
   return (
     <StyledPurchasedStockRow>
-      <CheckboxCell
-        title='Check item'
-        disabled={!isMainGroupSelected}
-        onClick={onChangeCheckbox}
-        value={isPurchasedItemChecked}
-      />
-      <TableCell></TableCell>
+      {isMainGroupSelected ? (
+        <CheckboxCell
+          title='Check item'
+          disabled={!isMainGroupSelected}
+          onClick={onChangeCheckbox}
+          value={isPurchasedItemChecked}
+        />
+      ) : null}
+      <TableCell className='stock-name'>{mainInfo.stockName}</TableCell>
       <TableCell align='center'>{purchasedId}</TableCell>
       <TableCell>
         <div className='datetime'>
@@ -158,15 +192,19 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
       <NumberCell value={evaluationPrice} />
       <TableCell align='right'>{formattedEvaluationProfit}</TableCell>
       <TableCell align='right'>{formattedProfitRate}</TableCell>
-      <LockButton
-        isLock={isLock}
-        onClick={toggleLock}
-        disabled={!isMainGroupSelected}
-      />
-      <DeleteButton
-        onClick={onOpenDeleteModal}
-        disabled={!isMainGroupSelected}
-      />
+      {isMainGroupSelected ? (
+        <>
+          <EditButton
+            isLock={isLock}
+            onClick={toggleLock}
+            disabled={!isMainGroupSelected}
+          />
+          <DeleteButton
+            onClick={onOpenDeleteModal}
+            disabled={!isMainGroupSelected}
+          />
+        </>
+      ) : null}
     </StyledPurchasedStockRow>
   );
 };
@@ -174,6 +212,12 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
 export default PurchasedStock;
 
 const StyledPurchasedStockRow = styled(TableRow)`
+  background: ${({ theme }) => theme.colors.white};
+
+  .stock-name {
+    color: ${({ theme }) => theme.colors.subtitle};
+  }
+
   .datetime {
     display: flex;
     gap: 5px;

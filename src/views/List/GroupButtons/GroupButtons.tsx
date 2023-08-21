@@ -19,7 +19,7 @@ const GroupButtons = () => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const groups = useSelector(selectGroups);
   const options = getOptions(groups);
-  const noGroups = groups.groups.allIds.length === 1;
+  const noGroups = groups.groups.allIds.length === 0;
 
   const onGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(updateSelectedGroupId(e.target.value));
@@ -44,25 +44,24 @@ const GroupButtons = () => {
           value={groups.selectedGroupId}
           title='Choose group to show'
         />
-        <BorderButton
-          onClick={() => onOpenModal('AddGroupModal')}
-          size='m'
-          disabled={!isMainGroupSelected}
-          title='Add new group'
-        >
-          Add Group
-        </BorderButton>
-        {/* <BorderButton size='m' disabled={isMainGroupSelected}>
-          Edit Group
-        </BorderButton> */}
-        <BorderButton
-          onClick={() => onOpenModal('DeleteGroupModal')}
-          size='m'
-          disabled={noGroups}
-          title='Delete group'
-        >
-          Delete Group
-        </BorderButton>
+        <div className='btns'>
+          <BorderButton
+            onClick={() => onOpenModal('AddGroupModal')}
+            size='m'
+            disabled={!isMainGroupSelected}
+            title='Add new group'
+          >
+            Add Group
+          </BorderButton>
+          <BorderButton
+            onClick={() => onOpenModal('DeleteGroupModal')}
+            size='m'
+            disabled={noGroups}
+            title='Delete group'
+          >
+            Delete Group
+          </BorderButton>
+        </div>
       </StyledGroupButtons>
     </>
   );
@@ -71,7 +70,18 @@ const GroupButtons = () => {
 export default GroupButtons;
 
 const StyledGroupButtons = styled('div')`
-  margin-bottom: 20px;
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
+
+  .btns {
+    display: flex;
+    gap: 10px;
+  }
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    ${BorderButton} {
+      font-size: min(0.8rem, 5vw);
+    }
+  }
 `;

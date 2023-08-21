@@ -40,4 +40,8 @@ const StyledDeleteWarningModal = styled('div')`
     font-size: 1.4em;
     font-weight: 700;
   }
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    width: 70vw;
+  }
 `;

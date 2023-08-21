@@ -15,16 +15,27 @@ import {
 export const MAIN_GROUP_ID = '1';
 
 const initialState: GroupsState = {
-  groups: GROUPS_MOCK_DATA,
+  groups: {
+    byId: {},
+    allIds: [],
+  },
   selectedGroupId: MAIN_GROUP_ID,
-  nextGroupId: GROUPS_MOCK_DATA_NEXT_GROUP_ID,
+  nextGroupId: 2,
 };
 
 export const groupsSlice = createSlice({
   name: 'groups',
   initialState,
   reducers: {
-    initGroups: (state, action: PayloadAction<GroupsState>) => {
+    addSampleGroups: (state) => {
+      state.groups = GROUPS_MOCK_DATA;
+      state.selectedGroupId = MAIN_GROUP_ID;
+      state.nextGroupId = GROUPS_MOCK_DATA_NEXT_GROUP_ID;
+    },
+    initGroups: (
+      state,
+      action: PayloadAction<Omit<GroupsState, 'selectedGroupId'>>,
+    ) => {
       state.groups = action.payload.groups;
       state.selectedGroupId = MAIN_GROUP_ID;
       state.nextGroupId = action.payload.nextGroupId;
@@ -62,7 +73,7 @@ export const groupsSlice = createSlice({
 
     deleteGroup: (state, action: PayloadAction<string>) => {
       const groupId = action.payload;
-      if (validCheckGroupDelete(state, groupId)) return;
+      if (!validCheckGroupDelete(state, groupId)) return;
 
       const selectedGroupIndex = state.groups.allIds.indexOf(groupId);
       delete state.groups.byId[groupId];
@@ -113,5 +124,6 @@ export const {
   deleteStockFromGroups,
   updateMainGroup,
   resetGroups,
+  addSampleGroups,
 } = groupsSlice.actions;
 export default groupsSlice.reducer;

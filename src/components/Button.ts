@@ -1,5 +1,6 @@
 import { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
+import { ColorsTypes } from '../styles/theme';
 
 const SIZES = ['s', 'm', 'l'] as const;
 type Sizes = { [key in (typeof SIZES)[number]]: string };
@@ -57,11 +58,15 @@ const BaseButton = styled('button').attrs((props) => ({
     padding: PADDING_SIZES[size],
     height: height ? `${height}px` : HEIGHTS[size],
     width: width ? `${width}px` : fullWidth ? '100%' : 'auto',
-    borderRadius: '5px',
-    fontSize: FONT_SIZES[size],
     transition: '200ms',
 
-    '&[class^="Button"]:disabled': {
+    background: theme.colors.white,
+    borderRadius: '5px',
+
+    fontSize: `min(${FONT_SIZES[size]}, 5vw)`,
+    whiteSpace: 'nowrap',
+
+    '&:disabled': {
       color: theme.colors.grey500,
       cursor: 'default',
     },
@@ -77,12 +82,12 @@ const BaseButton = styled('button').attrs((props) => ({
 
 export const BorderButton = styled(BaseButton)<BorderButtonProps>(
   ({ theme, color = 'primary', showLine = true }) => ({
-    border: showLine
-      ? `1px solid ${theme.colors[COLORS[color] + '500']}`
-      : 'none',
+    boxShadow: `rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px`,
 
     '&:not([disabled]):hover': {
-      background: `${theme.colors[COLORS[color] + '100']}`,
+      background: `${
+        theme.colors[(COLORS[color] + '100') as keyof ColorsTypes]
+      }`,
     },
   }),
 );
@@ -90,13 +95,18 @@ export const BorderButton = styled(BaseButton)<BorderButtonProps>(
 export const ContainedButton = styled(BaseButton)<ContainedButtonProps>(
   ({ theme, color = 'primary', mode = 'dark' }) => ({
     background: `${
-      theme.colors[COLORS[color] + (mode === 'dark' ? '800' : '100')]
+      theme.colors[
+        (COLORS[color] + (mode === 'dark' ? '800' : '100')) as keyof ColorsTypes
+      ]
     }`,
     color: mode === 'dark' ? theme.colors.white : theme.colors.grey900,
 
     '&:not([disabled]):hover': {
       background: `${
-        theme.colors[COLORS[color] + (mode === 'dark' ? '600' : '300')]
+        theme.colors[
+          (COLORS[color] +
+            (mode === 'dark' ? '600' : '300')) as keyof ColorsTypes
+        ]
       }`,
     },
   }),
