@@ -11,7 +11,7 @@ const Signup = () => {
 
 export default Signup;
 const StyledSignup = styled('div')`
-  height: calc(100vh - 141px);
+  min-height: calc(100vh - 141px);
   display: flex;
   flex-direction: column;
   align-items: center;

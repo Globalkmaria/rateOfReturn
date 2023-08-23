@@ -12,7 +12,7 @@ const Login = () => {
 export default Login;
 
 const StyledLogin = styled('div')`
-  height: calc(100vh - 141px);
+  min-height: calc(100vh - 141px);
   display: flex;
   flex-direction: column;
   align-items: center;
