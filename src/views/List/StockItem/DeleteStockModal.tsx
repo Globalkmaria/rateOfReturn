@@ -99,4 +99,14 @@ export const StyledDeleteModal = styled('div')`
     font-size: 1.4em;
     font-weight: 700;
   }
+
+  @media ${({ theme }) => theme.devices.tablet} {
+    width: 60vw;
+
+    .message {
+      padding: 20px 0;
+      font-size: 1rem;
+      text-align: center;
+    }
+  }
 `;
