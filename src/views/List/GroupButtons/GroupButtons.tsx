@@ -78,10 +78,4 @@ const StyledGroupButtons = styled('div')`
     display: flex;
     gap: 10px;
   }
-
-  @media ${({ theme }) => theme.devices.mobile} {
-    ${BorderButton} {
-      font-size: min(0.8rem, 5vw);
-    }
-  }
 `;
