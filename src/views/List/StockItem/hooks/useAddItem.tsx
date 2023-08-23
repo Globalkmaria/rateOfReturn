@@ -9,6 +9,7 @@ import {
 import { addPurchasedItemsCheckInfo } from '../../../../features/checkedItems/checkedItemsSlice';
 import { getNewPurchasedItemInfo } from '../../../../features/stockList/utils';
 import userStocksService from '../../../../service/userStocks/userStocks';
+import getDateAndTime from '../../../../utils/getDateAndTime';
 
 export function useAddItem(stockId: string) {
   const dispatch = useDispatch();
@@ -17,13 +18,18 @@ export function useAddItem(stockId: string) {
 
   const onAddItem = async () => {
     let itemId = localNextIds.nextPurchasedId;
+    const { date, time } = getDateAndTime();
 
     if (isLogin) {
-      const result = await userStocksService.addNewUserItem(stockId);
+      const result = await userStocksService.addNewUserItem({
+        stockId,
+        date,
+        time,
+      });
       if (result) itemId = result.itemId;
     }
 
-    const newPurchasedItem = getNewPurchasedItemInfo(itemId);
+    const newPurchasedItem = getNewPurchasedItemInfo(itemId, date, time);
 
     dispatch(
       addPurchasedItem({

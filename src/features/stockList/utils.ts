@@ -15,8 +15,9 @@ export const getNewMainInfo = (newStockId: string): StockMainInfo => {
 
 export const getNewPurchasedItemInfo = (
   newPurchasedId: string,
+  date: string,
+  time: string,
 ): PurchasedItemInfo => {
-  const { date, time } = getCurrentDateAndTime();
   return {
     purchasedId: newPurchasedId,
     purchasedDate: date,
@@ -29,12 +30,14 @@ export const getNewPurchasedItemInfo = (
 export const getNewStockInfo = (
   newStockId: string,
   newPurchasedId: string,
+  date: string,
+  time: string,
 ): StockList => {
   return {
     mainInfo: getNewMainInfo(newStockId),
     purchasedItems: {
       byId: {
-        [newPurchasedId]: getNewPurchasedItemInfo(newPurchasedId),
+        [newPurchasedId]: getNewPurchasedItemInfo(newPurchasedId, date, time),
       },
       allIds: [newPurchasedId],
     },

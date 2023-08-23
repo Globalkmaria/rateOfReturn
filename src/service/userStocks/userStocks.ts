@@ -1,5 +1,7 @@
 import {
+  AddNewUserItemRepReq,
   AddNewUserItemRepRes,
+  AddNewUserStockRepReq,
   AddNewUserStockRepRes,
   DeleteUserItemRepReq,
 } from '../../repository/userStocks/type';
@@ -16,9 +18,12 @@ class UserStocksService {
     this.repo = repo;
   }
 
-  async addNewUserStock(): Promise<AddNewUserStockRepRes | null> {
+  async addNewUserStock(
+    params: AddNewUserStockRepReq,
+  ): Promise<AddNewUserStockRepRes | null> {
     try {
-      const result = await this.repo.addNewUserStock();
+      const result = await this.repo.addNewUserStock(params);
+
       if ('stockId' in result) {
         return result;
       }
@@ -74,9 +79,11 @@ class UserStocksService {
     }
   }
 
-  async addNewUserItem(stockId: string): Promise<AddNewUserItemRepRes | null> {
+  async addNewUserItem(
+    params: AddNewUserItemRepReq,
+  ): Promise<AddNewUserItemRepRes | null> {
     try {
-      const result = await this.repo.addNewUserItem(stockId);
+      const result = await this.repo.addNewUserItem(params);
       if ('stockId' in result) {
         return result;
       }

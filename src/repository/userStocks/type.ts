@@ -1,5 +1,9 @@
 import { Item, StockInfo } from '../userData/type';
 
+export type AddNewUserStockRepReq = {
+  date: string;
+  time: string;
+};
 export type AddNewUserStockRepRes = { stockId: string; itemId: string };
 
 export type EditUserStockRepReq = {
@@ -7,6 +11,11 @@ export type EditUserStockRepReq = {
   data: Partial<Omit<StockInfo, 'createdAt' | 'id'>>;
 };
 
+export type AddNewUserItemRepReq = {
+  stockId: string;
+  date: string;
+  time: string;
+};
 export type AddNewUserItemRepRes = { stockId: string; itemId: string };
 
 export type EditUserItemRepData = Partial<

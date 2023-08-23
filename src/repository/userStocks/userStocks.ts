@@ -1,7 +1,9 @@
 import { config } from '../../config';
 import HttpClient, { ErrorResponse } from '../../network/http';
 import {
+  AddNewUserItemRepReq,
   AddNewUserItemRepRes,
+  AddNewUserStockRepReq,
   AddNewUserStockRepRes,
   DeleteUserItemRepReq,
   EditUserItemRepReq,
@@ -14,9 +16,12 @@ class UserStocksRepository {
     this.httpClient = httpClient;
   }
 
-  async addNewUserStock(): Promise<AddNewUserStockRepRes | ErrorResponse> {
+  async addNewUserStock(
+    params: AddNewUserStockRepReq,
+  ): Promise<AddNewUserStockRepRes | ErrorResponse> {
     return this.httpClient.fetch('/', {
       method: 'POST',
+      body: params,
     });
   }
 
@@ -36,11 +41,13 @@ class UserStocksRepository {
     });
   }
 
-  async addNewUserItem(
-    stockId: string,
-  ): Promise<AddNewUserItemRepRes | ErrorResponse> {
+  async addNewUserItem({
+    stockId,
+    ...restParams
+  }: AddNewUserItemRepReq): Promise<AddNewUserItemRepRes | ErrorResponse> {
     return this.httpClient.fetch(`/${stockId}/items`, {
       method: 'POST',
+      body: restParams,
     });
   }
 
