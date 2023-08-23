@@ -77,6 +77,10 @@ const BaseButton = styled('button').attrs((props) => ({
         color: disableIcon ? theme.colors.grey500 : 'inherit',
       },
     },
+
+    [`@media ${theme.devices.mobile}`]: {
+      fontSize: 'min(0.8rem, 5vw)',
+    },
   }),
 );
 

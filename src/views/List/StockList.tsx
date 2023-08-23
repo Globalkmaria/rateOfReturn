@@ -63,4 +63,11 @@ const StyledStockList = styled('div')`
     display: flex;
     gap: 10px;
   }
+
+  @media ${({ theme }) => theme.devices.tablet} {
+    .control-bar {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
 `;
