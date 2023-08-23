@@ -59,7 +59,7 @@ const StyledAddGroupModal = styled('div')`
     margin-bottom: 10px;
 
     .group-name__label {
-      width: 120px;
+      min-width: 120px;
     }
 
     input {
