@@ -1,7 +1,14 @@
 import { TotalSummary } from '../../../features/groups/filters';
 import { Context } from 'chartjs-plugin-datalabels';
 
-const BACKGROUND_COLORS = [
+const repeatedColors = (base: string[], times = 17): string[] => {
+  const background = [];
+  for (let i = 0; i < times; i++) {
+    background.push(...base);
+  }
+  return background;
+};
+const BASE_BACKGROUND_COLORS = [
   'rgba(255, 99, 132, 0.6)',
   'rgba(54, 162, 235, 0.6)',
   'rgba(255, 206, 86, 0.6)',
@@ -9,7 +16,10 @@ const BACKGROUND_COLORS = [
   'rgba(153, 102, 255, 0.6)',
   'rgba(255, 159, 64, 0.6)',
 ];
-const BORDER_COLORS = [
+
+const BACKGROUND_COLORS = repeatedColors(BASE_BACKGROUND_COLORS);
+
+const BASE_BORDER_COLORS = [
   'rgba(255, 99, 132, 1)',
   'rgba(54, 162, 235, 1)',
   'rgba(255, 206, 86, 1)',
@@ -17,6 +27,7 @@ const BORDER_COLORS = [
   'rgba(153, 102, 255, 1)',
   'rgba(255, 159, 64, 1)',
 ];
+const BORDER_COLORS = repeatedColors(BASE_BORDER_COLORS);
 
 export const getChartData = (summary: TotalSummary) => {
   const { groupSummary, stocksSummary } = summary;
