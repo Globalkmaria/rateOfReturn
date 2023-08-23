@@ -11,6 +11,7 @@ import { getNewStockInfo } from '../../../../features/stockList/utils';
 import { StockCheckInfo } from '../../../../features/checkedItems/type';
 import userStocksService from '../../../../service/userStocks/userStocks';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
+import getDateAndTime from '../../../../utils/getDateAndTime';
 
 export const useAddNewStock = () => {
   const dispatch = useDispatch();
@@ -20,9 +21,13 @@ export const useAddNewStock = () => {
   const onAddNewStock = async () => {
     let stockId = localNextIds.nextPurchasedId;
     let itemId = localNextIds.nextPurchasedId;
+    const { date, time } = getDateAndTime();
 
     if (isLogin) {
-      const result = await userStocksService.addNewUserStock();
+      const result = await userStocksService.addNewUserStock({
+        date,
+        time,
+      });
       if (result) {
         stockId = result.stockId;
         itemId = result.itemId;
@@ -33,7 +38,7 @@ export const useAddNewStock = () => {
       allChecked: true,
       purchasedItems: { [itemId]: true },
     };
-    const newStockInfo = getNewStockInfo(stockId, itemId);
+    const newStockInfo = getNewStockInfo(stockId, itemId, date, time);
 
     dispatch(
       addNewStock({
