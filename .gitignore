@@ -14,3 +14,4 @@ npm-debug.log*
 .vscode/*
 .vscode/settings.json
 keep.ts
+.env.development

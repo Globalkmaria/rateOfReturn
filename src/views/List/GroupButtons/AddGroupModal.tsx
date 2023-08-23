@@ -49,7 +49,8 @@ const AddGroupModal = () => {
 export default AddGroupModal;
 
 const StyledAddGroupModal = styled('div')`
-  width: 900px;
+  max-width: 1000px;
+  width: 70vw;
   max-height: 500px;
   overflow: auto;
 
@@ -59,7 +60,7 @@ const StyledAddGroupModal = styled('div')`
     margin-bottom: 10px;
 
     .group-name__label {
-      width: 120px;
+      min-width: 120px;
     }
 
     input {

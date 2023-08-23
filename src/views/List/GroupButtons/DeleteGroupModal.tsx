@@ -62,6 +62,10 @@ const GroupItem = ({ groupInfo }: { groupInfo: Group }) => {
 
 const StyledDeleteGroupModal = styled('div')`
   width: 300px;
+
+  @media ${({ theme }) => theme.devices.tablet} {
+    width: 70vw;
+  }
 `;
 
 const StyledGroupItem = styled('div')`
@@ -73,5 +77,9 @@ const StyledGroupItem = styled('div')`
   &:hover {
     background-color: ${({ theme }) => theme.colors.grey300};
     border-radius: 5px;
+  }
+
+  .group-name {
+    font-weight: 600;
   }
 `;
