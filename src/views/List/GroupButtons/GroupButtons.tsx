@@ -11,6 +11,7 @@ import {
 import { getOptions } from './utils';
 import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
 import { openStockModal } from '../../../features/stockModal/stockModalSlice';
+import { selectCheckedPurchasedItems } from '../../../features/checkedItems/selectors';
 
 type ModalMode = 'AddGroupModal' | 'DeleteGroupModal';
 
@@ -18,7 +19,9 @@ const GroupButtons = () => {
   const dispatch = useDispatch();
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const groups = useSelector(selectGroups);
+  const checkedItems = useSelector(selectCheckedPurchasedItems());
   const options = getOptions(groups);
+  const showAddGroup = isMainGroupSelected && !!checkedItems.length;
   const noGroups = groups.groups.allIds.length === 0;
 
   const onGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -48,7 +51,7 @@ const GroupButtons = () => {
           <BorderButton
             onClick={() => onOpenModal('AddGroupModal')}
             size='m'
-            disabled={!isMainGroupSelected}
+            disabled={!showAddGroup}
             title='Add new group'
           >
             Add Group
