@@ -1,17 +1,16 @@
-import React from 'react';
-import Modal from '../../../components/Modal';
-import { useDispatch } from 'react-redux';
-import { closeStockModal } from '../../../features/stockModal/stockModalSlice';
 import SaveAsFile from './SaveAsFile';
 import SetBackup from './SetBackup';
 import Reset from './Reset';
 import styled from 'styled-components';
+import PortalModal from '../../../components/Modal/PortalModal';
 
-const BackupModal = () => {
-  const dispatch = useDispatch();
-  const onClose = () => dispatch(closeStockModal('BackupModal'));
+type Props = {
+  onClose: () => void;
+};
+
+const BackupModal = ({ onClose }: Props) => {
   return (
-    <Modal title={'Backup'} onClose={onClose}>
+    <PortalModal title={'Backup'} onClose={onClose}>
       <StyledBackupModal>
         <SaveAsFile />
         <hr />
@@ -19,7 +18,7 @@ const BackupModal = () => {
         <hr />
         <Reset />
       </StyledBackupModal>
-    </Modal>
+    </PortalModal>
   );
 };
 

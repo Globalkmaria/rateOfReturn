@@ -1,9 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { DeleteStockModal } from './StockItem/DeleteStockModal';
 import { selectStockModals } from '../../features/stockModal/stockModalSlice';
-import BackupModal from './Backup/BackupModal';
 import SetBackupWarning from './Backup/SetBackupWarning';
 import AddGroupModal from './GroupButtons/AddGroupModal';
 import DeleteGroupModal from './GroupButtons/DeleteGroupModal';
@@ -31,8 +29,6 @@ const ModalSpace = () => {
 export default ModalSpace;
 
 const MODALS: Modal[] = [
-  { modalName: 'DeleteStockModal', Component: DeleteStockModal },
-  { modalName: 'BackupModal', Component: BackupModal },
   { modalName: 'SetBackupWarning', Component: SetBackupWarning },
   { modalName: 'AddGroupModal', Component: AddGroupModal },
   { modalName: 'DeleteGroupModal', Component: DeleteGroupModal },
