@@ -3,7 +3,7 @@ import { selectCheckedPurchasedItems } from '../../../../features/checkedItems/s
 import { selectNextGroupId } from '../../../../features/groups/selectors';
 import { changeCheckInfoToGroupFormat } from '../utils';
 import { getNewGroupInfo } from '../../../../features/groups/utils';
-import { getInitialCheckedItemsInfoFromGroupFormat } from '../../../../features/checkedItems/utils';
+import { getInitialCheckedItemsInfo } from '../../../../features/checkedItems/utils';
 import {
   addGroup,
   updateNextGroupId,
@@ -12,9 +12,11 @@ import { initCheckedItems } from '../../../../features/checkedItems/checkedItems
 import { closeStockModal } from '../../../../features/stockModal/stockModalSlice';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 import userGroupsService from '../../../../service/userGroups/userGroups';
+import { selectStocks } from '../../../../features/stockList/selectors';
 
 export function useAddGroup() {
   const dispatch = useDispatch();
+  const stocks = useSelector(selectStocks);
   const checkedItems = useSelector(selectCheckedPurchasedItems());
   const isLogin = useSelector(selectIsLoggedIn());
 
@@ -45,13 +47,13 @@ export function useAddGroup() {
     }
 
     const newGroupInfo = getNewGroupInfo(nextGroupId, name, selectedStocks);
-    const checkedItemsInfo = getInitialCheckedItemsInfoFromGroupFormat({
-      data: selectedStocks,
+    const initCheckedItemsInfo = getInitialCheckedItemsInfo({
+      data: stocks,
       value: true,
     });
 
     dispatch(addGroup({ groupInfo: newGroupInfo, groupId: nextGroupId }));
-    dispatch(initCheckedItems(checkedItemsInfo));
+    dispatch(initCheckedItems(initCheckedItemsInfo));
     dispatch(updateNextGroupId());
 
     dispatch(closeStockModal('AddGroupModal'));
