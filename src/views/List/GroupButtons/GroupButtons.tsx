@@ -1,22 +1,34 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { BorderButton } from '../../../components/Button';
 import Select from '../../../components/Select';
-import { useDispatch, useSelector } from 'react-redux';
 import { updateSelectedGroupId } from '../../../features/groups/groupsSlice';
 import {
   selectGroups,
   selectIsMainGroupSelected,
 } from '../../../features/groups/selectors';
-import { getOptions } from './utils';
 import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
-import { openStockModal } from '../../../features/stockModal/stockModalSlice';
 import { selectCheckedPurchasedItems } from '../../../features/checkedItems/selectors';
-
-type ModalMode = 'AddGroupModal' | 'DeleteGroupModal';
+import { getOptions } from './utils';
+import useModal from '../hooks/useModal';
+import AddGroupModal from './AddGroupModal';
+import DeleteGroupModal from './DeleteGroupModal';
 
 const GroupButtons = () => {
   const dispatch = useDispatch();
+  const {
+    showModal: showAdd,
+    onOpenModal: onOpenAdd,
+    onCloseModal: onCloseAdd,
+  } = useModal();
+  const {
+    showModal: showDelete,
+    onOpenModal: onOpenDelete,
+    onCloseModal: onCloseDelete,
+  } = useModal();
+
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
   const groups = useSelector(selectGroups);
   const checkedItems = useSelector(selectCheckedPurchasedItems());
@@ -27,13 +39,6 @@ const GroupButtons = () => {
   const onGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(updateSelectedGroupId(e.target.value));
     dispatch(updateCheckedItems({ type: 'all', checked: true }));
-  };
-  const onOpenModal = (mode: ModalMode) => {
-    dispatch(
-      openStockModal({
-        modalName: mode,
-      }),
-    );
   };
 
   return (
@@ -49,21 +54,23 @@ const GroupButtons = () => {
         />
         <div className='btns'>
           <BorderButton
-            onClick={() => onOpenModal('AddGroupModal')}
+            onClick={onOpenAdd}
             size='m'
             disabled={!showAddGroup}
             title='Add new group'
           >
             Add Group
           </BorderButton>
+          {showAdd && <AddGroupModal onClose={onCloseAdd} />}
           <BorderButton
-            onClick={() => onOpenModal('DeleteGroupModal')}
+            onClick={onOpenDelete}
             size='m'
             disabled={noGroups}
             title='Delete group'
           >
             Delete Group
           </BorderButton>
+          {showDelete && <DeleteGroupModal onClose={onCloseDelete} />}
         </div>
       </StyledGroupButtons>
     </>

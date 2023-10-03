@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components/macro';
 
 import { ContainedButton } from '../../../components/Button';
 import { Input } from '../../../components/Input';
 import GroupModalTable from './GroupModal/GroupModalTable';
-import Modal from '../../../components/Modal';
-import { closeStockModal } from '../../../features/stockModal/stockModalSlice';
+import Modal from '../../../components/Modal/Modal';
 import { useAddGroup } from './hooks/useAddGroup';
 
-const AddGroupModal = () => {
-  const dispatch = useDispatch();
+type Props = {
+  onClose: () => void;
+};
+
+const AddGroupModal = ({ onClose }: Props) => {
   const [name, setName] = useState('');
   const handleAddGroup = useAddGroup();
-  const onAddGroup = () => handleAddGroup(name);
+  const onAddGroup = () => {
+    handleAddGroup(name);
+    onClose();
+  };
 
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
-
-  const onClose = () => dispatch(closeStockModal('AddGroupModal'));
 
   return (
     <Modal title='Add Group' onClose={onClose}>
