@@ -1,12 +1,10 @@
 import styled from 'styled-components';
 import StockList from '../views/List/StockList';
-import ModalSpace from '../views/List/ModalSpace';
 
 const List = () => {
   return (
     <StyledList>
       <StockList />
-      <ModalSpace />
     </StyledList>
   );
 };

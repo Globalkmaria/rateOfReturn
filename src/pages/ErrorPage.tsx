@@ -3,7 +3,6 @@ import { useRouteError, Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ContainedButton } from '../components/Button';
 import { useDispatch } from 'react-redux';
-import { resetStockModal } from '../features/stockModal/stockModalSlice';
 import { resetCheckedItems } from '../features/checkedItems/checkedItemsSlice';
 import { restStockList } from '../features/stockList/stockListSlice';
 import { resetGroups } from '../features/groups/groupsSlice';
@@ -18,7 +17,6 @@ const ErrorPage = () => {
   const onReset = () => {
     dispatch(resetCheckedItems());
     dispatch(restStockList());
-    dispatch(resetStockModal());
     dispatch(resetGroups());
     localStorage.clear();
   };
