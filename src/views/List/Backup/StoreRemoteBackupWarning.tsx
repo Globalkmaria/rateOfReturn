@@ -1,6 +1,3 @@
-import { useDispatch } from 'react-redux';
-
-import { initialStockModal } from '../../../features/stockModal/stockModalSlice';
 import WarningModal from '../../../components/WarningModal';
 import formatStockAsServerFormat from '../../../utils/formatStockAsServerFormat';
 import formatGroupAsServerFormat from '../../../utils/formatGroupAsServerFormat';
@@ -12,7 +9,6 @@ type Props = {
 };
 
 const StoreRemoteBackupWarning = ({ onClose, data }: Props) => {
-  const dispatch = useDispatch();
   const backupData = async () => {
     if (data === null || data === undefined) return;
     if (!data.stockList || !data.groups) {
@@ -35,7 +31,7 @@ const StoreRemoteBackupWarning = ({ onClose, data }: Props) => {
     });
 
     if (result.success) {
-      dispatch(initialStockModal());
+      onClose();
       return;
     }
 

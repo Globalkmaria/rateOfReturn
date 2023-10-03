@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { setBackupCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
 import { setBackupGroups } from '../../../features/groups/groupsSlice';
 import { setBackupStockList } from '../../../features/stockList/stockListSlice';
-import { initialStockModal } from '../../../features/stockModal/stockModalSlice';
 import WarningModal from '../../../components/WarningModal';
 
 type Props = {
@@ -19,7 +18,7 @@ const SetBackupWarning = ({ onClose, data }: Props) => {
     dispatch(setBackupCheckedItems(data.checkedItems));
     dispatch(setBackupGroups(data.groups));
     dispatch(setBackupStockList(data.stockList));
-    dispatch(initialStockModal());
+    onClose();
   };
 
   return (
