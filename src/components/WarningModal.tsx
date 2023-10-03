@@ -1,7 +1,7 @@
-import React from 'react';
 import styled from 'styled-components';
-import Modal from './Modal';
+
 import { ContainedButton } from './Button';
+import PortalModal from './Modal/PortalModal';
 
 interface WarningModalProps {
   message: JSX.Element | string;
@@ -17,7 +17,7 @@ const WarningModal = ({
   buttonName,
 }: WarningModalProps) => {
   return (
-    <Modal title='Warning' onClose={onClose}>
+    <PortalModal title='Warning' onClose={onClose}>
       <StyledWarningModal>
         <p className='message'>{message}</p>
         <ContainedButton
@@ -28,7 +28,7 @@ const WarningModal = ({
           {buttonName}
         </ContainedButton>
       </StyledWarningModal>
-    </Modal>
+    </PortalModal>
   );
 };
 
