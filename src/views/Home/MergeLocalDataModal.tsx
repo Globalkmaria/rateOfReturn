@@ -1,18 +1,18 @@
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components/macro';
 
-import { closeStockModal } from '../../features/stockModal/stockModalSlice';
-import Modal from '../../components/Modal';
+import Modal from '../../components/Modal/Modal';
 import { ContainedButton } from '../../components/Button';
 import userDataService from '../../service/userData/userData';
 import formatStockAsServerFormat from '../../utils/formatStockAsServerFormat';
 import formatGroupAsServerFormat from '../../utils/formatGroupAsServerFormat';
 import useGetUserData from '../List/hooks/useGetUserData';
 
-const MergeLocalDataModal = () => {
-  const dispatch = useDispatch();
+type Props = {
+  onClose: () => void;
+};
+
+const MergeLocalDataModal = ({ onClose }: Props) => {
   const { getUserData } = useGetUserData();
-  const onClose = () => dispatch(closeStockModal('MergeLocalDataModal'));
 
   const onMerge = async () => {
     const localStocks = localStorage.getItem('stockList');
