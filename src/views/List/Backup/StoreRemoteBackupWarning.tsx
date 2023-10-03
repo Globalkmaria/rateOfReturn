@@ -1,24 +1,18 @@
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  closeStockModal,
-  initialStockModal,
-  selectModalProps,
-} from '../../../features/stockModal/stockModalSlice';
+import { useDispatch } from 'react-redux';
+
+import { initialStockModal } from '../../../features/stockModal/stockModalSlice';
 import WarningModal from '../../../components/WarningModal';
 import formatStockAsServerFormat from '../../../utils/formatStockAsServerFormat';
 import formatGroupAsServerFormat from '../../../utils/formatGroupAsServerFormat';
 import userDataService from '../../../service/userData/userData';
 
-export type StoreRemoteBackupWarningProps = {
+type Props = {
+  onClose: () => void;
   data: any;
 };
 
-const StoreRemoteBackupWarning = () => {
+const StoreRemoteBackupWarning = ({ onClose, data }: Props) => {
   const dispatch = useDispatch();
-  const { data } = useSelector(
-    selectModalProps('StoreRemoteBackupWarning'),
-  ) as StoreRemoteBackupWarningProps;
-
   const backupData = async () => {
     if (data === null || data === undefined) return;
     if (!data.stockList || !data.groups) {
@@ -47,8 +41,6 @@ const StoreRemoteBackupWarning = () => {
 
     alert('Failed to store remote data.');
   };
-
-  const onClose = () => dispatch(closeStockModal('StoreRemoteBackupWarning'));
 
   return (
     <WarningModal

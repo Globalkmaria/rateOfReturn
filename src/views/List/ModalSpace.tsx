@@ -2,12 +2,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { selectStockModals } from '../../features/stockModal/stockModalSlice';
-import SetBackupWarning from './Backup/SetBackupWarning';
+
 import AddGroupModal from './GroupButtons/AddGroupModal';
 import DeleteGroupModal from './GroupButtons/DeleteGroupModal';
 import DeleteGroupWarning from './GroupButtons/DeleteGroupWarning';
 import ResetDataWarning from './Backup/ResetDataWarning';
-import StoreRemoteBackupWarning from './Backup/StoreRemoteBackupWarning';
 
 type Modal = {
   modalName: string;
@@ -29,15 +28,10 @@ const ModalSpace = () => {
 export default ModalSpace;
 
 const MODALS: Modal[] = [
-  { modalName: 'SetBackupWarning', Component: SetBackupWarning },
   { modalName: 'AddGroupModal', Component: AddGroupModal },
   { modalName: 'DeleteGroupModal', Component: DeleteGroupModal },
   { modalName: 'DeleteGroupWarning', Component: DeleteGroupWarning },
   { modalName: 'ResetDataWarning', Component: ResetDataWarning },
-  {
-    modalName: 'StoreRemoteBackupWarning',
-    Component: StoreRemoteBackupWarning,
-  },
 ];
 
 const StyledModalSpace = styled('div')`
