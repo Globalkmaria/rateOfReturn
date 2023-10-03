@@ -129,7 +129,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
           <DeleteButton onClick={onOpenModal} disabled={!isMainGroupSelected} />
           {showModal && (
             <DeleteStockModal
-              type='purchase'
+              type='stock'
               stockId={stockId}
               purchasedId={''}
               onClose={onCloseModal}
