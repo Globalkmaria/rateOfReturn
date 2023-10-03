@@ -16,11 +16,12 @@ import { selectIsMainGroupSelected } from '../../../../features/groups/selectors
 import {
   useChangeStockCheckbox,
   useGetStockSummaryData,
-  useStockDeleteModalOpen,
   useStockSummaryInputChange,
 } from './hooks';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 import userStocksService from '../../../../service/userStocks/userStocks';
+import useModal from '../../hooks/useModal';
+import { DeleteStockModal } from '../DeleteStockModal';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -37,11 +38,12 @@ export interface SummaryInfoProps {
 
 const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const [isLock, setIsLock] = useState(true);
+  const { showModal, onOpenModal, onCloseModal } = useModal();
   const isLoggedIn = useSelector(selectIsLoggedIn());
-  const onDeleteModalOpen = useStockDeleteModalOpen(stockId);
   const { changedInputs, initChangedInputs, onInputChange } =
     useStockSummaryInputChange(stockId);
   const onChangeCheckbox = useChangeStockCheckbox(stockId);
+
   const toggleLock = async () => {
     if (!isLoggedIn) {
       return setIsLock((prev) => !prev);
@@ -124,10 +126,15 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
             onClick={toggleLock}
             disabled={!isMainGroupSelected}
           />
-          <DeleteButton
-            onClick={onDeleteModalOpen}
-            disabled={!isMainGroupSelected}
-          />
+          <DeleteButton onClick={onOpenModal} disabled={!isMainGroupSelected} />
+          {showModal && (
+            <DeleteStockModal
+              type='purchase'
+              stockId={stockId}
+              purchasedId={''}
+              onClose={onCloseModal}
+            />
+          )}
         </>
       ) : null}
     </StyledSummaryRow>

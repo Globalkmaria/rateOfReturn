@@ -1,6 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteModalProps } from '../DeleteStockModal';
-import { openStockModal } from '../../../../features/stockModal/stockModalSlice';
 import { TransformedValue } from '../../../../components/Input';
 import { StockMainInfo } from '../../../../features/stockList/type';
 import { updateStock } from '../../../../features/stockList/stockListSlice';
@@ -13,26 +11,6 @@ import { selectStockInfoById } from '../../../../features/stockList/selectors';
 import { getGroupPurchasedData, getStockSummaryInfo } from '../utils';
 import { useState } from 'react';
 import { EditUserStockServiceData } from '../../../../service/userStocks/type';
-
-export const useStockDeleteModalOpen = (stockId: string) => {
-  const dispatch = useDispatch();
-  const onDeleteModalOpen = () => {
-    const props: DeleteModalProps = {
-      stockId,
-      purchasedId: '',
-      type: 'stock',
-    };
-
-    dispatch(
-      openStockModal({
-        modalName: 'DeleteStockModal',
-        props,
-      }),
-    );
-  };
-
-  return onDeleteModalOpen;
-};
 
 type ChangedInputs = EditUserStockServiceData;
 
