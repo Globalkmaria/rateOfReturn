@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Modal from './Modal';
 import { ContainedButton } from './Button';
+import PortalModal from './Modal/PortalModal';
 
 interface DeleteWarningModalProps {
   message: string;
@@ -15,14 +15,14 @@ const DeleteWarningModal = ({
   message,
 }: DeleteWarningModalProps) => {
   return (
-    <Modal onClose={onClose}>
+    <PortalModal onClose={onClose}>
       <StyledDeleteWarningModal>
         <p className='message'>{message}</p>
         <ContainedButton size='l' color='warning' onClick={onDelete}>
           Delete
         </ContainedButton>
       </StyledDeleteWarningModal>
-    </Modal>
+    </PortalModal>
   );
 };
 
