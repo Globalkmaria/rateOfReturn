@@ -1,6 +1,7 @@
+import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { ContainedButton } from '../../../components/Button';
-import Modal from '../../../components/Modal';
 import {
   deletePurchasedItem,
   deleteStock,
@@ -13,28 +14,27 @@ import {
   deleteCheckedItems,
   deleteStockCheck,
 } from '../../../features/checkedItems/checkedItemsSlice';
-import {
-  closeStockModal,
-  selectModalProps,
-} from '../../../features/stockModal/stockModalSlice';
-import styled from 'styled-components';
 import userStocksService from '../../../service/userStocks/userStocks';
 import { selectStockInfoById } from '../../../features/stockList/selectors';
 import { selectIsLoggedIn } from '../../../features/user/selectors';
+import PortalModal from '../../../components/Modal/PortalModal';
 
 export type DeleteModalProps = {
+  onClose: () => void;
   type: 'stock' | 'purchase';
   stockId: string;
   purchasedId: string;
 };
 
-export const DeleteStockModal = () => {
-  const isLoggedIn = useSelector(selectIsLoggedIn());
+export const DeleteStockModal = ({
+  onClose,
+  type,
+  stockId,
+  purchasedId,
+}: DeleteModalProps) => {
   const dispatch = useDispatch();
-  const onClose = () => dispatch(closeStockModal('DeleteStockModal'));
-  const { stockId, purchasedId, type } = useSelector(
-    selectModalProps('DeleteStockModal'),
-  ) as DeleteModalProps;
+  const isLoggedIn = useSelector(selectIsLoggedIn());
+
   const stocks = useSelector(selectStockInfoById(stockId));
 
   const onDeletePurchasedStock = async () => {
@@ -71,14 +71,14 @@ export const DeleteStockModal = () => {
 
   const onDelete = type === 'stock' ? onDeleteStock : onDeletePurchasedStock;
   return (
-    <Modal onClose={onClose}>
+    <PortalModal onClose={onClose}>
       <StyledDeleteModal>
         <p className='message'>{MESSAGES[type]}</p>
         <ContainedButton size='l' color='warning' onClick={onDelete}>
           Delete
         </ContainedButton>
       </StyledDeleteModal>
-    </Modal>
+    </PortalModal>
   );
 };
 

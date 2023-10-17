@@ -9,7 +9,6 @@ import {
   updateNextGroupId,
 } from '../../../../features/groups/groupsSlice';
 import { initCheckedItems } from '../../../../features/checkedItems/checkedItemsSlice';
-import { closeStockModal } from '../../../../features/stockModal/stockModalSlice';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 import userGroupsService from '../../../../service/userGroups/userGroups';
 import { selectStocks } from '../../../../features/stockList/selectors';
@@ -55,8 +54,6 @@ export function useAddGroup() {
     dispatch(addGroup({ groupInfo: newGroupInfo, groupId: nextGroupId }));
     dispatch(initCheckedItems(initCheckedItemsInfo));
     dispatch(updateNextGroupId());
-
-    dispatch(closeStockModal('AddGroupModal'));
   };
 
   return onAddGroup;

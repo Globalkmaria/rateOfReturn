@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
+
 import stockListReducer from './features/stockList/stockListSlice';
 import checkedItemsReducer from './features/checkedItems/checkedItemsSlice';
 import groupsReducerReducer from './features/groups/groupsSlice';
-import stockModalSliceReducer from './features/stockModal/stockModalSlice';
 import userSliceReducer from './features/user/userSlice';
 
 export const store = configureStore({
@@ -10,7 +10,6 @@ export const store = configureStore({
     stockList: stockListReducer,
     checkedItems: checkedItemsReducer,
     groups: groupsReducerReducer,
-    stockModals: stockModalSliceReducer,
     user: userSliceReducer,
   },
 });

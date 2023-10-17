@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/macro';
+
 import { Input } from '../../../components/Input';
 import { TableCell, TableRow } from '../../../components/Table';
 import { updatePurchaseItem } from '../../../features/stockList/stockListSlice';
@@ -18,11 +19,11 @@ import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsS
 import { selectIsPurchasedItemChecked } from '../../../features/checkedItems/selectors';
 import { selectIsMainGroupSelected } from '../../../features/groups/selectors';
 import { BorderButton } from '../../../components/Button';
-import { openStockModal } from '../../../features/stockModal/stockModalSlice';
-import { DeleteModalProps } from './DeleteStockModal';
 import userStocksService from '../../../service/userStocks/userStocks';
 import { EditUserItemServiceData } from '../../../service/userStocks/type';
 import { selectIsLoggedIn } from '../../../features/user/selectors';
+import useModal from '../hooks/useModal';
+import { DeleteStockModal } from './DeleteStockModal';
 
 type InputChangeProps = (
   e: React.ChangeEvent<HTMLInputElement>,
@@ -38,6 +39,8 @@ type ChangedInputs = EditUserItemServiceData;
 
 const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const dispatch = useDispatch();
+  const { showModal, onOpenModal, onCloseModal } = useModal();
+
   const isLoggedIn = useSelector(selectIsLoggedIn());
   const [changedInputs, setChangedInputs] = useState<ChangedInputs>({});
   const { mainInfo, purchasedItem } = useSelector(
@@ -121,21 +124,6 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
     );
   };
 
-  const onOpenDeleteModal = () => {
-    const props: DeleteModalProps = {
-      stockId,
-      type: 'purchase',
-      purchasedId,
-    };
-
-    dispatch(
-      openStockModal({
-        modalName: 'DeleteStockModal',
-        props,
-      }),
-    );
-  };
-
   useEffect(() => {
     setIsLock(true);
   }, [isMainGroupSelected]);
@@ -199,10 +187,15 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
             onClick={toggleLock}
             disabled={!isMainGroupSelected}
           />
-          <DeleteButton
-            onClick={onOpenDeleteModal}
-            disabled={!isMainGroupSelected}
-          />
+          <DeleteButton onClick={onOpenModal} disabled={!isMainGroupSelected} />
+          {showModal && (
+            <DeleteStockModal
+              type='purchase'
+              stockId={stockId}
+              purchasedId={purchasedId}
+              onClose={onCloseModal}
+            />
+          )}
         </>
       ) : null}
     </StyledPurchasedStockRow>

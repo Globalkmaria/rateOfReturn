@@ -1,19 +1,18 @@
-import React from 'react';
 import styled from 'styled-components';
+
 import { ContainedButton } from '../../../components/Button';
-import { useDispatch } from 'react-redux';
-import { openStockModal } from '../../../features/stockModal/stockModalSlice';
+import useModal from '../hooks/useModal';
+import ResetDataWarning from './ResetDataWarning';
 
 const Reset = () => {
-  const dispatch = useDispatch();
-  const onClick = () =>
-    dispatch(openStockModal({ modalName: 'ResetDataWarning' }));
+  const { showModal, onOpenModal, onCloseModal } = useModal();
 
   return (
     <StyledReset>
-      <ContainedButton onClick={onClick} color='warning' fullWidth>
+      <ContainedButton onClick={onOpenModal} color='warning' fullWidth>
         Reset
       </ContainedButton>
+      {showModal && <ResetDataWarning onClose={onCloseModal} />}
     </StyledReset>
   );
 };

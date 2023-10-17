@@ -4,6 +4,7 @@ import Navbar from './NavBar/Navbar';
 import Footer from './Footer';
 import { useCheckMe } from './useCheckMe';
 import useSyncUserData from './useSyncUserData';
+import MainModal from './MainModal';
 
 interface GeneralLayoutProps {
   children: React.ReactNode;
@@ -17,6 +18,7 @@ const GeneralLayout = ({ children }: GeneralLayoutProps) => {
     <StyledGeneralLayout>
       <Navbar />
       <StyledMainLayout>{children}</StyledMainLayout>
+      <MainModal />
       <Footer />
     </StyledGeneralLayout>
   );

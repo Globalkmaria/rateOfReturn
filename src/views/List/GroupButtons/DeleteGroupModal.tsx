@@ -1,22 +1,21 @@
-import React from 'react';
 import styled from 'styled-components';
+
 import { Group } from '../../../features/groups/type';
 import { selectGroups } from '../../../features/groups/selectors';
-import { useDispatch, useSelector } from 'react-redux';
-import Modal from '../../../components/Modal';
+import { useSelector } from 'react-redux';
+import Modal from '../../../components/Modal/Modal';
 import { BorderButton } from '../../../components/Button';
 import { FaTrash } from 'react-icons/fa';
-import {
-  closeStockModal,
-  openStockModal,
-} from '../../../features/stockModal/stockModalSlice';
-import { DeleteGroupWarningProps } from './DeleteGroupWarning';
+import DeleteGroupWarning from './DeleteGroupWarning';
+import useModal from '../hooks/useModal';
 
 const NO_GROUP_MESSAGE = 'There is no group.';
 
-const DeleteGroupModal = () => {
-  const dispatch = useDispatch();
-  const onClose = () => dispatch(closeStockModal('DeleteGroupModal'));
+type Props = {
+  onClose: () => void;
+};
+
+const DeleteGroupModal = ({ onClose }: Props) => {
   const groups = useSelector(selectGroups);
   const noGroups = groups.groups.allIds.length === 0;
   return (
@@ -34,28 +33,19 @@ const DeleteGroupModal = () => {
 export default DeleteGroupModal;
 
 const GroupItem = ({ groupInfo }: { groupInfo: Group }) => {
-  const dispatch = useDispatch();
+  const { showModal, onOpenModal, onCloseModal } = useModal();
   const { groupId, groupName } = groupInfo;
   if (groupId === '1') return <></>;
-
-  const onOpenDeleteModal = () => {
-    const props: DeleteGroupWarningProps = {
-      groupId,
-    };
-    dispatch(
-      openStockModal({
-        modalName: 'DeleteGroupWarning',
-        props,
-      }),
-    );
-  };
 
   return (
     <StyledGroupItem>
       <h1 className='group-name'>{groupName}</h1>
-      <BorderButton onClick={onOpenDeleteModal} showLine={false}>
+      <BorderButton onClick={onOpenModal} showLine={false}>
         <FaTrash />
       </BorderButton>
+      {showModal && (
+        <DeleteGroupWarning groupId={groupId} onClose={onCloseModal} />
+      )}
     </StyledGroupItem>
   );
 };
