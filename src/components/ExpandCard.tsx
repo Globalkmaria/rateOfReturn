@@ -17,7 +17,7 @@ const ExpandCard = ({ open, children, transition = 200 }: ExpandCardProps) => {
       <div className='wrapper'>
         <div className='expand'>{children}</div>
       </div>
-      <button className='expand-btn' type='button'>
+      <button className='expand-btn' type='button' aria-label='toggle expand'>
         {open ? <MdExpandLess /> : <MdExpandMore />}
       </button>
     </StyledExpandCard>

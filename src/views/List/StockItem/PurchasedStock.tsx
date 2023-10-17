@@ -150,6 +150,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
             type='date'
             value={purchasedItem.purchasedDate}
             fullWidth
+            aria-label='purchased date'
           />
           <Input
             className='date'
@@ -157,6 +158,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
             onChange={onInputChange}
             disabled={isLock}
             type='time'
+            aria-label='purchased time'
             value={purchasedItem.purchasedTime}
             fullWidth
           />
@@ -167,12 +169,14 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
         onChange={onInputChange}
         value={purchasedItem.purchasedQuantity}
         disabled={isLock}
+        aria-label='purchased quantity'
       />
       <InputCell
         name='purchasedPrice'
         onChange={onInputChange}
         onBlur={onInputChange}
         value={purchasedItem.purchasedPrice}
+        aria-label='purchased price'
         disabled={isLock}
       />
       <NumberCell value={totalPurchasePrice} className='total-purchase' />

@@ -102,6 +102,8 @@ export const LockButton = ({ isLock, onClick, disabled }: LockButtonProps) => {
         disableIcon={disabled}
         width={40}
         onClick={onClick}
+        aria-label='toggle lock'
+        title='toggle lock'
       >
         <Icon />
       </BorderButton>
@@ -116,6 +118,8 @@ export const DeleteButton = ({ disabled, ...resProps }: DeleteButtonProps) => {
         disabled={disabled}
         disableIcon={disabled}
         width={40}
+        aria-label='delete'
+        title='delete'
         {...resProps}
       >
         <FaTrash />
@@ -135,6 +139,7 @@ export const EditButton = ({ isLock, onClick, disabled }: LockButtonProps) => {
         width={40}
         onClick={onClick}
         title={title}
+        aria-label={title}
       >
         <Icon />
       </BorderButton>
