@@ -23,10 +23,14 @@ function PortalModal({
   title = '',
   showCloseButton = true,
 }: Props) {
+  const modalBackground = useRef<HTMLDivElement>(null);
   const modalContent = useRef<HTMLDivElement>(null);
   const needHeader = !!title.length || showCloseButton;
   const onClick = (e: MouseEvent<HTMLDivElement>) => {
-    if (!modalContent.current?.contains(e.target as Node)) {
+    if (
+      !modalContent.current?.contains(e.target as Node) &&
+      modalBackground.current?.contains(e.target as Node)
+    ) {
       onClose();
     }
   };
@@ -35,7 +39,7 @@ function PortalModal({
 
   return (
     <PortalWrapper wrapperId={wrapperId}>
-      <StyledModal isOpen={isOpen} onClick={onClick}>
+      <StyledModal isOpen={isOpen} onClick={onClick} ref={modalBackground}>
         <StyledModalContent needHeader={needHeader} ref={modalContent}>
           <div className='header'>
             <h1 className='title'>{title}</h1>
