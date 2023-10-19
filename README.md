@@ -71,6 +71,18 @@ This project allows you to:
 
 ## Version History
 
+### Version 2.1.2 (2023-10-19)
+
+- Upgrade performance and refactoring
+
+### Version 2.1.1 (2023-10-17)
+
+- Change Modal to use Portal
+
+### Version 2.1.0 (2023-10-04)
+
+- Fix checked item problem when adding group
+
 ### Version 2.0.0 (2023-08-22)
 
 **Release Highlights:**
