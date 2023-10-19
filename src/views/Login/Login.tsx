@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import SignForm from '../../components/SignForm';
+
+import SignForm from '../../components/SignForm/SignForm';
 import { useFormChange } from '../../hooks/useFormChange';
 import useLoginSubmit from './hooks/useLoginSubmit';
 
