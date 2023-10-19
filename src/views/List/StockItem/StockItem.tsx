@@ -1,7 +1,9 @@
-import SummaryInfo from './SummaryInfo/SummaryInfo';
-import PurchasedStock from './PurchasedStock';
-import { AddSameStockButton } from './AddSameStockButton';
+import { memo } from 'react';
 import { useSelector } from 'react-redux';
+
+import SummaryInfo from './SummaryInfo/SummaryInfo';
+import PurchasedStock from './PurchasedStock/PurchasedStock';
+import AddSameStockButton from './AddSameStockButton';
 import {
   selectIsMainGroupSelected,
   selectSelectedGroupInfo,
@@ -13,7 +15,7 @@ export interface StockItemProps {
 }
 
 const StockItem = ({ stockId }: StockItemProps) => {
-  const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
+  const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const stockInfo = useSelector(selectStockInfoById(stockId));
   const groupInfo = useSelector(selectSelectedGroupInfo());
   const purchasedItems = isMainGroupSelected
@@ -35,4 +37,4 @@ const StockItem = ({ stockId }: StockItemProps) => {
   );
 };
 
-export default StockItem;
+export default memo(StockItem);

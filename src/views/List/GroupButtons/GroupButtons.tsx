@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -29,7 +29,7 @@ const GroupButtons = () => {
     onCloseModal: onCloseDelete,
   } = useModal();
 
-  const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
+  const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const groups = useSelector(selectGroups);
   const checkedItems = useSelector(selectCheckedPurchasedItems());
   const options = getOptions(groups);
@@ -77,7 +77,7 @@ const GroupButtons = () => {
   );
 };
 
-export default GroupButtons;
+export default memo(GroupButtons);
 
 const StyledGroupButtons = styled('div')`
   display: flex;

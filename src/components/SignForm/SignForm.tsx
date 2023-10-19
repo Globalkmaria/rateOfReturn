@@ -1,13 +1,11 @@
 import { ChangeEvent, FormEvent, ReactElement } from 'react';
 import styled from 'styled-components/macro';
-import { Link } from 'react-router-dom';
-import { FcGoogle } from 'react-icons/fc';
-
-import { BorderButton, ContainedButton } from './Button';
-import FormInput from './form/Input';
-import Form from './form/form';
-import { loginGoogleURL } from '../api/auth';
-import { ValidityTextProps } from './form/ValidityText';
+import { ContainedButton } from '../Button';
+import FormInput from '../form/Input';
+import Form from '../form/form';
+import { ValidityTextProps } from '../form/ValidityText';
+import { GoogleBtn, OtherOptions } from './components';
+import { loginGoogleURL } from '../../api/auth';
 
 type SignFormProps = {
   onSubmit: (e: FormEvent<HTMLFormElement | HTMLButtonElement>) => void;
@@ -75,22 +73,15 @@ const SignForm = ({
           {submitBtnTitle}
         </ContainedButton>
       </Form>
-
-      <BorderButton size='m' fullWidth>
-        <div className='google-btn'>
-          <FcGoogle />
-          <a className='google-btn__text' href={loginGoogleURL} role='button'>
-            {googleBtnTitle}
-          </a>
-        </div>
-      </BorderButton>
-
-      <div className='other-option'>
-        <span className='subtext'>{otherOptionSubtext}</span>
-        <Link className='link' to={otherOptionLink}>
-          {otherOptionTitle}
-        </Link>
-      </div>
+      <GoogleBtn
+        googleBtnTitle={googleBtnTitle}
+        loginGoogleURL={loginGoogleURL}
+      />
+      <OtherOptions
+        otherOptionSubtext={otherOptionSubtext}
+        otherOptionTitle={otherOptionTitle}
+        otherOptionLink={otherOptionLink}
+      />
     </StyledSignForm>
   );
 };

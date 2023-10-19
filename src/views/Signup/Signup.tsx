@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import SignForm from '../../components/SignForm';
+import { useMemo, useState } from 'react';
+import SignForm from '../../components/SignForm/SignForm';
 import { useFormChange } from '../../hooks/useFormChange';
 import { getEmailValidConfig, getPasswordValidConfig } from './helper';
 import { useSignupSubmit } from './hooks/useSignupSubmit';
@@ -17,8 +17,18 @@ const Signup = () => {
   );
   const onChange = useFormChange<SignupInfoState>(setSignupInfo);
   const onSubmit = useSignupSubmit(signupInfo);
-  const emailValidConfig = getEmailValidConfig(signupInfo);
-  const passwordValidConfig = getPasswordValidConfig(signupInfo);
+  const emailValidConfig = useMemo(
+    () => getEmailValidConfig(signupInfo),
+    [signupInfo.username],
+  );
+  const passwordValidConfig = useMemo(
+    () => getPasswordValidConfig(signupInfo),
+    [signupInfo.password, signupInfo.confirmPassword],
+  );
+  const confirmInput = useMemo(
+    () => <ConfirmInput onChange={onChange} signupInfo={signupInfo} />,
+    [onChange, signupInfo.confirmPassword, signupInfo.password],
+  );
 
   return (
     <SignForm
@@ -31,9 +41,7 @@ const Signup = () => {
       otherOptionSubtext={OTHER_OPTION_SUBTEXT}
       otherOptionTitle={OTHER_OPTION_TITLE}
       otherOptionLink={OTHER_OPTION_LINK}
-      AdditionalFormInput={
-        <ConfirmInput onChange={onChange} signupInfo={signupInfo} />
-      }
+      AdditionalFormInput={confirmInput}
       emailValidConfig={emailValidConfig}
       passwordValidConfig={passwordValidConfig}
     />

@@ -17,7 +17,7 @@ export function useAddGroup() {
   const dispatch = useDispatch();
   const stocks = useSelector(selectStocks);
   const checkedItems = useSelector(selectCheckedPurchasedItems());
-  const isLogin = useSelector(selectIsLoggedIn());
+  const isLogin = useSelector(selectIsLoggedIn);
 
   let nextGroupId = useSelector(selectNextGroupId);
 

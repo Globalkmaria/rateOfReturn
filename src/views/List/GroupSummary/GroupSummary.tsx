@@ -9,7 +9,7 @@ import { selectStocks } from '../../../features/stockList/selectors';
 import { getGroupSummary, getMainGroupSummary } from './utils';
 
 const GroupSummary = () => {
-  const isMainSelected = useSelector(selectIsMainGroupSelected());
+  const isMainSelected = useSelector(selectIsMainGroupSelected);
   const groupInfo = useSelector(selectSelectedGroupInfo());
   const stocks = useSelector(selectStocks);
   const summary = isMainSelected

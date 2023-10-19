@@ -6,11 +6,10 @@ export const selectSelectedGroupId = (state: { groups: GroupsState }) =>
   state.groups.selectedGroupId;
 export const selectNextGroupId = (state: { groups: GroupsState }) =>
   state.groups.nextGroupId + '';
-export const selectIsMainGroupSelected = () =>
-  createSelector(
-    selectSelectedGroupId,
-    (selectedGroupId) => selectedGroupId === '1',
-  );
+export const selectIsMainGroupSelected = createSelector(
+  selectSelectedGroupId,
+  (selectedGroupId) => selectedGroupId === '1',
+);
 export const selectSelectedGroupInfo = () =>
   createSelector(
     [selectSelectedGroupId, selectGroups],

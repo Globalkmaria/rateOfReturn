@@ -5,11 +5,11 @@ import { selectIsMainGroupSelected } from '../../features/groups/selectors';
 import { Table, TableBody } from '../../components/Table';
 import StockItem from './StockItem/StockItem';
 import StockListHeader from './StockListHeader';
-import { AddNewStock } from './AddNewStock/AddNewStock';
+import AddNewStock from './AddNewStock/AddNewStock';
 import { selectStockIds } from '../../features/selectors';
 
 const StockTable = () => {
-  const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
+  const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const stockIds = useSelector(selectStockIds());
   const StyledTable = isMainGroupSelected
     ? StyledMainStockTable

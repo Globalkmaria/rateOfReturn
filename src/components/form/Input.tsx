@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, memo } from 'react';
 import styled from 'styled-components/macro';
 import ValidityText, { ValidityTextProps } from './ValidityText';
 
@@ -41,7 +41,7 @@ const FormInput = ({
   );
 };
 
-export default FormInput;
+export default memo(FormInput);
 
 const StyledFormInput = styled('div')`
   display: flex;

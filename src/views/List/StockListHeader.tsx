@@ -11,6 +11,7 @@ import { CheckboxCell } from './StockItem/components';
 import { updateCheckedItems } from '../../features/checkedItems/checkedItemsSlice';
 import { selectIsAllChecked } from '../../features/checkedItems/selectors';
 import { selectIsMainGroupSelected } from '../../features/groups/selectors';
+import { memo } from 'react';
 
 type HeaderListComponent = typeof CheckAllCheckbox;
 
@@ -24,7 +25,7 @@ type HeaderListProps = {
 }[];
 
 const StockListHeader = () => {
-  const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
+  const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const header = isMainGroupSelected ? HEADER_LIST : SUB_GROUP_HEADER_LIST;
   return (
     <TableHeader>
@@ -43,12 +44,12 @@ const StockListHeader = () => {
   );
 };
 
-export default StockListHeader;
+export default memo(StockListHeader);
 
 const CheckAllCheckbox = ({ id, ...restProps }: TableHeadProps) => {
   const dispatch = useDispatch();
   const isAllChecked = useSelector(selectIsAllChecked());
-  const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
+  const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const onChangeCheckbox = (value: boolean) => {
     dispatch(
       updateCheckedItems({

@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import { ContainedButton } from '../../../components/Button';
 import { TableCell, TableRow } from '../../../components/Table';
 import { useAddNewStock } from './hooks/useAddNewStock';
 
-export const AddNewStock = () => {
+const AddNewStock = () => {
   const { onAddNewStock } = useAddNewStock();
   return (
     <TableRow>
@@ -20,3 +21,5 @@ export const AddNewStock = () => {
     </TableRow>
   );
 };
+
+export default memo(AddNewStock);
