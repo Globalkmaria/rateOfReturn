@@ -87,6 +87,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       ) : null}
       <TableCell>
         <Input
+          aria-label='stock name'
           className='stockName'
           fullWidth
           onChange={onInputChange}
@@ -107,6 +108,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       <TableCell>
         <Input
           fullWidth
+          aria-label='current price'
           name='currentPrice'
           onChange={onInputChange}
           onBlur={onInputChange}
