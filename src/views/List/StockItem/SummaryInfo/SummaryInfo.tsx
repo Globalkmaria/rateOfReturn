@@ -2,26 +2,16 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/macro';
 import { BorderButton } from '../../../../components/Button';
-import { BaseInput, Input } from '../../../../components/Input';
+import { BaseInput } from '../../../../components/Input';
 import { TableCell, TableRow } from '../../../../components/Table';
-import { selectStockInfoById } from '../../../../features/stockList/selectors';
-import {
-  NumberCell,
-  DeleteButton,
-  CheckboxCell,
-  EditButton,
-} from '../components';
+import { DeleteButton, CheckboxCell } from '../components';
 import { selectStockCheckedInfo } from '../../../../features/checkedItems/selectors';
 import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
-import {
-  useChangeStockCheckbox,
-  useGetStockSummaryData,
-  useStockSummaryInputChange,
-} from './hooks';
-import { selectIsLoggedIn } from '../../../../features/user/selectors';
-import userStocksService from '../../../../service/userStocks/userStocks';
+import { useChangeStockCheckbox, useStockSummaryInputChange } from './hooks';
 import useModal from '../../hooks/useModal';
 import { DeleteStockModal } from '../DeleteStockModal';
+import SummaryLock from './SummaryLock';
+import SummaryContent from './SummaryContent';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -39,37 +29,12 @@ export interface SummaryInfoProps {
 const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const [isLock, setIsLock] = useState(true);
   const { showModal, onOpenModal, onCloseModal } = useModal();
-  const isLoggedIn = useSelector(selectIsLoggedIn());
   const { changedInputs, initChangedInputs, onInputChange } =
     useStockSummaryInputChange(stockId);
   const onChangeCheckbox = useChangeStockCheckbox(stockId);
 
-  const toggleLock = async () => {
-    if (!isLoggedIn) {
-      return setIsLock((prev) => !prev);
-    }
-    if (!isLock) {
-      if (Object.keys(changedInputs).length === 0) return setIsLock(true);
-
-      const result = await userStocksService.editUserStock({
-        stockId,
-        data: changedInputs,
-      });
-      if (!result.success) return;
-
-      initChangedInputs();
-      setIsLock(true);
-      return;
-    }
-
-    setIsLock(false);
-  };
-
   const checkedInfo = useSelector(selectStockCheckedInfo(stockId));
-  const isMainGroupSelected = useSelector(selectIsMainGroupSelected());
-  const stockInfo = useSelector(selectStockInfoById(stockId));
-  const summaryData = useGetStockSummaryData(stockId);
-  const formattedCurrentPrice = stockInfo.mainInfo.currentPrice.toString();
+  const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
 
   useEffect(() => {
     setIsLock(true);
@@ -85,48 +50,19 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
           title='Check all group items'
         />
       ) : null}
-      <TableCell>
-        <Input
-          aria-label='stock name'
-          className='stockName'
-          fullWidth
-          onChange={onInputChange}
-          name='stockName'
-          value={stockInfo.mainInfo.stockName}
-          disabled={isLock}
-        />
-      </TableCell>
-      <TableCell align='center' colSpan={2} className='stock-summary'>
-        Summary
-      </TableCell>
-      <NumberCell value={summaryData.purchaseQuantitySum} />
-      <NumberCell value={summaryData.purchasePriceAverage} />
-      <NumberCell
-        className='total-purchase'
-        value={summaryData.totalPurchasePrice}
+      <SummaryContent
+        stockId={stockId}
+        isLock={isLock}
+        onInputChange={onInputChange}
       />
-      <TableCell>
-        <Input
-          fullWidth
-          aria-label='current price'
-          name='currentPrice'
-          onChange={onInputChange}
-          onBlur={onInputChange}
-          type='number'
-          value={formattedCurrentPrice}
-          disabled={isLock}
-        />
-      </TableCell>
-      <NumberCell value={summaryData.evaluationPrice} />
-      <TableCell align='right'>{summaryData.evaluationProfit}</TableCell>
-      <TableCell align='right'>{summaryData.profitRate} </TableCell>
-
       {isMainGroupSelected ? (
         <>
-          <EditButton
+          <SummaryLock
             isLock={isLock}
-            onClick={toggleLock}
-            disabled={!isMainGroupSelected}
+            setIsLock={setIsLock}
+            stockId={stockId}
+            changedInputs={changedInputs}
+            initChangedInputs={initChangedInputs}
           />
           <DeleteButton onClick={onOpenModal} disabled={!isMainGroupSelected} />
           {showModal && (
