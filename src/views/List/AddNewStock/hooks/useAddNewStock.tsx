@@ -16,7 +16,7 @@ import getDateAndTime from '../../../../utils/getDateAndTime';
 export const useAddNewStock = () => {
   const dispatch = useDispatch();
   const localNextIds = useSelector(selectNextIds());
-  const isLogin = useSelector(selectIsLoggedIn());
+  const isLogin = useSelector(selectIsLoggedIn);
 
   const onAddNewStock = async () => {
     let stockId = localNextIds.nextPurchasedId;

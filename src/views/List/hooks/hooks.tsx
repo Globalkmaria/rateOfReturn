@@ -32,7 +32,7 @@ export const useInitWithLocalData = () => {
 
 export const useSaveChangedGroupsData = (firstLoad: boolean) => {
   const groups = useSelector(selectGroups);
-  const isLoggedIn = useSelector(selectIsLoggedIn());
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   useEffect(() => {
     if (isLoggedIn) return;
@@ -42,7 +42,7 @@ export const useSaveChangedGroupsData = (firstLoad: boolean) => {
 
 export const useSaveChangedStocksData = (firstLoad: boolean) => {
   const stockList = useSelector(selectStockList);
-  const isLoggedIn = useSelector(selectIsLoggedIn());
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   useEffect(() => {
     if (isLoggedIn) return;

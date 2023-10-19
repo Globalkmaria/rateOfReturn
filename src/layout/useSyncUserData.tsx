@@ -6,7 +6,7 @@ import useGetUserData from '../views/List/hooks/useGetUserData';
 import { useInitWithLocalData } from '../views/List/hooks/hooks';
 
 function useSyncUserData() {
-  const isLoggedIn = useSelector(selectIsLoggedIn());
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const { getUserData } = useGetUserData();
   const initWithLocalData = useInitWithLocalData();
 

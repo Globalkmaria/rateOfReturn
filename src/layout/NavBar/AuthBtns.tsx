@@ -9,7 +9,7 @@ import { useResetUserData } from '../useResetUserData';
 
 const AuthBtns = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(selectIsLoggedIn());
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const resetUserData = useResetUserData();
 
   const onLogout = async () => {

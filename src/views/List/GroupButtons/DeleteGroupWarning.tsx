@@ -12,7 +12,7 @@ type Props = {
 
 const DeleteGroupWarning = ({ onClose, groupId }: Props) => {
   const dispatch = useDispatch();
-  const isLogin = useSelector(selectIsLoggedIn());
+  const isLogin = useSelector(selectIsLoggedIn);
 
   const onDelete = async () => {
     if (isLogin) {

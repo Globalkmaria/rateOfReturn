@@ -8,7 +8,7 @@ import userDataService from '../../../service/userData/userData';
 
 const AddSampleData = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(selectIsLoggedIn());
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const onClick = async () => {
     if (isLoggedIn) {

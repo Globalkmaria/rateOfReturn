@@ -33,7 +33,7 @@ export const DeleteStockModal = ({
   purchasedId,
 }: DeleteModalProps) => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(selectIsLoggedIn());
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const stocks = useSelector(selectStockInfoById(stockId));
 

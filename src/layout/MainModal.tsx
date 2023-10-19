@@ -7,7 +7,7 @@ import { isLocalStorageEmpty } from '../utils/isLocalStorageEmpty';
 import MergeLocalDataModal from '../views/Home/MergeLocalDataModal';
 
 function MainModal() {
-  const isLoggedIn = useSelector(selectIsLoggedIn());
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const { showModal, onOpenModal, onCloseModal } = useModal();
 
   useEffect(() => {

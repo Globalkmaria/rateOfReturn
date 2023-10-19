@@ -9,7 +9,7 @@ type Props = {
 };
 
 function RemoteData({ data }: Props) {
-  const isLoggedIn = useSelector(selectIsLoggedIn());
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const { showModal, onOpenModal, onCloseModal } = useModal();
 
   const onRemoteOpen = () => {

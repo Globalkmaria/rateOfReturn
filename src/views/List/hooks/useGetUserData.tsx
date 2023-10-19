@@ -9,7 +9,7 @@ import { initGroups } from '../../../features/groups/groupsSlice';
 
 const useGetUserData = () => {
   const dispatch = useDispatch();
-  const isLoggingIn = useSelector(selectIsLoggedIn());
+  const isLoggingIn = useSelector(selectIsLoggedIn);
   const [loading, setLoading] = useState(false);
   const getUserData = async () => {
     setLoading(true);
