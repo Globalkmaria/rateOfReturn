@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import { ContainedButton } from '../../../components/Button';
 import { TableCell, TableRow } from '../../../components/Table';
 import { useAddItem } from './hooks/useAddItem';
 
-export const AddSameStockButton = ({ stockId }: { stockId: string }) => {
+const AddSameStockButton = ({ stockId }: { stockId: string }) => {
   const onAddItem = useAddItem(stockId);
 
   return (
@@ -22,3 +23,5 @@ export const AddSameStockButton = ({ stockId }: { stockId: string }) => {
     </TableRow>
   );
 };
+
+export default memo(AddSameStockButton);

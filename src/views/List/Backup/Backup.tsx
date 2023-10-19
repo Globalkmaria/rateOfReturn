@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { BorderButton } from '../../../components/Button';
 import BackupModal from './BackupModal';
 import useModal from '../hooks/useModal';
+import { memo } from 'react';
 
 const Backup = () => {
   const { showModal, onOpenModal, onCloseModal } = useModal();
@@ -17,7 +18,7 @@ const Backup = () => {
   );
 };
 
-export default Backup;
+export default memo(Backup);
 
 const StyledBackup = styled('div')`
   .modal-content {

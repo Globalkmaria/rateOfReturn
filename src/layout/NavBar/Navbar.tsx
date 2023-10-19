@@ -1,6 +1,9 @@
+import { memo } from 'react';
 import styled from 'styled-components';
+
 import AuthBtns from './AuthBtns';
 import Menu from './Menu';
+
 export interface NavbarElement {
   id: number;
   label: string;
@@ -18,7 +21,7 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default memo(Navbar);
 
 const StyledNav = styled('nav')`
   flex: 0 0 fit-content;

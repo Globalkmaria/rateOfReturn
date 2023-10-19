@@ -7,8 +7,8 @@ import {
   TableHead,
   TableHeadProps,
 } from '../../../components/Table';
-import { FaTrash, FaLockOpen, FaLock, FaEdit, FaSave } from 'react-icons/fa';
-import { ChangeEvent, MouseEvent } from 'react';
+import { FaTrash, FaLockOpen, FaLock } from 'react-icons/fa';
+import { ChangeEvent, MouseEvent, memo } from 'react';
 
 type InputCellProps = {
   disabled: boolean;
@@ -21,7 +21,7 @@ type CheckboxCellProps = {
   disabled?: boolean;
   title?: string;
 } & Pick<TableHeadProps, 'fixedWidth' | 'minWidth'>;
-type LockButtonProps = {
+export type LockButtonProps = {
   isLock: boolean;
   disabled?: boolean;
   onClick: () => void;
@@ -34,13 +34,16 @@ type NumberCellProps = {
   value: number | string;
 } & TableCellProps;
 
-export const NumberCell = ({ value, ...props }: NumberCellProps) => {
+export const NumberCell = memo(function NumberCell({
+  value,
+  ...props
+}: NumberCellProps) {
   return (
     <TableCell align='right' {...props}>
       <StyledTextWrapper>{Number(value).toLocaleString()}</StyledTextWrapper>
     </TableCell>
   );
-};
+});
 
 export const InputCell = ({
   value,
@@ -111,7 +114,10 @@ export const LockButton = ({ isLock, onClick, disabled }: LockButtonProps) => {
   );
 };
 
-export const DeleteButton = ({ disabled, ...resProps }: DeleteButtonProps) => {
+export const DeleteButton = memo(function DeleteButton({
+  disabled,
+  ...resProps
+}: DeleteButtonProps) {
   return (
     <StyledBtnWrapper>
       <BorderButton
@@ -126,26 +132,7 @@ export const DeleteButton = ({ disabled, ...resProps }: DeleteButtonProps) => {
       </BorderButton>
     </StyledBtnWrapper>
   );
-};
-
-export const EditButton = ({ isLock, onClick, disabled }: LockButtonProps) => {
-  const Icon = isLock ? FaEdit : FaSave;
-  const title = isLock ? 'Edit' : 'Save';
-  return (
-    <StyledEditBtnWrapper isLock={isLock}>
-      <BorderButton
-        disabled={disabled}
-        disableIcon={disabled}
-        width={40}
-        onClick={onClick}
-        title={title}
-        aria-label={title}
-      >
-        <Icon />
-      </BorderButton>
-    </StyledEditBtnWrapper>
-  );
-};
+});
 
 export const StyledTextWrapper = styled('div')`
   padding: 5px;
@@ -157,7 +144,9 @@ const StyledBtnWrapper = styled(TableCell)`
   }
 `;
 
-const StyledEditBtnWrapper = styled(StyledBtnWrapper)<{ isLock: boolean }>`
+export const StyledEditBtnWrapper = styled(StyledBtnWrapper)<{
+  isLock: boolean;
+}>`
   ${BorderButton} {
     ${({ isLock, theme }) => !isLock && `background: ${theme.colors.grey400}`}
   }
