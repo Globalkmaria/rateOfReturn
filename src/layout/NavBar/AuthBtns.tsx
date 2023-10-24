@@ -1,11 +1,13 @@
-import styled from 'styled-components';
-import { ContainedButton } from '../../components/Button';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { ContainedButton } from '../../components/Button';
 import authService from '../../service/auth';
 import { selectIsLoggedIn } from '../../features/user/selectors';
-import { useDispatch, useSelector } from 'react-redux';
 import { resetUser } from '../../features/user/userSlice';
 import { useResetUserData } from '../useResetUserData';
+import { cacheLoginPage, cacheSignupPage } from './utils';
 
 const AuthBtns = () => {
   const dispatch = useDispatch();
@@ -18,6 +20,7 @@ const AuthBtns = () => {
     resetUserData();
     localStorage.clear();
   };
+
   return (
     <StyledAuthBtns>
       {isLoggedIn ? (
@@ -26,12 +29,12 @@ const AuthBtns = () => {
         </ContainedButton>
       ) : (
         <>
-          <Link to='/login'>
+          <Link to='/login' onMouseEnter={cacheLoginPage}>
             <ContainedButton size='s' mode='light' width={80}>
               Login
             </ContainedButton>
           </Link>
-          <Link to='/signup'>
+          <Link to='/signup' onMouseEnter={cacheSignupPage}>
             <ContainedButton size='s' width={80}>
               Sign up
             </ContainedButton>
