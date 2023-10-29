@@ -8,7 +8,18 @@ type LogoProps = {
 const Logo = ({ stock }: LogoProps) => {
   return (
     <StyledLogo>
-      <img src={stock.imgUrl} alt={`${stock.name} logo`} />
+      <picture>
+        <source
+          srcSet={stock.img.webp300 || stock.img.webp}
+          media='(max-width: 576px)'
+          type='image/webp'
+        />
+        <source
+          srcSet={stock.img.webp400 || stock.img.webp}
+          type='image/webp'
+        />
+        <img src={stock.img.jpg} alt={`${stock.name} logo`} />
+      </picture>
     </StyledLogo>
   );
 };

@@ -16,7 +16,7 @@ export interface ErrorResponse {
 type FetchError = AxiosError<any, { data?: { message?: string } }>;
 
 const defaultRetryConfig = {
-  retries: 5,
+  retries: 3,
   initialDelayMs: 100,
 };
 

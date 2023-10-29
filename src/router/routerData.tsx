@@ -1,10 +1,12 @@
+import { lazy } from 'react';
+
 import { RouterElement } from './router';
+import Home from '../pages/Home';
 import List from '../pages/List';
 import Chart from '../pages/Chart';
 import PortfolioAllocation from '../views/Chart/PortfolioAllocation/PortfolioAllocation';
-import Home from '../pages/Home';
-import Login from '../pages/Login';
-import Signup from '../pages/Signup';
+const Login = lazy(() => import('../pages/Login'));
+const Signup = lazy(() => import('../pages/Signup'));
 
 export const chartRouterData: RouterElement[] = [
   {

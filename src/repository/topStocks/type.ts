@@ -15,6 +15,14 @@ export type TopStock = {
     pbr: number;
     per: number;
   };
+  img: {
+    url: string;
+    webp: string;
+    webp300: string;
+    webp400: string;
+    jpg: string;
+  };
+
   rank: number;
   id: string;
   imgUrl: string;
