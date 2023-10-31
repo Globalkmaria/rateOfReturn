@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { TransformedValue } from '../../../../components/Input';
 import { StockMainInfo } from '../../../../features/stockList/type';
 import { updateStock } from '../../../../features/stockList/stockListSlice';
 import { updateCheckedItems } from '../../../../features/checkedItems/checkedItemsSlice';
 import { EditUserStockServiceData } from '../../../../service/userStocks/type';
+import { TransformedValue } from '../../../../components/Input/BaseInput';
 
 export type ChangedSummaryInputs = EditUserStockServiceData;
 

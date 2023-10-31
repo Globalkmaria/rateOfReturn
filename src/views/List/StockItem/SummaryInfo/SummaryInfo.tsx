@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/macro';
 import { BorderButton } from '../../../../components/Button';
-import { BaseInput } from '../../../../components/Input';
+import { BaseInput } from '../../../../components/Input/BaseInput';
 import { TableCell, TableRow } from '../../../../components/Table';
 import { DeleteButton, CheckboxCell } from '../components';
 import { selectStockCheckedInfo } from '../../../../features/checkedItems/selectors';

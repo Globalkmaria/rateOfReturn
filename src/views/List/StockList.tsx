@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
 
-import { BaseInput } from '../../components/Input';
 import GroupButtons from './GroupButtons/GroupButtons';
 import GroupSummary from './GroupSummary/GroupSummary';
 import Backup from './Backup/Backup';
@@ -12,6 +11,7 @@ import {
   useSaveChangedGroupsData,
   useSaveChangedStocksData,
 } from './hooks/hooks';
+import { BaseInput } from '../../components/Input/BaseInput';
 
 const StockList = () => {
   const [firstLoad, setFirstLoad] = useState(true);

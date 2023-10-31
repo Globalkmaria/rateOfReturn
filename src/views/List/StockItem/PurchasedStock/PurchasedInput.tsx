@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, memo } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Input } from '../../../../components/Input';
+import { Input } from '../../../../components/Input/Input';
 import { TableCell } from '../../../../components/Table';
 import { PurchasedItemInfo } from '../../../../features/stockList/type';
 import { updatePurchaseItem } from '../../../../features/stockList/stockListSlice';

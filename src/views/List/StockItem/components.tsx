@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { BaseButtonProps, BorderButton } from '../../../components/Button';
-import { Input, InputProps } from '../../../components/Input';
+import { Input } from '../../../components/Input/Input';
 import {
   TableCell,
   TableCellProps,
@@ -9,6 +9,7 @@ import {
 } from '../../../components/Table';
 import { FaTrash, FaLockOpen, FaLock } from 'react-icons/fa';
 import { ChangeEvent, MouseEvent, memo } from 'react';
+import { InputProps } from '../../../components/Input/BaseInput';
 
 type InputCellProps = {
   disabled: boolean;
