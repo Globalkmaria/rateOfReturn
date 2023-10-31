@@ -48,7 +48,7 @@ export default memo(StockListHeader);
 
 const CheckAllCheckbox = ({ id, ...restProps }: TableHeadProps) => {
   const dispatch = useDispatch();
-  const isAllChecked = useSelector(selectIsAllChecked());
+  const isAllChecked = useSelector(selectIsAllChecked);
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const onChangeCheckbox = (value: boolean) => {
     dispatch(

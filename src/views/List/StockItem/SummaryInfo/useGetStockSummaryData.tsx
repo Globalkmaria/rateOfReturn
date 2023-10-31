@@ -20,7 +20,7 @@ export type SummaryData = {
 export const useGetStockSummaryData = (stockId: string): SummaryData => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const stockInfo = useSelector(selectStockInfoById(stockId));
-  const groupInfo = useSelector(selectSelectedGroupInfo());
+  const groupInfo = useSelector(selectSelectedGroupInfo);
 
   const purchasedItems = isMainGroupSelected
     ? stockInfo.purchasedItems

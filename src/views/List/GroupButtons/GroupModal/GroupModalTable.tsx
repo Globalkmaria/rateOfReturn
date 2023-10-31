@@ -16,7 +16,7 @@ const GroupModalTable = () => {
 export default GroupModalTable;
 
 const GroupModalTableBody = () => {
-  const checkedItems = useSelector(selectCheckedPurchasedItems());
+  const checkedItems = useSelector(selectCheckedPurchasedItems);
 
   return (
     <TableBody>
