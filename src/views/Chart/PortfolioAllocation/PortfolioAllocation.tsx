@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import styled from 'styled-components';
-import Chart from './PortfolioAllocationChart';
 import Select from '../../../components/Select';
 import { useSelector } from 'react-redux';
 import { selectGroups } from '../../../features/groups/selectors';
 import { getOptions } from '../../List/GroupButtons/utils';
 import Description from './PortfolioAllocationDescription';
+import CartSkeleton from './CartSkeleton';
+
+const Chart = lazy(() => import('./PortfolioAllocationChart'));
 
 const PortfolioAllocation = () => {
   const [groupId, setGroupId] = useState<string>('1');
@@ -23,7 +25,9 @@ const PortfolioAllocation = () => {
         title='Choose group to show'
       />
       <Description />
-      <Chart groupId={groupId} />
+      <Suspense fallback={<CartSkeleton />}>
+        <Chart groupId={groupId} />
+      </Suspense>
     </StyledPortfolioAllocation>
   );
 };
@@ -31,6 +35,10 @@ const PortfolioAllocation = () => {
 export default PortfolioAllocation;
 
 const StyledPortfolioAllocation = styled('div')`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+
   .select-group {
     margin-bottom: 10px;
   }
