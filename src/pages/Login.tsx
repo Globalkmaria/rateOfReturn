@@ -17,4 +17,8 @@ const StyledLogin = styled('div')`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media ${({ theme }) => theme.devices.tablet} {
+    min-height: calc(100vh - 200px);
+  }
 `;
