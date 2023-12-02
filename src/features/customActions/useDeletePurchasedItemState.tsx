@@ -5,7 +5,7 @@ import { deletePurchasedItem } from '../stockList/stockListSlice';
 import { deletePurchaseItemFromGroups } from '../groups/groupsSlice';
 import { deleteCheckedItems } from '../checkedItems/checkedItemsSlice';
 
-function useDeletePurchasedItem() {
+function useDeletePurchasedItemState() {
   const dispatch = useDispatch();
 
   const onDeletePurchasedItem = useCallback(
@@ -20,4 +20,4 @@ function useDeletePurchasedItem() {
   return onDeletePurchasedItem;
 }
 
-export default useDeletePurchasedItem;
+export default useDeletePurchasedItemState;

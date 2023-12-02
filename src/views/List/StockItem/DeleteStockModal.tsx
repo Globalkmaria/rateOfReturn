@@ -8,7 +8,7 @@ import { selectStockInfoById } from '../../../features/stockList/selectors';
 import { selectIsLoggedIn } from '../../../features/user/selectors';
 import PortalModal from '../../../components/Modal/PortalModal';
 import useDeleteStockState from '../../../features/customActions/useDeleteStockState';
-import useDeletePurchasedItem from '../../../features/customActions/useDeletePurchasedItem';
+import useDeletePurchasedItem from '../../../features/customActions/useDeletePurchasedItemState';
 
 export type DeleteModalProps = {
   onClose: () => void;
