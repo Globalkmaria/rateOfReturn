@@ -1,14 +1,9 @@
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 
 import { ContainedButton } from '../../../components/Button';
-
-import userStocksService from '../../../service/userStocks/userStocks';
-import { selectStockInfoById } from '../../../features/stockList/selectors';
-import { selectIsLoggedIn } from '../../../features/user/selectors';
 import PortalModal from '../../../components/Modal/PortalModal';
-import useDeleteStockState from '../../../features/customActions/useDeleteStockState';
-import useDeletePurchasedItem from '../../../features/customActions/useDeletePurchasedItemState';
+import useDeleteStock from './hooks/useDeleteStock';
+import useDeletePurchased from './hooks/useDeletePurchased';
 
 export type DeleteModalProps = {
   onClose: () => void;
@@ -23,39 +18,14 @@ export const DeleteStockModal = ({
   stockId,
   purchasedId,
 }: DeleteModalProps) => {
-  const deleteStock = useDeleteStockState();
-  const deletePurchasedItem = useDeletePurchasedItem();
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const onDeleteStock = useDeleteStock({ onClose, stockId });
+  const onDeletePurchased = useDeletePurchased({
+    onClose,
+    stockId,
+    purchasedId,
+  });
 
-  const { purchasedItems } = useSelector(selectStockInfoById(stockId));
-
-  const onDeletePurchasedStock = async () => {
-    if (isLoggedIn) {
-      const isOnlyItem = purchasedItems.allIds.length === 1;
-      const result = await userStocksService.deleteUserItemWithStock({
-        stockId,
-        purchasedId,
-        isOnlyItem,
-      });
-
-      if (!result.success) return;
-    }
-
-    deletePurchasedItem({ stockId, purchasedId });
-    onClose();
-  };
-
-  const onDeleteStock = async () => {
-    if (isLoggedIn) {
-      const result = await userStocksService.deleteUserStock(stockId);
-      if (!result.success) return;
-    }
-
-    deleteStock(stockId);
-    onClose();
-  };
-
-  const onDelete = type === 'stock' ? onDeleteStock : onDeletePurchasedStock;
+  const onDelete = type === 'stock' ? onDeleteStock : onDeletePurchased;
   return (
     <PortalModal onClose={onClose}>
       <StyledDeleteModal>
