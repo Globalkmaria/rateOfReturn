@@ -14,6 +14,7 @@ const StockTable = () => {
   const StyledTable = isMainGroupSelected
     ? StyledMainStockTable
     : StyledSubStockTable;
+
   return (
     <StyledTable>
       <Table>
