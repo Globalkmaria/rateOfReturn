@@ -7,11 +7,9 @@ import Backup from './Backup/Backup';
 import StockTable from './StockTable';
 import AddSampleData from './AddSampleData/AddSampleData';
 import { useShowAddSampleBtn } from './AddSampleData/useShowAddSampleBtn';
-import {
-  useSaveChangedGroupsData,
-  useSaveChangedStocksData,
-} from './hooks/hooks';
 import { BaseInput } from '../../components/Input/BaseInput';
+import useSaveChangedStocksData from './hooks/useSaveChangedStocksData';
+import useSaveChangedGroupsData from './hooks/useSaveChangedGroupedData';
 
 const StockList = () => {
   const [firstLoad, setFirstLoad] = useState(true);
