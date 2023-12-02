@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import userDataService from '../../../service/userData/userData';
 import { selectIsLoggedIn } from '../../../features/user/selectors';
-import useInitUserData from '../../../features/useInitUserData';
+import useInitUserData from '../../../features/customActions/useInitUserData';
 
 const useGetUserData = () => {
   const isLoggingIn = useSelector(selectIsLoggedIn);

@@ -1,23 +1,14 @@
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { ContainedButton } from '../../../components/Button';
-import {
-  deletePurchasedItem,
-  deleteStock,
-} from '../../../features/stockList/stockListSlice';
-import {
-  deletePurchaseItemFromGroups,
-  deleteStockFromGroups,
-} from '../../../features/groups/groupsSlice';
-import {
-  deleteCheckedItems,
-  deleteStockCheck,
-} from '../../../features/checkedItems/checkedItemsSlice';
+
 import userStocksService from '../../../service/userStocks/userStocks';
 import { selectStockInfoById } from '../../../features/stockList/selectors';
 import { selectIsLoggedIn } from '../../../features/user/selectors';
 import PortalModal from '../../../components/Modal/PortalModal';
+import useDeleteStock from '../../../features/customActions/useDeleteStock';
+import useDeletePurchasedItem from '../../../features/customActions/useDeletePurchasedItem';
 
 export type DeleteModalProps = {
   onClose: () => void;
@@ -32,29 +23,25 @@ export const DeleteStockModal = ({
   stockId,
   purchasedId,
 }: DeleteModalProps) => {
-  const dispatch = useDispatch();
+  const deleteStock = useDeleteStock();
+  const deletePurchasedItem = useDeletePurchasedItem();
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  const stocks = useSelector(selectStockInfoById(stockId));
+  const { purchasedItems } = useSelector(selectStockInfoById(stockId));
 
   const onDeletePurchasedStock = async () => {
     if (isLoggedIn) {
-      let result;
-      if (stocks.purchasedItems.allIds.length === 1) {
-        result = await userStocksService.deleteUserStock(stockId);
-      } else {
-        result = await userStocksService.deleteUserItem({
-          stockId,
-          itemId: purchasedId,
-        });
-      }
+      const isOnlyItem = purchasedItems.allIds.length === 1;
+      const result = await userStocksService.deleteUserItemWithStock({
+        stockId,
+        purchasedId,
+        isOnlyItem,
+      });
 
       if (!result.success) return;
     }
 
-    dispatch(deletePurchasedItem({ stockId, purchasedId }));
-    dispatch(deletePurchaseItemFromGroups({ stockId, purchasedId }));
-    dispatch(deleteCheckedItems({ stockId, purchasedId }));
+    deletePurchasedItem({ stockId, purchasedId });
     onClose();
   };
 
@@ -63,9 +50,8 @@ export const DeleteStockModal = ({
       const result = await userStocksService.deleteUserStock(stockId);
       if (!result.success) return;
     }
-    dispatch(deleteStock(stockId));
-    dispatch(deleteStockFromGroups(stockId));
-    dispatch(deleteStockCheck(stockId));
+
+    deleteStock(stockId);
     onClose();
   };
 

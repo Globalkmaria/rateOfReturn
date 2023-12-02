@@ -64,9 +64,9 @@ class UserStocksRepository {
 
   async deleteUserItem({
     stockId,
-    itemId,
+    purchasedId,
   }: DeleteUserItemRepReq): Promise<void | ErrorResponse> {
-    return this.httpClient.fetch(`/${stockId}/items/${itemId}`, {
+    return this.httpClient.fetch(`/${stockId}/items/${purchasedId}`, {
       method: 'DELETE',
     });
   }

@@ -32,5 +32,9 @@ export type EditUserItemRepReq = {
 
 export type DeleteUserItemRepReq = {
   stockId: string;
-  itemId: string;
+  purchasedId: string;
+};
+
+export type DeleteUserItemWithStockRepReq = DeleteUserItemRepReq & {
+  isOnlyItem: boolean;
 };
