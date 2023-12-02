@@ -7,7 +7,7 @@ import userStocksService from '../../../service/userStocks/userStocks';
 import { selectStockInfoById } from '../../../features/stockList/selectors';
 import { selectIsLoggedIn } from '../../../features/user/selectors';
 import PortalModal from '../../../components/Modal/PortalModal';
-import useDeleteStock from '../../../features/customActions/useDeleteStock';
+import useDeleteStockState from '../../../features/customActions/useDeleteStockState';
 import useDeletePurchasedItem from '../../../features/customActions/useDeletePurchasedItem';
 
 export type DeleteModalProps = {
@@ -23,7 +23,7 @@ export const DeleteStockModal = ({
   stockId,
   purchasedId,
 }: DeleteModalProps) => {
-  const deleteStock = useDeleteStock();
+  const deleteStock = useDeleteStockState();
   const deletePurchasedItem = useDeletePurchasedItem();
   const isLoggedIn = useSelector(selectIsLoggedIn);
 

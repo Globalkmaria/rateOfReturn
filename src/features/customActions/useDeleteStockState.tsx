@@ -5,7 +5,7 @@ import { deleteStock } from '../stockList/stockListSlice';
 import { deleteStockFromGroups } from '../groups/groupsSlice';
 import { deleteStockCheck } from '../checkedItems/checkedItemsSlice';
 
-function useDeleteStock() {
+function useDeleteStockState() {
   const dispatch = useDispatch();
 
   const onDeleteStock = useCallback(
@@ -20,4 +20,4 @@ function useDeleteStock() {
   return onDeleteStock;
 }
 
-export default useDeleteStock;
+export default useDeleteStockState;
