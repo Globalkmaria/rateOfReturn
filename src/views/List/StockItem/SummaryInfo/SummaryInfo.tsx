@@ -7,11 +7,12 @@ import { TableCell, TableRow } from '../../../../components/Table';
 import { DeleteButton, CheckboxCell } from '../components';
 import { selectStockCheckedInfo } from '../../../../features/checkedItems/selectors';
 import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
-import { useChangeStockCheckbox, useStockSummaryInputChange } from './hooks';
+import { useStockSummaryInputChange } from './hooks/useStockSummaryInputChange';
 import useModal from '../../hooks/useModal';
 import { DeleteStockModal } from '../DeleteStockModal';
 import SummaryLock from './SummaryLock';
 import SummaryContent from './SummaryContent';
+import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -29,12 +30,13 @@ export interface SummaryInfoProps {
 const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const [isLock, setIsLock] = useState(true);
   const { showModal, onOpenModal, onCloseModal } = useModal();
+
   const { changedInputs, initChangedInputs, onInputChange } =
     useStockSummaryInputChange(stockId);
-  const onChangeCheckbox = useChangeStockCheckbox(stockId);
-
   const checkedInfo = useSelector(selectStockCheckedInfo(stockId));
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
+
+  const onChangeCheckbox = useChangeStockCheckbox(stockId);
 
   useEffect(() => {
     setIsLock(true);

@@ -5,7 +5,7 @@ import { Input } from '../../../../components/Input/Input';
 import { TransformedValue } from '../../../../components/Input/BaseInput';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
 import { NumberCell } from '../components';
-import { useGetStockSummaryData } from './useGetStockSummaryData';
+import { useGetStockSummaryData } from './hooks/useGetStockSummaryData';
 
 type Props = {
   stockId: string;
