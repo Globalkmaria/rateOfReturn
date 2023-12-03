@@ -3,15 +3,24 @@ import { store } from '../store';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '../styles/theme';
 import GlobalStyles from '../styles/GlobalStyles';
-import { RouterProvider } from 'react-router-dom';
-import { routers } from '../router/router';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import { rootRouterData } from '../router/routerData';
 
-export const wrapper = () => {
+type Route = `/${string}`;
+
+export const wrapper = (route?: Route) => {
+  const router = createMemoryRouter(
+    rootRouterData.map(({ path, element }) => ({
+      path,
+      element,
+    })),
+    { initialEntries: [route ?? '/'] },
+  );
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <RouterProvider router={routers} />
+        <RouterProvider router={router} />
       </ThemeProvider>
     </Provider>
   );

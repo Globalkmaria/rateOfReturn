@@ -7,14 +7,14 @@ import { TOP_STOCKS } from '../../test/mock/topStocks';
 describe('Home Component', () => {
   test('Home render and Show Card', async () => {
     render(<Home />, {
-      wrapper: wrapper,
+      wrapper: () => wrapper(),
     });
     expect(await screen.findByRole('heading', { name: /apple/i })).toBeInTheDocument();
   });
 
   test('Expand Card when Card is clicked and close when clicked again', async () => {
     render(<Home />, {
-      wrapper: wrapper,
+      wrapper: () => wrapper(),
     });
     const description = TOP_STOCKS[0].description;
     expect(screen.queryByText(description)).not.toBeInTheDocument();
@@ -28,7 +28,9 @@ describe('Home Component', () => {
   });
 
   test(`When invest link is clicked Card doesn't change it's expand state`, async () => {
-    render(<Home />, { wrapper: wrapper });
+    render(<Home />, {
+      wrapper: () => wrapper(),
+    });
 
     expect(await screen.findAllByLabelText(/expand open button/i)).toHaveLength(3);
 
