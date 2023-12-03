@@ -19,7 +19,7 @@ const Card = ({ stock }: CardProps) => {
 
   const onExpand = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target === investLink.current) return;
-    setOpen((prev) => !prev);
+    setOpen(prev => !prev);
   };
 
   return (
