@@ -22,8 +22,7 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
   const onInputChange: PurchasedInputChangeProps = (e, transformedValue) => {
     const fieldName = e.target.name as keyof Omit<PurchasedItemInfo, 'purchasedId'>;
     if (transformedValue === null) return;
-    const value = transformedValue[0];
-
+    const value = transformedValue[1];
     setChangedInputs(prev => ({ ...prev, [fieldName]: value }));
     dispatch(updatePurchaseItem({ stockId, purchasedId, fieldName, value }));
   };
@@ -57,6 +56,7 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
       <InputCell
         name='purchasedQuantity'
         onChange={onInputChange}
+        onBlur={onInputChange}
         value={purchasedItem.purchasedQuantity}
         disabled={isLock}
         aria-label='purchased quantity'
