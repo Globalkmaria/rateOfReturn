@@ -13,10 +13,11 @@ import { DeleteButton, CheckboxCell } from '../components';
 import { DeleteStockModal } from '../DeleteStockModal';
 import PurchaseLock from './PurchaseLock';
 import PurchasedContent from './PurchasedContent';
+import { TransformedValue } from '../../../../components/Input/BaseInput';
 
 export type PurchasedInputChangeProps = (
   e: React.ChangeEvent<HTMLInputElement>,
-  transformedValue: [string, string] | null,
+  transformedValue: TransformedValue | null,
 ) => void;
 
 interface PurchasedStockProps {
