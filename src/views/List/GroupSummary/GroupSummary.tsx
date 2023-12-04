@@ -16,8 +16,8 @@ const GroupSummary = () => {
 
   return (
     <StyledGroupSummary>
-      {CONTENTS.map(({ key, title, format, className }) => (
-        <div className={`content ${className}`} key={key}>
+      {SUMMARY_CONTENTS.map(({ key, title, format, className }) => (
+        <div title={`${key}`} className={`content ${className}`} key={key}>
           <h1 className='title'>{title}</h1>
           <span className='text'>{format(summary[key])}</span>
         </div>
@@ -35,7 +35,7 @@ type Contents = {
   className?: string;
 }[];
 
-const CONTENTS: Contents = [
+export const SUMMARY_CONTENTS: Contents = [
   {
     key: 'totalPurchasedPrice',
     title: 'Total Buy Price',

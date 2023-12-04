@@ -45,7 +45,7 @@ export const calculateGroupSummary = ({
   }
 
   const returnOfInvestment = totalCurrentValue - totalPurchasedPrice;
-  const returnOfInvestmentRatio = (returnOfInvestment / totalPurchasedPrice) * 100;
+  const returnOfInvestmentRatio = Number(((returnOfInvestment / totalPurchasedPrice) * 100).toFixed(3));
 
   return {
     totalPurchasedPrice,
