@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux';
 
 import { TableCell } from '../../../../components/Table';
-import { Input, TransformedValue } from '../../../../components/Input';
-import { NumberCell } from '../components';
+import { Input } from '../../../../components/Input/Input';
+import { TransformedValue } from '../../../../components/Input/BaseInput';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
-import { useGetStockSummaryData } from './useGetStockSummaryData';
+import { NumberCell } from '../components';
+import { useGetStockSummaryData } from './hooks/useGetStockSummaryData';
 
 type Props = {
   stockId: string;

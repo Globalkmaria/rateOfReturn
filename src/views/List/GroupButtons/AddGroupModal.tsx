@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 
 import { ContainedButton } from '../../../components/Button';
-import { Input } from '../../../components/Input';
+import { Input } from '../../../components/Input/Input';
 import GroupModalTable from './GroupModal/GroupModalTable';
 import Modal from '../../../components/Modal/Modal';
 import { useAddGroup } from './hooks/useAddGroup';

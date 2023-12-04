@@ -17,7 +17,7 @@ const ExpandCard = ({ open, children, transition = 200 }: ExpandCardProps) => {
       <div className='wrapper'>
         <div className='expand'>{children}</div>
       </div>
-      <button className='expand-btn' type='button' aria-label='toggle expand'>
+      <button className='expand-btn' type='button' aria-label={`expand ${open ? 'close' : 'open'} button`}>
         {open ? <MdExpandLess /> : <MdExpandMore />}
       </button>
     </StyledExpandCard>
@@ -31,8 +31,7 @@ const StyledExpandCard = styled('div')<StyledExpandCardProps>`
     display: grid;
     grid-template-rows: ${({ open }) => (open ? '1fr' : '0fr')};
     overflow: hidden;
-    transition: grid-template-rows
-      ${({ transition }) => `${transition ?? 200}ms`};
+    transition: grid-template-rows ${({ transition }) => `${transition ?? 200}ms`};
   }
 
   .expand {

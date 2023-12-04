@@ -13,35 +13,20 @@ type Props = {
   stockId: string;
   purchasedId: string;
   changedInputs: ChangedPurchasedItemInputs;
-  setChangedInputs: React.Dispatch<
-    React.SetStateAction<ChangedPurchasedItemInputs>
-  >;
+  setChangedInputs: React.Dispatch<React.SetStateAction<ChangedPurchasedItemInputs>>;
 };
 
-const PurchaseLock = ({
-  isLock,
-  setIsLock,
-  stockId,
-  purchasedId,
-  changedInputs,
-  setChangedInputs,
-}: Props) => {
+const PurchaseLock = ({ isLock, setIsLock, stockId, purchasedId, changedInputs, setChangedInputs }: Props) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
 
   const toggleLock = async () => {
-    if (!isLoggedIn) {
-      return setIsLock((prev) => !prev);
-    }
+    if (!isLoggedIn) return setIsLock(prev => !prev);
 
     if (!isLock) {
       if (Object.keys(changedInputs).length === 0) return setIsLock(true);
 
-      const result = await userStocksService.editUserItem({
-        stockId,
-        itemId: purchasedId,
-        data: changedInputs,
-      });
+      const result = await userStocksService.editUserItem({ stockId, itemId: purchasedId, data: changedInputs });
       if (!result.success) return;
 
       setChangedInputs({});
@@ -52,13 +37,7 @@ const PurchaseLock = ({
     setIsLock(false);
   };
 
-  return (
-    <EditButton
-      isLock={isLock}
-      onClick={toggleLock}
-      disabled={!isMainGroupSelected}
-    />
-  );
+  return <EditButton isLock={isLock} onClick={toggleLock} disabled={!isMainGroupSelected} />;
 };
 
 export default memo(PurchaseLock);

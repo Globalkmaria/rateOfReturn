@@ -17,7 +17,7 @@ export interface StockItemProps {
 const StockItem = ({ stockId }: StockItemProps) => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const stockInfo = useSelector(selectStockInfoById(stockId));
-  const groupInfo = useSelector(selectSelectedGroupInfo());
+  const groupInfo = useSelector(selectSelectedGroupInfo);
   const purchasedItems = isMainGroupSelected
     ? stockInfo.purchasedItems.allIds
     : groupInfo.stocks.byId[stockId];

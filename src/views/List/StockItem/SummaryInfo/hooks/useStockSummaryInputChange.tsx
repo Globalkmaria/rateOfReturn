@@ -1,11 +1,10 @@
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { TransformedValue } from '../../../../components/Input';
-import { StockMainInfo } from '../../../../features/stockList/type';
-import { updateStock } from '../../../../features/stockList/stockListSlice';
-import { updateCheckedItems } from '../../../../features/checkedItems/checkedItemsSlice';
-import { EditUserStockServiceData } from '../../../../service/userStocks/type';
+import { StockMainInfo } from '../../../../../features/stockList/type';
+import { updateStock } from '../../../../../features/stockList/stockListSlice';
+import { EditUserStockServiceData } from '../../../../../service/userStocks/type';
+import { TransformedValue } from '../../../../../components/Input/BaseInput';
 
 export type ChangedSummaryInputs = EditUserStockServiceData;
 
@@ -41,7 +40,7 @@ export const useStockSummaryInputChange = (stockId: string) => {
         }),
       );
     },
-    [stockId],
+    [stockId, dispatch],
   );
 
   return {
@@ -49,18 +48,4 @@ export const useStockSummaryInputChange = (stockId: string) => {
     initChangedInputs,
     onInputChange,
   };
-};
-
-export const useChangeStockCheckbox = (stockId: string) => {
-  const dispatch = useDispatch();
-  const onChangeCheckbox = (value: boolean) => {
-    dispatch(
-      updateCheckedItems({
-        type: 'stock',
-        checked: value,
-        stockId: stockId,
-      }),
-    );
-  };
-  return onChangeCheckbox;
 };

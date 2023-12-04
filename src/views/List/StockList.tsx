@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
 
-import { BaseInput } from '../../components/Input';
 import GroupButtons from './GroupButtons/GroupButtons';
 import GroupSummary from './GroupSummary/GroupSummary';
 import Backup from './Backup/Backup';
 import StockTable from './StockTable';
 import AddSampleData from './AddSampleData/AddSampleData';
 import { useShowAddSampleBtn } from './AddSampleData/useShowAddSampleBtn';
-import {
-  useSaveChangedGroupsData,
-  useSaveChangedStocksData,
-} from './hooks/hooks';
+import { BaseInput } from '../../components/Input/BaseInput';
+import useSaveChangedStocksData from './hooks/useSaveChangedStocksData';
+import useSaveChangedGroupsData from './hooks/useSaveChangedGroupedData';
 
 const StockList = () => {
   const [firstLoad, setFirstLoad] = useState(true);

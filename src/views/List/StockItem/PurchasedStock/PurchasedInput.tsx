@@ -1,15 +1,12 @@
 import { Dispatch, SetStateAction, memo } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Input } from '../../../../components/Input';
+import { Input } from '../../../../components/Input/Input';
 import { TableCell } from '../../../../components/Table';
 import { PurchasedItemInfo } from '../../../../features/stockList/type';
 import { updatePurchaseItem } from '../../../../features/stockList/stockListSlice';
 import { InputCell } from '../components';
-import {
-  ChangedPurchasedItemInputs,
-  PurchasedInputChangeProps,
-} from './PurchasedStock';
+import { ChangedPurchasedItemInputs, PurchasedInputChangeProps } from './PurchasedStock';
 
 type Props = {
   purchasedItem: PurchasedItemInfo;
@@ -19,40 +16,15 @@ type Props = {
   setChangedInputs: Dispatch<SetStateAction<ChangedPurchasedItemInputs>>;
 };
 
-const PurchasedInput = ({
-  isLock,
-  purchasedItem,
-  setChangedInputs,
-  stockId,
-  purchasedId,
-}: Props) => {
+const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purchasedId }: Props) => {
   const dispatch = useDispatch();
+
   const onInputChange: PurchasedInputChangeProps = (e, transformedValue) => {
-    const fieldName = e.target.name as keyof Omit<
-      PurchasedItemInfo,
-      'purchasedId'
-    >;
-    if (fieldName !== 'purchasedDate' && transformedValue === null) return;
-
-    const value =
-      fieldName === 'purchasedDate'
-        ? e.target.value.replace(/\:[\d]{2}.[\d]{3}Z/, '')
-        : (transformedValue && transformedValue[1]) ||
-          e.target.value.replaceAll(',', '');
-
-    setChangedInputs((prev) => ({
-      ...prev,
-      [fieldName]: value,
-    }));
-
-    dispatch(
-      updatePurchaseItem({
-        stockId: stockId,
-        purchasedId: purchasedId,
-        fieldName,
-        value,
-      }),
-    );
+    const fieldName = e.target.name as keyof Omit<PurchasedItemInfo, 'purchasedId'>;
+    if (transformedValue === null) return;
+    const value = transformedValue[1];
+    setChangedInputs(prev => ({ ...prev, [fieldName]: value }));
+    dispatch(updatePurchaseItem({ stockId, purchasedId, fieldName, value }));
   };
 
   return (
@@ -84,6 +56,7 @@ const PurchasedInput = ({
       <InputCell
         name='purchasedQuantity'
         onChange={onInputChange}
+        onBlur={onInputChange}
         value={purchasedItem.purchasedQuantity}
         disabled={isLock}
         aria-label='purchased quantity'

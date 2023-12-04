@@ -4,7 +4,7 @@ import { selectIsPurchasedItemChecked } from '../../../../features/checkedItems/
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
 import { CheckboxCell } from '../../StockItem/components';
 import { TableCell, TableRow } from '../../../../components/Table';
-import { Input } from '../../../../components/Input';
+import { Input } from '../../../../components/Input/Input';
 import styled from 'styled-components';
 
 type GroupModalTableRowProps = {

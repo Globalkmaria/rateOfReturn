@@ -1,23 +1,9 @@
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { ContainedButton } from '../../../components/Button';
-import {
-  deletePurchasedItem,
-  deleteStock,
-} from '../../../features/stockList/stockListSlice';
-import {
-  deletePurchaseItemFromGroups,
-  deleteStockFromGroups,
-} from '../../../features/groups/groupsSlice';
-import {
-  deleteCheckedItems,
-  deleteStockCheck,
-} from '../../../features/checkedItems/checkedItemsSlice';
-import userStocksService from '../../../service/userStocks/userStocks';
-import { selectStockInfoById } from '../../../features/stockList/selectors';
-import { selectIsLoggedIn } from '../../../features/user/selectors';
 import PortalModal from '../../../components/Modal/PortalModal';
+import useDeleteStock from './hooks/useDeleteStock';
+import useDeletePurchased from './hooks/useDeletePurchased';
 
 export type DeleteModalProps = {
   onClose: () => void;
@@ -32,44 +18,14 @@ export const DeleteStockModal = ({
   stockId,
   purchasedId,
 }: DeleteModalProps) => {
-  const dispatch = useDispatch();
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const onDeleteStock = useDeleteStock({ onClose, stockId });
+  const onDeletePurchased = useDeletePurchased({
+    onClose,
+    stockId,
+    purchasedId,
+  });
 
-  const stocks = useSelector(selectStockInfoById(stockId));
-
-  const onDeletePurchasedStock = async () => {
-    if (isLoggedIn) {
-      let result;
-      if (stocks.purchasedItems.allIds.length === 1) {
-        result = await userStocksService.deleteUserStock(stockId);
-      } else {
-        result = await userStocksService.deleteUserItem({
-          stockId,
-          itemId: purchasedId,
-        });
-      }
-
-      if (!result.success) return;
-    }
-
-    dispatch(deletePurchasedItem({ stockId, purchasedId }));
-    dispatch(deletePurchaseItemFromGroups({ stockId, purchasedId }));
-    dispatch(deleteCheckedItems({ stockId, purchasedId }));
-    onClose();
-  };
-
-  const onDeleteStock = async () => {
-    if (isLoggedIn) {
-      const result = await userStocksService.deleteUserStock(stockId);
-      if (!result.success) return;
-    }
-    dispatch(deleteStock(stockId));
-    dispatch(deleteStockFromGroups(stockId));
-    dispatch(deleteStockCheck(stockId));
-    onClose();
-  };
-
-  const onDelete = type === 'stock' ? onDeleteStock : onDeletePurchasedStock;
+  const onDelete = type === 'stock' ? onDeleteStock : onDeletePurchased;
   return (
     <PortalModal onClose={onClose}>
       <StyledDeleteModal>

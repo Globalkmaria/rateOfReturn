@@ -4,6 +4,7 @@ import {
   AddNewUserStockRepReq,
   AddNewUserStockRepRes,
   DeleteUserItemRepReq,
+  DeleteUserItemWithStockRepReq,
 } from '../../repository/userStocks/type';
 import UserStocksRepository, {
   userStocksRepository,
@@ -125,14 +126,14 @@ class UserStocksService {
 
   async deleteUserItem({
     stockId,
-    itemId,
+    purchasedId,
   }: DeleteUserItemRepReq): Promise<Result> {
     try {
-      const result = await this.repo.deleteUserItem({ stockId, itemId });
+      const result = await this.repo.deleteUserItem({ stockId, purchasedId });
       if (!result) return { success: true };
 
       if (result.response.status === 400) {
-        throw new Error('Wrong itemId id');
+        throw new Error('Wrong purchasedId id');
       }
 
       throw new Error(result.message);
@@ -143,6 +144,15 @@ class UserStocksService {
         success: false,
       };
     }
+  }
+
+  async deleteUserItemWithStock({
+    stockId,
+    purchasedId,
+    isOnlyItem,
+  }: DeleteUserItemWithStockRepReq): Promise<Result> {
+    if (isOnlyItem) return this.deleteUserStock(stockId);
+    return this.deleteUserItem({ stockId, purchasedId });
   }
 }
 

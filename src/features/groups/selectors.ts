@@ -10,8 +10,7 @@ export const selectIsMainGroupSelected = createSelector(
   selectSelectedGroupId,
   (selectedGroupId) => selectedGroupId === '1',
 );
-export const selectSelectedGroupInfo = () =>
-  createSelector(
-    [selectSelectedGroupId, selectGroups],
-    (selectedGroupId, groupsInfo) => groupsInfo.groups.byId[selectedGroupId],
-  );
+export const selectSelectedGroupInfo = createSelector(
+  [selectSelectedGroupId, selectGroups],
+  (selectedGroupId, groupsInfo) => groupsInfo.groups.byId[selectedGroupId],
+);

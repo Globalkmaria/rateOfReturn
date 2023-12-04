@@ -13,10 +13,11 @@ import { DeleteButton, CheckboxCell } from '../components';
 import { DeleteStockModal } from '../DeleteStockModal';
 import PurchaseLock from './PurchaseLock';
 import PurchasedContent from './PurchasedContent';
+import { TransformedValue } from '../../../../components/Input/BaseInput';
 
 export type PurchasedInputChangeProps = (
   e: React.ChangeEvent<HTMLInputElement>,
-  transformedValue: [string, string] | null,
+  transformedValue: TransformedValue | null,
 ) => void;
 
 interface PurchasedStockProps {
@@ -29,24 +30,14 @@ export type ChangedPurchasedItemInputs = EditUserItemServiceData;
 const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const dispatch = useDispatch();
   const [isLock, setIsLock] = useState(true);
-  const [changedInputs, setChangedInputs] =
-    useState<ChangedPurchasedItemInputs>({});
+  const [changedInputs, setChangedInputs] = useState<ChangedPurchasedItemInputs>({});
   const { showModal, onOpenModal, onCloseModal } = useModal();
 
-  const isPurchasedItemChecked = useSelector(
-    selectIsPurchasedItemChecked(stockId, purchasedId),
-  );
+  const isPurchasedItemChecked = useSelector(selectIsPurchasedItemChecked(stockId, purchasedId));
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
 
   const onChangeCheckbox = (value: boolean) => {
-    dispatch(
-      updateCheckedItems({
-        type: 'purchased',
-        checked: value,
-        stockId: stockId,
-        purchasedId: purchasedId,
-      }),
-    );
+    dispatch(updateCheckedItems({ type: 'purchased', checked: value, stockId, purchasedId }));
   };
 
   useEffect(() => {
@@ -81,12 +72,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
           />
           <DeleteButton onClick={onOpenModal} disabled={!isMainGroupSelected} />
           {showModal && (
-            <DeleteStockModal
-              type='purchase'
-              stockId={stockId}
-              purchasedId={purchasedId}
-              onClose={onCloseModal}
-            />
+            <DeleteStockModal type='purchase' stockId={stockId} purchasedId={purchasedId} onClose={onCloseModal} />
           )}
         </>
       ) : null}

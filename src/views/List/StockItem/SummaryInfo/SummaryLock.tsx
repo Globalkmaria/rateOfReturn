@@ -3,17 +3,17 @@ import { useSelector } from 'react-redux';
 
 import EditButton from '../EditButton';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
-import userStocksService from '../../../../service/userStocks/userStocks';
 import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
-import { ChangedSummaryInputs } from './hooks';
+import { ChangedSummaryInputs } from './hooks/useStockSummaryInputChange';
+import useSaveData from './hooks/useSaveData';
 
-type Props = {
+export interface SummaryLockProps {
   isLock: boolean;
   setIsLock: Dispatch<SetStateAction<boolean>>;
   stockId: string;
   changedInputs: ChangedSummaryInputs;
   initChangedInputs: () => void;
-};
+}
 
 const SummaryLock = ({
   isLock,
@@ -21,29 +21,21 @@ const SummaryLock = ({
   stockId,
   changedInputs,
   initChangedInputs,
-}: Props) => {
+}: SummaryLockProps) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
+  const saveData = useSaveData({
+    setIsLock,
+    stockId,
+    changedInputs,
+    initChangedInputs,
+  });
 
   const toggleLock = async () => {
-    if (!isLoggedIn) {
-      return setIsLock((prev) => !prev);
-    }
-    if (!isLock) {
-      if (Object.keys(changedInputs).length === 0) return setIsLock(true);
+    if (isLock) return setIsLock(false);
 
-      const result = await userStocksService.editUserStock({
-        stockId,
-        data: changedInputs,
-      });
-      if (!result.success) return;
-
-      initChangedInputs();
-      setIsLock(true);
-      return;
-    }
-
-    setIsLock(false);
+    if (!isLoggedIn) return setIsLock((prev) => !prev);
+    return saveData();
   };
 
   return (
