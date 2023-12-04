@@ -7,7 +7,7 @@ describe('changeTransformValue function', () => {
       expect(result).toEqual(['1,234', '1234']);
     });
 
-    test('transforms a valid decimal number string correctly', () => {
+    test('transforms a valid decimal number string correctly2', () => {
       const result = changeTransformValue('number', '1234.56', '');
       expect(result).toEqual(['1,234.56', '1234.56']);
     });
