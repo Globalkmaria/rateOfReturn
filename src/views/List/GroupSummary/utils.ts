@@ -1,57 +1,51 @@
 import { Group } from '../../../features/groups/type';
 import { StockListState } from '../../../features/stockList/type';
 
-export const getGroupSummary = (
-  groupInfo: Group,
-  stocks: StockListState['stocks'],
-) => {
-  let totalPurchasedPrice = 0;
-  let totalCurrentValue = 0;
+interface CalculateGroupSummary {
+  groupData: Group | null;
+  stocksData: StockListState['stocks'];
+}
 
-  for (const stockId of groupInfo.stocks.allIds) {
-    const stock = stocks.byId[stockId];
+export interface CalculateStockSummaryResult {
+  totalPurchasedPrice: number;
+  totalCurrentValue: number;
+  returnOfInvestment: number;
+  returnOfInvestmentRatio: number;
+}
 
-    for (const purchasedId of groupInfo.stocks.byId[stockId]) {
-      const purchasedItem = stock.purchasedItems.byId[purchasedId];
-      totalPurchasedPrice +=
-        purchasedItem.purchasedPrice * purchasedItem.purchasedQuantity;
-      totalCurrentValue +=
-        stock.mainInfo.currentPrice * purchasedItem.purchasedQuantity;
-    }
-  }
-
-  const returnOfInvestment = totalCurrentValue - totalPurchasedPrice;
-  const returnOfInvestmentRatio =
-    (returnOfInvestment / totalPurchasedPrice) * 100;
-
-  return {
-    totalPurchasedPrice,
-    totalCurrentValue,
-    returnOfInvestment,
-    returnOfInvestmentRatio,
-  };
+const getStockIds = ({ groupData, stocksData }: CalculateGroupSummary) => {
+  if (groupData) return groupData.stocks.allIds;
+  return stocksData.allIds;
 };
 
-export const getMainGroupSummary = (stocks: StockListState['stocks']) => {
+const getPurchasedIds = ({ groupData, stocksData, stockId }: { stockId: string } & CalculateGroupSummary) => {
+  if (groupData) return groupData.stocks.byId[stockId];
+  return stocksData.byId[stockId].purchasedItems.allIds;
+};
+
+export const calculateGroupSummary = ({
+  groupData,
+  stocksData,
+}: CalculateGroupSummary): CalculateStockSummaryResult => {
   let totalPurchasedPrice = 0;
   let totalCurrentValue = 0;
 
-  for (const stockId of stocks.allIds) {
-    const stock = stocks.byId[stockId];
+  const stockIds = getStockIds({ groupData, stocksData });
 
-    for (const purchasedId of stocks.byId[stockId].purchasedItems.allIds) {
-      const purchasedItem =
-        stocks.byId[stockId].purchasedItems.byId[purchasedId];
-      totalPurchasedPrice +=
-        purchasedItem.purchasedPrice * purchasedItem.purchasedQuantity;
-      totalCurrentValue +=
-        stock.mainInfo.currentPrice * purchasedItem.purchasedQuantity;
+  for (const stockId of stockIds) {
+    const stock = stocksData.byId[stockId];
+    const purchasedIds = getPurchasedIds({ stockId, groupData, stocksData });
+
+    for (const purchasedId of purchasedIds) {
+      const purchasedItem = stock.purchasedItems.byId[purchasedId];
+
+      totalPurchasedPrice += purchasedItem.purchasedPrice * purchasedItem.purchasedQuantity;
+      totalCurrentValue += stock.mainInfo.currentPrice * purchasedItem.purchasedQuantity;
     }
   }
 
   const returnOfInvestment = totalCurrentValue - totalPurchasedPrice;
-  const returnOfInvestmentRatio =
-    (returnOfInvestment / totalPurchasedPrice) * 100;
+  const returnOfInvestmentRatio = (returnOfInvestment / totalPurchasedPrice) * 100;
 
   return {
     totalPurchasedPrice,

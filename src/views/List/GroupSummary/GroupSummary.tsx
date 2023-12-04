@@ -1,15 +1,18 @@
-import React from 'react';
 import styled from 'styled-components';
-import { selectIsMainGroupSelected, selectSelectedGroupInfo } from '../../../features/groups/selectors';
 import { useSelector } from 'react-redux';
+
+import { selectIsMainGroupSelected, selectSelectedGroupInfo } from '../../../features/groups/selectors';
 import { selectStocks } from '../../../features/stockList/selectors';
-import { getGroupSummary, getMainGroupSummary } from './utils';
+import { CalculateStockSummaryResult, calculateGroupSummary } from './utils';
 
 const GroupSummary = () => {
-  const isMainSelected = useSelector(selectIsMainGroupSelected);
+  const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const groupInfo = useSelector(selectSelectedGroupInfo);
   const stocks = useSelector(selectStocks);
-  const summary = isMainSelected ? getMainGroupSummary(stocks) : getGroupSummary(groupInfo, stocks);
+  const summary = calculateGroupSummary({
+    stocksData: stocks,
+    groupData: isMainGroupSelected ? null : groupInfo,
+  });
 
   return (
     <StyledGroupSummary>
@@ -26,7 +29,7 @@ const GroupSummary = () => {
 export default GroupSummary;
 
 type Contents = {
-  key: keyof ReturnType<typeof getGroupSummary>;
+  key: keyof CalculateStockSummaryResult;
   title: string;
   format: (value: number) => string;
   className?: string;
