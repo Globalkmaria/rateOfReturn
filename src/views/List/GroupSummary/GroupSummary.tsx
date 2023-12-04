@@ -1,25 +1,23 @@
-import React from 'react';
 import styled from 'styled-components';
-import {
-  selectIsMainGroupSelected,
-  selectSelectedGroupInfo,
-} from '../../../features/groups/selectors';
 import { useSelector } from 'react-redux';
+
+import { selectIsMainGroupSelected, selectSelectedGroupInfo } from '../../../features/groups/selectors';
 import { selectStocks } from '../../../features/stockList/selectors';
-import { getGroupSummary, getMainGroupSummary } from './utils';
+import { CalculateStockSummaryResult, calculateGroupSummary } from './utils';
 
 const GroupSummary = () => {
-  const isMainSelected = useSelector(selectIsMainGroupSelected);
-  const groupInfo = useSelector(selectSelectedGroupInfo());
+  const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
+  const groupInfo = useSelector(selectSelectedGroupInfo);
   const stocks = useSelector(selectStocks);
-  const summary = isMainSelected
-    ? getMainGroupSummary(stocks)
-    : getGroupSummary(groupInfo, stocks);
+  const summary = calculateGroupSummary({
+    stocksData: stocks,
+    groupData: isMainGroupSelected ? null : groupInfo,
+  });
 
   return (
     <StyledGroupSummary>
-      {CONTENTS.map(({ key, title, format, className }) => (
-        <div className={`content ${className}`} key={key}>
+      {SUMMARY_CONTENTS.map(({ key, title, format, className }) => (
+        <div title={`${key}`} className={`content ${className}`} key={key}>
           <h1 className='title'>{title}</h1>
           <span className='text'>{format(summary[key])}</span>
         </div>
@@ -31,13 +29,13 @@ const GroupSummary = () => {
 export default GroupSummary;
 
 type Contents = {
-  key: keyof ReturnType<typeof getGroupSummary>;
+  key: keyof CalculateStockSummaryResult;
   title: string;
   format: (value: number) => string;
   className?: string;
 }[];
 
-const CONTENTS: Contents = [
+export const SUMMARY_CONTENTS: Contents = [
   {
     key: 'totalPurchasedPrice',
     title: 'Total Buy Price',
@@ -56,7 +54,10 @@ const CONTENTS: Contents = [
   {
     key: 'returnOfInvestmentRatio',
     title: 'Return of Ration',
-    format: (value: number) => `${value.toLocaleString()} %`,
+    format: (value: number) => {
+      if (Number.isNaN(value)) return '0 %';
+      return `${value.toLocaleString()} %`;
+    },
     className: 'return-ratio',
   },
 ];

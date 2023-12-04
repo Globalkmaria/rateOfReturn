@@ -10,10 +10,11 @@ import { selectStockIds } from '../../features/selectors';
 
 const StockTable = () => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
-  const stockIds = useSelector(selectStockIds());
+  const stockIds = useSelector(selectStockIds);
   const StyledTable = isMainGroupSelected
     ? StyledMainStockTable
     : StyledSubStockTable;
+
   return (
     <StyledTable>
       <Table>

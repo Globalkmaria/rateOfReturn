@@ -4,5 +4,7 @@
   "tabWidth": 2,
   "semicolons": true,
   "jsxSingleQuote": true,
-  "bracketSpacing": true
+  "bracketSpacing": true,
+  "printWidth": 120,
+  "arrowParens": "avoid"
 }

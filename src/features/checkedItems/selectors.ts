@@ -2,20 +2,18 @@ import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
 export const selectCheckedItems = (state: RootState) => state.checkedItems;
-export const selectCheckItemsInfo = () =>
-  createSelector(
-    [selectCheckedItems],
-    (checkedItemsInfo) => checkedItemsInfo.stocksCheckInfo,
-  );
-export const selectIsAllChecked = () =>
-  createSelector(
-    [selectCheckedItems],
-    (checkedItems) => checkedItems.allChecked,
-  );
+export const selectCheckItemsInfo = createSelector(
+  [selectCheckedItems],
+  (checkedItemsInfo) => checkedItemsInfo.stocksCheckInfo,
+);
+export const selectIsAllChecked = createSelector(
+  [selectCheckedItems],
+  (checkedItems) => checkedItems.allChecked,
+);
 
 export const selectStockCheckedInfo = (stockId: string) =>
   createSelector(
-    [selectCheckItemsInfo()],
+    [selectCheckItemsInfo],
     (stocksCheckInfo) => stocksCheckInfo[stockId],
   );
 export const selectIsPurchasedItemChecked = (
@@ -27,8 +25,9 @@ export const selectIsPurchasedItemChecked = (
     (checkedStockInfo) => checkedStockInfo.purchasedItems[purchasedId],
   );
 
-export const selectCheckedPurchasedItems = () =>
-  createSelector([selectCheckItemsInfo()], (stocksCheckInfo) => {
+export const selectCheckedPurchasedItems = createSelector(
+  [selectCheckItemsInfo],
+  (stocksCheckInfo) => {
     const checkedPurchasedItems: { stockId: string; purchasedId: string }[] =
       [];
 
@@ -41,4 +40,5 @@ export const selectCheckedPurchasedItems = () =>
       });
     });
     return checkedPurchasedItems;
-  });
+  },
+);

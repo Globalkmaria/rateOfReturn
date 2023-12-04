@@ -31,7 +31,7 @@ const GroupButtons = () => {
 
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const groups = useSelector(selectGroups);
-  const checkedItems = useSelector(selectCheckedPurchasedItems());
+  const checkedItems = useSelector(selectCheckedPurchasedItems);
   const options = getOptions(groups);
   const showAddGroup = isMainGroupSelected && !!checkedItems.length;
   const noGroups = groups.groups.allIds.length === 0;

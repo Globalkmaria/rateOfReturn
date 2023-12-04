@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import AuthBtns from './AuthBtns';
 import Menu from './Menu';
+import { Link } from 'react-router-dom';
 
 export interface NavbarElement {
   id: number;
@@ -14,7 +15,9 @@ export interface NavbarElement {
 const Navbar = () => {
   return (
     <StyledNav>
-      <h1 className='site-name'>ROR</h1>
+      <Link to='/'>
+        <h1 className='site-name'>ROR</h1>
+      </Link>
       <Menu />
       <AuthBtns />
     </StyledNav>

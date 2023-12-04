@@ -3,9 +3,8 @@ import styled from 'styled-components/macro';
 import Modal from '../../components/Modal/Modal';
 import { ContainedButton } from '../../components/Button';
 import userDataService from '../../service/userData/userData';
-import formatStockAsServerFormat from '../../utils/formatStockAsServerFormat';
-import formatGroupAsServerFormat from '../../utils/formatGroupAsServerFormat';
 import useGetUserData from '../List/hooks/useGetUserData';
+import { getLocalStockAndGroup } from './utils';
 
 type Props = {
   onClose: () => void;
@@ -15,19 +14,7 @@ const MergeLocalDataModal = ({ onClose }: Props) => {
   const { getUserData } = useGetUserData();
 
   const onMerge = async () => {
-    const localStocks = localStorage.getItem('stockList');
-    const stocks = localStocks
-      ? formatStockAsServerFormat(JSON.parse(localStocks))
-      : null;
-    const localGroups = localStorage.getItem('groups');
-    const groups = localGroups
-      ? formatGroupAsServerFormat(JSON.parse(localGroups))
-      : null;
-
-    const result = await userDataService.mergeUserData({
-      stocks: stocks?.stocks || {},
-      groups: groups?.groups || {},
-    });
+    const result = await userDataService.mergeUserData(getLocalStockAndGroup());
 
     if (!result.success) return;
     getUserData();
