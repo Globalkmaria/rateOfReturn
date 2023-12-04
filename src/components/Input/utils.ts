@@ -7,8 +7,16 @@ export const changeTransformValue = (
 ): TransformedValue => {
   switch (type) {
     case 'number':
-      const [integer, decimal] = value.split('.');
+      const checkMaxDotToBeOne = value.replace(/\.{1,}/g, '.').replace(/[^\.]/g, '').length;
+      if (checkMaxDotToBeOne > 1) return null;
+
+      const [integer, decimal] = value
+        .replace(/\.{1,}/g, '.')
+        .replace(/\s/g, '')
+        .split('.');
+
       const num = Number(integer.replaceAll(',', ''));
+
       const isValid = !isNaN(num) && !isNaN(Number(decimal || 0));
       if (!isValid) return null;
       const noDot = decimal === undefined;
@@ -31,11 +39,7 @@ export const blurTransformValue = (
       const [integer, decimal] = value.split('.');
       const num = Number(integer.replaceAll(',', ''));
       const finalDecimal =
-        decimal === undefined
-          ? ''
-          : decimal.length < 2
-          ? `.${decimal.padEnd(2, '0')}`
-          : `.${decimal}`;
+        decimal === undefined ? '' : decimal.length < 2 ? `.${decimal.padEnd(2, '0')}` : `.${decimal}`;
       const localValue = num.toLocaleString() + finalDecimal;
       const pureValue = num.toString() + finalDecimal;
       return prevValue !== localValue ? [localValue, pureValue] : null;
@@ -44,17 +48,11 @@ export const blurTransformValue = (
   }
 };
 
-export const getInitialValue = (
-  value: string,
-  type: (typeof INPUT_TYPES)[number],
-) => {
+export const getInitialValue = (value: string, type: (typeof INPUT_TYPES)[number]) => {
   switch (type) {
     case 'number':
       const [integer, decimal] = value.split('.');
-      return (
-        Number(integer).toLocaleString() +
-        (decimal !== undefined ? `.${decimal}` : '')
-      );
+      return Number(integer).toLocaleString() + (decimal !== undefined ? `.${decimal}` : '');
     default:
       return value;
   }
