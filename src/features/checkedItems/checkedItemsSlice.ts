@@ -9,52 +9,40 @@ import {
 } from './type';
 import { MOCK_DATA } from '../stockList/mockData';
 
-const initialState: CheckedItemsState = {
+export const checkedInitialState: CheckedItemsState = {
   allChecked: true,
   stocksCheckInfo: {},
 };
 
 export const checkedItemsSlice = createSlice({
   name: 'checkedItems',
-  initialState,
+  initialState: checkedInitialState,
   reducers: {
-    addSampleCheckedItems: (state) => {
+    addSampleCheckedItems: state => {
       state.allChecked = true;
       state.stocksCheckInfo = getInitialCheckedItemsInfo({
         data: MOCK_DATA,
         value: true,
       }).stocksCheckInfo;
     },
-    resetCheckedItems: () => initialState,
+    resetCheckedItems: () => checkedInitialState,
     initCheckedItems: (state, action: PayloadAction<CheckedItemsInfo>) => {
       state.allChecked = action.payload.allChecked;
       state.stocksCheckInfo = action.payload.stocksCheckInfo;
     },
-    setBackupCheckedItems: (
-      state,
-      action: PayloadAction<CheckedItemsState>,
-    ) => {
+    setBackupCheckedItems: (state, action: PayloadAction<CheckedItemsState>) => {
       state.allChecked = action.payload.allChecked;
       state.stocksCheckInfo = action.payload.stocksCheckInfo;
     },
-    addStockCheckInfo: (
-      state,
-      action: PayloadAction<AddStockCheckInfoPayload>,
-    ) => {
+    addStockCheckInfo: (state, action: PayloadAction<AddStockCheckInfoPayload>) => {
       const { stockId, stockCheckInfo } = action.payload;
       state.stocksCheckInfo[stockId] = stockCheckInfo;
     },
-    addPurchasedItemsCheckInfo: (
-      state,
-      action: PayloadAction<CheckInfoPayload>,
-    ) => {
+    addPurchasedItemsCheckInfo: (state, action: PayloadAction<CheckInfoPayload>) => {
       const { stockId, purchasedId } = action.payload;
       state.stocksCheckInfo[stockId].purchasedItems[purchasedId] = true;
     },
-    updateCheckedItems: (
-      state,
-      action: PayloadAction<UpdateCheckedItemsInfoPayload>,
-    ) => {
+    updateCheckedItems: (state, action: PayloadAction<UpdateCheckedItemsInfoPayload>) => {
       updateCheckedItemsState(state, action.payload);
     },
     deleteCheckedItems: (state, action: PayloadAction<CheckInfoPayload>) => {

@@ -1,21 +1,17 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import Home from '../../pages/Home';
 
-import { wrapper } from '../../__test__/renderUI';
+import { renderWithProviders } from '../../__test__/renderUI';
 import userEvent from '@testing-library/user-event';
 import { TOP_STOCKS } from '../../__test__/mock/topStocks';
 describe('Home Component', () => {
   test('Home render and Show Card', async () => {
-    render(<Home />, {
-      wrapper: () => wrapper(),
-    });
+    renderWithProviders(<Home />);
     expect(await screen.findByRole('heading', { name: /apple/i })).toBeInTheDocument();
   });
 
   test('Expand Card when Card is clicked and close when clicked again', async () => {
-    render(<Home />, {
-      wrapper: () => wrapper(),
-    });
+    renderWithProviders(<Home />);
     const description = TOP_STOCKS[0].description;
     expect(screen.queryByText(description)).not.toBeInTheDocument();
 
@@ -28,9 +24,7 @@ describe('Home Component', () => {
   });
 
   test(`When invest link is clicked Card doesn't change it's expand state`, async () => {
-    render(<Home />, {
-      wrapper: () => wrapper(),
-    });
+    renderWithProviders(<Home />);
 
     expect(await screen.findAllByLabelText(/expand open button/i)).toHaveLength(3);
 

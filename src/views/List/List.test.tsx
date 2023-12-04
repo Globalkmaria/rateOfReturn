@@ -1,12 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import List from '../../pages/List';
-import { wrapper } from '../../__test__/renderUI';
+import { renderWithProviders } from '../../__test__/renderUI';
 
 describe('List Component', () => {
   test('List render', async () => {
-    render(<List />, {
-      wrapper: () => wrapper('/portfolio'),
-    });
+    renderWithProviders(<List />, '/portfolio');
 
     expect(
       screen.getByRole('heading', {

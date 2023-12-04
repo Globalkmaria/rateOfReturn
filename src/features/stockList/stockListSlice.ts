@@ -1,10 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import {
-  MOCK_DATA,
-  MOCK_DATA_NEXT_STOCK_ID,
-  MOCK_DATA_PURCHASED_ID,
-} from './mockData';
+import { MOCK_DATA, MOCK_DATA_NEXT_STOCK_ID, MOCK_DATA_PURCHASED_ID } from './mockData';
 import {
   StockListState,
   StockMainInfo,
@@ -16,7 +12,7 @@ import {
   AddNewPurchasedItemPayload,
 } from './type';
 
-const initialState: StockListState = {
+export const stockInitialState: StockListState = {
   stocks: {
     byId: {},
     allIds: [],
@@ -27,17 +23,17 @@ const initialState: StockListState = {
 
 const stockListSlice = createSlice({
   name: 'stockList',
-  initialState,
+  initialState: stockInitialState,
   reducers: {
-    addSampleStockList: (state) => {
+    addSampleStockList: state => {
       state.stocks = MOCK_DATA;
       state.nextStockId = MOCK_DATA_NEXT_STOCK_ID;
       state.nextPurchasedId = MOCK_DATA_PURCHASED_ID;
     },
-    updateNextStockId: (state) => {
+    updateNextStockId: state => {
       state.nextStockId = Number(state.nextStockId) + 1;
     },
-    updateNextPurchasedId: (state) => {
+    updateNextPurchasedId: state => {
       state.nextPurchasedId = Number(state.nextPurchasedId) + 1;
     },
 
@@ -46,7 +42,7 @@ const stockListSlice = createSlice({
       state.nextStockId = action.payload.nextStockId;
       state.nextPurchasedId = action.payload.nextPurchasedId;
     },
-    restStockList: () => initialState,
+    restStockList: () => stockInitialState,
     initStockList: (state, action: PayloadAction<StockListState>) => {
       state.stocks = action.payload.stocks;
       state.nextStockId = action.payload.nextStockId;
@@ -58,10 +54,7 @@ const stockListSlice = createSlice({
       state.stocks.byId[stockId] = stockInfo;
       state.stocks.allIds.push(stockId);
     },
-    addPurchasedItem: (
-      state,
-      action: PayloadAction<AddNewPurchasedItemPayload>,
-    ) => {
+    addPurchasedItem: (state, action: PayloadAction<AddNewPurchasedItemPayload>) => {
       const { stockId, purchasedId, purchasedItem } = action.payload;
       const curStock = state.stocks.byId[stockId];
       curStock.purchasedItems.byId[purchasedId] = purchasedItem;
@@ -75,15 +68,12 @@ const stockListSlice = createSlice({
       const { stockId, fieldName, value } = action.payload;
       state.stocks.byId[stockId].mainInfo[fieldName] = value;
     },
-    updatePurchaseItem: <
-      T extends keyof Omit<PurchasedItemInfo, 'purchasedId'>,
-    >(
+    updatePurchaseItem: <T extends keyof Omit<PurchasedItemInfo, 'purchasedId'>>(
       state: StockListState,
       action: PayloadAction<UpdatePurchasedItemPayload<T>>,
     ) => {
       const { stockId, purchasedId, fieldName, value } = action.payload;
-      state.stocks.byId[stockId].purchasedItems.byId[purchasedId][fieldName] =
-        value;
+      state.stocks.byId[stockId].purchasedItems.byId[purchasedId][fieldName] = value;
     },
 
     deleteStock: (state, action: PayloadAction<string>) => {
@@ -91,10 +81,7 @@ const stockListSlice = createSlice({
       delete state.stocks.byId[stockId];
       state.stocks.allIds.splice(state.stocks.allIds.indexOf(stockId), 1);
     },
-    deletePurchasedItem: (
-      { stocks },
-      action: PayloadAction<DeletePurchasedItemPayload>,
-    ) => {
+    deletePurchasedItem: ({ stocks }, action: PayloadAction<DeletePurchasedItemPayload>) => {
       const { stockId, purchasedId } = action.payload;
       const purchasedItems = stocks.byId[stockId].purchasedItems;
 
