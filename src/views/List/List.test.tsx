@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import List from '../../pages/List';
-import { wrapper } from '../../test/renderUI';
+import { wrapper } from '../../__test__/renderUI';
 
 describe('List Component', () => {
   test('List render', async () => {

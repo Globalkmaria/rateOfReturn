@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import Home from '../../pages/Home';
 
-import { wrapper } from '../../test/renderUI';
+import { wrapper } from '../../__test__/renderUI';
 import userEvent from '@testing-library/user-event';
-import { TOP_STOCKS } from '../../test/mock/topStocks';
+import { TOP_STOCKS } from '../../__test__/mock/topStocks';
 describe('Home Component', () => {
   test('Home render and Show Card', async () => {
     render(<Home />, {
