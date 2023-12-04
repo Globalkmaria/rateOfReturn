@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
@@ -56,4 +56,15 @@ export const renderWithProviders = (
   );
 
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
+};
+
+export const renderWithStyle = (ui: ReactElement) => {
+  const Wrapper = ({ children }: { children: ReactNode }) => (
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      {children}
+    </ThemeProvider>
+  );
+
+  return { ...render(ui, { wrapper: Wrapper }) };
 };
