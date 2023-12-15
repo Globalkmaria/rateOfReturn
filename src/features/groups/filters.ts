@@ -43,8 +43,7 @@ const getGroupStockInfo = (
       mainInfo: stocks.byId[stockId].mainInfo,
       purchasedItems: {
         byId: groupInfo.stocks.byId[stockId].reduce((acc, purchasedId) => {
-          acc[purchasedId] =
-            stocks.byId[stockId].purchasedItems.byId[purchasedId];
+          acc[purchasedId] = stocks.byId[stockId].purchasedItems.byId[purchasedId];
           return acc;
         }, {} as StockList['purchasedItems']['byId']),
         allIds: [...groupInfo.stocks.byId[stockId]],
@@ -56,9 +55,7 @@ const getGroupStockInfo = (
   return filteredStocks;
 };
 
-export const getTotalSummary = (
-  filteredStockInfo: StockListState['stocks'],
-) => {
+export const getTotalSummary = (filteredStockInfo: StockListState['stocks']) => {
   const groupSummary: TotalSummary['groupSummary'] = {
     totalPurchasePrice: 0,
     totalCurrentValue: 0,
@@ -66,12 +63,9 @@ export const getTotalSummary = (
 
   const stocksSummary: TotalSummary['stocksSummary'] = {};
 
-  filteredStockInfo.allIds.forEach((stockId) => {
+  filteredStockInfo.allIds.forEach(stockId => {
     const stock = filteredStockInfo.byId[stockId];
-    const { totalPurchasePrice, evaluationPrice } = getStockSummaryInfo(
-      stock.mainInfo,
-      stock.purchasedItems,
-    );
+    const { totalPurchasePrice, evaluationPrice } = getStockSummaryInfo(stock, true);
     groupSummary.totalPurchasePrice += totalPurchasePrice;
     groupSummary.totalCurrentValue += evaluationPrice;
     stocksSummary[stock.mainInfo.stockName] = {
@@ -89,6 +83,4 @@ export const getTotalSummary = (
 };
 
 export const selectGroupStockInfo = (groupId: string) =>
-  createSelector([selectStocks, selectGroups], (stock, group) =>
-    getGroupStockInfo(stock, group, groupId),
-  );
+  createSelector([selectStocks, selectGroups], (stock, group) => getGroupStockInfo(stock, group, groupId));

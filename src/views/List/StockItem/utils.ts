@@ -1,54 +1,68 @@
-import { StockList } from '../../../features/stockList/type';
+import { PurchasedItemInfo, StockList } from '../../../features/stockList/type';
 import { SummaryInfoData } from './SummaryInfo/SummaryInfo';
+
+const getPurchasedInfo = (data: StockList['purchasedItems'], id: string) => data.byId[id];
 
 export const getGroupPurchasedData = (
   originalPurchasedData: StockList['purchasedItems'],
   groupPurchasedIds: string[],
-) => {
-  const filteredData: StockList['purchasedItems'] = {
-    byId: {},
-    allIds: [...groupPurchasedIds],
-  };
+): StockList['purchasedItems'] => {
+  const allIds = [...groupPurchasedIds];
+  const byId = groupPurchasedIds.reduce<Record<string, PurchasedItemInfo>>((acc, id) => {
+    acc[id] = getPurchasedInfo(originalPurchasedData, id);
+    return acc;
+  }, {});
 
-  for (const purchasedId of groupPurchasedIds) {
-    filteredData.byId[purchasedId] = originalPurchasedData.byId[purchasedId];
-  }
-
-  return filteredData;
+  return { allIds, byId };
 };
 
+const getPurchasedQuantity = (purchasedItems: StockList['purchasedItems'], id: string): number => {
+  const purchasedItem = purchasedItems.byId[id];
+  return purchasedItem ? purchasedItem.purchasedQuantity * 1 : 0;
+};
+
+const getTotalPurchasedPrice = (purchasedItems: StockList['purchasedItems'], id: string): number => {
+  const purchasedItem = purchasedItems.byId[id];
+  return purchasedItem ? purchasedItem.purchasedQuantity * purchasedItem.purchasedPrice : 0;
+};
+
+const getAverage = (numerator: number, denominator: number): number => (denominator ? numerator / denominator : 0);
+
+const getPercentage = (numerator: number, denominator: number): number => getAverage(numerator, denominator) * 100;
+
 export const getStockSummaryInfo = (
-  mainInfo: StockList['mainInfo'],
-  purchasedItems: StockList['purchasedItems'],
+  stockInfo: StockList,
+  isMainGroup: boolean,
+  groupPurchasedIds?: string[],
 ): SummaryInfoData => {
-  const summaryInfo: SummaryInfoData = {
-    purchaseQuantitySum: 0,
-    purchasePriceAverage: 0,
-    totalPurchasePrice: 0,
-    evaluationPrice: 0,
-    evaluationProfit: 0,
-    profitRate: 0,
+  const { mainInfo } = stockInfo;
+  const purchasedItems = isMainGroup
+    ? stockInfo.purchasedItems
+    : getGroupPurchasedData(stockInfo.purchasedItems, groupPurchasedIds || []);
+
+  const purchaseQuantitySum = purchasedItems.allIds.reduce(
+    (acc, id) => acc + getPurchasedQuantity(purchasedItems, id),
+    0,
+  );
+
+  const totalPurchasePrice = purchasedItems.allIds.reduce(
+    (acc, id) => acc + getTotalPurchasedPrice(purchasedItems, id),
+    0,
+  );
+
+  const purchasePriceAverage = getAverage(totalPurchasePrice, purchaseQuantitySum);
+  const evaluationPrice = purchaseQuantitySum * mainInfo.currentPrice;
+  const evaluationProfit = evaluationPrice - totalPurchasePrice;
+  const profitRate = getPercentage(evaluationProfit, totalPurchasePrice);
+
+  return {
+    purchaseQuantitySum,
+    purchasePriceAverage,
+    totalPurchasePrice,
+    evaluationPrice,
+    evaluationProfit,
+    profitRate,
   };
-
-  for (const purchasedItemKey of purchasedItems.allIds) {
-    summaryInfo.purchaseQuantitySum +=
-      purchasedItems.byId[purchasedItemKey].purchasedQuantity * 1;
-    summaryInfo.totalPurchasePrice +=
-      purchasedItems.byId[purchasedItemKey].purchasedQuantity *
-      purchasedItems.byId[purchasedItemKey].purchasedPrice;
-  }
-  summaryInfo.purchasePriceAverage = summaryInfo.purchaseQuantitySum
-    ? summaryInfo.totalPurchasePrice / summaryInfo.purchaseQuantitySum
-    : 0;
-  summaryInfo.evaluationPrice =
-    summaryInfo.purchaseQuantitySum * mainInfo.currentPrice;
-  summaryInfo.evaluationProfit =
-    summaryInfo.evaluationPrice - summaryInfo.totalPurchasePrice;
-  summaryInfo.profitRate = summaryInfo.totalPurchasePrice
-    ? (summaryInfo.evaluationProfit / summaryInfo.totalPurchasePrice) * 100
-    : 0;
-
-  return summaryInfo;
 };
 
 export const getCurrentDateAndTime = () => {
