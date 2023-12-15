@@ -1,10 +1,7 @@
 import { RootState } from '../../store';
+import { getStockSummaryInfo } from '../../views/List/StockItem/utils';
 import { StockList, StockListState } from '../stockList/type';
 import { MAIN_GROUP_ID } from './groupsSlice';
-import { getStockSummaryInfo } from '../../views/List/StockItem/utils';
-import { createSelector } from '@reduxjs/toolkit';
-import { selectStocks } from '../stockList/selectors';
-import { selectGroups } from './selectors';
 
 export type SummaryInfo = {
   totalPurchasePrice: number;
@@ -21,66 +18,65 @@ export type TotalSummary = {
   stocksSummary: { [stockName: string]: StockSummaryInfo };
 };
 
-const getGroupStockInfo = (
-  stocks: RootState['stockList']['stocks'],
+const getPurchasedInfos = (purchasedIds: string[], mainPurchasedInfo: StockList['purchasedItems']['byId']) =>
+  purchasedIds.reduce<StockList['purchasedItems']['byId']>((purchasedInfo, purchasedId) => {
+    purchasedInfo[purchasedId] = mainPurchasedInfo[purchasedId];
+    return purchasedInfo;
+  }, {});
+
+export const getGroupStockInfo = (
+  mainStocks: RootState['stockList']['stocks'],
   groups: RootState['groups'],
   groupId: string,
 ): StockListState['stocks'] => {
   const isMainSelected = MAIN_GROUP_ID === groupId;
-
-  if (isMainSelected) return stocks;
+  if (isMainSelected) return mainStocks;
 
   const groupInfo = groups.groups.byId[groupId];
-  if (!groupInfo) return stocks;
+  if (!groupInfo) return mainStocks;
 
   const initialState: StockListState['stocks'] = {
     byId: {},
     allIds: [...groupInfo.stocks.allIds],
   };
 
-  const filteredStocks = groupInfo.stocks.allIds.reduce((acc, stockId) => {
-    acc.byId[stockId] = {
-      mainInfo: stocks.byId[stockId].mainInfo,
+  return groupInfo.stocks.allIds.reduce((filteredStocks, stockId) => {
+    const purchasedIds = groupInfo.stocks.byId[stockId];
+    const mainStockInfo = mainStocks.byId[stockId];
+    const mainPurchasedInfo = mainStockInfo.purchasedItems.byId;
+
+    filteredStocks.byId[stockId] = {
+      mainInfo: mainStockInfo.mainInfo,
       purchasedItems: {
-        byId: groupInfo.stocks.byId[stockId].reduce((acc, purchasedId) => {
-          acc[purchasedId] = stocks.byId[stockId].purchasedItems.byId[purchasedId];
-          return acc;
-        }, {} as StockList['purchasedItems']['byId']),
-        allIds: [...groupInfo.stocks.byId[stockId]],
+        byId: getPurchasedInfos(purchasedIds, mainPurchasedInfo),
+        allIds: [...purchasedIds],
       },
     };
-    return acc;
+
+    return filteredStocks;
   }, initialState);
-
-  return filteredStocks;
 };
 
-export const getTotalSummary = (filteredStockInfo: StockListState['stocks']) => {
-  const groupSummary: TotalSummary['groupSummary'] = {
-    totalPurchasePrice: 0,
-    totalCurrentValue: 0,
+export const getTotalSummary = (stockInfo: StockListState['stocks']) => {
+  const init: TotalSummary = {
+    groupSummary: {
+      totalPurchasePrice: 0,
+      totalCurrentValue: 0,
+    },
+    stocksSummary: {},
   };
 
-  const stocksSummary: TotalSummary['stocksSummary'] = {};
+  return stockInfo.allIds.reduce((summary, stockId) => {
+    const { groupSummary, stocksSummary } = summary;
+    const stock = stockInfo.byId[stockId];
+    const { totalPurchasePrice, evaluationPrice: totalCurrentValue } = getStockSummaryInfo(stock, true);
 
-  filteredStockInfo.allIds.forEach(stockId => {
-    const stock = filteredStockInfo.byId[stockId];
-    const { totalPurchasePrice, evaluationPrice } = getStockSummaryInfo(stock, true);
     groupSummary.totalPurchasePrice += totalPurchasePrice;
-    groupSummary.totalCurrentValue += evaluationPrice;
-    stocksSummary[stock.mainInfo.stockName] = {
-      totalPurchasePrice,
-      totalCurrentValue: evaluationPrice,
-      stockName: stock.mainInfo.stockName,
-      stockId: stock.mainInfo.stockId,
-    };
-  });
+    groupSummary.totalCurrentValue += totalCurrentValue;
 
-  return {
-    groupSummary,
-    stocksSummary,
-  };
+    const stockName = stock.mainInfo.stockName;
+    stocksSummary[stockName] = { totalPurchasePrice, totalCurrentValue, stockName, stockId };
+
+    return summary;
+  }, init);
 };
-
-export const selectGroupStockInfo = (groupId: string) =>
-  createSelector([selectStocks, selectGroups], (stock, group) => getGroupStockInfo(stock, group, groupId));

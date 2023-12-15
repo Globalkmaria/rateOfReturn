@@ -1,22 +1,11 @@
-import React from 'react';
 import styled from 'styled-components';
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-  Colors,
-  ChartData,
-  ChartOptions,
-} from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, Colors, ChartData, ChartOptions } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
 import { getChartData } from './utils';
-import {
-  getTotalSummary,
-  selectGroupStockInfo,
-} from '../../../features/groups/filters';
+import { getTotalSummary } from '../../../features/groups/filters';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { selectGroupStockInfo } from '../../../features/groups/selectors';
 
 ChartJS.register(ArcElement, Tooltip, Legend, Colors, ChartDataLabels);
 
