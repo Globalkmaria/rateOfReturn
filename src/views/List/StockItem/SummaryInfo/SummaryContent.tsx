@@ -10,10 +10,7 @@ import { useGetStockSummaryData } from './hooks/useGetStockSummaryData';
 type Props = {
   stockId: string;
   isLock: boolean;
-  onInputChange: (
-    e: React.ChangeEvent<HTMLInputElement>,
-    transformedValue: TransformedValue,
-  ) => void;
+  onInputChange: (e: React.ChangeEvent<HTMLInputElement>, transformedValue: TransformedValue) => void;
 };
 
 const SummaryContent = ({ stockId, isLock, onInputChange }: Props) => {
@@ -26,7 +23,6 @@ const SummaryContent = ({ stockId, isLock, onInputChange }: Props) => {
       <TableCell>
         <Input
           aria-label='stock name'
-          className='stockName'
           fullWidth
           onChange={onInputChange}
           name='stockName'
@@ -34,20 +30,16 @@ const SummaryContent = ({ stockId, isLock, onInputChange }: Props) => {
           disabled={isLock}
         />
       </TableCell>
-      <TableCell align='center' colSpan={2} className='stock-summary'>
+      <TableCell align='center' colSpan={2}>
         Summary
       </TableCell>
       <NumberCell value={summaryData.purchaseQuantitySum} />
       <NumberCell value={summaryData.purchasePriceAverage} />
-      <NumberCell
-        className='total-purchase'
-        value={summaryData.totalPurchasePrice}
-      />
+      <NumberCell value={summaryData.totalPurchasePrice} />
       <TableCell>
         <Input
           fullWidth
           aria-label='current price'
-          name='currentPrice'
           onChange={onInputChange}
           onBlur={onInputChange}
           type='number'

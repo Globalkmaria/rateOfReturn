@@ -1,7 +1,8 @@
 import { Suspense, lazy, useState } from 'react';
 import styled from 'styled-components';
-import Select from '../../../components/Select';
 import { useSelector } from 'react-redux';
+
+import Select from '../../../components/Select';
 import { selectGroups } from '../../../features/groups/selectors';
 import { getOptions } from '../../List/GroupButtons/utils';
 import Description from './PortfolioAllocationDescription';
@@ -15,9 +16,8 @@ const PortfolioAllocation = () => {
   const options = getOptions(groups);
   return (
     <StyledPortfolioAllocation>
-      <Select
-        className='select-group'
-        onChange={(e) => setGroupId(e.target.value)}
+      <StyledSelect
+        onChange={e => setGroupId(e.target.value)}
         width={140}
         initialValue='1'
         options={options}
@@ -38,8 +38,8 @@ const StyledPortfolioAllocation = styled('div')`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+`;
 
-  .select-group {
-    margin-bottom: 10px;
-  }
+const StyledSelect = styled(Select)`
+  margin-bottom: 10px;
 `;

@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { useRouter } from '../../hooks/useRouter';
 import { chartRouterData } from '../../router/routerData';
@@ -13,22 +12,20 @@ const ChartMenu = ({}: ChartMenuProps) => {
 
   return (
     <StyledChartMenu>
-      <ul className='menu-list'>
-        {chartRouterData.map((element) => {
+      <StyledMenuList>
+        {chartRouterData.map(element => {
           return (
             <StyledMenu
               key={element.path}
               selected={currentLevelPath === element.path}
-              onClick={() =>
-                !element.disabled && menuClickHandler(element.path)
-              }
+              onClick={() => !element.disabled && menuClickHandler(element.path)}
               disabled={element.disabled}
             >
               {element.label}
             </StyledMenu>
           );
         })}
-      </ul>
+      </StyledMenuList>
     </StyledChartMenu>
   );
 };
@@ -38,18 +35,17 @@ export default ChartMenu;
 const StyledChartMenu = styled('nav')`
   height: fit-content;
   padding: 10px;
+`;
 
-  .menu-list {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-  }
+const StyledMenuList = styled('ul')`
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 `;
 
 const StyledMenu = styled('li')<MenuProps>`
   padding: 10px;
-  background: ${({ theme, selected }) =>
-    selected ? theme.colors.grey100 : 'none'};
+  background: ${({ theme, selected }) => (selected ? theme.colors.grey100 : 'none')};
   border-radius: 10px;
   transition: '200ms';
   font-size: 1.2rem;

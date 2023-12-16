@@ -7,6 +7,7 @@ import { PurchasedItemInfo } from '../../../../features/stockList/type';
 import { updatePurchaseItem } from '../../../../features/stockList/stockListSlice';
 import { InputCell } from '../components';
 import { ChangedPurchasedItemInputs, PurchasedInputChangeProps } from './PurchasedStock';
+import styled from 'styled-components';
 
 type Props = {
   purchasedItem: PurchasedItemInfo;
@@ -30,9 +31,8 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
   return (
     <>
       <TableCell>
-        <div className='datetime'>
-          <Input
-            className='date'
+        <StyledDateTime>
+          <StyledDate
             name='purchasedDate'
             onChange={onInputChange}
             disabled={isLock}
@@ -41,8 +41,7 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
             fullWidth
             aria-label='purchased date'
           />
-          <Input
-            className='date'
+          <StyledDate
             name='purchasedTime'
             onChange={onInputChange}
             disabled={isLock}
@@ -51,7 +50,7 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
             value={purchasedItem.purchasedTime}
             fullWidth
           />
-        </div>
+        </StyledDateTime>
       </TableCell>
       <InputCell
         name='purchasedQuantity'
@@ -74,3 +73,13 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
 };
 
 export default memo(PurchasedInput);
+
+const StyledDateTime = styled.div`
+  display: flex;
+  gap: 5px;
+`;
+
+const StyledDate = styled(Input)`
+  font-size: 0.8rem;
+  width: 108px;
+`;

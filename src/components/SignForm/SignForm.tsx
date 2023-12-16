@@ -38,10 +38,10 @@ const SignForm = ({
 }: SignFormProps) => {
   return (
     <StyledSignForm>
-      <h1 className='title'>{title}</h1>
-      <span className='subtext'>{titleSubtext}</span>
+      <StyledTitle>{title}</StyledTitle>
+      <StyledSubText>{titleSubtext}</StyledSubText>
 
-      <Form className='signup-form' onSubmit={onSubmit}>
+      <StyledForm onSubmit={onSubmit}>
         <FormInput
           labelText='Email'
           id='email'
@@ -64,19 +64,11 @@ const SignForm = ({
         />
         {AdditionalFormInput}
 
-        <ContainedButton
-          type='submit'
-          className='signup-btn'
-          size='m'
-          onClick={onSubmit}
-        >
+        <StyledButton type='submit' size='m' onClick={onSubmit}>
           {submitBtnTitle}
-        </ContainedButton>
-      </Form>
-      <GoogleBtn
-        googleBtnTitle={googleBtnTitle}
-        loginGoogleURL={loginGoogleURL}
-      />
+        </StyledButton>
+      </StyledForm>
+      <GoogleBtn googleBtnTitle={googleBtnTitle} loginGoogleURL={loginGoogleURL} />
       <OtherOptions
         otherOptionSubtext={otherOptionSubtext}
         otherOptionTitle={otherOptionTitle}
@@ -92,55 +84,25 @@ const StyledSignForm = styled('div')`
   width: 500px;
   padding: 20px;
 
-  .title {
-    margin-bottom: 0.5rem;
-    font-size: 2rem;
-  }
-
-  .subtext {
-    color: ${({ theme }) => theme.colors.grey600};
-  }
-
-  .signup-form {
-    margin: 3rem 0 1rem;
-  }
-
-  .signup-btn {
-    margin-top: 1rem;
-  }
-
-  .google-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-
-    svg {
-      font-size: 1.5rem;
-    }
-
-    .google-btn__text {
-      font-weight: 500;
-    }
-  }
-
-  .other-option {
-    margin-top: 3rem;
-    text-align: center;
-
-    .link {
-      margin-left: 0.5rem;
-      text-decoration: underline;
-    }
-  }
-
   @media ${({ theme }) => theme.devices.mobile} {
     width: 70vw;
     min-width: 260px;
-
-    .other-option {
-      display: flex;
-      flex-direction: column;
-    }
   }
+`;
+
+const StyledForm = styled(Form)`
+  margin: 3rem 0 1rem;
+`;
+
+const StyledButton = styled(ContainedButton)`
+  margin-top: 1rem;
+`;
+
+const StyledTitle = styled.h1`
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+`;
+
+export const StyledSubText = styled.span`
+  color: ${({ theme }) => theme.colors.grey600};
 `;

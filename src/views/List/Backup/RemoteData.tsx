@@ -1,8 +1,10 @@
 import { useSelector } from 'react-redux';
+import styled from 'styled-components/macro';
+
 import { ContainedButton } from '../../../components/Button';
 import useModal from '../hooks/useModal';
-import StoreRemoteBackupWarning from './StoreRemoteBackupWarning';
 import { selectIsLoggedIn } from '../../../features/user/selectors';
+import StoreRemoteBackupWarning from './StoreRemoteBackupWarning';
 
 type Props = {
   data: any;
@@ -26,19 +28,16 @@ function RemoteData({ data }: Props) {
   };
   return (
     <>
-      <ContainedButton
-        className='store-remote-data'
-        color='warning'
-        fullWidth
-        onClick={onRemoteOpen}
-      >
+      <StyledButton color='warning' fullWidth onClick={onRemoteOpen}>
         Store Remote Data as Backup
-      </ContainedButton>
-      {showModal && (
-        <StoreRemoteBackupWarning onClose={onCloseModal} data={data} />
-      )}
+      </StyledButton>
+      {showModal && <StoreRemoteBackupWarning onClose={onCloseModal} data={data} />}
     </>
   );
 }
 
 export default RemoteData;
+
+const StyledButton = styled(ContainedButton)`
+  margin-top: 10px;
+`;

@@ -5,10 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BorderButton } from '../../../components/Button';
 import Select from '../../../components/Select';
 import { updateSelectedGroupId } from '../../../features/groups/groupsSlice';
-import {
-  selectGroups,
-  selectIsMainGroupSelected,
-} from '../../../features/groups/selectors';
+import { selectGroups, selectIsMainGroupSelected } from '../../../features/groups/selectors';
 import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
 import { selectCheckedPurchasedItems } from '../../../features/checkedItems/selectors';
 import { getOptions } from './utils';
@@ -18,16 +15,8 @@ import DeleteGroupModal from './DeleteGroupModal';
 
 const GroupButtons = () => {
   const dispatch = useDispatch();
-  const {
-    showModal: showAdd,
-    onOpenModal: onOpenAdd,
-    onCloseModal: onCloseAdd,
-  } = useModal();
-  const {
-    showModal: showDelete,
-    onOpenModal: onOpenDelete,
-    onCloseModal: onCloseDelete,
-  } = useModal();
+  const { showModal: showAdd, onOpenModal: onOpenAdd, onCloseModal: onCloseAdd } = useModal();
+  const { showModal: showDelete, onOpenModal: onOpenDelete, onCloseModal: onCloseDelete } = useModal();
 
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const groups = useSelector(selectGroups);
@@ -52,26 +41,16 @@ const GroupButtons = () => {
           value={groups.selectedGroupId}
           title='Choose group to show'
         />
-        <div className='btns'>
-          <BorderButton
-            onClick={onOpenAdd}
-            size='m'
-            disabled={!showAddGroup}
-            title='Add new group'
-          >
+        <Buttons>
+          <BorderButton onClick={onOpenAdd} size='m' disabled={!showAddGroup} title='Add new group'>
             Add Group
           </BorderButton>
           {showAdd && <AddGroupModal onClose={onCloseAdd} />}
-          <BorderButton
-            onClick={onOpenDelete}
-            size='m'
-            disabled={noGroups}
-            title='Delete group'
-          >
+          <BorderButton onClick={onOpenDelete} size='m' disabled={noGroups} title='Delete group'>
             Delete Group
           </BorderButton>
           {showDelete && <DeleteGroupModal onClose={onCloseDelete} />}
-        </div>
+        </Buttons>
       </StyledGroupButtons>
     </>
   );
@@ -83,9 +62,9 @@ const StyledGroupButtons = styled('div')`
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+`;
 
-  .btns {
-    display: flex;
-    gap: 10px;
-  }
+const Buttons = styled('div')`
+  display: flex;
+  gap: 10px;
 `;

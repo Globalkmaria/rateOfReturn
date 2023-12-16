@@ -12,7 +12,7 @@ export const StyledModal = styled('div')<{ isOpen: boolean }>`
   background: transparent;
 `;
 
-export const StyledModalContent = styled('div')<{ needHeader: boolean }>`
+export const StyledModalContent = styled('div')`
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -26,27 +26,25 @@ export const StyledModalContent = styled('div')<{ needHeader: boolean }>`
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
+`;
 
-  .header {
-    display: ${({ needHeader }) => (needHeader ? 'flex' : 'none')};
-    margin-bottom: 10px;
-    justify-content: space-between;
-    align-items: center;
-  }
+export const StyledModalHeader = styled('div')<{ needHeader: boolean }>`
+  display: ${({ needHeader }) => (needHeader ? 'flex' : 'none')};
+  margin-bottom: 10px;
+  justify-content: space-between;
+  align-items: center;
+`;
 
-  .title {
-    font-weight: 700;
-    font-size: 1.4rem;
-  }
-
-  ${BorderButton}.close-btn {
-    align-self: flex-end;
-    border: none;
-  }
+export const StyledModalTitle = styled.h1`
+  font-weight: 700;
+  font-size: 1.4rem;
 
   @media ${({ theme }) => theme.devices.mobile} {
-    .title {
-      font-size: 1.2rem;
-    }
+    font-size: 1.2rem;
   }
+`;
+
+export const StyledCloseButton = styled(BorderButton)`
+  align-self: flex-end;
+  border: none;
 `;

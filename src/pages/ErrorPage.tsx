@@ -28,35 +28,27 @@ const ErrorPage = () => {
 
   return (
     <StyledErrorPage>
-      <div className='content'>
+      <StyledContent>
         <h1>Oops!</h1>
         <p>Sorry, an unexpected error has occurred.</p>
         <p>
           <i>{error.statusText || error.message}</i>
         </p>
-      </div>
+      </StyledContent>
       <ContainedButton size='m'>
         <Link to='/'>Return Home</Link>
       </ContainedButton>
 
-      <p className='content'>
-        If 'Returning Home' Does Not Work, Try Resetting Data.
-      </p>
-      <ContainedButton
-        onClick={handleGetDataFile}
-        title='Save File Button'
-        size='m'
-        color={'warning'}
-      >
+      <StyledContent>If 'Returning Home' Does Not Work, Try Resetting Data.</StyledContent>
+      <ContainedButton onClick={handleGetDataFile} title='Save File Button' size='m' color={'warning'}>
         Get Backup File
       </ContainedButton>
 
-      <p className='content warning'>
+      <StyledWarning>
         If you reset data, all data will be deleted.
         <br />
-        If you want to get backup file before reset, click the 'Get Backup File'
-        first.
-      </p>
+        If you want to get backup file before reset, click the 'Get Backup File' first.
+      </StyledWarning>
 
       <ContainedButton onClick={onResetAndReturnHome} size='m'>
         Reset Data and Return Home
@@ -74,17 +66,18 @@ const StyledErrorPage = styled('div')`
   align-items: center;
   justify-content: center;
   gap: 15px;
+`;
 
-  .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    line-height: 2rem;
-    font-size: 1.4rem;
-    text-align: center;
-  }
-  .warning {
-    color: red;
-  }
+const StyledContent = styled.p`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 2rem;
+  font-size: 1.4rem;
+  text-align: center;
+`;
+
+const StyledWarning = styled(StyledContent)`
+  color: red;
 `;
