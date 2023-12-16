@@ -8,6 +8,7 @@ import { PurchasedItemInfo } from '../../../../features/stockList/type';
 import { updatePurchaseItem } from '../../../../features/stockList/stockListSlice';
 import { InputCell } from '../components';
 import { ChangedPurchasedItemInputs, PurchasedInputChangeProps } from './PurchasedStock';
+import { checkPurchasedItemValidity } from '../validity';
 
 type Props = {
   purchasedItem: PurchasedItemInfo;
@@ -23,7 +24,15 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
   const onInputChange: PurchasedInputChangeProps = (e, transformedValue) => {
     const fieldName = e.target.name as keyof Omit<PurchasedItemInfo, 'purchasedId'>;
     if (transformedValue === null) return;
+
     const value = transformedValue[1];
+
+    const validity = checkPurchasedItemValidity(fieldName, value);
+    if (!validity.isValid) {
+      alert(validity.message);
+      return;
+    }
+
     setChangedInputs(prev => ({ ...prev, [fieldName]: value }));
     dispatch(updatePurchaseItem({ stockId, purchasedId, fieldName, value }));
   };
