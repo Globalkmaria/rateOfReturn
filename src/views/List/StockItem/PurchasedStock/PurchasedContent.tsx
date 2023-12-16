@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 import { TableCell } from '../../../../components/Table';
-import PurchasedInput from './PurchasedInput';
-import { NumberCell } from '../components';
 import { selectPurchasedItemsById } from '../../../../features/stockList/selectors';
+import { NumberCell } from '../components';
+import PurchasedInput from './PurchasedInput';
 import { getPurchasedData } from './utils';
 import { ChangedPurchasedItemInputs } from './PurchasedStock';
 

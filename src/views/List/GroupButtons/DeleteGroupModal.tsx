@@ -1,13 +1,13 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
+import { useSelector } from 'react-redux';
+import { FaTrash } from 'react-icons/fa';
 
 import { Group } from '../../../features/groups/type';
 import { selectGroups } from '../../../features/groups/selectors';
-import { useSelector } from 'react-redux';
 import Modal from '../../../components/Modal/Modal';
 import { BorderButton } from '../../../components/Button';
-import { FaTrash } from 'react-icons/fa';
-import DeleteGroupWarning from './DeleteGroupWarning';
 import useModal from '../hooks/useModal';
+import DeleteGroupWarning from './DeleteGroupWarning';
 
 const NO_GROUP_MESSAGE = 'There is no group.';
 

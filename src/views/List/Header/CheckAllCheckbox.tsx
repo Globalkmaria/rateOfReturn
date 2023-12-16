@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 import { TableHeadProps } from '../../../components/Table';
 import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';

@@ -1,14 +1,10 @@
-import styled from 'styled-components';
+import { ChangeEvent, MouseEvent, memo } from 'react';
+import styled from 'styled-components/macro';
+import { FaTrash, FaLockOpen, FaLock } from 'react-icons/fa';
+
 import { BaseButtonProps, BorderButton } from '../../../components/Button';
 import { Input } from '../../../components/Input/Input';
-import {
-  TableCell,
-  TableCellProps,
-  TableHead,
-  TableHeadProps,
-} from '../../../components/Table';
-import { FaTrash, FaLockOpen, FaLock } from 'react-icons/fa';
-import { ChangeEvent, MouseEvent, memo } from 'react';
+import { TableCell, TableCellProps, TableHead, TableHeadProps } from '../../../components/Table';
 import { InputProps } from '../../../components/Input/BaseInput';
 
 type InputCellProps = {
@@ -35,10 +31,7 @@ type NumberCellProps = {
   value: number | string;
 } & TableCellProps;
 
-export const NumberCell = memo(function NumberCell({
-  value,
-  ...props
-}: NumberCellProps) {
+export const NumberCell = memo(function NumberCell({ value, ...props }: NumberCellProps) {
   return (
     <TableCell align='right' {...props}>
       <StyledTextWrapper>{Number(value).toLocaleString()}</StyledTextWrapper>
@@ -46,33 +39,17 @@ export const NumberCell = memo(function NumberCell({
   );
 });
 
-export const InputCell = ({
-  value,
-  disabled,
-  ...restProps
-}: InputCellProps) => {
+export const InputCell = ({ value, disabled, ...restProps }: InputCellProps) => {
   value = value.toString();
 
   return (
     <TableCell>
-      <Input
-        disabled={disabled}
-        fullWidth
-        type='number'
-        value={value}
-        {...restProps}
-      />
+      <Input disabled={disabled} fullWidth type='number' value={value} {...restProps} />
     </TableCell>
   );
 };
 
-export const CheckboxCell = ({
-  onClick,
-  value,
-  type = 'td',
-  disabled,
-  ...restProps
-}: CheckboxCellProps) => {
+export const CheckboxCell = ({ onClick, value, type = 'td', disabled, ...restProps }: CheckboxCellProps) => {
   const Cell = type === 'td' ? TableCell : TableHead;
 
   const onClickHandler = (e: MouseEvent<HTMLTableCellElement>) => {
@@ -86,12 +63,7 @@ export const CheckboxCell = ({
 
   return (
     <Cell align='center' onClick={onClickHandler} {...restProps}>
-      <input
-        disabled={disabled}
-        type='checkbox'
-        checked={value}
-        onChange={onChange}
-      />
+      <input disabled={disabled} type='checkbox' checked={value} onChange={onChange} />
     </Cell>
   );
 };
@@ -115,10 +87,7 @@ export const LockButton = ({ isLock, onClick, disabled }: LockButtonProps) => {
   );
 };
 
-export const DeleteButton = memo(function DeleteButton({
-  disabled,
-  ...resProps
-}: DeleteButtonProps) {
+export const DeleteButton = memo(function DeleteButton({ disabled, ...resProps }: DeleteButtonProps) {
   return (
     <StyledBtnWrapper>
       <BorderButton

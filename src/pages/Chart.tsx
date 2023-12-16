@@ -1,6 +1,7 @@
-import styled from 'styled-components';
-import ChartMenu from '../views/Chart/ChartMenu';
+import styled from 'styled-components/macro';
 import { Outlet } from 'react-router-dom';
+
+import ChartMenu from '../views/Chart/ChartMenu';
 
 const Chart = () => {
   return (

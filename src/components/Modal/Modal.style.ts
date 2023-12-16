@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
+
 import { BorderButton } from '../Button';
 
 export const StyledModal = styled('div')<{ isOpen: boolean }>`

@@ -1,10 +1,7 @@
 import { ChangeEvent, InputHTMLAttributes } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
-export type OnInputChangeType = (
-  e: ChangeEvent<HTMLInputElement>,
-  transformedValue: TransformedValue,
-) => void;
+export type OnInputChangeType = (e: ChangeEvent<HTMLInputElement>, transformedValue: TransformedValue) => void;
 export type TransformedValue = [localValue: string, pureValue: string] | null;
 
 export const INPUT_TYPES = ['text', 'number', 'date', 'time'] as const;
@@ -14,9 +11,7 @@ interface BaseInputProps {
   padding?: number;
 }
 
-export interface InputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onBlur'>,
-    BaseInputProps {
+export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onBlur'>, BaseInputProps {
   type?: (typeof INPUT_TYPES)[number];
   value?: string;
   onChange?: OnInputChangeType;

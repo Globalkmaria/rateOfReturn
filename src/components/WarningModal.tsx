@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 import { ContainedButton } from './Button';
 import PortalModal from './Modal/PortalModal';

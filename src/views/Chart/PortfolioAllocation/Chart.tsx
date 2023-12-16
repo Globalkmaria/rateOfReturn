@@ -1,16 +1,9 @@
-import styled from 'styled-components';
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-  Colors,
-  ChartData,
-  ChartOptions,
-} from 'chart.js';
+import styled from 'styled-components/macro';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, Colors, ChartData, ChartOptions } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { getChartData } from './utils';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+
+import { getChartData } from './utils';
 
 ChartJS.register(ArcElement, Tooltip, Legend, Colors, ChartDataLabels);
 

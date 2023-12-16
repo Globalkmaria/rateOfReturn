@@ -1,8 +1,8 @@
-import React from 'react';
 import { useRouteError, Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { ContainedButton } from '../components/Button';
+import styled from 'styled-components/macro';
 import { useDispatch } from 'react-redux';
+
+import { ContainedButton } from '../components/Button';
 import { resetCheckedItems } from '../features/checkedItems/checkedItemsSlice';
 import { restStockList } from '../features/stockList/stockListSlice';
 import { resetGroups } from '../features/groups/groupsSlice';

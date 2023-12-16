@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 import { RootState } from '../../../store';
 import { ContainedButton } from '../../../components/Button';

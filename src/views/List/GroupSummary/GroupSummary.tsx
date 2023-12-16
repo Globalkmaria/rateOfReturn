@@ -1,4 +1,4 @@
-import styled, { DefaultTheme, StyledComponent } from 'styled-components';
+import styled, { DefaultTheme, StyledComponent } from 'styled-components/macro';
 import { useSelector } from 'react-redux';
 
 import { selectIsMainGroupSelected, selectSelectedGroupInfo } from '../../../features/groups/selectors';

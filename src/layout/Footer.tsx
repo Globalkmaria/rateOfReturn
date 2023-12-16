@@ -1,10 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 const Footer = () => {
-  return (
-    <StyledFooter>Copyright © 2023 Dino.M. All rights reserved.</StyledFooter>
-  );
+  return <StyledFooter>Copyright © 2023 Dino.M. All rights reserved.</StyledFooter>;
 };
 
 export default Footer;

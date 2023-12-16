@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
+
 import StockList from '../views/List/StockList';
 
 const List = () => {

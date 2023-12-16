@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, memo } from 'react';
 import { useDispatch } from 'react-redux';
+import styled from 'styled-components/macro';
 
 import { Input } from '../../../../components/Input/Input';
 import { TableCell } from '../../../../components/Table';
@@ -7,7 +8,6 @@ import { PurchasedItemInfo } from '../../../../features/stockList/type';
 import { updatePurchaseItem } from '../../../../features/stockList/stockListSlice';
 import { InputCell } from '../components';
 import { ChangedPurchasedItemInputs, PurchasedInputChangeProps } from './PurchasedStock';
-import styled from 'styled-components';
 
 type Props = {
   purchasedItem: PurchasedItemInfo;
