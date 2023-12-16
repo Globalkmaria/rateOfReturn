@@ -46,6 +46,7 @@ const SummaryContent = ({ stockId, isLock, onInputChange }: Props) => {
           type='number'
           value={formattedCurrentPrice}
           disabled={isLock}
+          name='currentPrice'
         />
       </TableCell>
       <NumberCell value={summaryData.evaluationPrice} />
