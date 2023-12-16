@@ -4,23 +4,21 @@ import styled from 'styled-components/macro';
 import { selectIsMainGroupSelected } from '../../features/groups/selectors';
 import { Table, TableBody } from '../../components/Table';
 import StockItem from './StockItem/StockItem';
-import StockListHeader from './StockListHeader';
+import StockListHeader from './Header/StockListHeader';
 import AddNewStock from './AddNewStock/AddNewStock';
 import { selectStockIds } from '../../features/selectors';
 
 const StockTable = () => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const stockIds = useSelector(selectStockIds);
-  const StyledTable = isMainGroupSelected
-    ? StyledMainStockTable
-    : StyledSubStockTable;
+  const StyledTable = isMainGroupSelected ? StyledMainStockTable : StyledSubStockTable;
 
   return (
     <StyledTable>
       <Table>
         <StockListHeader />
         <TableBody>
-          {stockIds.map((stockId) => (
+          {stockIds.map(stockId => (
             <StockItem stockId={stockId} key={stockId} />
           ))}
           {isMainGroupSelected && <AddNewStock />}
