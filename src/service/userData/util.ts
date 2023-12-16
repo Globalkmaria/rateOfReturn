@@ -1,106 +1,116 @@
-import {
-  CheckedItemsInfo,
-  CheckedItemsState,
-  StockCheckInfo,
-} from '../../features/checkedItems/type';
+import { CheckedItemsInfo, CheckedItemsState, StockCheckInfo } from '../../features/checkedItems/type';
 import { Group, Groups } from '../../features/groups/type';
 import { StockList, StocksCollection } from '../../features/stockList/type';
-import { UserGroups, UserStocks } from '../../repository/userData/type';
+import { Item, UserDataRepRes, UserGroup, UserGroups, UserStock, UserStocks } from '../../repository/userData/type';
+import { UserDataServiceRes } from './type';
 
-export const transformStocksDataForFrontend = (
-  userStocks: UserStocks,
-): StocksCollection => {
-  const stocks: StocksCollection = {
-    byId: {},
-    allIds: [],
-  };
+const getMainInfo = (stockId: string, stock: UserStock['info']): StockList['mainInfo'] => ({
+  stockId,
+  stockName: stock.name,
+  currentPrice: stock.currentPrice,
+});
 
-  if (!userStocks) return stocks;
-  for (const stockId in userStocks) {
-    const stock = userStocks[stockId];
-    const mainInfo: StockList['mainInfo'] = {
-      stockId,
-      stockName: stock.info.name,
-      currentPrice: stock.info.currentPrice,
-    };
+const transformToStocksState = (userStocks: UserStocks): StocksCollection => {
+  const stocksInit: StocksCollection = { byId: {}, allIds: [] };
+  if (!userStocks) return stocksInit;
 
-    const purchasedItems: StockList['purchasedItems'] = {
-      byId: {},
-      allIds: [],
-    };
+  return Object.entries(userStocks).reduce((stocks, [stockId, stock]) => {
+    const mainInfo = getMainInfo(stockId, stock.info);
+    const purchasedItems = getPurchasedItems(stock.items);
 
-    for (const itemId in stock.items) {
-      const item = stock.items[itemId];
-      purchasedItems.byId[itemId] = {
-        purchasedId: itemId,
-        purchasedDate: new Date(item.buyDate).toISOString().slice(0, 10),
-        purchasedTime: item.buyTime,
-        purchasedQuantity: item.quantity,
-        purchasedPrice: item.buyPrice,
-      };
-      purchasedItems.allIds.push(itemId);
-    }
-
-    stocks.byId[stockId] = {
-      mainInfo,
-      purchasedItems,
-    };
+    stocks.byId[stockId] = { mainInfo, purchasedItems };
     stocks.allIds.push(stockId);
-  }
 
-  return stocks;
+    return stocks;
+  }, stocksInit);
 };
 
-export const generateInitialCheckInfo = (
-  userStocks: UserStocks,
-): CheckedItemsState => {
-  const checkedItemsInfo: CheckedItemsInfo = {
-    allChecked: true,
-    stocksCheckInfo: {},
-  };
-  if (!userStocks) return checkedItemsInfo;
+const getStocks = (stockData: UserDataRepRes['stocks']): UserDataServiceRes['stocks'] => ({
+  stocks: transformToStocksState(stockData.stocks),
+  nextStockId: stockData.nextStockId,
+  nextPurchasedId: stockData.nextItemId,
+});
 
-  for (const stockId in userStocks) {
-    const stock = userStocks[stockId];
-    const stockCheckInfo: StockCheckInfo = {
+const getPurchasedInfo = (purchasedId: string, item: Item) => ({
+  purchasedId,
+  purchasedDate: new Date(item.buyDate).toISOString().slice(0, 10),
+  purchasedTime: item.buyTime,
+  purchasedQuantity: item.quantity,
+  purchasedPrice: item.buyPrice,
+});
+
+const getPurchasedItems = (items: UserStock['items']): StockList['purchasedItems'] => {
+  const init: StockList['purchasedItems'] = { byId: {}, allIds: [] };
+
+  return Object.entries(items).reduce((purchasedItems, [id, item]) => {
+    purchasedItems.byId[id] = getPurchasedInfo(id, item);
+    purchasedItems.allIds.push(id);
+    return purchasedItems;
+  }, init);
+};
+
+const getCheckInfoPurchaseItems = (items: UserStock['items']): StockCheckInfo['purchasedItems'] => {
+  return Object.keys(items).reduce((purchasedItems, id) => {
+    purchasedItems[id] = true;
+    return purchasedItems;
+  }, {} as StockCheckInfo['purchasedItems']);
+};
+
+const generateInitialCheckInfo = (userStocks: UserStocks): CheckedItemsState => {
+  const checkedItemsInit: CheckedItemsInfo = { allChecked: true, stocksCheckInfo: {} };
+  if (!userStocks) return checkedItemsInit;
+
+  return Object.entries(userStocks).reduce((checkedItems, [stockId, stock]) => {
+    checkedItems.stocksCheckInfo[stockId] = {
       allChecked: true,
-      purchasedItems: {},
+      purchasedItems: getCheckInfoPurchaseItems(stock.items),
     };
 
-    for (const itemId in stock.items)
-      stockCheckInfo.purchasedItems[itemId] = true;
-
-    checkedItemsInfo.stocksCheckInfo[stockId] = stockCheckInfo;
-  }
-
-  return checkedItemsInfo;
+    return checkedItems;
+  }, checkedItemsInit);
 };
 
-export const transformUserGroupsForFrontend = (
-  userGroups: UserGroups,
-): Groups => {
-  const groups: Groups = {
+const getGroup = (groupData: UserGroup): Group => ({
+  groupId: groupData.id,
+  groupName: groupData.name,
+  stocks: {
+    byId: groupData.stocks,
+    allIds: Object.keys(groupData.stocks),
+  },
+});
+
+const transformToGroupsState = (userGroups: UserGroups): Groups => {
+  const groupsInit: Groups = {
     byId: {},
     allIds: [],
   };
 
-  if (!userGroups) return groups;
+  if (!userGroups) return groupsInit;
 
-  for (const groupId in userGroups) {
-    const userGroup = userGroups[groupId];
-
-    const group: Group = {
-      groupId,
-      groupName: userGroup.name,
-      stocks: {
-        byId: userGroup.stocks,
-        allIds: Object.keys(userGroup.stocks),
-      },
-    };
-
-    groups.byId[groupId] = group;
+  return Object.entries(userGroups).reduce((groups, [groupId, userGroup]) => {
+    groups.byId[groupId] = getGroup(userGroup);
     groups.allIds.push(groupId);
-  }
 
-  return groups;
+    return groups;
+  }, groupsInit);
+};
+
+const getGroups = (userGroups: UserDataRepRes['groups']): UserDataServiceRes['groups'] => {
+  const groups = transformToGroupsState(userGroups.groups);
+  return {
+    groups,
+    nextGroupId: userGroups.nextGroupId,
+  };
+};
+
+export const transformUserDataForFrontend = (userData: UserDataRepRes): UserDataServiceRes => {
+  const stocks = getStocks(userData.stocks);
+  const checkedItems = generateInitialCheckInfo(userData.stocks.stocks);
+  const groups = getGroups(userData.groups);
+
+  return {
+    stocks,
+    checkedItems,
+    groups,
+  };
 };

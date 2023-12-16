@@ -15,9 +15,9 @@ const WarningModal = ({ onClose, onConfirm, message, buttonName }: WarningModalP
     <PortalModal title='Warning' onClose={onClose}>
       <StyledWarningModal>
         <StyledMessage>{message}</StyledMessage>
-        <WarningModalButton color='warning' onClick={onConfirm}>
+        <StyledWarningModalButton color='warning' onClick={onConfirm}>
           {buttonName}
-        </WarningModalButton>
+        </StyledWarningModalButton>
       </StyledWarningModal>
     </PortalModal>
   );
@@ -40,6 +40,7 @@ const StyledMessage = styled('p')`
   line-height: 1.7;
   flex: 1;
 `;
-const WarningModalButton = styled(ContainedButton)`
+
+const StyledWarningModalButton = styled(ContainedButton)`
   margin-top: 10px;
 `;

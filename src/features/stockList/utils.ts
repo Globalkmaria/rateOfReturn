@@ -1,8 +1,7 @@
-import { getCurrentDateAndTime } from '../../views/List/StockItem/utils';
 import { PurchasedItemInfo, StockList, StockMainInfo } from './type';
 
 export const objectToArray = (Obj: { [key: string | number]: any }) => {
-  return Object.keys(Obj).map((ObjKey) => Obj[ObjKey]);
+  return Object.keys(Obj).map(ObjKey => Obj[ObjKey]);
 };
 
 export const getNewMainInfo = (newStockId: string): StockMainInfo => {
@@ -13,11 +12,7 @@ export const getNewMainInfo = (newStockId: string): StockMainInfo => {
   };
 };
 
-export const getNewPurchasedItemInfo = (
-  newPurchasedId: string,
-  date: string,
-  time: string,
-): PurchasedItemInfo => {
+export const getNewPurchasedItemInfo = (newPurchasedId: string, date: string, time: string): PurchasedItemInfo => {
   return {
     purchasedId: newPurchasedId,
     purchasedDate: date,
@@ -27,18 +22,11 @@ export const getNewPurchasedItemInfo = (
   };
 };
 
-export const getNewStockInfo = (
-  newStockId: string,
-  newPurchasedId: string,
-  date: string,
-  time: string,
-): StockList => {
+export const getNewStockInfo = (newStockId: string, newPurchasedId: string, date: string, time: string): StockList => {
   return {
     mainInfo: getNewMainInfo(newStockId),
     purchasedItems: {
-      byId: {
-        [newPurchasedId]: getNewPurchasedItemInfo(newPurchasedId, date, time),
-      },
+      byId: { [newPurchasedId]: getNewPurchasedItemInfo(newPurchasedId, date, time) },
       allIds: [newPurchasedId],
     },
   };
