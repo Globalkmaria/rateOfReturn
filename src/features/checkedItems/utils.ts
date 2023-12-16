@@ -1,6 +1,30 @@
 import { Group } from '../groups/type';
 import { StockListState } from '../stockList/type';
-import { CheckedItemsInfo, UpdateCheckedItemsInfoPayload } from './type';
+import { CheckedItemsInfo, StockCheckInfo, UpdateCheckedItemsInfoPayload, getCheckedItemsInfoProps } from './type';
+
+const getCheckItemPurchasedInfos = (items: string[], value: boolean) =>
+  items.reduce((info, purchasedId) => {
+    info[purchasedId] = value;
+    return info;
+  }, {} as StockCheckInfo['purchasedItems']);
+
+const getCheckedItemsInfo = <T>({ value, data, getStockIds, getPurchasedIds }: getCheckedItemsInfoProps<T>) => {
+  const init: CheckedItemsInfo = {
+    allChecked: value,
+    stocksCheckInfo: {},
+  };
+
+  return getStockIds(data).reduce((info, stockId) => {
+    const purchasedIds = getPurchasedIds(data, stockId);
+
+    info.stocksCheckInfo[stockId] = {
+      allChecked: value,
+      purchasedItems: getCheckItemPurchasedInfos(purchasedIds, value),
+    };
+
+    return info;
+  }, init);
+};
 
 export const getInitialCheckedItemsInfo = ({
   data,
@@ -9,24 +33,12 @@ export const getInitialCheckedItemsInfo = ({
   data: StockListState['stocks'];
   value: boolean;
 }): CheckedItemsInfo => {
-  const checkedItemsInfo: CheckedItemsInfo = {
-    allChecked: value,
-    stocksCheckInfo: {},
-  };
-
-  for (const stockId of data.allIds) {
-    checkedItemsInfo.stocksCheckInfo[stockId] = {
-      allChecked: value,
-      purchasedItems: data.byId[stockId].purchasedItems.allIds.reduce<{
-        [purchasedId: string]: boolean;
-      }>((acc, purchasedId) => {
-        acc[purchasedId] = value;
-        return acc;
-      }, {}),
-    };
-  }
-
-  return checkedItemsInfo;
+  return getCheckedItemsInfo({
+    value,
+    data,
+    getStockIds: data => data.allIds,
+    getPurchasedIds: (data, stockId) => data.byId[stockId].purchasedItems.allIds,
+  });
 };
 
 export const getInitialCheckedItemsInfoFromGroupFormat = ({
@@ -36,33 +48,15 @@ export const getInitialCheckedItemsInfoFromGroupFormat = ({
   data: Group['stocks'];
   value: boolean;
 }): CheckedItemsInfo => {
-  const checkedItemsInfo: CheckedItemsInfo = {
-    allChecked: value,
-    stocksCheckInfo: {},
-  };
-
-  for (const stockId of data.allIds) {
-    checkedItemsInfo.stocksCheckInfo[stockId] = {
-      allChecked: value,
-      purchasedItems: data.byId[stockId].reduce<{
-        [purchasedId: string]: boolean;
-      }>((acc, purchasedId) => {
-        acc[purchasedId] = value;
-        return acc;
-      }, {}),
-    };
-  }
-
-  return checkedItemsInfo;
+  return getCheckedItemsInfo({
+    value,
+    data,
+    getStockIds: data => data.allIds,
+    getPurchasedIds: (data, stockId) => data.byId[stockId],
+  });
 };
 
-const updateAllCheckedItems = ({
-  state,
-  value,
-}: {
-  state: CheckedItemsInfo;
-  value: boolean;
-}) => {
+const updateAllCheckedItems = ({ state, value }: { state: CheckedItemsInfo; value: boolean }) => {
   state.allChecked = value;
   for (const stockId in state.stocksCheckInfo) {
     state.stocksCheckInfo[stockId].allChecked = value;
@@ -107,10 +101,7 @@ const updatePurchasedCheckedItems = ({
   return state;
 };
 
-export const updateCheckedItemsState = (
-  state: CheckedItemsInfo,
-  payload: UpdateCheckedItemsInfoPayload,
-) => {
+export const updateCheckedItemsState = (state: CheckedItemsInfo, payload: UpdateCheckedItemsInfoPayload) => {
   const { checked, type } = payload;
   switch (type) {
     case 'all':

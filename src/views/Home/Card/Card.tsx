@@ -23,69 +23,63 @@ const Card = ({ stock }: CardProps) => {
   };
 
   return (
-    <StyledCard onClick={onExpand}>
-      <div className='content'>
+    <div onClick={onExpand}>
+      <StyledContent>
         <CardHeader stock={stock} investRef={investLink} />
         <Logo stock={stock} />
         <Categories stock={stock} />
         <ExpandCard open={open}>
-          <div className='expand-content'>
-            <div className='description'>
-              <span className='description__label label'>Description</span>
+          <StyledExpandContent>
+            <div>
+              <StyledDescriptionLabel>Description</StyledDescriptionLabel>
               <p>{stock.description}</p>
             </div>
             <Metrics financial={stock.financial} />
             <Ratios ratios={stock.ratios} />
-          </div>
+          </StyledExpandContent>
         </ExpandCard>
-      </div>
-    </StyledCard>
+      </StyledContent>
+    </div>
   );
 };
 
 export default Card;
 
-const StyledCard = styled('div')`
-  // card global css
-  .label {
-    margin-right: 10px;
-    font-size: 0.9rem;
-    color: ${({ theme }) => theme.colors.grey600};
-  }
+const StyledContent = styled('div')`
+  padding: 25px;
+  width: 370px;
+  border-radius: 20px;
+  box-shadow: rgba(50, 50, 50, 0.3) 0px 8px 20px;
+  transition: all 300ms ease-out;
 
-  .value {
-    font-weight: 500;
-  }
-
-  // local css
-  .content {
-    padding: 25px;
-    width: 370px;
-    border-radius: 20px;
-    box-shadow: rgba(50, 50, 50, 0.3) 0px 8px 20px;
-    transition: all 300ms ease-out;
-
-    &:hover {
-      transform: translateY(-15px);
-    }
-  }
-
-  .expand-content {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    .description__label {
-      margin-bottom: 5px;
-      display: block;
-    }
+  &:hover {
+    transform: translateY(-15px);
   }
 
   @media ${({ theme }) => theme.devices.mobile} {
-    .content {
-      width: 300px;
-      font-size: 0.8rem;
-    }
+    width: 300px;
+    font-size: 0.8rem;
   }
+`;
+
+export const StyledExpandContent = styled.div`
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const StyledLabel = styled.span`
+  margin-right: 10px;
+  font-size: 0.9rem;
+  color: ${({ theme }) => theme.colors.grey600};
+`;
+
+export const StyledValue = styled.span`
+  font-weight: 500;
+`;
+
+export const StyledDescriptionLabel = styled(StyledLabel)`
+  margin-bottom: 5px;
+  display: block;
 `;

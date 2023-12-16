@@ -1,13 +1,12 @@
 import { ButtonHTMLAttributes } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { ColorsTypes } from '../styles/theme';
 
 const SIZES = ['s', 'm', 'l'] as const;
 type Sizes = { [key in (typeof SIZES)[number]]: string };
 const COLOR_KEYS = ['primary', 'secondary1', 'secondary2', 'warning'] as const;
 type Colors = { [key in (typeof COLOR_KEYS)[number]]: string };
-export interface BaseButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface BaseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: (typeof SIZES)[number];
   color?: (typeof COLOR_KEYS)[number];
   height?: number;
@@ -47,71 +46,56 @@ const HEIGHTS: Sizes = {
   l: '48px',
 };
 
-const BaseButton = styled('button').attrs((props) => ({
+const BaseButton = styled('button').attrs(props => ({
   type: props.type || 'button',
-}))<BaseButtonProps>(
-  ({ theme, height, width, fullWidth, disableIcon, size = 's' }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+}))<BaseButtonProps>(({ theme, height, width, fullWidth, disableIcon, size = 's' }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 
-    padding: PADDING_SIZES[size],
-    height: height ? `${height}px` : HEIGHTS[size],
-    width: width ? `${width}px` : fullWidth ? '100%' : 'auto',
-    transition: '200ms',
+  padding: PADDING_SIZES[size],
+  height: height ? `${height}px` : HEIGHTS[size],
+  width: width ? `${width}px` : fullWidth ? '100%' : 'auto',
+  transition: '200ms',
 
-    background: theme.colors.white,
-    borderRadius: '5px',
+  background: theme.colors.white,
+  borderRadius: '5px',
 
-    fontSize: `min(${FONT_SIZES[size]}, 5vw)`,
-    whiteSpace: 'nowrap',
+  fontSize: `min(${FONT_SIZES[size]}, 5vw)`,
+  whiteSpace: 'nowrap',
 
-    '&:disabled': {
-      color: theme.colors.grey500,
-      cursor: 'default',
-    },
+  '&:disabled': {
+    color: theme.colors.grey500,
+    cursor: 'default',
+  },
 
-    svg: {
+  svg: {
+    color: disableIcon ? theme.colors.grey500 : 'inherit',
+    path: {
       color: disableIcon ? theme.colors.grey500 : 'inherit',
-      path: {
-        color: disableIcon ? theme.colors.grey500 : 'inherit',
-      },
     },
+  },
 
-    [`@media ${theme.devices.mobile}`]: {
-      fontSize: 'min(0.8rem, 5vw)',
-    },
-  }),
-);
+  [`@media ${theme.devices.mobile}`]: {
+    fontSize: 'min(0.8rem, 5vw)',
+  },
+}));
 
-export const BorderButton = styled(BaseButton)<BorderButtonProps>(
-  ({ theme, color = 'primary', showLine = true }) => ({
-    boxShadow: `rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px`,
+export const BorderButton = styled(BaseButton)<BorderButtonProps>(({ theme, color = 'primary', showLine = true }) => ({
+  boxShadow: `rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px`,
 
-    '&:not([disabled]):hover': {
-      background: `${
-        theme.colors[(COLORS[color] + '100') as keyof ColorsTypes]
-      }`,
-    },
-  }),
-);
+  '&:not([disabled]):hover': {
+    background: `${theme.colors[(COLORS[color] + '100') as keyof ColorsTypes]}`,
+  },
+}));
 
 export const ContainedButton = styled(BaseButton)<ContainedButtonProps>(
   ({ theme, color = 'primary', mode = 'dark' }) => ({
-    background: `${
-      theme.colors[
-        (COLORS[color] + (mode === 'dark' ? '800' : '100')) as keyof ColorsTypes
-      ]
-    }`,
+    background: `${theme.colors[(COLORS[color] + (mode === 'dark' ? '800' : '100')) as keyof ColorsTypes]}`,
     color: mode === 'dark' ? theme.colors.white : theme.colors.grey900,
 
     '&:not([disabled]):hover': {
-      background: `${
-        theme.colors[
-          (COLORS[color] +
-            (mode === 'dark' ? '600' : '300')) as keyof ColorsTypes
-        ]
-      }`,
+      background: `${theme.colors[(COLORS[color] + (mode === 'dark' ? '600' : '300')) as keyof ColorsTypes]}`,
     },
   }),
 );

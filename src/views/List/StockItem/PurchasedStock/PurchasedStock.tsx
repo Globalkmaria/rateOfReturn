@@ -45,7 +45,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   }, [isMainGroupSelected]);
 
   return (
-    <StyledPurchasedStockRow>
+    <StyledPurchasedStock>
       {isMainGroupSelected ? (
         <CheckboxCell
           title='Check item'
@@ -76,27 +76,14 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
           )}
         </>
       ) : null}
-    </StyledPurchasedStockRow>
+    </StyledPurchasedStock>
   );
 };
 
 export default memo(PurchasedStock);
 
-const StyledPurchasedStockRow = styled(TableRow)`
+const StyledPurchasedStock = styled(TableRow)`
   background: ${({ theme }) => theme.colors.white};
-
-  .stock-name {
-    color: ${({ theme }) => theme.colors.subtitle};
-  }
-
-  .datetime {
-    display: flex;
-    gap: 5px;
-
-    .date {
-      font-size: 0.8rem;
-    }
-  }
 
   &:hover {
     background: ${({ theme }) => theme.colors.indigo000};
@@ -106,13 +93,5 @@ const StyledPurchasedStockRow = styled(TableRow)`
     &:not([disabled]):hover {
       background: ${({ theme }) => theme.colors.grey400};
     }
-  }
-
-  .total-purchase {
-    border-right: ${({ theme }) => `4px double ${theme.colors.grey600}`};
-  }
-
-  .date {
-    width: 108px;
   }
 `;

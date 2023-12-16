@@ -1,17 +1,8 @@
-import {
-  ReplaceUserDataRepReq,
-  mergeUserDataRepReq,
-} from '../../repository/userData/type';
-import UserDataRepository, {
-  userDataRepository,
-} from '../../repository/userData/userData';
+import { ReplaceUserDataRepReq, mergeUserDataRepReq } from '../../repository/userData/type';
+import UserDataRepository, { userDataRepository } from '../../repository/userData/userData';
 import { Result } from '../type';
 import { UserDataServiceRes } from './type';
-import {
-  generateInitialCheckInfo,
-  transformStocksDataForFrontend,
-  transformUserGroupsForFrontend,
-} from './util';
+import { transformUserDataForFrontend } from './util';
 
 class UserDataService {
   repo: UserDataRepository;
@@ -37,21 +28,7 @@ class UserDataService {
       const userData = await this.repo.getUserData();
       if ('error' in userData) throw new Error(userData.message);
 
-      const stocks = transformStocksDataForFrontend(userData.stocks.stocks);
-      const checkedItems = generateInitialCheckInfo(userData.stocks.stocks);
-      const groups = transformUserGroupsForFrontend(userData.groups.groups);
-      return {
-        stocks: {
-          stocks,
-          nextStockId: userData.stocks.nextStockId,
-          nextPurchasedId: userData.stocks.nextItemId,
-        },
-        checkedItems,
-        groups: {
-          groups,
-          nextGroupId: userData.groups.nextGroupId,
-        },
-      };
+      return transformUserDataForFrontend(userData);
     } catch (error) {
       console.log(error);
       return null;

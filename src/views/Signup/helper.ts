@@ -1,64 +1,23 @@
-import { z } from 'zod';
-
 import { SignupInfoState } from './Signup';
+import { checkFieldValidity, getFieldValidConfig } from './fieldValidator';
 
-const emailValidSchema = z
-  .string({
-    required_error: 'Email is required',
-  })
-  .trim()
-  .email('Please enter a valid email address');
+export const getEmailValidConfig = (state: SignupInfoState) => {
+  return getFieldValidConfig({ type: 'email', value: state.username });
+};
 
-const passwordValidSchema = z
-  .string({
-    required_error: 'Password is required',
-  })
-  .trim()
-  .min(8, { message: 'Password must be at least 8 characters long' });
+export const getPasswordValidConfig = (state: SignupInfoState) => {
+  return getFieldValidConfig({ type: 'password', value: state.password });
+};
 
-export const checkSignFormValidity = (state: SignupInfoState) => {
-  const emailValidResult = emailValidSchema.safeParse(state.username);
-  const passwordValidResult = passwordValidSchema.safeParse(state.password);
+export const checkSignFormValidity = (state: SignupInfoState): { isValid: boolean; message: string } => {
+  const emailValidResult = checkFieldValidity({ type: 'email', value: state.username });
+  if (!emailValidResult.isValid) return emailValidResult;
+
+  const passwordValidResult = checkFieldValidity({ type: 'password', value: state.password });
+  if (!passwordValidResult.isValid) return passwordValidResult;
+
   const passwordMatched = state.password === state.confirmPassword;
+  if (!passwordMatched) return { isValid: false, message: 'Passwords do not match' };
 
-  const message =
-    (!emailValidResult.success && emailValidResult.error.issues[0].message) ||
-    (!passwordValidResult.success &&
-      passwordValidResult.error.issues[0].message) ||
-    (!passwordMatched && 'Please check Confirm Password');
-
-  return {
-    isValid: !message,
-    message,
-  };
-};
-
-export const getEmailValidConfig = (formInfo: SignupInfoState) => {
-  const emailValidResult = emailValidSchema.safeParse(formInfo.username);
-
-  const emailMessage = formInfo.username.length
-    ? emailValidResult.success
-      ? 'Valid'
-      : emailValidResult.error.issues[0].message
-    : '';
-
-  return {
-    isValid: emailValidResult.success,
-    text: emailMessage,
-  };
-};
-
-export const getPasswordValidConfig = (formInfo: SignupInfoState) => {
-  const passwordValidResult = passwordValidSchema.safeParse(formInfo.password);
-
-  const passwordMessage = formInfo.password.length
-    ? passwordValidResult.success
-      ? 'Valid'
-      : passwordValidResult.error.issues[0].message
-    : '';
-
-  return {
-    isValid: passwordValidResult.success,
-    text: passwordMessage,
-  };
+  return { isValid: true, message: '' };
 };

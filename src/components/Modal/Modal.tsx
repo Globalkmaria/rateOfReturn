@@ -1,8 +1,7 @@
 import { MouseEvent, useEffect, useRef } from 'react';
 import { CgClose } from 'react-icons/cg';
 
-import { BorderButton } from '../Button';
-import { StyledModal, StyledModalContent } from './Modal.style';
+import { StyledCloseButton, StyledModal, StyledModalContent, StyledModalHeader, StyledModalTitle } from './Modal.style';
 
 export interface ModalContentProps {
   onClose: () => void;
@@ -16,13 +15,7 @@ interface ModalProps {
   title?: string;
 }
 
-const Modal = ({
-  children,
-  isOpen = true,
-  onClose,
-  title = '',
-  showCloseButton = true,
-}: ModalProps) => {
+const Modal = ({ children, isOpen = true, onClose, title = '', showCloseButton = true }: ModalProps) => {
   const modalContent = useRef<HTMLDivElement>(null);
   const needHeader = !!title.length || showCloseButton;
   const onClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -45,21 +38,15 @@ const Modal = ({
 
   return (
     <StyledModal isOpen={isOpen} onClick={onClick}>
-      <StyledModalContent needHeader={needHeader} ref={modalContent}>
-        <div className='header'>
-          <h1 className='title'>{title}</h1>
+      <StyledModalContent ref={modalContent}>
+        <StyledModalHeader needHeader={needHeader}>
+          <StyledModalTitle>{title}</StyledModalTitle>
           {showCloseButton && (
-            <BorderButton
-              className='close-btn'
-              size='s'
-              showLine={false}
-              width={32}
-              onClick={onClose}
-            >
+            <StyledCloseButton size='s' showLine={false} width={32} onClick={onClose}>
               <CgClose />
-            </BorderButton>
+            </StyledCloseButton>
           )}
-        </div>
+        </StyledModalHeader>
         {children}
       </StyledModalContent>
     </StyledModal>

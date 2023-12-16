@@ -1,18 +1,8 @@
 import { ChangeEvent, FocusEvent, useEffect, useRef, useState } from 'react';
 import { BaseInput, InputProps } from './BaseInput';
-import {
-  blurTransformValue,
-  changeTransformValue,
-  getInitialValue,
-} from './utils';
+import { blurTransformValue, changeTransformValue, getInitialValue } from './utils';
 
-export const Input = ({
-  type = 'text',
-  onChange,
-  onBlur,
-  value = '',
-  ...restProps
-}: InputProps) => {
+export const Input = ({ type = 'text', onChange, onBlur, className, value = '', ...restProps }: InputProps) => {
   const inputType = type === 'number' ? 'text' : type;
   const align = type === 'number' ? 'right' : 'left';
   const formattedValue = getInitialValue(value, type);
@@ -33,8 +23,7 @@ export const Input = ({
 
     if (transformedValue) {
       setPreValue(transformedValue[0]);
-      const nextSelection =
-        e.target.selectionStart! + transformedValue[0].length - value.length;
+      const nextSelection = e.target.selectionStart! + transformedValue[0].length - value.length;
       setSelection(nextSelection);
     } else {
       setSelection(null);
@@ -52,6 +41,7 @@ export const Input = ({
 
   return (
     <BaseInput
+      className={className}
       ref={input}
       onChange={onChangeHandler}
       onBlur={onBlurHandler}

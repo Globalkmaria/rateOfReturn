@@ -25,45 +25,40 @@ const MergeLocalDataModal = ({ onClose }: Props) => {
 
   return (
     <Modal title='Data Sync' onClose={onClose}>
-      <StyledMergeLocalDataModal>
-        <p className='message'>
-          You have local data that is not synced with the server. Would you like
-          to merge it with the server data?
-        </p>
-        <div className='btns'>
+      <div>
+        <StyledMessage>
+          You have local data that is not synced with the server. Would you like to merge it with the server data?
+        </StyledMessage>
+        <StyledButtonGroup>
           <ContainedButton color='secondary1' size='m' onClick={onMerge}>
             Merge data
           </ContainedButton>
           <ContainedButton size='m' onClick={onClose}>
             Dismiss
           </ContainedButton>
-        </div>
-      </StyledMergeLocalDataModal>
+        </StyledButtonGroup>
+      </div>
     </Modal>
   );
 };
 
 export default MergeLocalDataModal;
 
-const StyledMergeLocalDataModal = styled('div')`
-  .message {
-    width: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1.7;
-  }
-
-  .btns {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-  }
+const StyledMessage = styled('p')`
+  width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.7;
 
   @media ${({ theme }) => theme.devices.mobile} {
-    .message {
-      width: 50vw;
-      min-width: 200px;
-    }
+    width: 50vw;
+    min-width: 200px;
   }
+`;
+
+const StyledButtonGroup = styled.div`
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
 `;

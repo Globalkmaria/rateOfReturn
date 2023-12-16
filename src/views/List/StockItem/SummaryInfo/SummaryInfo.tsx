@@ -31,8 +31,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const [isLock, setIsLock] = useState(true);
   const { showModal, onOpenModal, onCloseModal } = useModal();
 
-  const { changedInputs, initChangedInputs, onInputChange } =
-    useStockSummaryInputChange(stockId);
+  const { changedInputs, initChangedInputs, onInputChange } = useStockSummaryInputChange(stockId);
   const checkedInfo = useSelector(selectStockCheckedInfo(stockId));
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
 
@@ -52,11 +51,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
           title='Check all group items'
         />
       ) : null}
-      <SummaryContent
-        stockId={stockId}
-        isLock={isLock}
-        onInputChange={onInputChange}
-      />
+      <SummaryContent stockId={stockId} isLock={isLock} onInputChange={onInputChange} />
       {isMainGroupSelected ? (
         <>
           <SummaryLock
@@ -67,14 +62,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
             initChangedInputs={initChangedInputs}
           />
           <DeleteButton onClick={onOpenModal} disabled={!isMainGroupSelected} />
-          {showModal && (
-            <DeleteStockModal
-              type='stock'
-              stockId={stockId}
-              purchasedId={''}
-              onClose={onCloseModal}
-            />
-          )}
+          {showModal && <DeleteStockModal type='stock' stockId={stockId} purchasedId={''} onClose={onCloseModal} />}
         </>
       ) : null}
     </StyledSummaryRow>
@@ -85,14 +73,6 @@ export default SummaryInfo;
 
 export const StyledSummaryRow = styled(TableRow)`
   background: ${({ theme }) => theme.colors.grey100};
-
-  .stockName {
-    font-weight: 700;
-  }
-
-  .total-purchase {
-    border-right: ${({ theme }) => `4px double ${theme.colors.grey600}`};
-  }
 
   ${TableCell} > ${BaseInput} {
     background: ${({ theme }) => theme.colors.grey300};

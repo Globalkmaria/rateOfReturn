@@ -1,7 +1,10 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components/macro';
 import { FcGoogle } from 'react-icons/fc';
+
 import { BorderButton } from '../Button';
+import { StyledSubText } from './SignForm';
 
 type OtherOptionsProps = {
   otherOptionSubtext: string;
@@ -15,32 +18,57 @@ export const OtherOptions = memo(function OtherOptions({
   otherOptionLink,
 }: OtherOptionsProps) {
   return (
-    <div className='other-option'>
-      <span className='subtext'>{otherOptionSubtext}</span>
-      <Link className='link' to={otherOptionLink}>
-        {otherOptionTitle}
-      </Link>
-    </div>
+    <StyledOtherOptions>
+      <StyledSubText>{otherOptionSubtext}</StyledSubText>
+      <StyledLink to={otherOptionLink}>{otherOptionTitle}</StyledLink>
+    </StyledOtherOptions>
   );
 });
+
+const StyledOtherOptions = styled.div`
+  margin-top: 3rem;
+  text-align: center;
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  margin-left: 0.5rem;
+  text-decoration: underline;
+`;
 
 type GoogleBtnProps = {
   googleBtnTitle: string;
   loginGoogleURL: string;
 };
 
-export const GoogleBtn = memo(function GoogleBtn({
-  loginGoogleURL,
-  googleBtnTitle,
-}: GoogleBtnProps) {
+export const GoogleBtn = memo(function GoogleBtn({ loginGoogleURL, googleBtnTitle }: GoogleBtnProps) {
   return (
     <BorderButton size='m' fullWidth>
-      <div className='google-btn'>
+      <StyledContent>
         <FcGoogle />
-        <a className='google-btn__text' href={loginGoogleURL} role='button'>
+        <StyledText href={loginGoogleURL} role='button'>
           {googleBtnTitle}
-        </a>
-      </div>
+        </StyledText>
+      </StyledContent>
     </BorderButton>
   );
 });
+
+const StyledContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  svg {
+    font-size: 1.5rem;
+  }
+`;
+
+const StyledText = styled.a`
+  font-weight: 500;
+`;

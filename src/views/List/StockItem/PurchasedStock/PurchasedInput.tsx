@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, memo } from 'react';
 import { useDispatch } from 'react-redux';
+import styled from 'styled-components/macro';
 
 import { Input } from '../../../../components/Input/Input';
 import { TableCell } from '../../../../components/Table';
@@ -7,6 +8,7 @@ import { PurchasedItemInfo } from '../../../../features/stockList/type';
 import { updatePurchaseItem } from '../../../../features/stockList/stockListSlice';
 import { InputCell } from '../components';
 import { ChangedPurchasedItemInputs, PurchasedInputChangeProps } from './PurchasedStock';
+import { checkPurchasedItemValidity } from '../validity';
 
 type Props = {
   purchasedItem: PurchasedItemInfo;
@@ -22,7 +24,15 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
   const onInputChange: PurchasedInputChangeProps = (e, transformedValue) => {
     const fieldName = e.target.name as keyof Omit<PurchasedItemInfo, 'purchasedId'>;
     if (transformedValue === null) return;
+
     const value = transformedValue[1];
+
+    const validity = checkPurchasedItemValidity(fieldName, value);
+    if (!validity.isValid) {
+      alert(validity.message);
+      return;
+    }
+
     setChangedInputs(prev => ({ ...prev, [fieldName]: value }));
     dispatch(updatePurchaseItem({ stockId, purchasedId, fieldName, value }));
   };
@@ -30,9 +40,8 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
   return (
     <>
       <TableCell>
-        <div className='datetime'>
-          <Input
-            className='date'
+        <StyledDateTime>
+          <StyledDate
             name='purchasedDate'
             onChange={onInputChange}
             disabled={isLock}
@@ -41,8 +50,7 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
             fullWidth
             aria-label='purchased date'
           />
-          <Input
-            className='date'
+          <StyledDate
             name='purchasedTime'
             onChange={onInputChange}
             disabled={isLock}
@@ -51,7 +59,7 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
             value={purchasedItem.purchasedTime}
             fullWidth
           />
-        </div>
+        </StyledDateTime>
       </TableCell>
       <InputCell
         name='purchasedQuantity'
@@ -74,3 +82,12 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
 };
 
 export default memo(PurchasedInput);
+
+const StyledDateTime = styled.div`
+  display: flex;
+  gap: 5px;
+`;
+
+const StyledDate = styled(Input)`
+  font-size: 0.8rem;
+`;

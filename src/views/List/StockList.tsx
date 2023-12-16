@@ -23,15 +23,15 @@ const StockList = () => {
 
   return (
     <StyledStockList>
-      <div className='control-bar'>
-        <div className='control-bar__left'>
+      <StyledControlBar>
+        <div>
           <GroupButtons />
         </div>
-        <div className='control-bar__right'>
+        <StyledControlBarRight>
           {showAddSampleBtn && <AddSampleData />}
           <Backup />
-        </div>
-      </div>
+        </StyledControlBarRight>
+      </StyledControlBar>
       <GroupSummary />
       <StockTable />
       <div className='container'></div>
@@ -51,21 +51,19 @@ const StyledStockList = styled('div')`
       opacity: 1;
     }
   }
+`;
 
-  .control-bar {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .control-bar__right {
-    display: flex;
-    gap: 10px;
-  }
+const StyledControlBar = styled('div')`
+  display: flex;
+  justify-content: space-between;
 
   @media ${({ theme }) => theme.devices.tablet} {
-    .control-bar {
-      flex-direction: column;
-      gap: 10px;
-    }
+    flex-direction: column;
+    gap: 10px;
   }
+`;
+
+const StyledControlBarRight = styled('div')`
+  display: flex;
+  gap: 10px;
 `;

@@ -3,8 +3,7 @@ import { MouseEvent, ReactNode, useRef } from 'react';
 import { CgClose } from 'react-icons/cg';
 
 import PortalWrapper from '../PortalWrapper';
-import { BorderButton } from '../Button';
-import { StyledModal, StyledModalContent } from './Modal.style';
+import { StyledCloseButton, StyledModal, StyledModalContent, StyledModalHeader, StyledModalTitle } from './Modal.style';
 
 type Props = {
   children: ReactNode;
@@ -15,22 +14,12 @@ type Props = {
   title?: string;
 };
 
-function PortalModal({
-  children,
-  wrapperId,
-  isOpen = true,
-  onClose,
-  title = '',
-  showCloseButton = true,
-}: Props) {
+function PortalModal({ children, wrapperId, isOpen = true, onClose, title = '', showCloseButton = true }: Props) {
   const modalBackground = useRef<HTMLDivElement>(null);
   const modalContent = useRef<HTMLDivElement>(null);
   const needHeader = !!title.length || showCloseButton;
   const onClick = (e: MouseEvent<HTMLDivElement>) => {
-    if (
-      !modalContent.current?.contains(e.target as Node) &&
-      modalBackground.current?.contains(e.target as Node)
-    ) {
+    if (!modalContent.current?.contains(e.target as Node) && modalBackground.current?.contains(e.target as Node)) {
       onClose();
     }
   };
@@ -40,21 +29,15 @@ function PortalModal({
   return (
     <PortalWrapper wrapperId={wrapperId}>
       <StyledModal isOpen={isOpen} onClick={onClick} ref={modalBackground}>
-        <StyledModalContent needHeader={needHeader} ref={modalContent}>
-          <div className='header'>
-            <h1 className='title'>{title}</h1>
+        <StyledModalContent ref={modalContent}>
+          <StyledModalHeader needHeader={needHeader}>
+            <StyledModalTitle>{title}</StyledModalTitle>
             {showCloseButton && (
-              <BorderButton
-                className='close-btn'
-                size='s'
-                showLine={false}
-                width={32}
-                onClick={onClose}
-              >
+              <StyledCloseButton size='s' showLine={false} width={32} onClick={onClose}>
                 <CgClose />
-              </BorderButton>
+              </StyledCloseButton>
             )}
-          </div>
+          </StyledModalHeader>
           {children}
         </StyledModalContent>
       </StyledModal>

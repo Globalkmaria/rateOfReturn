@@ -1,10 +1,5 @@
-import {
-  AddNewUserGroupRepReq,
-  AddNewUserGroupRepRes,
-} from '../../repository/userGroups/type';
-import UserGroupsRepository, {
-  userGroupsRepository,
-} from '../../repository/userGroups/userGroups';
+import { AddNewUserGroupRepReq, AddNewUserGroupRepRes } from '../../repository/userGroups/type';
+import UserGroupsRepository, { userGroupsRepository } from '../../repository/userGroups/userGroups';
 import { Result } from '../type';
 
 class UserGroupsService {
@@ -13,9 +8,7 @@ class UserGroupsService {
     this.repo = repo;
   }
 
-  async addNewUserGroup(
-    userGroup: AddNewUserGroupRepReq,
-  ): Promise<AddNewUserGroupRepRes | null> {
+  async addNewUserGroup(userGroup: AddNewUserGroupRepReq): Promise<AddNewUserGroupRepRes | null> {
     try {
       const result = await this.repo.addNewUserGroup(userGroup);
       if ('groupId' in result) {
@@ -23,7 +16,6 @@ class UserGroupsService {
       }
 
       if (result && result.response.status === 400) {
-        console.log(result.message);
         alert(result.message);
         return null;
       }
