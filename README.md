@@ -71,6 +71,10 @@ This project allows you to:
 
 ## Version History
 
+### Version 2.1.6 (2023-12-17)
+
+- Refactoring and add test. Limit number input.
+
 ### Version 2.1.5 (2023-10-19)
 
 - Refactoring and add test. Fix Purchase input showing NaN bugs.

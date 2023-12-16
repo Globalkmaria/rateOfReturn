@@ -1,6 +1,6 @@
 {
   "name": "ror",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "1.9.3",
