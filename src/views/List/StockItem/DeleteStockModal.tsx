@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 import { ContainedButton } from '../../../components/Button';
 import PortalModal from '../../../components/Modal/PortalModal';
@@ -12,12 +12,7 @@ export type DeleteModalProps = {
   purchasedId: string;
 };
 
-export const DeleteStockModal = ({
-  onClose,
-  type,
-  stockId,
-  purchasedId,
-}: DeleteModalProps) => {
+export const DeleteStockModal = ({ onClose, type, stockId, purchasedId }: DeleteModalProps) => {
   const onDeleteStock = useDeleteStock({ onClose, stockId });
   const onDeletePurchased = useDeletePurchased({
     onClose,
@@ -29,7 +24,7 @@ export const DeleteStockModal = ({
   return (
     <PortalModal onClose={onClose}>
       <StyledDeleteModal>
-        <p className='message'>{MESSAGES[type]}</p>
+        <StyledMessage>{MESSAGES[type]}</StyledMessage>
         <ContainedButton size='l' color='warning' onClick={onDelete}>
           Delete
         </ContainedButton>
@@ -50,19 +45,19 @@ export const StyledDeleteModal = styled('div')`
   width: 500px;
   margin-bottom: 20px;
 
-  .message {
-    padding: 20px 0 40px;
-    font-size: 1.4em;
-    font-weight: 700;
-  }
-
   @media ${({ theme }) => theme.devices.tablet} {
     width: 60vw;
+  }
+`;
 
-    .message {
-      padding: 20px 0;
-      font-size: 1rem;
-      text-align: center;
-    }
+const StyledMessage = styled('div')`
+  padding: 20px 0 40px;
+  font-size: 1.4em;
+  font-weight: 700;
+
+  @media ${({ theme }) => theme.devices.tablet} {
+    padding: 20px 0;
+    font-size: 1rem;
+    text-align: center;
   }
 `;

@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import { memo } from 'react';
+import styled from 'styled-components/macro';
 
 import { BorderButton } from '../../../components/Button';
 import BackupModal from './BackupModal';
 import useModal from '../hooks/useModal';
-import { memo } from 'react';
 
 const Backup = () => {
   const { showModal, onOpenModal, onCloseModal } = useModal();

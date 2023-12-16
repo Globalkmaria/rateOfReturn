@@ -26,23 +26,16 @@ const AddGroupModal = ({ onClose }: Props) => {
   return (
     <Modal title='Add Group' onClose={onClose}>
       <StyledAddGroupModal>
-        <div className='group-name'>
-          <label className='group-name__label' htmlFor='group-name'>
-            Group Name* :
-          </label>
-          <Input
-            value={name}
-            onChange={onChangeName}
-            width={150}
-            id='group-name'
-          />
-        </div>
+        <StyledGroupName>
+          <StyledGroupLabel htmlFor='group-name'>Group Name* :</StyledGroupLabel>
+          <Input value={name} onChange={onChangeName} width={150} id='group-name' />
+        </StyledGroupName>
         <GroupModalTable />
-        <div className='button-groups'>
+        <StyledButtonGroups>
           <ContainedButton onClick={onAddGroup} width={150} size='m'>
             Add
           </ContainedButton>
-        </div>
+        </StyledButtonGroups>
       </StyledAddGroupModal>
     </Modal>
   );
@@ -56,28 +49,28 @@ const StyledAddGroupModal = styled('div')`
   max-height: 500px;
   overflow: auto;
 
-  .group-name {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-
-    .group-name__label {
-      min-width: 120px;
-    }
-
-    input {
-      background-color: ${({ theme }) => theme.colors.grey100};
-    }
-  }
-
-  .button-groups {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
-  }
-
   @media ${({ theme }) => theme.devices.tablet} {
     width: 70vw;
   }
+`;
+
+const StyledGroupName = styled('div')`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+
+  input {
+    background-color: ${({ theme }) => theme.colors.grey100};
+  }
+`;
+
+const StyledGroupLabel = styled('label')`
+  min-width: 120px;
+`;
+
+const StyledButtonGroups = styled('div')`
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
 `;

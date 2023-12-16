@@ -32,3 +32,10 @@ export type CheckInfoPayload = {
 };
 
 export type CheckedItemsState = CheckedItemsInfo;
+
+export type getCheckedItemsInfoProps<T> = {
+  value: boolean;
+  data: T;
+  getStockIds: (data: T) => string[];
+  getPurchasedIds: (data: T, stockId: string) => string[];
+};

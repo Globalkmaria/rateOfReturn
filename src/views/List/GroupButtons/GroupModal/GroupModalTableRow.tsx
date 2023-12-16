@@ -1,31 +1,24 @@
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components/macro';
+
 import { updateCheckedItems } from '../../../../features/checkedItems/checkedItemsSlice';
 import { selectIsPurchasedItemChecked } from '../../../../features/checkedItems/selectors';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
 import { CheckboxCell } from '../../StockItem/components';
 import { TableCell, TableRow } from '../../../../components/Table';
 import { Input } from '../../../../components/Input/Input';
-import styled from 'styled-components';
 
 type GroupModalTableRowProps = {
   stockId: string;
   purchasedId: string;
 };
 
-const GroupModalTableRow = ({
-  stockId,
-  purchasedId,
-}: GroupModalTableRowProps) => {
+const GroupModalTableRow = ({ stockId, purchasedId }: GroupModalTableRowProps) => {
   const dispatch = useDispatch();
-  const isChecked = useSelector(
-    selectIsPurchasedItemChecked(stockId, purchasedId),
-  );
-  const { mainInfo, purchasedItems } = useSelector(
-    selectStockInfoById(stockId),
-  );
+  const isChecked = useSelector(selectIsPurchasedItemChecked(stockId, purchasedId));
+  const { mainInfo, purchasedItems } = useSelector(selectStockInfoById(stockId));
   const purchasedInfo = purchasedItems.byId[purchasedId];
-  const totalPurchasedPrice =
-    purchasedInfo.purchasedQuantity * purchasedInfo.purchasedPrice;
+  const totalPurchasedPrice = purchasedInfo.purchasedQuantity * purchasedInfo.purchasedPrice;
 
   const onCheck = (value: boolean) => {
     dispatch(
@@ -44,22 +37,11 @@ const GroupModalTableRow = ({
       <TableCell>{mainInfo.stockName}</TableCell>
       <TableCell align='center'>{purchasedInfo.purchasedId}</TableCell>
       <TableCell>
-        <Input
-          padding={0}
-          value={purchasedInfo.purchasedDate}
-          type='date'
-          disabled
-        />
+        <Input padding={0} value={purchasedInfo.purchasedDate} type='date' disabled />
       </TableCell>
-      <TableCell align='right'>
-        {purchasedInfo.purchasedQuantity.toString()}
-      </TableCell>
-      <TableCell align='right'>
-        {purchasedInfo.purchasedPrice.toLocaleString()}
-      </TableCell>
-      <TableCell align='right'>
-        {totalPurchasedPrice.toLocaleString()}
-      </TableCell>
+      <TableCell align='right'>{purchasedInfo.purchasedQuantity.toString()}</TableCell>
+      <TableCell align='right'>{purchasedInfo.purchasedPrice.toLocaleString()}</TableCell>
+      <TableCell align='right'>{totalPurchasedPrice.toLocaleString()}</TableCell>
     </StyledTableRow>
   );
 };

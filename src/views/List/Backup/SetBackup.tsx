@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 import { RootState } from '../../../store';
 import { ContainedButton } from '../../../components/Button';
@@ -16,14 +16,14 @@ const SetBackup = () => {
     if (file) {
       const reader = new FileReader();
       reader.readAsText(file);
-      reader.onload = (event) => {
+      reader.onload = event => {
         try {
           setData(JSON.parse(event.target?.result as string) as RootState);
         } catch (error) {
           console.error('Error parsing JSON file:', error);
         }
       };
-      reader.onerror = (event) => {
+      reader.onerror = event => {
         console.error('Error reading JSON file:', event.target?.error);
       };
     }
@@ -39,34 +39,23 @@ const SetBackup = () => {
   };
 
   return (
-    <StyledSetBackup>
-      <input
-        multiple={false}
-        className='input-file'
-        type='file'
-        accept='.json'
-        onChange={handleFileChange}
-      />
+    <div>
+      <StyledInputFile multiple={false} type='file' accept='.json' onChange={handleFileChange} />
       <ContainedButton color='secondary1' fullWidth onClick={onLocalOpen}>
         Set Backup
       </ContainedButton>
       {showModal && <SetBackupWarning onClose={onCloseModal} data={data} />}
       <RemoteData data={data} />
-    </StyledSetBackup>
+    </div>
   );
 };
 
 export default SetBackup;
 
-const StyledSetBackup = styled('div')`
-  .input-file {
-    width: 100%;
-    margin-bottom: 10px;
-    border: 1px solid ${({ theme }) => theme.colors.grey600};
-    border-radius: 5px;
-    padding: 5px;
-  }
-  .store-remote-data {
-    margin-top: 10px;
-  }
+const StyledInputFile = styled.input`
+  width: 100%;
+  margin-bottom: 10px;
+  border: 1px solid ${({ theme }) => theme.colors.grey600};
+  border-radius: 5px;
+  padding: 5px;
 `;

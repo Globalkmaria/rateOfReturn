@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 import AuthBtns from './AuthBtns';
 import Menu from './Menu';
@@ -16,7 +16,7 @@ const Navbar = () => {
   return (
     <StyledNav>
       <Link to='/'>
-        <h1 className='site-name'>ROR</h1>
+        <StyledTitle>ROR</StyledTitle>
       </Link>
       <Menu />
       <AuthBtns />
@@ -37,11 +37,6 @@ const StyledNav = styled('nav')`
 
   border-bottom: 1px solid ${({ theme }) => theme.colors.grey200};
 
-  .site-name {
-    grid-area: site-name;
-    font-size: 1.2rem;
-  }
-
   @media ${({ theme }) => theme.devices.tablet} {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(2, 60px);
@@ -49,4 +44,9 @@ const StyledNav = styled('nav')`
       'site-name auth-btns'
       'menu menu';
   }
+`;
+
+const StyledTitle = styled.h1`
+  grid-area: site-name;
+  font-size: 1.2rem;
 `;

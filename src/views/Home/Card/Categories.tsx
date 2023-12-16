@@ -1,5 +1,7 @@
 import styled from 'styled-components/macro';
+
 import { TopStock } from '../../../repository/topStocks/type';
+import { StyledLabel } from './Card';
 
 type CategoriesProps = {
   stock: TopStock;
@@ -8,13 +10,13 @@ type CategoriesProps = {
 const Categories = ({ stock }: CategoriesProps) => {
   return (
     <StyledCategories>
-      <div className='industry'>
-        <span className='label'>Industry</span>
-        <span className='chip'>{stock.industry}</span>
+      <div>
+        <StyledLabel>Industry</StyledLabel>
+        <StyledChip>{stock.industry}</StyledChip>
       </div>
-      <div className='sector'>
-        <span className='label'>Sector</span>
-        <span className='chip'>{stock.sector}</span>
+      <div>
+        <StyledLabel>Sector</StyledLabel>
+        <StyledChip>{stock.sector}</StyledChip>
       </div>
     </StyledCategories>
   );
@@ -26,12 +28,12 @@ const StyledCategories = styled('div')`
   display: flex;
   flex-direction: column;
   gap: 10px;
+`;
 
-  .chip {
-    padding: 3px;
-    width: fit-content;
-    background-color: ${({ theme }) => theme.colors.grey400};
-    border-radius: 5px;
-    line-height: 1.8rem;
-  }
+const StyledChip = styled('span')`
+  padding: 3px;
+  width: fit-content;
+  background-color: ${({ theme }) => theme.colors.grey400};
+  border-radius: 5px;
+  line-height: 1.8rem;
 `;

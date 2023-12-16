@@ -1,16 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
+
 import { ContainedButton } from '../../../components/Button';
 import { handleGetDataFile } from '../../../utils/file';
 
 const SaveAsFile = () => {
   return (
     <StyledSaveAsFile>
-      <ContainedButton
-        onClick={handleGetDataFile}
-        title='Save File Button'
-        fullWidth
-      >
+      <ContainedButton onClick={handleGetDataFile} title='Save File Button' fullWidth>
         Get Backup File
       </ContainedButton>
     </StyledSaveAsFile>

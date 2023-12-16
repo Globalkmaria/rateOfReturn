@@ -1,13 +1,13 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
+import { useSelector } from 'react-redux';
+import { FaTrash } from 'react-icons/fa';
 
 import { Group } from '../../../features/groups/type';
 import { selectGroups } from '../../../features/groups/selectors';
-import { useSelector } from 'react-redux';
 import Modal from '../../../components/Modal/Modal';
 import { BorderButton } from '../../../components/Button';
-import { FaTrash } from 'react-icons/fa';
-import DeleteGroupWarning from './DeleteGroupWarning';
 import useModal from '../hooks/useModal';
+import DeleteGroupWarning from './DeleteGroupWarning';
 
 const NO_GROUP_MESSAGE = 'There is no group.';
 
@@ -21,7 +21,7 @@ const DeleteGroupModal = ({ onClose }: Props) => {
   return (
     <Modal title='Delete Group' onClose={onClose}>
       <StyledDeleteGroupModal>
-        {groups.groups.allIds.map((id) => (
+        {groups.groups.allIds.map(id => (
           <GroupItem groupInfo={groups.groups.byId[id]} key={id} />
         ))}
         {noGroups && <span>{NO_GROUP_MESSAGE}</span>}
@@ -39,13 +39,11 @@ const GroupItem = ({ groupInfo }: { groupInfo: Group }) => {
 
   return (
     <StyledGroupItem>
-      <h1 className='group-name'>{groupName}</h1>
+      <StyledGroupName>{groupName}</StyledGroupName>
       <BorderButton onClick={onOpenModal} showLine={false}>
         <FaTrash />
       </BorderButton>
-      {showModal && (
-        <DeleteGroupWarning groupId={groupId} onClose={onCloseModal} />
-      )}
+      {showModal && <DeleteGroupWarning groupId={groupId} onClose={onCloseModal} />}
     </StyledGroupItem>
   );
 };
@@ -68,8 +66,8 @@ const StyledGroupItem = styled('div')`
     background-color: ${({ theme }) => theme.colors.grey300};
     border-radius: 5px;
   }
+`;
 
-  .group-name {
-    font-weight: 600;
-  }
+const StyledGroupName = styled('h1')`
+  font-weight: 600;
 `;

@@ -1,6 +1,7 @@
 import { RouterProvider } from 'react-router-dom';
-import GlobalStyles from './styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
+
+import GlobalStyles from './styles/GlobalStyles';
 import { theme } from './styles/theme';
 import { store } from './store';
 import { Provider } from 'react-redux';

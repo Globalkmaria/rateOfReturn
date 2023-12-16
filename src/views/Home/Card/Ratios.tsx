@@ -1,5 +1,7 @@
 import styled from 'styled-components/macro';
+
 import { TopStock } from '../../../repository/topStocks/type';
+import { StyledLabel, StyledValue } from './Card';
 
 type RatiosProps = {
   ratios: TopStock['ratios'];
@@ -8,18 +10,18 @@ type RatiosProps = {
 const Ratios = ({ ratios }: RatiosProps) => {
   return (
     <StyledRatios>
-      <div className='ratio'>
-        <span className='label'>ROA</span>
-        <span className='value'>{ratios.roa}</span>
-      </div>
-      <div className='ratio'>
-        <span className='label'>PBR</span>
-        <span className='value'>{ratios.pbr}</span>
-      </div>
-      <div className='ratio'>
-        <span className='label'>PER</span>
-        <span className='value'>{ratios.per}</span>
-      </div>
+      <StyledRatio>
+        <StyledLabel>ROA</StyledLabel>
+        <StyledValue>{ratios.roa}</StyledValue>
+      </StyledRatio>
+      <StyledRatio>
+        <StyledLabel>PBR</StyledLabel>
+        <StyledValue>{ratios.pbr}</StyledValue>
+      </StyledRatio>
+      <StyledRatio>
+        <StyledLabel>PER</StyledLabel>
+        <StyledValue>{ratios.per}</StyledValue>
+      </StyledRatio>
     </StyledRatios>
   );
 };
@@ -29,9 +31,9 @@ export default Ratios;
 const StyledRatios = styled('div')`
   display: flex;
   justify-content: space-between;
+`;
 
-  .ratio {
-    display: flex;
-    gap: 5px;
-  }
+const StyledRatio = styled('div')`
+  display: flex;
+  gap: 5px;
 `;

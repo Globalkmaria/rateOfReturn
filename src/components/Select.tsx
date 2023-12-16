@@ -1,5 +1,5 @@
 import { SelectHTMLAttributes, useState } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 type Option = {
   value: string;
@@ -15,27 +15,20 @@ interface SelectProps extends SelectComponentProps {
   initialValue?: string;
 }
 
-const SelectComponent = styled('select')<SelectComponentProps>(
-  ({ theme, width = 100, height = 40 }) => ({
-    padding: '0.4rem',
-    width: `${width}px`,
-    height: `${height}px`,
-    border: `2px solid ${theme.colors.grey700}`,
-    borderRadius: '5px',
+const SelectComponent = styled('select')<SelectComponentProps>(({ theme, width = 100, height = 40 }) => ({
+  padding: '0.4rem',
+  width: `${width}px`,
+  height: `${height}px`,
+  border: `2px solid ${theme.colors.grey700}`,
+  borderRadius: '5px',
+  outline: 'none',
+
+  '&:focus': {
     outline: 'none',
+  },
+}));
 
-    '&:focus': {
-      outline: 'none',
-    },
-  }),
-);
-
-const Select = ({
-  initialValue,
-  options,
-  onChange,
-  ...restProps
-}: SelectProps) => {
+const Select = ({ initialValue, options, onChange, ...restProps }: SelectProps) => {
   const [value, setValue] = useState(initialValue || '');
   const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const onChangeResult = onChange && onChange(e);
@@ -45,7 +38,7 @@ const Select = ({
 
   return (
     <SelectComponent value={value} {...restProps} onChange={onChangeHandler}>
-      {options.map((option) => (
+      {options.map(option => (
         <option key={option.value} value={option.value}>
           {option.label}
         </option>

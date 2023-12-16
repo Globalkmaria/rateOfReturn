@@ -1,11 +1,8 @@
 import { useSelector } from 'react-redux';
 
-import {
-  selectIsMainGroupSelected,
-  selectSelectedGroupInfo,
-} from '../../../../../features/groups/selectors';
+import { selectIsMainGroupSelected, selectSelectedGroupInfo } from '../../../../../features/groups/selectors';
 import { selectStockInfoById } from '../../../../../features/stockList/selectors';
-import { getGroupPurchasedData, getStockSummaryInfo } from '../../utils';
+import { getStockSummaryInfo } from '../../utils';
 import { useMemo } from 'react';
 
 export type SummaryData = {
@@ -22,16 +19,9 @@ export const useGetStockSummaryData = (stockId: string): SummaryData => {
   const stockInfo = useSelector(selectStockInfoById(stockId));
   const groupInfo = useSelector(selectSelectedGroupInfo);
 
-  const purchasedItems = isMainGroupSelected
-    ? stockInfo.purchasedItems
-    : getGroupPurchasedData(
-        stockInfo.purchasedItems,
-        groupInfo?.stocks.byId[stockId],
-      );
-
   const summaryData = useMemo(
-    () => getStockSummaryInfo(stockInfo.mainInfo, purchasedItems),
-    [purchasedItems, stockInfo.mainInfo],
+    () => getStockSummaryInfo(stockInfo, isMainGroupSelected, groupInfo?.stocks.byId[stockId]),
+    [isMainGroupSelected, groupInfo?.stocks.byId[stockId], stockInfo],
   );
 
   const result = useMemo(

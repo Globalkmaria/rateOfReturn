@@ -1,5 +1,4 @@
-import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { SidebarContent } from '../../router/router';
 import { useRouter } from '../../hooks/useRouter';
 
@@ -10,7 +9,7 @@ const Menu = () => {
   const menuClickHandler = (path: string) => routeTo(path);
   return (
     <StyledList>
-      {SidebarContent.map((element) => {
+      {SidebarContent.map(element => {
         return (
           <StyledMenu
             key={element.path}
@@ -38,8 +37,7 @@ const StyledList = styled('ul')`
 const StyledMenu = styled('li')<MenuProps>`
   padding: 10px;
   width: min(100px, 20vw);
-  background: ${({ theme, selected }) =>
-    selected ? theme.colors.grey100 : 'none'};
+  background: ${({ theme, selected }) => (selected ? theme.colors.grey100 : 'none')};
   border-radius: 10px;
   transition: '200ms';
   font-weight: 500;
