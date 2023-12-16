@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 interface FieldValidParams {
-  type: 'email' | 'password';
+  type: keyof typeof schema;
   value: string;
 }
 
@@ -20,14 +20,16 @@ const emailValidSchema = z
     required_error: 'Email is required',
   })
   .trim()
-  .email('Please enter a valid email address');
+  .email('Please enter a valid email address')
+  .max(30, 'Email must be at most 30 characters long');
 
 const passwordValidSchema = z
   .string({
     required_error: 'Password is required',
   })
   .trim()
-  .min(8, { message: 'Password must be at least 8 characters long' });
+  .min(8, { message: 'Password must be at least 8 characters long' })
+  .max(20, { message: 'Password must be at most 20 characters long' });
 
 const schema = {
   email: emailValidSchema,
