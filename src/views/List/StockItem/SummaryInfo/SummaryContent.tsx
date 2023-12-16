@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import styled from 'styled-components/macro';
 
 import { TableCell } from '../../../../components/Table';
 import { Input } from '../../../../components/Input/Input';
@@ -21,7 +22,7 @@ const SummaryContent = ({ stockId, isLock, onInputChange }: Props) => {
   return (
     <>
       <TableCell>
-        <Input
+        <StyledStockName
           aria-label='stock name'
           fullWidth
           onChange={onInputChange}
@@ -35,7 +36,7 @@ const SummaryContent = ({ stockId, isLock, onInputChange }: Props) => {
       </TableCell>
       <NumberCell value={summaryData.purchaseQuantitySum} />
       <NumberCell value={summaryData.purchasePriceAverage} />
-      <NumberCell value={summaryData.totalPurchasePrice} />
+      <StyledTotalPurchase value={summaryData.totalPurchasePrice} />
       <TableCell>
         <Input
           fullWidth
@@ -55,3 +56,13 @@ const SummaryContent = ({ stockId, isLock, onInputChange }: Props) => {
 };
 
 export default SummaryContent;
+
+const StyledStockName = styled(Input)`
+  font-weight: 700;
+`;
+
+const StyledTotalPurchase = styled(NumberCell)`
+  && {
+    border-right: ${({ theme }) => `4px double ${theme.colors.grey600}`};
+  }
+`;

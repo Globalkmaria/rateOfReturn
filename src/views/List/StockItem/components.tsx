@@ -31,9 +31,9 @@ type NumberCellProps = {
   value: number | string;
 } & TableCellProps;
 
-export const NumberCell = memo(function NumberCell({ value, ...props }: NumberCellProps) {
+export const NumberCell = memo(function NumberCell({ value, className, ...props }: NumberCellProps) {
   return (
-    <TableCell align='right' {...props}>
+    <TableCell align='right' className={className} {...props}>
       <StyledTextWrapper>{Number(value).toLocaleString()}</StyledTextWrapper>
     </TableCell>
   );

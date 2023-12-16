@@ -80,17 +80,27 @@ const StyledMainStockTable = styled(StyledStockTableBase)`
 
   tbody tr > :first-child,
   tbody tr > :nth-child(2),
-  tbody tr > :nth-child(3):not(.stock-summary) {
+  tbody tr > td:nth-child(3) {
     background: ${({ theme }) => theme.colors.grey100};
     position: sticky;
     z-index: 1;
     left: 0;
   }
+
+  tbody tr > td[colspan='2']:nth-child(3) {
+    position: static;
+    z-index: auto;
+    left: auto;
+  }
+
   tbody tr > :nth-child(2) {
     left: 50px;
   }
-  tbody tr > :nth-child(3):not(.stock-summary) {
+  tbody tr > td:nth-child(3) {
     left: 170px;
+  }
+  tbody tr > td[colspan='2']:nth-child(3) {
+    left: auto;
   }
 
   @media ${({ theme }) => theme.devices.mobile} {
@@ -104,8 +114,11 @@ const StyledMainStockTable = styled(StyledStockTableBase)`
     tbody tr > :nth-child(2) {
       left: 30px;
     }
-    tbody tr > :nth-child(3):not(.stock-summary) {
+    tbody tr > td:nth-child(3) {
       left: 100px;
+    }
+    tbody tr > td[colspan='2']:nth-child(3) {
+      left: auto;
     }
   }
 `;
@@ -122,15 +135,23 @@ const StyledSubStockTable = styled(StyledStockTableBase)`
   }
 
   tbody tr > :first-child,
-  tbody tr > :nth-child(2):not(.stock-summary) {
+  tbody tr > td:nth-child(2) {
     background: ${({ theme }) => theme.colors.grey100};
     position: sticky;
     z-index: 1;
     left: 0px;
   }
+  tbody tr > td[colspan='2']:nth-child(2) {
+    position: static;
+    z-index: auto;
+    left: auto;
+  }
 
-  tbody tr > :nth-child(2):not(.stock-summary) {
+  tbody tr > td:nth-child(2) {
     left: 120px;
+  }
+  tbody tr > td[colspan='2']:nth-child(2) {
+    left: auto;
   }
 
   @media ${({ theme }) => theme.devices.mobile} {
@@ -138,8 +159,11 @@ const StyledSubStockTable = styled(StyledStockTableBase)`
       left: 70px;
     }
 
-    tbody tr > :nth-child(2):not(.stock-summary) {
+    tbody tr > td:nth-child(2) {
       left: 70px;
+    }
+    tbody tr > td[colspan='2']:nth-child(2) {
+      left: auto;
     }
   }
 `;

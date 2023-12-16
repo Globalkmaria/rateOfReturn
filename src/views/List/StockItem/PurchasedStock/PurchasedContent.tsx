@@ -22,7 +22,9 @@ const PurchasedContent = ({ stockId, purchasedId, setChangedInputs, isLock }: Pr
   return (
     <>
       <StyledStockName>{mainInfo.stockName}</StyledStockName>
-      <TableCell align='center'>{purchasedId}</TableCell>
+      <TableCell align='center' colSpan={1}>
+        {purchasedId}
+      </TableCell>
       <PurchasedInput
         stockId={stockId}
         purchasedId={purchasedId}
@@ -46,5 +48,7 @@ const StyledStockName = styled(TableCell)`
 `;
 
 const StyledTotalPurchase = styled(NumberCell)`
-  border-right: ${({ theme }) => `4px double ${theme.colors.grey600}`};
+  && {
+    border-right: ${({ theme }) => `4px double ${theme.colors.grey600}`};
+  }
 `;
