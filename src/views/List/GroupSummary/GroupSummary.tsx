@@ -32,7 +32,6 @@ type Contents = {
   key: keyof CalculateStockSummaryResult;
   title: string;
   format: (value: number) => string;
-  className?: string;
   Component: StyledComponent<'div', DefaultTheme, {}, never>;
 }[];
 
