@@ -17,6 +17,7 @@ type CheckboxCellProps = {
   type?: 'td' | 'th';
   disabled?: boolean;
   title?: string;
+  className?: string;
 } & Pick<TableHeadProps, 'fixedWidth' | 'minWidth'>;
 export type LockButtonProps = {
   isLock: boolean;
@@ -49,7 +50,7 @@ export const InputCell = ({ value, disabled, ...restProps }: InputCellProps) => 
   );
 };
 
-export const CheckboxCell = ({ onClick, value, type = 'td', disabled, ...restProps }: CheckboxCellProps) => {
+export const CheckboxCell = ({ onClick, value, type = 'td', disabled, className, ...restProps }: CheckboxCellProps) => {
   const Cell = type === 'td' ? TableCell : TableHead;
 
   const onClickHandler = (e: MouseEvent<HTMLTableCellElement>) => {
@@ -62,7 +63,7 @@ export const CheckboxCell = ({ onClick, value, type = 'td', disabled, ...restPro
   };
 
   return (
-    <Cell align='center' onClick={onClickHandler} {...restProps}>
+    <Cell align='center' onClick={onClickHandler} className={className} {...restProps}>
       <input disabled={disabled} type='checkbox' checked={value} onChange={onChange} />
     </Cell>
   );
