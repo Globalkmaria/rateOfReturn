@@ -51,7 +51,7 @@ const SummaryContent = ({ stockId, isLock, onInputChange }: Props) => {
       </TableCell>
       <NumberCell value={summaryData.evaluationPrice} />
       <TableCell align='right'>{summaryData.evaluationProfit}</TableCell>
-      <TableCell align='right'>{summaryData.profitRate} </TableCell>
+      <StyledProfitRate align='right'>{summaryData.profitRate} </StyledProfitRate>
     </>
   );
 };
@@ -66,4 +66,8 @@ const StyledTotalPurchase = styled(NumberCell)`
   && {
     border-right: ${({ theme }) => `4px double ${theme.colors.grey600}`};
   }
+`;
+
+const StyledProfitRate = styled(TableCell)`
+  white-space: nowrap;
 `;

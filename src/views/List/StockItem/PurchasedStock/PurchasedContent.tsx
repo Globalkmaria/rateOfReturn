@@ -36,7 +36,7 @@ const PurchasedContent = ({ stockId, purchasedId, setChangedInputs, isLock }: Pr
       <NumberCell value={mainInfo.currentPrice} />
       <NumberCell value={purchasedData.evaluationPrice} />
       <TableCell align='right'>{purchasedData.formattedEvaluationProfit}</TableCell>
-      <TableCell align='right'>{purchasedData.formattedProfitRate}</TableCell>
+      <StyledProfitRate align='right'>{purchasedData.formattedProfitRate}</StyledProfitRate>
     </>
   );
 };
@@ -51,4 +51,8 @@ const StyledTotalPurchase = styled(NumberCell)`
   && {
     border-right: ${({ theme }) => `4px double ${theme.colors.grey600}`};
   }
+`;
+
+const StyledProfitRate = styled(TableCell)`
+  white-space: nowrap;
 `;

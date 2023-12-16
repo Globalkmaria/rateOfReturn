@@ -56,6 +56,7 @@ const StyledContent = styled.div`
   flex-direction: column;
   gap: 8px;
   padding: 15px;
+  min-width: fit-content;
   width: 170px;
   background: ${({ theme }) => theme.colors.white};
   border-radius: 10px;
@@ -66,6 +67,7 @@ const StyledContent = styled.div`
     gap: 10px;
     border-width: 2px;
     padding: 5px 10px;
+    min-width: fit-content;
     width: 37vw;
     min-width: 120px;
   }
