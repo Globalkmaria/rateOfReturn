@@ -81,5 +81,4 @@ const StyledDateTime = styled.div`
 
 const StyledDate = styled(Input)`
   font-size: 0.8rem;
-  width: 108px;
 `;
