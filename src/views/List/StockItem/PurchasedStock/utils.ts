@@ -1,4 +1,5 @@
 import { PurchasedItemInfo, StockMainInfo } from '../../../../features/stockList/type';
+import { ChangedPurchasedItemInputs } from './PurchasedStock';
 
 export const getPurchasedData = ({
   purchasedItem,
@@ -34,3 +35,5 @@ export const formatDateOrNumber = ({
   if (fieldName === 'purchasedDate') return value.replace(/\:[\d]{2}.[\d]{3}Z/, '');
   return value.replaceAll(',', '');
 };
+
+export const checkNoChange = (values: ChangedPurchasedItemInputs) => Object.keys(values).length === 0;

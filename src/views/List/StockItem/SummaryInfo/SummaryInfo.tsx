@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/macro';
+
+import { selectStockCheckedInfo } from '../../../../features/checkedItems/selectors';
+import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
+import { updateStockNeedInit } from '../../../../features/stockList/stockListSlice';
+
 import { BorderButton } from '../../../../components/Button';
 import { BaseInput } from '../../../../components/Input/BaseInput';
 import { TableCell, TableRow } from '../../../../components/Table';
+
 import { DeleteButton, CheckboxCell } from '../components';
-import { selectStockCheckedInfo } from '../../../../features/checkedItems/selectors';
-import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
-import { useStockSummaryInputChange } from './hooks/useStockSummaryInputChange';
 import useModal from '../../hooks/useModal';
 import { DeleteStockModal } from '../DeleteStockModal';
+import { useStockSummaryInputChange } from './hooks/useStockSummaryInputChange';
 import SummaryLock from './SummaryLock';
 import SummaryContent from './SummaryContent';
 import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
-import { updateStockNeedInit } from '../../../../features/stockList/stockListSlice';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;

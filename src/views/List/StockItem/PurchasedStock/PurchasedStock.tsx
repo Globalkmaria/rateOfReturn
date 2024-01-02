@@ -8,15 +8,18 @@ import { selectIsMainGroupSelected } from '../../../../features/groups/selectors
 import { selectPurchasedItemNeedInit } from '../../../../features/stockList/selectors';
 import { updatePurchaseItemNeedInit } from '../../../../features/stockList/stockListSlice';
 import { EditUserItemServiceData } from '../../../../service/userStocks/type';
+import { selectIsLoggedIn } from '../../../../features/user/selectors';
 
 import { TableRow } from '../../../../components/Table';
 import { BorderButton } from '../../../../components/Button';
 import { TransformedValue } from '../../../../components/Input/BaseInput';
+import userStocksService from '../../../../service/userStocks/userStocks';
 import useModal from '../../hooks/useModal';
 import { DeleteButton, CheckboxCell } from '../components';
 import { DeleteStockModal } from '../DeleteStockModal';
-import PurchaseLock from './PurchaseLock';
 import PurchasedContent from './PurchasedContent';
+import EditButton from '../EditButton';
+import { checkNoChange } from './utils';
 
 export type PurchasedInputChangeProps = (
   e: React.ChangeEvent<HTMLInputElement>,
@@ -36,12 +39,26 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const isPurchasedItemChecked = useSelector(selectIsPurchasedItemChecked(stockId, purchasedId));
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const needInit = useSelector(selectPurchasedItemNeedInit(stockId, purchasedId));
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
   const [isLock, setIsLock] = useState(!needInit);
   const [changedInputs, setChangedInputs] = useState<ChangedPurchasedItemInputs>({});
   const { showModal, onOpenModal, onCloseModal } = useModal();
 
-  const onChangeCheckbox = (value: boolean) => {
+  const onChangeCheckbox = (value: boolean) =>
     dispatch(updateCheckedItems({ type: 'purchased', checked: value, stockId, purchasedId }));
+
+  const onToggleLock = async () => {
+    if (needInit) dispatch(updatePurchaseItemNeedInit({ stockId, purchasedId }));
+
+    if (isLock) return setIsLock(false);
+    if (!isLoggedIn || checkNoChange(changedInputs)) return setIsLock(true);
+
+    const result = await userStocksService.editUserItem({ stockId, itemId: purchasedId, data: changedInputs });
+    if (!result.success) return;
+
+    setChangedInputs({});
+    setIsLock(true);
   };
 
   useEffect(() => {
@@ -51,9 +68,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
 
   useEffect(() => {
     return () => {
-      if (needInit) {
-        dispatch(updatePurchaseItemNeedInit({ stockId, purchasedId }));
-      }
+      if (needInit) dispatch(updatePurchaseItemNeedInit({ stockId, purchasedId }));
     };
   }, []);
 
@@ -75,15 +90,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
       />
       {isMainGroupSelected ? (
         <>
-          <PurchaseLock
-            isLock={isLock}
-            setIsLock={setIsLock}
-            stockId={stockId}
-            purchasedId={purchasedId}
-            changedInputs={changedInputs}
-            setChangedInputs={setChangedInputs}
-            needInit={needInit}
-          />
+          <EditButton isLock={isLock} onClick={onToggleLock} disabled={!isMainGroupSelected} />
           <DeleteButton onClick={onOpenModal} disabled={!isMainGroupSelected} />
           {showModal && (
             <DeleteStockModal type='purchase' stockId={stockId} purchasedId={purchasedId} onClose={onCloseModal} />
