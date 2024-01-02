@@ -35,9 +35,11 @@ const ErrorPage = () => {
           <i>{error.statusText || error.message}</i>
         </p>
       </StyledContent>
-      <ContainedButton size='m'>
-        <Link to='/'>Return Home</Link>
-      </ContainedButton>
+      <Link to='/'>
+        <ContainedButton as={'span'} size='m'>
+          Return Home
+        </ContainedButton>
+      </Link>
 
       <StyledContent>If 'Returning Home' Does Not Work, Try Resetting Data.</StyledContent>
       <ContainedButton onClick={handleGetDataFile} title='Save File Button' size='m' color={'warning'}>
