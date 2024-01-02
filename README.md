@@ -73,7 +73,7 @@ This project allows you to:
 
 ### Version 2.1.7 (2024-01-02)
 
-- Improve accessibility and refactor code.
+- Improve accessibility, refactor code and small changes.
 
 ### Version 2.1.6 (2023-12-17)
 
