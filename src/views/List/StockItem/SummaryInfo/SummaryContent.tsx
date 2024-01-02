@@ -7,18 +7,22 @@ import { TransformedValue } from '../../../../components/Input/BaseInput';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
 import { NumberCell } from '../components';
 import { useGetStockSummaryData } from './hooks/useGetStockSummaryData';
+import { memo } from 'react';
+import { ChangedSummaryInputs } from './hooks/useStockSummaryInputChange';
 
 type Props = {
   stockId: string;
   isLock: boolean;
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>, transformedValue: TransformedValue) => void;
+  changedInputs: ChangedSummaryInputs;
 };
 
-const SummaryContent = ({ stockId, isLock, onInputChange }: Props) => {
+const SummaryContent = ({ stockId, isLock, onInputChange, changedInputs }: Props) => {
   const stockInfo = useSelector(selectStockInfoById(stockId));
   const summaryData = useGetStockSummaryData(stockId);
 
-  const formattedCurrentPrice = stockInfo.mainInfo.currentPrice.toString();
+  const stockName = changedInputs.stockName || stockInfo.mainInfo.stockName;
+  const formattedCurrentPrice = changedInputs.currentPrice?.toString() || stockInfo.mainInfo.currentPrice.toString();
   return (
     <>
       <TableCell>
@@ -27,7 +31,7 @@ const SummaryContent = ({ stockId, isLock, onInputChange }: Props) => {
           fullWidth
           onChange={onInputChange}
           name='stockName'
-          value={stockInfo.mainInfo.stockName}
+          value={stockName}
           disabled={isLock}
         />
       </TableCell>
@@ -56,7 +60,7 @@ const SummaryContent = ({ stockId, isLock, onInputChange }: Props) => {
   );
 };
 
-export default SummaryContent;
+export default memo(SummaryContent);
 
 const StyledStockName = styled(Input)`
   font-weight: 700;

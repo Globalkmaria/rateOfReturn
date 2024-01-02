@@ -4,6 +4,8 @@ import { CgClose } from 'react-icons/cg';
 
 import PortalWrapper from '../PortalWrapper';
 import { StyledCloseButton, StyledModal, StyledModalContent, StyledModalHeader, StyledModalTitle } from './Modal.style';
+import useEscapeKey from '../../hooks/useEscapeKey';
+import useHideScroll from '../../views/List/hooks/useHideScroll';
 
 type Props = {
   children: ReactNode;
@@ -18,6 +20,9 @@ function PortalModal({ children, wrapperId, isOpen = true, onClose, title = '', 
   const modalBackground = useRef<HTMLDivElement>(null);
   const modalContent = useRef<HTMLDivElement>(null);
   const needHeader = !!title.length || showCloseButton;
+  useEscapeKey({ onClose, target: modalBackground, portalId: wrapperId });
+  useHideScroll({ isOpen });
+
   const onClick = (e: MouseEvent<HTMLDivElement>) => {
     if (!modalContent.current?.contains(e.target as Node) && modalBackground.current?.contains(e.target as Node)) {
       onClose();

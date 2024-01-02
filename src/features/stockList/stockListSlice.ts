@@ -3,13 +3,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { MOCK_DATA, MOCK_DATA_NEXT_STOCK_ID, MOCK_DATA_PURCHASED_ID } from './mockData';
 import {
   StockListState,
-  StockMainInfo,
   UpdateStockPayload,
-  PurchasedItemInfo,
   UpdatePurchasedItemPayload,
   DeletePurchasedItemPayload,
   AddNewStockPayload,
   AddNewPurchasedItemPayload,
+  StockMainPayload,
 } from './type';
 
 export const stockInitialState: StockListState = {
@@ -61,19 +60,23 @@ const stockListSlice = createSlice({
       curStock.purchasedItems.allIds.push(purchasedId);
     },
 
-    updateStock: <T extends keyof Omit<StockMainInfo, 'stockId'>>(
-      state: StockListState,
-      action: PayloadAction<UpdateStockPayload<T>>,
-    ) => {
-      const { stockId, fieldName, value } = action.payload;
-      state.stocks.byId[stockId].mainInfo[fieldName] = value;
+    updateStock: (state: StockListState, action: PayloadAction<UpdateStockPayload>) => {
+      const { stockId, stockData } = action.payload;
+      state.stocks.byId[stockId].mainInfo = stockData;
     },
-    updatePurchaseItem: <T extends keyof Omit<PurchasedItemInfo, 'purchasedId'>>(
-      state: StockListState,
-      action: PayloadAction<UpdatePurchasedItemPayload<T>>,
-    ) => {
-      const { stockId, purchasedId, fieldName, value } = action.payload;
-      state.stocks.byId[stockId].purchasedItems.byId[purchasedId][fieldName] = value;
+    updatePurchaseItem: (state: StockListState, action: PayloadAction<UpdatePurchasedItemPayload>) => {
+      const { stockId, purchasedId, purchasedData } = action.payload;
+      state.stocks.byId[stockId].purchasedItems.byId[purchasedId] = purchasedData;
+    },
+
+    updateStockNeedInit: (state, action: PayloadAction<string>) => {
+      const stockId = action.payload;
+      state.stocks.byId[stockId].mainInfo.needInit = false;
+    },
+
+    updatePurchaseItemNeedInit: (state, action: PayloadAction<StockMainPayload>) => {
+      const { stockId, purchasedId } = action.payload;
+      state.stocks.byId[stockId].purchasedItems.byId[purchasedId].needInit = false;
     },
 
     deleteStock: (state, action: PayloadAction<string>) => {
@@ -112,6 +115,8 @@ export const {
   restStockList,
   updateNextStockId,
   updateNextPurchasedId,
+  updateStockNeedInit,
+  updatePurchaseItemNeedInit,
 } = stockListSlice.actions;
 
 export default stockListSlice.reducer;

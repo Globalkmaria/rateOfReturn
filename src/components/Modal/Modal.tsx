@@ -1,7 +1,8 @@
-import { MouseEvent, useEffect, useRef } from 'react';
+import { MouseEvent, useRef } from 'react';
 import { CgClose } from 'react-icons/cg';
 
 import { StyledCloseButton, StyledModal, StyledModalContent, StyledModalHeader, StyledModalTitle } from './Modal.style';
+import useHideScroll from '../../views/List/hooks/useHideScroll';
 
 export interface ModalContentProps {
   onClose: () => void;
@@ -24,17 +25,7 @@ const Modal = ({ children, isOpen = true, onClose, title = '', showCloseButton =
     }
   };
 
-  useEffect(() => {
-    const body = document.body;
-    if (isOpen) {
-      body!.style.overflow = 'hidden';
-    } else {
-      body!.style.overflow = 'auto';
-    }
-    return () => {
-      body!.style.overflow = 'auto';
-    };
-  }, [isOpen]);
+  useHideScroll({ isOpen });
 
   return (
     <StyledModal isOpen={isOpen} onClick={onClick}>

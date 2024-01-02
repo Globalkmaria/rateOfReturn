@@ -9,12 +9,15 @@ import { routers } from './router/router';
 
 function App() {
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <GlobalStyles />
-        <RouterProvider router={routers} />
-      </ThemeProvider>
-    </Provider>
+    <>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <GlobalStyles />
+          <RouterProvider router={routers} />
+        </ThemeProvider>
+      </Provider>
+      <div id='portal-container' />
+    </>
   );
 }
 

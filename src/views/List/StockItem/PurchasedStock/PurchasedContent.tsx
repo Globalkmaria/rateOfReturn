@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/macro';
 
@@ -7,16 +7,17 @@ import { selectPurchasedItemsById } from '../../../../features/stockList/selecto
 import { NumberCell } from '../components';
 import PurchasedInput from './PurchasedInput';
 import { getPurchasedData } from './utils';
-import { ChangedPurchasedItemInputs } from './PurchasedStock';
+import { ChangedPurchasedItemInputs, SetChangedInputByFieldName } from './PurchasedStock';
 
 type Props = {
   stockId: string;
   purchasedId: string;
   isLock: boolean;
-  setChangedInputs: Dispatch<SetStateAction<ChangedPurchasedItemInputs>>;
+  setChangedInputByFieldName: SetChangedInputByFieldName;
+  changedInputs: ChangedPurchasedItemInputs;
 };
 
-const PurchasedContent = ({ stockId, purchasedId, setChangedInputs, isLock }: Props) => {
+const PurchasedContent = ({ stockId, purchasedId, setChangedInputByFieldName, changedInputs, isLock }: Props) => {
   const { mainInfo, purchasedItem } = useSelector(selectPurchasedItemsById(stockId, purchasedId));
   const purchasedData = getPurchasedData({ purchasedItem, mainInfo });
   return (
@@ -26,9 +27,8 @@ const PurchasedContent = ({ stockId, purchasedId, setChangedInputs, isLock }: Pr
         {purchasedId}
       </TableCell>
       <PurchasedInput
-        stockId={stockId}
-        purchasedId={purchasedId}
-        setChangedInputs={setChangedInputs}
+        setChangedInputByFieldName={setChangedInputByFieldName}
+        changedInputs={changedInputs}
         purchasedItem={purchasedItem}
         isLock={isLock}
       />
@@ -41,7 +41,7 @@ const PurchasedContent = ({ stockId, purchasedId, setChangedInputs, isLock }: Pr
   );
 };
 
-export default PurchasedContent;
+export default memo(PurchasedContent);
 
 const StyledStockName = styled(TableCell)`
   color: ${({ theme }) => theme.colors.subtitle};
