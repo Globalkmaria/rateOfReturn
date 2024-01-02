@@ -82,4 +82,5 @@ export const checkNoChange = (values: { [key: string]: any }) => Object.keys(val
 export const getChangedStockData = (changedInputs: ChangedSummaryInputs, stockInfo: StockMainInfo): StockMainInfo => ({
   ...stockInfo,
   ...changedInputs,
+  needInit: false,
 });

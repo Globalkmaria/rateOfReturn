@@ -39,4 +39,4 @@ export const formatDateOrNumber = ({
 export const getChangedPurchasedData = (
   purchasedItem: PurchasedItemInfo,
   changedInputs: ChangedPurchasedItemInputs,
-): PurchasedItemInfo => ({ ...purchasedItem, ...changedInputs });
+): PurchasedItemInfo => ({ ...purchasedItem, ...changedInputs, needInit: false });
