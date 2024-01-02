@@ -1,5 +1,6 @@
-import { PurchasedItemInfo, StockList } from '../../../features/stockList/type';
+import { PurchasedItemInfo, StockList, StockMainInfo } from '../../../features/stockList/type';
 import { SummaryInfoData } from './SummaryInfo/SummaryInfo';
+import { ChangedSummaryInputs } from './SummaryInfo/hooks/useStockSummaryInputChange';
 
 const getPurchasedInfo = (data: StockList['purchasedItems'], id: string) => data.byId[id];
 
@@ -75,3 +76,11 @@ export const getCurrentDateAndTime = () => {
 
   return { date, time };
 };
+
+export const checkNoChange = (values: { [key: string]: any }) => Object.keys(values).length === 0;
+
+export const getChangedStockData = (changedInputs: ChangedSummaryInputs, stockInfo: StockMainInfo): StockMainInfo => ({
+  ...stockInfo,
+  ...changedInputs,
+  needInit: false,
+});

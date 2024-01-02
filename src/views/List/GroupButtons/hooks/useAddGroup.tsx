@@ -1,17 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
+
 import { selectCheckedPurchasedItems } from '../../../../features/checkedItems/selectors';
 import { selectNextGroupId } from '../../../../features/groups/selectors';
-import { changeCheckInfoToGroupFormat } from '../utils';
 import { getNewGroupInfo } from '../../../../features/groups/utils';
 import { getInitialCheckedItemsInfo } from '../../../../features/checkedItems/utils';
-import {
-  addGroup,
-  updateNextGroupId,
-} from '../../../../features/groups/groupsSlice';
+import { addGroup, updateNextGroupId } from '../../../../features/groups/groupsSlice';
 import { initCheckedItems } from '../../../../features/checkedItems/checkedItemsSlice';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 import userGroupsService from '../../../../service/userGroups/userGroups';
 import { selectStocks } from '../../../../features/stockList/selectors';
+import { changeCheckInfoToGroupFormat } from '../utils';
 
 export function useAddGroup() {
   const dispatch = useDispatch();
@@ -21,16 +19,16 @@ export function useAddGroup() {
 
   let nextGroupId = useSelector(selectNextGroupId);
 
-  const onAddGroup = async (name: string) => {
+  const onAddGroup = async (name: string): Promise<boolean> => {
     if (!name.trim().length) {
       alert('Group name is required');
-      return;
+      return false;
     }
 
     const selectedStocks = changeCheckInfoToGroupFormat(checkedItems);
     if (selectedStocks.allIds.length === 0) {
       alert('Please select at least one stock');
-      return;
+      return false;
     }
 
     if (isLogin) {
@@ -40,7 +38,7 @@ export function useAddGroup() {
           stocks: selectedStocks.byId,
         },
       });
-      if (!result) return;
+      if (!result) return false;
 
       nextGroupId = result.groupId;
     }
@@ -54,6 +52,8 @@ export function useAddGroup() {
     dispatch(addGroup({ groupInfo: newGroupInfo, groupId: nextGroupId }));
     dispatch(initCheckedItems(initCheckedItemsInfo));
     dispatch(updateNextGroupId());
+
+    return true;
   };
 
   return onAddGroup;

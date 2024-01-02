@@ -102,7 +102,7 @@ a {
   color: inherit;
   text-decoration: none;
   &:focus-visible {
-    outline-color: transparent;
+    outline-color: black;
   }
 }
 

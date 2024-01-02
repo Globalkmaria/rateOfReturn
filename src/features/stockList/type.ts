@@ -1,37 +1,35 @@
 import { Collections } from '../../typeUtils/typeGenerators';
 
+export type StockMainPayload = {
+  stockId: string;
+  purchasedId: string;
+};
+
 export type AddNewStockPayload = {
   stockId: string;
   stockInfo: StockList;
 };
 
 export type AddNewPurchasedItemPayload = {
-  stockId: string;
-  purchasedId: string;
   purchasedItem: PurchasedItemInfo;
+} & StockMainPayload;
+
+export type UpdateStockPayload = {
+  stockId: string;
+  stockData: StockMainInfo;
 };
 
-export type UpdateStockPayload<T extends keyof StockMainInfo> = {
-  stockId: string;
-  fieldName: T;
-  value: StockMainInfo[T];
-};
-export type UpdatePurchasedItemPayload<T extends keyof PurchasedItemInfo> = {
-  stockId: string;
-  purchasedId: string;
-  fieldName: T;
-  value: PurchasedItemInfo[T];
-};
+export type UpdatePurchasedItemPayload = {
+  purchasedData: PurchasedItemInfo;
+} & StockMainPayload;
 
-export type DeletePurchasedItemPayload = {
-  stockId: string;
-  purchasedId: string;
-};
+export type DeletePurchasedItemPayload = StockMainPayload;
 
 export interface StockMainInfo {
   stockName: string;
   currentPrice: number;
   stockId: string;
+  needInit?: boolean;
 }
 
 export interface PurchasedItemInfo {
@@ -40,6 +38,7 @@ export interface PurchasedItemInfo {
   purchasedTime: string;
   purchasedQuantity: number;
   purchasedPrice: number;
+  needInit?: boolean;
 }
 
 export type PurchaseItemCollection = Collections<PurchasedItemInfo>;

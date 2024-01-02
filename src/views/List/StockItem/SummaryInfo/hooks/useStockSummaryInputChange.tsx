@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { StockMainInfo } from '../../../../../features/stockList/type';
-import { updateStock } from '../../../../../features/stockList/stockListSlice';
 import { EditUserStockServiceData } from '../../../../../service/userStocks/type';
 import { TransformedValue } from '../../../../../components/Input/BaseInput';
 import { checkStockValidity } from '../../validity';
@@ -16,7 +15,7 @@ export const useStockSummaryInputChange = (stockId: string) => {
 
   const onInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>, transformedValue: TransformedValue) => {
-      const fieldName = e.target.name as keyof Omit<StockMainInfo, 'stockId'>;
+      const fieldName = e.target.name as keyof Omit<StockMainInfo, 'stockId' | 'needInit'>;
       if (fieldName === 'currentPrice' && transformedValue === null) return;
 
       const value =
@@ -25,23 +24,9 @@ export const useStockSummaryInputChange = (stockId: string) => {
           : (transformedValue && transformedValue[1]) || e.target.value.replaceAll(',', '');
 
       const validity = checkStockValidity(fieldName, value);
-      if (!validity.isValid) {
-        alert(validity.message);
-        return;
-      }
+      if (!validity.isValid) return alert(validity.message);
 
-      setChangedInputs(prev => ({
-        ...prev,
-        [fieldName]: value,
-      }));
-
-      dispatch(
-        updateStock({
-          stockId: stockId,
-          fieldName: fieldName,
-          value,
-        }),
-      );
+      setChangedInputs(prev => ({ ...prev, [fieldName]: value }));
     },
     [stockId, dispatch],
   );
