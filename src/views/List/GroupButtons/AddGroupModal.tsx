@@ -15,9 +15,9 @@ type Props = {
 const AddGroupModal = ({ onClose }: Props) => {
   const [name, setName] = useState('');
   const handleAddGroup = useAddGroup();
-  const onAddGroup = () => {
-    handleAddGroup(name);
-    onClose();
+  const onAddGroup = async () => {
+    const result = await handleAddGroup(name);
+    if (result) onClose();
   };
 
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
