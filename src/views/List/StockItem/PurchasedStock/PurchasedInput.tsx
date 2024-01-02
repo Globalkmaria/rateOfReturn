@@ -1,26 +1,21 @@
-import { Dispatch, SetStateAction, memo } from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components/macro';
 
 import { Input } from '../../../../components/Input/Input';
 import { TableCell } from '../../../../components/Table';
 import { PurchasedItemInfo } from '../../../../features/stockList/type';
-import { updatePurchaseItem } from '../../../../features/stockList/stockListSlice';
 import { InputCell } from '../components';
-import { ChangedPurchasedItemInputs, PurchasedInputChangeProps } from './PurchasedStock';
 import { checkPurchasedItemValidity } from '../validity';
+import { ChangedPurchasedItemInputs, PurchasedInputChangeProps, SetChangedInputByFieldName } from './PurchasedStock';
+import { memo } from 'react';
 
 type Props = {
   purchasedItem: PurchasedItemInfo;
   isLock: boolean;
-  stockId: string;
-  purchasedId: string;
-  setChangedInputs: Dispatch<SetStateAction<ChangedPurchasedItemInputs>>;
+  setChangedInputByFieldName: SetChangedInputByFieldName;
+  changedInputs: ChangedPurchasedItemInputs;
 };
 
-const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purchasedId }: Props) => {
-  const dispatch = useDispatch();
-
+const PurchasedInput = ({ isLock, purchasedItem, changedInputs, setChangedInputByFieldName }: Props) => {
   const onInputChange: PurchasedInputChangeProps = (e, transformedValue) => {
     const fieldName = e.target.name as keyof Omit<PurchasedItemInfo, 'purchasedId'>;
     if (transformedValue === null) return;
@@ -28,13 +23,9 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
     const value = transformedValue[1];
 
     const validity = checkPurchasedItemValidity(fieldName, value);
-    if (!validity.isValid) {
-      alert(validity.message);
-      return;
-    }
+    if (!validity.isValid) return alert(validity.message);
 
-    setChangedInputs(prev => ({ ...prev, [fieldName]: value }));
-    dispatch(updatePurchaseItem({ stockId, purchasedId, fieldName, value }));
+    setChangedInputByFieldName(fieldName, value);
   };
 
   return (
@@ -46,7 +37,7 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
             onChange={onInputChange}
             disabled={isLock}
             type='date'
-            value={purchasedItem.purchasedDate}
+            value={changedInputs.purchasedDate || purchasedItem.purchasedDate}
             fullWidth
             aria-label='purchased date'
           />
@@ -56,7 +47,7 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
             disabled={isLock}
             type='time'
             aria-label='purchased time'
-            value={purchasedItem.purchasedTime}
+            value={changedInputs.purchasedTime || purchasedItem.purchasedTime}
             fullWidth
           />
         </StyledDateTime>
@@ -65,7 +56,7 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
         name='purchasedQuantity'
         onChange={onInputChange}
         onBlur={onInputChange}
-        value={purchasedItem.purchasedQuantity}
+        value={changedInputs.purchasedQuantity || purchasedItem.purchasedQuantity}
         disabled={isLock}
         aria-label='purchased quantity'
       />
@@ -73,7 +64,7 @@ const PurchasedInput = ({ isLock, purchasedItem, setChangedInputs, stockId, purc
         name='purchasedPrice'
         onChange={onInputChange}
         onBlur={onInputChange}
-        value={purchasedItem.purchasedPrice}
+        value={changedInputs.purchasedPrice || purchasedItem.purchasedPrice}
         aria-label='purchased price'
         disabled={isLock}
       />

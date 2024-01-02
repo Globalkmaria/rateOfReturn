@@ -5,7 +5,6 @@ import {
   StockListState,
   StockMainInfo,
   UpdateStockPayload,
-  PurchasedItemInfo,
   UpdatePurchasedItemPayload,
   DeletePurchasedItemPayload,
   AddNewStockPayload,
@@ -69,12 +68,9 @@ const stockListSlice = createSlice({
       const { stockId, fieldName, value } = action.payload;
       state.stocks.byId[stockId].mainInfo[fieldName] = value;
     },
-    updatePurchaseItem: <T extends keyof Omit<PurchasedItemInfo, 'purchasedId'>>(
-      state: StockListState,
-      action: PayloadAction<UpdatePurchasedItemPayload<T>>,
-    ) => {
-      const { stockId, purchasedId, fieldName, value } = action.payload;
-      state.stocks.byId[stockId].purchasedItems.byId[purchasedId][fieldName] = value;
+    updatePurchaseItem: (state: StockListState, action: PayloadAction<UpdatePurchasedItemPayload>) => {
+      const { stockId, purchasedId, purchasedData } = action.payload;
+      state.stocks.byId[stockId].purchasedItems.byId[purchasedId] = purchasedData;
     },
 
     updateStockNeedInit: (state, action: PayloadAction<string>) => {

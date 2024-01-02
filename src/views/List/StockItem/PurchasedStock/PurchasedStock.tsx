@@ -1,12 +1,12 @@
-import { memo, useEffect, useState } from 'react';
+import { ChangeEvent, memo, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/macro';
 
 import { updateCheckedItems } from '../../../../features/checkedItems/checkedItemsSlice';
 import { selectIsPurchasedItemChecked } from '../../../../features/checkedItems/selectors';
 import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
-import { selectPurchasedItemNeedInit } from '../../../../features/stockList/selectors';
-import { updatePurchaseItemNeedInit } from '../../../../features/stockList/stockListSlice';
+import { selectPurchasedItemNeedInit, selectPurchasedItemsById } from '../../../../features/stockList/selectors';
+import { updatePurchaseItem, updatePurchaseItemNeedInit } from '../../../../features/stockList/stockListSlice';
 import { EditUserItemServiceData } from '../../../../service/userStocks/type';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 
@@ -17,12 +17,17 @@ import userStocksService from '../../../../service/userStocks/userStocks';
 import useModal from '../../hooks/useModal';
 import { DeleteButton, CheckboxCell } from '../components';
 import { DeleteStockModal } from '../DeleteStockModal';
-import PurchasedContent from './PurchasedContent';
 import EditButton from '../EditButton';
-import { checkNoChange } from './utils';
+import PurchasedContent from './PurchasedContent';
+import { checkNoChange, getChangedPurchasedData } from './utils';
+
+export type SetChangedInputByFieldName = <T extends keyof ChangedPurchasedItemInputs>(
+  fieldName: T,
+  value: ChangedPurchasedItemInputs[T],
+) => void;
 
 export type PurchasedInputChangeProps = (
-  e: React.ChangeEvent<HTMLInputElement>,
+  e: ChangeEvent<HTMLInputElement>,
   transformedValue: TransformedValue | null,
 ) => void;
 
@@ -36,6 +41,7 @@ export type ChangedPurchasedItemInputs = EditUserItemServiceData;
 const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const dispatch = useDispatch();
 
+  const { purchasedItem } = useSelector(selectPurchasedItemsById(stockId, purchasedId));
   const isPurchasedItemChecked = useSelector(selectIsPurchasedItemChecked(stockId, purchasedId));
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const needInit = useSelector(selectPurchasedItemNeedInit(stockId, purchasedId));
@@ -45,17 +51,26 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const [changedInputs, setChangedInputs] = useState<ChangedPurchasedItemInputs>({});
   const { showModal, onOpenModal, onCloseModal } = useModal();
 
+  const setChangedInputByFieldName = useCallback<SetChangedInputByFieldName>((fieldName, value) => {
+    setChangedInputs(prev => ({ ...prev, [fieldName]: value }));
+  }, []);
+
   const onChangeCheckbox = (value: boolean) =>
     dispatch(updateCheckedItems({ type: 'purchased', checked: value, stockId, purchasedId }));
 
   const onToggleLock = async () => {
     if (needInit) dispatch(updatePurchaseItemNeedInit({ stockId, purchasedId }));
-
     if (isLock) return setIsLock(false);
-    if (!isLoggedIn || checkNoChange(changedInputs)) return setIsLock(true);
 
-    const result = await userStocksService.editUserItem({ stockId, itemId: purchasedId, data: changedInputs });
-    if (!result.success) return;
+    if (checkNoChange(changedInputs)) return setIsLock(true);
+
+    if (isLoggedIn) {
+      const result = await userStocksService.editUserItem({ stockId, itemId: purchasedId, data: changedInputs });
+      if (!result.success) return alert(result.message);
+    }
+
+    const purchasedData = getChangedPurchasedData(purchasedItem, changedInputs);
+    dispatch(updatePurchaseItem({ stockId, purchasedId, purchasedData }));
 
     setChangedInputs({});
     setIsLock(true);
@@ -85,8 +100,9 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
       <PurchasedContent
         stockId={stockId}
         purchasedId={purchasedId}
-        setChangedInputs={setChangedInputs}
+        changedInputs={changedInputs}
         isLock={isLock}
+        setChangedInputByFieldName={setChangedInputByFieldName}
       />
       {isMainGroupSelected ? (
         <>
