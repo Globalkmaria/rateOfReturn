@@ -71,6 +71,10 @@ This project allows you to:
 
 ## Version History
 
+### Version 2.1.7 (2024-01-02)
+
+- Improve accessibility and refactor code.
+
 ### Version 2.1.6 (2023-12-17)
 
 - Refactoring and add test. Limit number input.
