@@ -8,7 +8,9 @@ type Props = {
 
 function PortalWrapper({ children, wrapperId }: Props) {
   const containerElement =
-    (wrapperId && document.getElementById(wrapperId)) || document.body;
+    (wrapperId && document.getElementById(wrapperId)) || document.getElementById('portal-container');
+  if (!containerElement) throw new Error('PortalWrapper: containerElement is null');
+
   return createPortal(children, containerElement);
 }
 
