@@ -30,12 +30,12 @@ const AuthBtns = () => {
       ) : (
         <>
           <Link to='/login' onMouseEnter={cacheLoginPage}>
-            <ContainedButton size='s' mode='light' width={80}>
+            <ContainedButton as={'span'} size='s' mode='light' width={80}>
               Login
             </ContainedButton>
           </Link>
           <Link to='/signup' onMouseEnter={cacheSignupPage}>
-            <ContainedButton size='s' width={80}>
+            <ContainedButton as={'span'} size='s' width={80}>
               Sign up
             </ContainedButton>
           </Link>
