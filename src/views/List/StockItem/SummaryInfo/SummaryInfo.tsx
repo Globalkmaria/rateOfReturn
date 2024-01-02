@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/macro';
 import { BorderButton } from '../../../../components/Button';
 import { BaseInput } from '../../../../components/Input/BaseInput';
@@ -13,6 +13,7 @@ import { DeleteStockModal } from '../DeleteStockModal';
 import SummaryLock from './SummaryLock';
 import SummaryContent from './SummaryContent';
 import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
+import { updateStockNeedInit } from '../../../../features/stockList/stockListSlice';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -25,10 +26,12 @@ export type SummaryInfoData = {
 
 export interface SummaryInfoProps {
   stockId: string;
+  needInit?: boolean;
 }
 
-const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
-  const [isLock, setIsLock] = useState(true);
+const SummaryInfo = ({ stockId, needInit }: SummaryInfoProps) => {
+  const dispatch = useDispatch();
+  const [isLock, setIsLock] = useState(!needInit);
   const { showModal, onOpenModal, onCloseModal } = useModal();
 
   const { changedInputs, initChangedInputs, onInputChange } = useStockSummaryInputChange(stockId);
@@ -38,8 +41,15 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const onChangeCheckbox = useChangeStockCheckbox(stockId);
 
   useEffect(() => {
-    setIsLock(true);
+    if (isMainGroupSelected && needInit) setIsLock(!needInit);
+    else setIsLock(true);
   }, [isMainGroupSelected]);
+
+  useEffect(() => {
+    return () => {
+      if (needInit) dispatch(updateStockNeedInit(stockId));
+    };
+  }, []);
 
   return (
     <StyledSummaryRow>
@@ -60,6 +70,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
             stockId={stockId}
             changedInputs={changedInputs}
             initChangedInputs={initChangedInputs}
+            needInit={needInit}
           />
           <DeleteButton onClick={onOpenModal} disabled={!isMainGroupSelected} />
           {showModal && <DeleteStockModal type='stock' stockId={stockId} purchasedId={''} onClose={onCloseModal} />}

@@ -1,11 +1,12 @@
-import { useSelector } from 'react-redux';
+import { memo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
 import userStocksService from '../../../../service/userStocks/userStocks';
+import { updatePurchaseItemNeedInit } from '../../../../features/stockList/stockListSlice';
 import EditButton from '../EditButton';
 import { ChangedPurchasedItemInputs } from './PurchasedStock';
-import { memo } from 'react';
 
 type Props = {
   isLock: boolean;
@@ -14,13 +15,24 @@ type Props = {
   purchasedId: string;
   changedInputs: ChangedPurchasedItemInputs;
   setChangedInputs: React.Dispatch<React.SetStateAction<ChangedPurchasedItemInputs>>;
+  needInit?: boolean;
 };
 
-const PurchaseLock = ({ isLock, setIsLock, stockId, purchasedId, changedInputs, setChangedInputs }: Props) => {
+const PurchaseLock = ({
+  isLock,
+  setIsLock,
+  stockId,
+  purchasedId,
+  changedInputs,
+  setChangedInputs,
+  needInit,
+}: Props) => {
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
 
   const toggleLock = async () => {
+    if (needInit) dispatch(updatePurchaseItemNeedInit({ stockId, purchasedId }));
     if (!isLoggedIn) return setIsLock(prev => !prev);
 
     if (!isLock) {

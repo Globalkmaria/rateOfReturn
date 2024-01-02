@@ -1,9 +1,11 @@
 import { Dispatch, SetStateAction } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { selectIsLoggedIn } from '../../../../features/user/selectors';
+import { updateStockNeedInit } from '../../../../features/stockList/stockListSlice';
+import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
 
 import EditButton from '../EditButton';
-import { selectIsLoggedIn } from '../../../../features/user/selectors';
-import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
 import { ChangedSummaryInputs } from './hooks/useStockSummaryInputChange';
 import useSaveData from './hooks/useSaveData';
 
@@ -13,15 +15,11 @@ export interface SummaryLockProps {
   stockId: string;
   changedInputs: ChangedSummaryInputs;
   initChangedInputs: () => void;
+  needInit?: boolean;
 }
 
-const SummaryLock = ({
-  isLock,
-  setIsLock,
-  stockId,
-  changedInputs,
-  initChangedInputs,
-}: SummaryLockProps) => {
+const SummaryLock = ({ isLock, setIsLock, stockId, changedInputs, initChangedInputs, needInit }: SummaryLockProps) => {
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const saveData = useSaveData({
@@ -32,19 +30,14 @@ const SummaryLock = ({
   });
 
   const toggleLock = async () => {
+    if (needInit) dispatch(updateStockNeedInit(stockId));
     if (isLock) return setIsLock(false);
 
-    if (!isLoggedIn) return setIsLock((prev) => !prev);
+    if (!isLoggedIn) return setIsLock(prev => !prev);
     return saveData();
   };
 
-  return (
-    <EditButton
-      isLock={isLock}
-      onClick={toggleLock}
-      disabled={!isMainGroupSelected}
-    />
-  );
+  return <EditButton isLock={isLock} onClick={toggleLock} disabled={!isMainGroupSelected} />;
 };
 
 export default SummaryLock;

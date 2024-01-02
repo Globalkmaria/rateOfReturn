@@ -2,18 +2,21 @@ import { memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/macro';
 
-import { TableRow } from '../../../../components/Table';
 import { updateCheckedItems } from '../../../../features/checkedItems/checkedItemsSlice';
 import { selectIsPurchasedItemChecked } from '../../../../features/checkedItems/selectors';
 import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
-import { BorderButton } from '../../../../components/Button';
+import { selectPurchasedItemNeedInit } from '../../../../features/stockList/selectors';
+import { updatePurchaseItemNeedInit } from '../../../../features/stockList/stockListSlice';
 import { EditUserItemServiceData } from '../../../../service/userStocks/type';
+
+import { TableRow } from '../../../../components/Table';
+import { BorderButton } from '../../../../components/Button';
+import { TransformedValue } from '../../../../components/Input/BaseInput';
 import useModal from '../../hooks/useModal';
 import { DeleteButton, CheckboxCell } from '../components';
 import { DeleteStockModal } from '../DeleteStockModal';
 import PurchaseLock from './PurchaseLock';
 import PurchasedContent from './PurchasedContent';
-import { TransformedValue } from '../../../../components/Input/BaseInput';
 
 export type PurchasedInputChangeProps = (
   e: React.ChangeEvent<HTMLInputElement>,
@@ -29,20 +32,30 @@ export type ChangedPurchasedItemInputs = EditUserItemServiceData;
 
 const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const dispatch = useDispatch();
-  const [isLock, setIsLock] = useState(true);
-  const [changedInputs, setChangedInputs] = useState<ChangedPurchasedItemInputs>({});
-  const { showModal, onOpenModal, onCloseModal } = useModal();
 
   const isPurchasedItemChecked = useSelector(selectIsPurchasedItemChecked(stockId, purchasedId));
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
+  const needInit = useSelector(selectPurchasedItemNeedInit(stockId, purchasedId));
+  const [isLock, setIsLock] = useState(!needInit);
+  const [changedInputs, setChangedInputs] = useState<ChangedPurchasedItemInputs>({});
+  const { showModal, onOpenModal, onCloseModal } = useModal();
 
   const onChangeCheckbox = (value: boolean) => {
     dispatch(updateCheckedItems({ type: 'purchased', checked: value, stockId, purchasedId }));
   };
 
   useEffect(() => {
-    setIsLock(true);
+    if (isMainGroupSelected && needInit) setIsLock(!needInit);
+    else setIsLock(true);
   }, [isMainGroupSelected]);
+
+  useEffect(() => {
+    return () => {
+      if (needInit) {
+        dispatch(updatePurchaseItemNeedInit({ stockId, purchasedId }));
+      }
+    };
+  }, []);
 
   return (
     <StyledPurchasedStock>
@@ -69,6 +82,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
             purchasedId={purchasedId}
             changedInputs={changedInputs}
             setChangedInputs={setChangedInputs}
+            needInit={needInit}
           />
           <DeleteButton onClick={onOpenModal} disabled={!isMainGroupSelected} />
           {showModal && (

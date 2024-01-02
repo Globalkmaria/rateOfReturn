@@ -22,14 +22,17 @@ const checkValidity = (type: FieldType, value: string): ValidityResult => {
   };
 };
 
-export const checkStockValidity = (type: keyof Omit<StockMainInfo, 'stockId'>, value: string): ValidityResult => {
+export const checkStockValidity = (
+  type: keyof Omit<StockMainInfo, 'stockId' | 'needInit'>,
+  value: string,
+): ValidityResult => {
   const field = STOCK_FIELD_PAIRS[type];
   if (!field) return { isValid: true, message: '' };
 
   return checkValidity(field, value);
 };
 
-const STOCK_FIELD_PAIRS: Record<keyof Omit<StockMainInfo, 'stockId'>, FieldType> = {
+const STOCK_FIELD_PAIRS: Record<keyof Omit<StockMainInfo, 'stockId' | 'needInit'>, FieldType> = {
   stockName: 'name',
   currentPrice: 'price',
 };

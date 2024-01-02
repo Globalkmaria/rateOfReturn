@@ -16,7 +16,7 @@ export const useStockSummaryInputChange = (stockId: string) => {
 
   const onInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>, transformedValue: TransformedValue) => {
-      const fieldName = e.target.name as keyof Omit<StockMainInfo, 'stockId'>;
+      const fieldName = e.target.name as keyof Omit<StockMainInfo, 'stockId' | 'needInit'>;
       if (fieldName === 'currentPrice' && transformedValue === null) return;
 
       const value =

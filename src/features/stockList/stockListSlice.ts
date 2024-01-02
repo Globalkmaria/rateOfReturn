@@ -10,6 +10,7 @@ import {
   DeletePurchasedItemPayload,
   AddNewStockPayload,
   AddNewPurchasedItemPayload,
+  StockMainPayload,
 } from './type';
 
 export const stockInitialState: StockListState = {
@@ -76,6 +77,16 @@ const stockListSlice = createSlice({
       state.stocks.byId[stockId].purchasedItems.byId[purchasedId][fieldName] = value;
     },
 
+    updateStockNeedInit: (state, action: PayloadAction<string>) => {
+      const stockId = action.payload;
+      state.stocks.byId[stockId].mainInfo.needInit = false;
+    },
+
+    updatePurchaseItemNeedInit: (state, action: PayloadAction<StockMainPayload>) => {
+      const { stockId, purchasedId } = action.payload;
+      state.stocks.byId[stockId].purchasedItems.byId[purchasedId].needInit = false;
+    },
+
     deleteStock: (state, action: PayloadAction<string>) => {
       const stockId = action.payload;
       delete state.stocks.byId[stockId];
@@ -112,6 +123,8 @@ export const {
   restStockList,
   updateNextStockId,
   updateNextPurchasedId,
+  updateStockNeedInit,
+  updatePurchaseItemNeedInit,
 } = stockListSlice.actions;
 
 export default stockListSlice.reducer;
