@@ -4,8 +4,9 @@ import { FaTrash } from 'react-icons/fa';
 
 import { Group } from '../../../features/groups/type';
 import { selectGroups } from '../../../features/groups/selectors';
-import Modal from '../../../components/Modal/Modal';
 import { BorderButton } from '../../../components/Button';
+import PortalModal from '../../../components/Modal/PortalModal';
+
 import useModal from '../hooks/useModal';
 import DeleteGroupWarning from './DeleteGroupWarning';
 
@@ -19,14 +20,14 @@ const DeleteGroupModal = ({ onClose }: Props) => {
   const groups = useSelector(selectGroups);
   const noGroups = groups.groups.allIds.length === 0;
   return (
-    <Modal title='Delete Group' onClose={onClose}>
+    <PortalModal title='Delete Group' onClose={onClose}>
       <StyledDeleteGroupModal>
         {groups.groups.allIds.map(id => (
           <GroupItem groupInfo={groups.groups.byId[id]} key={id} />
         ))}
         {noGroups && <span>{NO_GROUP_MESSAGE}</span>}
       </StyledDeleteGroupModal>
-    </Modal>
+    </PortalModal>
   );
 };
 

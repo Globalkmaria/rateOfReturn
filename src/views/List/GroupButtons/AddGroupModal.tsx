@@ -3,8 +3,9 @@ import styled from 'styled-components/macro';
 
 import { ContainedButton } from '../../../components/Button';
 import { Input } from '../../../components/Input/Input';
+import PortalModal from '../../../components/Modal/PortalModal';
+
 import GroupModalTable from './GroupModal/GroupModalTable';
-import Modal from '../../../components/Modal/Modal';
 import { useAddGroup } from './hooks/useAddGroup';
 
 type Props = {
@@ -24,7 +25,7 @@ const AddGroupModal = ({ onClose }: Props) => {
   };
 
   return (
-    <Modal title='Add Group' onClose={onClose}>
+    <PortalModal title='Add Group' onClose={onClose}>
       <StyledAddGroupModal>
         <StyledGroupName>
           <StyledGroupLabel htmlFor='group-name'>Group Name* :</StyledGroupLabel>
@@ -37,7 +38,7 @@ const AddGroupModal = ({ onClose }: Props) => {
           </ContainedButton>
         </StyledButtonGroups>
       </StyledAddGroupModal>
-    </Modal>
+    </PortalModal>
   );
 };
 
