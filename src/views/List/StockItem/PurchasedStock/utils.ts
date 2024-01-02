@@ -36,8 +36,6 @@ export const formatDateOrNumber = ({
   return value.replaceAll(',', '');
 };
 
-export const checkNoChange = (values: ChangedPurchasedItemInputs) => Object.keys(values).length === 0;
-
 export const getChangedPurchasedData = (
   purchasedItem: PurchasedItemInfo,
   changedInputs: ChangedPurchasedItemInputs,

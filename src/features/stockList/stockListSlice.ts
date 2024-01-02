@@ -3,7 +3,6 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { MOCK_DATA, MOCK_DATA_NEXT_STOCK_ID, MOCK_DATA_PURCHASED_ID } from './mockData';
 import {
   StockListState,
-  StockMainInfo,
   UpdateStockPayload,
   UpdatePurchasedItemPayload,
   DeletePurchasedItemPayload,
@@ -61,12 +60,9 @@ const stockListSlice = createSlice({
       curStock.purchasedItems.allIds.push(purchasedId);
     },
 
-    updateStock: <T extends keyof Omit<StockMainInfo, 'stockId'>>(
-      state: StockListState,
-      action: PayloadAction<UpdateStockPayload<T>>,
-    ) => {
-      const { stockId, fieldName, value } = action.payload;
-      state.stocks.byId[stockId].mainInfo[fieldName] = value;
+    updateStock: (state: StockListState, action: PayloadAction<UpdateStockPayload>) => {
+      const { stockId, stockData } = action.payload;
+      state.stocks.byId[stockId].mainInfo = stockData;
     },
     updatePurchaseItem: (state: StockListState, action: PayloadAction<UpdatePurchasedItemPayload>) => {
       const { stockId, purchasedId, purchasedData } = action.payload;

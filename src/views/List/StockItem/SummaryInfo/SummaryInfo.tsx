@@ -1,20 +1,25 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/macro';
 
+import userStocksService from '../../../../service/userStocks/userStocks';
+
 import { selectStockCheckedInfo } from '../../../../features/checkedItems/selectors';
 import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
-import { updateStockNeedInit } from '../../../../features/stockList/stockListSlice';
+import { updateStock, updateStockNeedInit } from '../../../../features/stockList/stockListSlice';
+import { selectIsLoggedIn } from '../../../../features/user/selectors';
+import { selectStockInfoById } from '../../../../features/stockList/selectors';
 
 import { BorderButton } from '../../../../components/Button';
 import { BaseInput } from '../../../../components/Input/BaseInput';
 import { TableCell, TableRow } from '../../../../components/Table';
 
-import { DeleteButton, CheckboxCell } from '../components';
 import useModal from '../../hooks/useModal';
+import { DeleteButton, CheckboxCell } from '../components';
 import { DeleteStockModal } from '../DeleteStockModal';
+import EditButton from '../EditButton';
+import { checkNoChange, getChangedStockData } from '../utils';
 import { useStockSummaryInputChange } from './hooks/useStockSummaryInputChange';
-import SummaryLock from './SummaryLock';
 import SummaryContent from './SummaryContent';
 import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
 
@@ -29,28 +34,45 @@ export type SummaryInfoData = {
 
 export interface SummaryInfoProps {
   stockId: string;
-  needInit?: boolean;
 }
 
-const SummaryInfo = ({ stockId, needInit }: SummaryInfoProps) => {
+const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const dispatch = useDispatch();
-  const [isLock, setIsLock] = useState(!needInit);
-  const { showModal, onOpenModal, onCloseModal } = useModal();
-
-  const { changedInputs, initChangedInputs, onInputChange } = useStockSummaryInputChange(stockId);
   const checkedInfo = useSelector(selectStockCheckedInfo(stockId));
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const { mainInfo } = useSelector(selectStockInfoById(stockId));
+
+  const [isLock, setIsLock] = useState(!mainInfo.needInit);
+  const { showModal, onOpenModal, onCloseModal } = useModal();
+  const { changedInputs, initChangedInputs, onInputChange } = useStockSummaryInputChange(stockId);
 
   const onChangeCheckbox = useChangeStockCheckbox(stockId);
 
+  const toggleLock = async () => {
+    if (mainInfo.needInit) dispatch(updateStockNeedInit(stockId));
+    if (isLock) return setIsLock(false);
+
+    if (checkNoChange(changedInputs)) return setIsLock(true);
+
+    if (isLoggedIn) {
+      const result = await userStocksService.editUserStock({ stockId, data: changedInputs });
+      if (!result.success) return alert(result.message);
+    }
+
+    dispatch(updateStock({ stockId: stockId, stockData: getChangedStockData(changedInputs, mainInfo) }));
+    initChangedInputs();
+    setIsLock(true);
+  };
+
   useEffect(() => {
-    if (isMainGroupSelected && needInit) setIsLock(!needInit);
+    if (isMainGroupSelected && mainInfo.needInit) setIsLock(!mainInfo.needInit);
     else setIsLock(true);
   }, [isMainGroupSelected]);
 
   useEffect(() => {
     return () => {
-      if (needInit) dispatch(updateStockNeedInit(stockId));
+      if (mainInfo.needInit) dispatch(updateStockNeedInit(stockId));
     };
   }, []);
 
@@ -64,17 +86,10 @@ const SummaryInfo = ({ stockId, needInit }: SummaryInfoProps) => {
           title='Check all group items'
         />
       ) : null}
-      <SummaryContent stockId={stockId} isLock={isLock} onInputChange={onInputChange} />
+      <SummaryContent stockId={stockId} isLock={isLock} onInputChange={onInputChange} changedInputs={changedInputs} />
       {isMainGroupSelected ? (
         <>
-          <SummaryLock
-            isLock={isLock}
-            setIsLock={setIsLock}
-            stockId={stockId}
-            changedInputs={changedInputs}
-            initChangedInputs={initChangedInputs}
-            needInit={needInit}
-          />
+          <EditButton isLock={isLock} onClick={toggleLock} disabled={!isMainGroupSelected} />
           <DeleteButton onClick={onOpenModal} disabled={!isMainGroupSelected} />
           {showModal && <DeleteStockModal type='stock' stockId={stockId} purchasedId={''} onClose={onCloseModal} />}
         </>
@@ -83,7 +98,7 @@ const SummaryInfo = ({ stockId, needInit }: SummaryInfoProps) => {
   );
 };
 
-export default SummaryInfo;
+export default memo(SummaryInfo);
 
 export const StyledSummaryRow = styled(TableRow)`
   background: ${({ theme }) => theme.colors.grey100};

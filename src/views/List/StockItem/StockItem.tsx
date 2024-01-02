@@ -19,7 +19,7 @@ const StockItem = ({ stockId }: StockItemProps) => {
 
   return (
     <>
-      <SummaryInfo stockId={stockId} needInit={stockInfo.mainInfo.needInit} />
+      <SummaryInfo stockId={stockId} />
       {purchasedItems.map(purchasedId => (
         <PurchasedStock stockId={stockId} purchasedId={purchasedId} key={purchasedId} />
       ))}

@@ -38,21 +38,15 @@ class UserStocksService {
       const data = renameStockKeysForServer(params.data);
       const result = await this.repo.editUserStock({ ...params, data });
 
-      if (!result) {
-        return { success: true };
-      }
+      if (!result) return { success: true };
 
-      if (result?.response?.status === 400) {
-        alert('Please check the input data');
-        return { success: false };
-      }
-
-      throw new Error('Wrong stock id');
+      if (result?.response?.status === 400) return { success: false, message: 'Please check the input data.' };
+      throw new Error('Error accrued while updating stock in server.');
     } catch (err) {
       console.log(err);
-      alert('Could not change stock data');
       return {
         success: false,
+        message: 'Could not change stock data.',
       };
     }
   }

@@ -18,8 +18,6 @@ export const selectPurchasedItemsById = (stockId: string, purchasedId: string) =
     mainInfo: stocks.mainInfo,
     purchasedItem: stocks.purchasedItems.byId[purchasedId],
   }));
-export const selectPurchasedItemNeedInit = (stockId: string, purchasedId: string) =>
-  createSelector([selectStockInfoById(stockId)], stocks => stocks.purchasedItems.byId[purchasedId].needInit);
 export const selectNextIds = () =>
   createSelector([selectNextStockId, selectNextPurchasedId], (nextStockId, nextPurchasedId) => ({
     nextStockId,

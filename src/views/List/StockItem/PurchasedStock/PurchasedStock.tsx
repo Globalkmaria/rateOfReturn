@@ -5,7 +5,7 @@ import styled from 'styled-components/macro';
 import { updateCheckedItems } from '../../../../features/checkedItems/checkedItemsSlice';
 import { selectIsPurchasedItemChecked } from '../../../../features/checkedItems/selectors';
 import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
-import { selectPurchasedItemNeedInit, selectPurchasedItemsById } from '../../../../features/stockList/selectors';
+import { selectPurchasedItemsById } from '../../../../features/stockList/selectors';
 import { updatePurchaseItem, updatePurchaseItemNeedInit } from '../../../../features/stockList/stockListSlice';
 import { EditUserItemServiceData } from '../../../../service/userStocks/type';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
@@ -19,7 +19,8 @@ import { DeleteButton, CheckboxCell } from '../components';
 import { DeleteStockModal } from '../DeleteStockModal';
 import EditButton from '../EditButton';
 import PurchasedContent from './PurchasedContent';
-import { checkNoChange, getChangedPurchasedData } from './utils';
+import { getChangedPurchasedData } from './utils';
+import { checkNoChange } from '../utils';
 
 export type SetChangedInputByFieldName = <T extends keyof ChangedPurchasedItemInputs>(
   fieldName: T,
@@ -44,10 +45,9 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const { purchasedItem } = useSelector(selectPurchasedItemsById(stockId, purchasedId));
   const isPurchasedItemChecked = useSelector(selectIsPurchasedItemChecked(stockId, purchasedId));
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
-  const needInit = useSelector(selectPurchasedItemNeedInit(stockId, purchasedId));
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  const [isLock, setIsLock] = useState(!needInit);
+  const [isLock, setIsLock] = useState(!purchasedItem.needInit);
   const [changedInputs, setChangedInputs] = useState<ChangedPurchasedItemInputs>({});
   const { showModal, onOpenModal, onCloseModal } = useModal();
 
@@ -59,7 +59,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
     dispatch(updateCheckedItems({ type: 'purchased', checked: value, stockId, purchasedId }));
 
   const onToggleLock = async () => {
-    if (needInit) dispatch(updatePurchaseItemNeedInit({ stockId, purchasedId }));
+    if (purchasedItem.needInit) dispatch(updatePurchaseItemNeedInit({ stockId, purchasedId }));
     if (isLock) return setIsLock(false);
 
     if (checkNoChange(changedInputs)) return setIsLock(true);
@@ -77,13 +77,13 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   };
 
   useEffect(() => {
-    if (isMainGroupSelected && needInit) setIsLock(!needInit);
+    if (isMainGroupSelected && purchasedItem.needInit) setIsLock(!purchasedItem.needInit);
     else setIsLock(true);
   }, [isMainGroupSelected]);
 
   useEffect(() => {
     return () => {
-      if (needInit) dispatch(updatePurchaseItemNeedInit({ stockId, purchasedId }));
+      if (purchasedItem.needInit) dispatch(updatePurchaseItemNeedInit({ stockId, purchasedId }));
     };
   }, []);
 

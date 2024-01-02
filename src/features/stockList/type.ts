@@ -14,10 +14,9 @@ export type AddNewPurchasedItemPayload = {
   purchasedItem: PurchasedItemInfo;
 } & StockMainPayload;
 
-export type UpdateStockPayload<T extends keyof StockMainInfo> = {
+export type UpdateStockPayload = {
   stockId: string;
-  fieldName: T;
-  value: StockMainInfo[T];
+  stockData: StockMainInfo;
 };
 
 export type UpdatePurchasedItemPayload = {
