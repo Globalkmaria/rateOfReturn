@@ -71,6 +71,10 @@ This project allows you to:
 
 ## Version History
 
+### Version 2.1.8 (2024-01-05)
+
+- Add focus features for better UX and refactoring.
+
 ### Version 2.1.7 (2024-01-02)
 
 - Improve accessibility, refactor code and small changes.
