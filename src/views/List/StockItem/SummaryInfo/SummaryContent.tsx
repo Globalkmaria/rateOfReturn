@@ -1,3 +1,4 @@
+import { memo, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/macro';
 
@@ -7,7 +8,6 @@ import { TransformedValue } from '../../../../components/Input/BaseInput';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
 import { NumberCell } from '../components';
 import { useGetStockSummaryData } from './hooks/useGetStockSummaryData';
-import { memo } from 'react';
 import { ChangedSummaryInputs } from './hooks/useStockSummaryInputChange';
 
 type Props = {
@@ -18,11 +18,17 @@ type Props = {
 };
 
 const SummaryContent = ({ stockId, isLock, onInputChange, changedInputs }: Props) => {
+  const focusedInput = useRef<HTMLInputElement>(null);
   const stockInfo = useSelector(selectStockInfoById(stockId));
   const summaryData = useGetStockSummaryData(stockId);
 
   const stockName = changedInputs.stockName || stockInfo.mainInfo.stockName;
   const formattedCurrentPrice = changedInputs.currentPrice?.toString() || stockInfo.mainInfo.currentPrice.toString();
+
+  useEffect(() => {
+    if (!focusedInput.current?.disabled) focusedInput.current?.focus();
+  }, [focusedInput.current?.disabled]);
+
   return (
     <>
       <TableCell>
@@ -33,6 +39,7 @@ const SummaryContent = ({ stockId, isLock, onInputChange, changedInputs }: Props
           name='stockName'
           value={stockName}
           disabled={isLock}
+          ref={focusedInput}
         />
       </TableCell>
       <TableCell align='center' colSpan={2}>

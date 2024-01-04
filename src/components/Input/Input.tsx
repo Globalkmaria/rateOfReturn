@@ -1,8 +1,11 @@
-import { ChangeEvent, FocusEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FocusEvent, forwardRef, useEffect, useRef, useState } from 'react';
 import { BaseInput, InputProps } from './BaseInput';
 import { blurTransformValue, changeTransformValue, getInitialValue } from './utils';
 
-export const Input = ({ type = 'text', onChange, onBlur, className, value = '', ...restProps }: InputProps) => {
+export const Input = forwardRef(function Input(
+  { type = 'text', onChange, onBlur, className, value = '', ...restProps }: InputProps,
+  ref,
+) {
   const inputType = type === 'number' ? 'text' : type;
   const align = type === 'number' ? 'right' : 'left';
   const formattedValue = getInitialValue(value, type);
@@ -15,6 +18,16 @@ export const Input = ({ type = 'text', onChange, onBlur, className, value = '', 
       input.current?.setSelectionRange(selection, selection);
     }
   });
+
+  const setRef = (element: HTMLInputElement) => {
+    input.current = element;
+
+    if (typeof ref === 'function') {
+      ref(element);
+    } else if (ref) {
+      ref.current = element;
+    }
+  };
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -42,7 +55,7 @@ export const Input = ({ type = 'text', onChange, onBlur, className, value = '', 
   return (
     <BaseInput
       className={className}
-      ref={input}
+      ref={setRef}
       onChange={onChangeHandler}
       onBlur={onBlurHandler}
       type={inputType}
@@ -51,4 +64,4 @@ export const Input = ({ type = 'text', onChange, onBlur, className, value = '', 
       {...restProps}
     />
   );
-};
+});
