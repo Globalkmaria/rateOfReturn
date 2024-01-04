@@ -1,3 +1,4 @@
+import { memo, useEffect, useRef } from 'react';
 import styled from 'styled-components/macro';
 
 import { Input } from '../../../../components/Input/Input';
@@ -6,7 +7,6 @@ import { PurchasedItemInfo } from '../../../../features/stockList/type';
 import { InputCell } from '../components';
 import { checkPurchasedItemValidity } from '../validity';
 import { ChangedPurchasedItemInputs, PurchasedInputChangeProps, SetChangedInputByFieldName } from './PurchasedStock';
-import { memo } from 'react';
 
 type Props = {
   purchasedItem: PurchasedItemInfo;
@@ -16,6 +16,7 @@ type Props = {
 };
 
 const PurchasedInput = ({ isLock, purchasedItem, changedInputs, setChangedInputByFieldName }: Props) => {
+  const focusedInput = useRef<HTMLInputElement>(null);
   const onInputChange: PurchasedInputChangeProps = (e, transformedValue) => {
     const fieldName = e.target.name as keyof Omit<PurchasedItemInfo, 'purchasedId'>;
     if (transformedValue === null) return;
@@ -27,6 +28,10 @@ const PurchasedInput = ({ isLock, purchasedItem, changedInputs, setChangedInputB
 
     setChangedInputByFieldName(fieldName, value);
   };
+
+  useEffect(() => {
+    if (!focusedInput.current?.disabled) focusedInput.current?.focus();
+  }, [focusedInput.current?.disabled]);
 
   return (
     <>
@@ -40,6 +45,7 @@ const PurchasedInput = ({ isLock, purchasedItem, changedInputs, setChangedInputB
             value={changedInputs.purchasedDate || purchasedItem.purchasedDate}
             fullWidth
             aria-label='purchased date'
+            ref={focusedInput}
           />
           <StyledDate
             name='purchasedTime'
