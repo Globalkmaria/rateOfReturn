@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components/macro';
 
 import { ContainedButton } from '../../../components/Button';
@@ -13,23 +13,27 @@ type Props = {
 };
 
 const AddGroupModal = ({ onClose }: Props) => {
+  const nameInputRef = useRef<HTMLElement>();
   const [name, setName] = useState('');
   const handleAddGroup = useAddGroup();
+
   const onAddGroup = async () => {
     const result = await handleAddGroup(name);
     if (result) onClose();
   };
 
-  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
+  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value);
+
+  useEffect(() => {
+    if (nameInputRef.current) nameInputRef.current?.focus();
+  }, []);
 
   return (
     <PortalModal title='Add Group' onClose={onClose}>
       <StyledAddGroupModal>
         <StyledGroupName>
           <StyledGroupLabel htmlFor='group-name'>Group Name* :</StyledGroupLabel>
-          <Input value={name} onChange={onChangeName} width={150} id='group-name' />
+          <Input ref={nameInputRef} value={name} onChange={onChangeName} width={150} id='group-name' />
         </StyledGroupName>
         <GroupModalTable />
         <StyledButtonGroups>
