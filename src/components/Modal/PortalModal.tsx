@@ -1,4 +1,4 @@
-import { MouseEvent, ReactNode, useRef } from 'react';
+import { MouseEvent, ReactNode, useEffect, useRef } from 'react';
 
 import { CgClose } from 'react-icons/cg';
 
@@ -29,12 +29,16 @@ function PortalModal({ children, wrapperId, isOpen = true, onClose, title = '', 
     }
   };
 
+  useEffect(() => {
+    modalContent.current && modalContent.current?.focus();
+  }, []);
+
   if (!isOpen) return null;
 
   return (
     <PortalWrapper wrapperId={wrapperId}>
       <StyledModal isOpen={isOpen} onClick={onClick} ref={modalBackground}>
-        <StyledModalContent ref={modalContent}>
+        <StyledModalContent ref={modalContent} aria-modal='true' role='dialog' tabIndex={-1}>
           <StyledModalHeader needHeader={needHeader}>
             <StyledModalTitle>{title}</StyledModalTitle>
             {showCloseButton && (
