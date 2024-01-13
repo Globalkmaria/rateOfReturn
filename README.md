@@ -71,6 +71,10 @@ This project allows you to:
 
 ## Version History
 
+### Version 2.2.0 (2024-01-14)
+
+- Migration to use Vite.
+
 ### Version 2.1.8 (2024-01-05)
 
 - Add focus features for better UX and refactoring.

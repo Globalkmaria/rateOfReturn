@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { SidebarContent } from '../../router/router';
 import { useRouter } from '../../hooks/useRouter';
 import { Link } from 'react-router-dom';

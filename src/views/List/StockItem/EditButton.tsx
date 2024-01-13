@@ -8,7 +8,7 @@ const EditButton = ({ isLock, onClick, disabled }: LockButtonProps) => {
   const Icon = isLock ? FaEdit : FaSave;
   const title = isLock ? 'Edit' : 'Save';
   return (
-    <StyledEditBtnWrapper isLock={isLock}>
+    <StyledEditBtnWrapper $isLock={isLock}>
       <BorderButton
         disabled={disabled}
         disableIcon={disabled}

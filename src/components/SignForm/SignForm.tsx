@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, ReactElement } from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { ContainedButton } from '../Button';
 import FormInput from '../form/Input';
 import Form from '../form/form';

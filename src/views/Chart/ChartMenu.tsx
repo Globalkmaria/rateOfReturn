@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { useRouter } from '../../hooks/useRouter';
 import { chartRouterData } from '../../router/routerData';
 

@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import Card from './Card/Card';
 import topStocksService from '../../service/topStocks';
 import { useEffect, useState } from 'react';
@@ -18,7 +18,7 @@ const Home = () => {
 
   return (
     <StyledHome>
-      {stocks.map((stock) => (
+      {stocks.map(stock => (
         <Card key={stock.id} stock={stock} />
       ))}
     </StyledHome>

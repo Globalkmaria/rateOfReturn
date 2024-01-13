@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { BorderButton } from '../../../components/Button';
