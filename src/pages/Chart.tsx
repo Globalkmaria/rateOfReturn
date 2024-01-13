@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
 
 import ChartMenu from '../views/Chart/ChartMenu';

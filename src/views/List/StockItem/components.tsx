@@ -1,5 +1,5 @@
 import { ChangeEvent, MouseEvent, memo } from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { FaTrash, FaLockOpen, FaLock } from 'react-icons/fa';
 
 import { BaseButtonProps, BorderButton } from '../../../components/Button';
@@ -52,7 +52,6 @@ export const InputCell = ({ value, disabled, ...restProps }: InputCellProps) => 
 
 export const CheckboxCell = ({ onClick, value, type = 'td', disabled, className, ...restProps }: CheckboxCellProps) => {
   const Cell = type === 'td' ? TableCell : TableHead;
-
   const onClickHandler = (e: MouseEvent<HTMLTableCellElement>) => {
     if (e.target instanceof HTMLInputElement) return;
     const target = e.target as HTMLTableCellElement;
@@ -116,9 +115,9 @@ const StyledBtnWrapper = styled(TableCell)`
 `;
 
 export const StyledEditBtnWrapper = styled(StyledBtnWrapper)<{
-  isLock: boolean;
+  $isLock: boolean;
 }>`
   ${BorderButton} {
-    ${({ isLock, theme }) => !isLock && `background: ${theme.colors.grey400}`}
+    ${({ $isLock, theme }) => !$isLock && `background: ${theme.colors.grey400}`}
   }
 `;

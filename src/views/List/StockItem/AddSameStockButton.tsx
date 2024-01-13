@@ -10,13 +10,7 @@ const AddSameStockButton = ({ stockId }: { stockId: string }) => {
     <TableRow>
       <TableCell></TableCell>
       <TableCell colSpan={12}>
-        <ContainedButton
-          mode='light'
-          title='Add same stock item'
-          onClick={onAddItem}
-          color='secondary1'
-          fullWidth
-        >
+        <ContainedButton mode='light' title='Add same stock item' onClick={onAddItem} color='secondary1' fullWidth>
           Add Item
         </ContainedButton>
       </TableCell>

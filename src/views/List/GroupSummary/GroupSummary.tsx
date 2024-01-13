@@ -1,4 +1,6 @@
-import styled, { DefaultTheme, StyledComponent } from 'styled-components/macro';
+import { DetailedHTMLProps, HTMLAttributes } from 'react';
+import { FastOmit } from 'styled-components/dist/types';
+import styled, { IStyledComponent } from 'styled-components';
 import { useSelector } from 'react-redux';
 
 import { selectIsMainGroupSelected, selectSelectedGroupInfo } from '../../../features/groups/selectors';
@@ -32,7 +34,10 @@ type Contents = {
   key: keyof CalculateStockSummaryResult;
   title: string;
   format: (value: number) => string;
-  Component: StyledComponent<'div', DefaultTheme, {}, never>;
+  Component: IStyledComponent<
+    'web',
+    FastOmit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, never>
+  >;
 }[];
 
 const StyledGroupSummary = styled.div`

@@ -1,5 +1,5 @@
 import { SelectHTMLAttributes, useState } from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 
 type Option = {
   value: string;

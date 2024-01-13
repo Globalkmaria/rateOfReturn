@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { MdExpandLess, MdExpandMore } from 'react-icons/md';
 
 type StyledExpandCardProps = {
@@ -26,7 +26,9 @@ const ExpandCard = ({ open, children, transition = 200 }: ExpandCardProps) => {
 
 export default ExpandCard;
 
-const StyledWrapper = styled('div')<StyledExpandCardProps>`
+const StyledWrapper = styled('div').withConfig({
+  shouldForwardProp: prop => !['open', 'transition'].includes(prop),
+})<StyledExpandCardProps>`
   display: grid;
   grid-template-rows: ${({ open }) => (open ? '1fr' : '0fr')};
   overflow: hidden;

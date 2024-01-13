@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 
 import PortalModal from '../../../components/Modal/PortalModal';
 import SaveAsFile from './SaveAsFile';

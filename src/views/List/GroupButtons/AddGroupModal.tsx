@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 
 import { ContainedButton } from '../../../components/Button';
 import { Input } from '../../../components/Input/Input';

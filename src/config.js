@@ -1,5 +1,5 @@
 const required = (key, defaultValue = undefined) => {
-  const value = process.env[key] || defaultValue;
+  const value = import.meta.env[key] || process.env[key] || defaultValue;
   if (value == null) {
     throw new Error(`Key ${key} is undefined`);
   }
@@ -8,8 +8,6 @@ const required = (key, defaultValue = undefined) => {
 
 export const config = {
   server: {
-    url: `${required('REACT_APP_SERVER_URL')}/${required(
-      'REACT_APP_SERVER_VERSION',
-    )}`,
+    url: `${required('VITE_SERVER_URL')}/${required('VITE_SERVER_VERSION')}`,
   },
 };

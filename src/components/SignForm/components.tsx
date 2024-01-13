@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
 
 import { BorderButton } from '../Button';

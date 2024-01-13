@@ -1,4 +1,4 @@
-import styled, { DefaultTheme, StyledComponent } from 'styled-components/macro';
+import styled, { DefaultTheme, IStyledComponent } from 'styled-components';
 
 import { TableHead, TableHeadProps } from '../../../components/Table';
 import CheckAllCheckbox from './CheckAllCheckbox';
@@ -9,18 +9,17 @@ export type HeaderItemProps =
   | {
       id: string;
       label: string;
-      fixedWidth?: number;
-      minWidth?: number;
-    } & (
-      | {
-          Component: HeaderListComponent;
-          notTableHead: true;
-        }
-      | {
-          notTableHead?: false;
-          Component?: StyledComponent<'th', DefaultTheme, TableHeadProps, never>;
-        }
-    );
+    } & Pick<TableHeadProps, 'fixedWidth' | 'minWidth'> &
+      (
+        | {
+            Component: HeaderListComponent;
+            notTableHead: true;
+          }
+        | {
+            notTableHead?: false;
+            Component?: IStyledComponent<'web', DefaultTheme | TableHeadProps | never>;
+          }
+      );
 
 function HeaderItem({ id, label, Component, notTableHead, ...restProps }: HeaderItemProps) {
   if (notTableHead && Component) return <Component key={id} id={id} {...restProps} />;
