@@ -15,3 +15,6 @@ npm-debug.log*
 .vscode/settings.json
 keep.ts
 .env.development
+
+/dist*
+.env*
