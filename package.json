@@ -1,6 +1,6 @@
 {
   "name": "ror",
-  "version": "2.1.8",
+  "version": "2.2.0",
   "private": true,
   "type": "module",
   "dependencies": {
@@ -21,12 +21,11 @@
     "zod": "^3.21.4"
   },
   "scripts": {
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "analyze": "source-map-explorer",
     "dev": "NODE_ENV=development vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "REACT_APP_SERVER_URL=http://localhost:8080/api REACT_APP_SERVER_VERSION=v1 react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "REACT_APP_SERVER_URL=http://localhost:8080/api REACT_APP_SERVER_VERSION=v1 react-scripts test"
   },
   "eslintConfig": {
     "extends": [
