@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 
 import { BorderButton } from '../../../components/Button';
 import BackupModal from './BackupModal';

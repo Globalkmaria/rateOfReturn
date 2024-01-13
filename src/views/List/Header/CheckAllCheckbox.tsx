@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 
 import { TableHeadProps } from '../../../components/Table';
 import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
@@ -11,7 +11,6 @@ function CheckAllCheckbox({ id, ...restProps }: TableHeadProps) {
   const dispatch = useDispatch();
   const isAllChecked = useSelector(selectIsAllChecked);
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
-
   const onChangeCheckbox = (value: boolean) => {
     dispatch(
       updateCheckedItems({
