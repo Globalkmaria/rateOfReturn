@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 
 import { ContainedButton } from '../../../components/Button';
 import useModal from '../hooks/useModal';

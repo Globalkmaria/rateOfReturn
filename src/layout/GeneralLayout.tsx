@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 
 import Navbar from './NavBar/Navbar';
 import Footer from './Footer';

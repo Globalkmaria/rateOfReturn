@@ -1,8 +1,10 @@
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 
 import { BorderButton } from '../Button';
 
-export const StyledModal = styled('div')<{ isOpen: boolean }>`
+export const StyledModal = styled('div').withConfig({
+  shouldForwardProp: props => !['isOpen'].includes(props),
+})<{ isOpen: boolean }>`
   z-index: 9999;
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   position: fixed;
@@ -29,7 +31,9 @@ export const StyledModalContent = styled('div')`
   background-color: white;
 `;
 
-export const StyledModalHeader = styled('div')<{ needHeader: boolean }>`
+export const StyledModalHeader = styled('div').withConfig({
+  shouldForwardProp: props => !['needHeader'].includes(props),
+})<{ needHeader: boolean }>`
   display: ${({ needHeader }) => (needHeader ? 'flex' : 'none')};
   margin-bottom: 10px;
   justify-content: space-between;

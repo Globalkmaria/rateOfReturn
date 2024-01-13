@@ -76,7 +76,8 @@ const stockListSlice = createSlice({
 
     updatePurchaseItemNeedInit: (state, action: PayloadAction<StockMainPayload>) => {
       const { stockId, purchasedId } = action.payload;
-      state.stocks.byId[stockId].purchasedItems.byId[purchasedId].needInit = false;
+      const purchasedItem = state.stocks.byId[stockId].purchasedItems.byId[purchasedId];
+      if (purchasedItem) state.stocks.byId[stockId].purchasedItems.byId[purchasedId].needInit = false;
     },
 
     deleteStock: (state, action: PayloadAction<string>) => {

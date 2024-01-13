@@ -1,5 +1,5 @@
 import { Suspense, lazy, useState } from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 
 import Select from '../../../components/Select';

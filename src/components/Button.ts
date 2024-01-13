@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes } from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { ColorsTypes } from '../styles/theme';
 
 const SIZES = ['s', 'm', 'l'] as const;
@@ -46,9 +46,13 @@ const HEIGHTS: Sizes = {
   l: '48px',
 };
 
-const BaseButton = styled('button').attrs(props => ({
-  type: props.type || 'button',
-}))<BaseButtonProps>(({ theme, height, width, fullWidth, disableIcon, size = 's' }) => ({
+const BaseButton = styled('button')
+  .withConfig({
+    shouldForwardProp: props => !['size', 'color', 'height', 'width', 'fullWidth', 'disableIcon'].includes(props),
+  })
+  .attrs(props => ({
+    type: props.type || 'button',
+  }))<BaseButtonProps>(({ theme, height, width, fullWidth, disableIcon, size = 's' }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -81,7 +85,9 @@ const BaseButton = styled('button').attrs(props => ({
   },
 }));
 
-export const BorderButton = styled(BaseButton)<BorderButtonProps>(({ theme, color = 'primary', showLine = true }) => ({
+export const BorderButton = styled(BaseButton).withConfig({
+  shouldForwardProp: props => !['showLine'].includes(props),
+})<BorderButtonProps>(({ theme, color = 'primary', showLine = true }) => ({
   boxShadow: `rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px`,
 
   '&:not([disabled]):hover': {
