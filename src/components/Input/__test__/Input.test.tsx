@@ -1,4 +1,6 @@
 import { screen } from '@testing-library/react';
+import { vi } from 'vitest';
+
 import { Input } from '../Input';
 import { renderWithStyle } from '../../../__test__/renderUI';
 
@@ -7,8 +9,8 @@ describe('Input component', () => {
   let onBlur: jest.Mock;
 
   beforeEach(() => {
-    onChange = jest.fn();
-    onBlur = jest.fn();
+    onChange = vi.fn();
+    onBlur = vi.fn();
   });
 
   describe('when type is number', () => {

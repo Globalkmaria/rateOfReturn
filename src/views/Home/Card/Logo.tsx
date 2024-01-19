@@ -1,5 +1,7 @@
 import styled from 'styled-components';
+
 import { TopStock } from '../../../repository/topStocks/type';
+import { changeImgUrl } from '../utils';
 
 type LogoProps = {
   stock: TopStock;
@@ -9,9 +11,13 @@ const Logo = ({ stock }: LogoProps) => {
   return (
     <StyledLogo>
       <picture>
-        <source srcSet={stock.img.webp300 || stock.img.webp} media='(max-width: 576px)' type='image/webp' />
-        <source srcSet={stock.img.webp400 || stock.img.webp} type='image/webp' />
-        <img src={stock.img.jpg} alt={`${stock.name} logo`} />
+        <source
+          srcSet={changeImgUrl(stock.img.webp300) || changeImgUrl(stock.img.webp)}
+          media='(max-width: 576px)'
+          type='image/webp'
+        />
+        <source srcSet={changeImgUrl(stock.img.webp400) || changeImgUrl(stock.img.webp)} type='image/webp' />
+        <img src={changeImgUrl(stock.img.jpg)} alt={`${stock.name} logo`} />
       </picture>
     </StyledLogo>
   );

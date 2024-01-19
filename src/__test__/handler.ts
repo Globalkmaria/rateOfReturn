@@ -1,11 +1,11 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { TOP_STOCKS } from './mock/topStocks';
 
 export const handlers = [
-  rest.get('http://localhost:8080/api/v1/const/top-stocks', (req, res, ctx) => {
-    return res(ctx.json(TOP_STOCKS));
+  http.get('http://localhost:8080/api/v1/const/top-stocks', () => {
+    return HttpResponse.json(TOP_STOCKS);
   }),
-  rest.get('http://localhost:8080/api/v1/auth/me', (req, res, ctx) => {
-    return res(ctx.json({}));
+  http.get('http://localhost:8080/api/v1/auth/me', () => {
+    return HttpResponse.json({});
   }),
 ];

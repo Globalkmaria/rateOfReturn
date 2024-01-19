@@ -71,6 +71,14 @@ This project allows you to:
 
 ## Version History
 
+### Version 2.2.2 (2024-01-20)
+
+- Get img from backend server and small changes.
+
+### Version 2.2.1 (2024-01-14)
+
+- Change testing framework from jest to Vitest.
+
 ### Version 2.2.0 (2024-01-14)
 
 - Migration to use Vite.

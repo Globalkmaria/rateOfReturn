@@ -1,9 +1,11 @@
+import { expect, test, describe } from 'vitest';
 import { screen } from '@testing-library/react';
-import Home from '../../pages/Home';
-
-import { renderWithProviders } from '../../__test__/renderUI';
 import userEvent from '@testing-library/user-event';
+
+import Home from '../../pages/Home';
+import { renderWithProviders } from '../../__test__/renderUI';
 import { TOP_STOCKS } from '../../__test__/mock/topStocks';
+
 describe('Home Component', () => {
   test('Home render and Show Card', async () => {
     renderWithProviders(<Home />);

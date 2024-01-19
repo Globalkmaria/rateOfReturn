@@ -1,10 +1,12 @@
+import { vi } from 'vitest';
+import { screen } from '@testing-library/react';
+
 import { calculateGroupSummary } from '../utils';
 import { renderWithProviders } from '../../../../__test__/renderUI';
 import GroupSummary from '../GroupSummary';
-import { screen } from '@testing-library/react';
 
-jest.mock('../utils', () => ({
-  calculateGroupSummary: jest.fn(),
+vi.mock('../utils', () => ({
+  calculateGroupSummary: vi.fn(),
 }));
 
 describe('GroupSummary Component', () => {

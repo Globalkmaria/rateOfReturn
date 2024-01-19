@@ -1,6 +1,6 @@
 {
   "name": "ror",
-  "version": "2.2.0",
+  "version": "2.2.2",
   "private": true,
   "type": "module",
   "dependencies": {
@@ -17,7 +17,6 @@
     "react-redux": "8.0.5",
     "react-router-dom": "6.9.0",
     "styled-components": "^6.1.8",
-    "typescript": "4.4.2",
     "zod": "^3.21.4"
   },
   "scripts": {
@@ -25,7 +24,7 @@
     "dev": "NODE_ENV=development vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "REACT_APP_SERVER_URL=http://localhost:8080/api REACT_APP_SERVER_VERSION=v1 react-scripts test"
+    "test": "vitest"
   },
   "eslintConfig": {
     "extends": [
@@ -55,8 +54,12 @@
     "@types/react-dom": "18.0.0",
     "@vitejs/plugin-react": "^4.2.1",
     "babel-plugin-styled-components": "^2.1.4",
+    "jsdom": "^23.2.0",
+    "msw": "^2.0.14",
     "source-map-explorer": "^2.5.3",
-    "vite": "^5.0.11"
+    "typescript": "^5.3.3",
+    "vite": "^5.0.11",
+    "vitest": "^1.2.0"
   },
   "jest": {
     "transformIgnorePatterns": [
