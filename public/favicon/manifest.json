@@ -1,5 +1,10 @@
 {
-  "name": "App",
+  "name": "Show me RoR",
+  "short_name": "RoR",
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "display": "standalone",
   "icons": [
     {
       "src": "/favicon/android-icon-36x36.png",
