@@ -23,4 +23,4 @@ export const getLocalStockAndGroup = () => {
   };
 };
 
-export const changeImgUrl = (imgURL: string) => `${config.server.url}/img/${imgURL}`;
+export const changeImgUrl = (imgURL: string) => imgURL && `${config.server.url}/img/${imgURL}`;
