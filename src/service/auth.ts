@@ -10,7 +10,9 @@ class AuthService {
   async me(): Promise<MeRepRes | null> {
     try {
       const result = await this.repo.me();
-      if ('user' in result) return result;
+      if ('user' in result) {
+        return result.user ? result : null;
+      }
       return null;
     } catch (error) {
       console.log(error);
@@ -18,10 +20,7 @@ class AuthService {
     }
   }
 
-  async signup(
-    username: string,
-    password: string,
-  ): Promise<SignupRepRes | null> {
+  async signup(username: string, password: string): Promise<SignupRepRes | null> {
     try {
       const result = await this.repo.signup({ username, password });
       if ('error' in result) {
