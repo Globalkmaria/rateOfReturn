@@ -71,12 +71,13 @@ const stockListSlice = createSlice({
 
     updateStockNeedInit: (state, action: PayloadAction<string>) => {
       const stockId = action.payload;
+      if (!state.stocks.byId[stockId]) return;
       state.stocks.byId[stockId].mainInfo.needInit = false;
     },
 
     updatePurchaseItemNeedInit: (state, action: PayloadAction<StockMainPayload>) => {
       const { stockId, purchasedId } = action.payload;
-      const purchasedItem = state.stocks.byId[stockId].purchasedItems.byId[purchasedId];
+      const purchasedItem = state.stocks.byId[stockId]?.purchasedItems?.byId[purchasedId];
       if (purchasedItem) state.stocks.byId[stockId].purchasedItems.byId[purchasedId].needInit = false;
     },
 
