@@ -71,6 +71,10 @@ This project allows you to:
 
 ## Version History
 
+### Version 2.2.3 (2024-01-21)
+
+- Fix error when deleing new stock.
+
 ### Version 2.2.2 (2024-01-20)
 
 - Get img from backend server and small changes.
