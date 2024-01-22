@@ -26,6 +26,11 @@ const SelectComponent = styled('select')<SelectComponentProps>(({ theme, width =
   '&:focus': {
     outline: 'none',
   },
+
+  '&:disabled': {
+    color: theme.colors.grey600,
+    borderColor: theme.colors.grey500,
+  },
 }));
 
 const Select = ({ initialValue, options, onChange, ...restProps }: SelectProps) => {
