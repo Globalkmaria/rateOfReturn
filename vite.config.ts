@@ -9,13 +9,18 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  preview: {
+    port: 3000,
+  },
   plugins: [
     react({
       babel: {
         plugins: [['babel-plugin-styled-components', { displayName: true, fileName: false }]],
       },
     }),
-    visualizer(),
+    visualizer({
+      open: true,
+    }),
   ],
   test: {
     exclude: ['**/node_modules/**', '**/dist/**'],
@@ -39,6 +44,10 @@ export default defineConfig({
             return 'axios';
           } else if (id.includes('redux')) {
             return 'redux';
+          } else if (id.includes('styled-components')) {
+            return 'styled-components';
+          } else if (id.includes('node_modules')) {
+            return 'node_modules';
           }
         },
       },

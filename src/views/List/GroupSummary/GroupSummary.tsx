@@ -56,13 +56,14 @@ const StyledGroupSummary = styled.div`
   }
 `;
 
-const StyledContent = styled.div`
+export const StyledContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding: 15px;
   min-width: fit-content;
   width: 170px;
+  min-height: 76px;
   background: ${({ theme }) => theme.colors.white};
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px 2px;
@@ -105,7 +106,7 @@ const StyledReturnRatio = styled(StyledContent)`
   }
 `;
 
-const SUMMARY_CONTENTS: Contents = [
+export const SUMMARY_CONTENTS: Contents = [
   {
     key: 'totalPurchasedPrice',
     title: 'Total Buy Price',

@@ -42,11 +42,11 @@ const GroupButtons = () => {
           title='Choose group to show'
         />
         <Buttons>
-          <BorderButton onClick={onOpenAdd} size='m' disabled={!showAddGroup} title='Add new group'>
+          <BorderButton width={113} onClick={onOpenAdd} size='m' disabled={!showAddGroup} title='Add new group'>
             Add Group
           </BorderButton>
           {showAdd && <AddGroupModal onClose={onCloseAdd} />}
-          <BorderButton onClick={onOpenDelete} size='m' disabled={noGroups} title='Delete group'>
+          <BorderButton width={133} onClick={onOpenDelete} size='m' disabled={noGroups} title='Delete group'>
             Delete Group
           </BorderButton>
           {showDelete && <DeleteGroupModal onClose={onCloseDelete} />}
