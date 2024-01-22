@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import GroupButtons from './GroupButtons/GroupButtons';
 import GroupSummary from './GroupSummary/GroupSummary';
 import Backup from './Backup/Backup';
-import StockTable from './StockTable';
 import AddSampleData from './AddSampleData/AddSampleData';
 import { useShowAddSampleBtn } from './AddSampleData/useShowAddSampleBtn';
 import { BaseInput } from '../../components/Input/BaseInput';
 import useSaveChangedStocksData from './hooks/useSaveChangedStocksData';
 import useSaveChangedGroupsData from './hooks/useSaveChangedGroupedData';
+import ListTableSkeleton from './ListTableSkeleton';
+
+const StockTable = lazy(() => import('./StockTable'));
 
 const StockList = () => {
   const [firstLoad, setFirstLoad] = useState(true);
@@ -33,7 +35,9 @@ const StockList = () => {
         </StyledControlBarRight>
       </StyledControlBar>
       <GroupSummary />
-      <StockTable />
+      <Suspense fallback={<ListTableSkeleton />}>
+        <StockTable />
+      </Suspense>
       <div className='container'></div>
     </StyledStockList>
   );
