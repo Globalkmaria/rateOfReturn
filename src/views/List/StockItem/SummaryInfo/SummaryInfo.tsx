@@ -102,6 +102,7 @@ export default memo(SummaryInfo);
 
 export const StyledSummaryRow = styled(TableRow)`
   background: ${({ theme }) => theme.colors.grey100};
+  height: 46px;
 
   ${TableCell} > ${BaseInput} {
     background: ${({ theme }) => theme.colors.grey300};

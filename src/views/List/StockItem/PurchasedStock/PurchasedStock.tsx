@@ -121,6 +121,7 @@ export default memo(PurchasedStock);
 
 const StyledPurchasedStock = styled(TableRow)`
   background: ${({ theme }) => theme.colors.white};
+  height: 46px;
 
   &:hover {
     background: ${({ theme }) => theme.colors.indigo000};
