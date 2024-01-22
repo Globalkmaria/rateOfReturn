@@ -71,6 +71,10 @@ This project allows you to:
 
 ## Version History
 
+### Version 2.2.4 (2024-01-22)
+
+- Now using http2. Split vendor chunk.
+
 ### Version 2.2.3 (2024-01-21)
 
 - Fix error when deleing new stock.
