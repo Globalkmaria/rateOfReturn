@@ -104,10 +104,6 @@ export const StyledSummaryRow = styled(TableRow)`
   background: ${({ theme }) => theme.colors.grey100};
   height: 46px;
 
-  ${TableCell} > ${BaseInput} {
-    background: ${({ theme }) => theme.colors.grey300};
-  }
-
   ${BorderButton} {
     border: ${({ theme }) => `1px solid ${theme.colors.grey400}`};
 
