@@ -22,7 +22,7 @@ const GroupButtons = () => {
   const groups = useSelector(selectGroups);
   const checkedItems = useSelector(selectCheckedPurchasedItems);
   const options = getOptions(groups);
-  const showAddGroup = isMainGroupSelected && !!checkedItems.length;
+  const showAddGroup = !!checkedItems.length;
   const noGroups = groups.groups.allIds.length === 0;
 
   const onGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -42,14 +42,16 @@ const GroupButtons = () => {
           title='Choose group to show'
         />
         <Buttons>
-          <BorderButton width={113} onClick={onOpenAdd} size='m' disabled={!showAddGroup} title='Add new group'>
-            Add Group
-          </BorderButton>
-          {showAdd && <AddGroupModal onClose={onCloseAdd} />}
           <BorderButton width={133} onClick={onOpenDelete} size='m' disabled={noGroups} title='Delete group'>
             Delete Group
           </BorderButton>
           {showDelete && <DeleteGroupModal onClose={onCloseDelete} />}
+          {isMainGroupSelected && (
+            <BorderButton width={113} onClick={onOpenAdd} size='m' disabled={!showAddGroup} title='Add new group'>
+              Add Group
+            </BorderButton>
+          )}
+          {showAdd && <AddGroupModal onClose={onCloseAdd} />}
         </Buttons>
       </StyledGroupButtons>
     </>
