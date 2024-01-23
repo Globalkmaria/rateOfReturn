@@ -15,11 +15,11 @@ function GroupButtonSkeleton() {
           disabled
         />
         <Buttons>
-          <BorderButton width={113} size='m' disabled title='Add new group'>
-            Add Group
-          </BorderButton>
           <BorderButton width={133} size='m' disabled title='Delete group'>
             Delete Group
+          </BorderButton>
+          <BorderButton width={113} size='m' disabled title='Add new group'>
+            Add Group
           </BorderButton>
         </Buttons>
       </StyledGroupButtons>
