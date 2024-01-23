@@ -14,9 +14,15 @@ export const groupsInitialState: GroupsState = {
   nextGroupId: 2,
 };
 
+export const sampleAsInitialState: GroupsState = {
+  groups: GROUPS_MOCK_DATA,
+  selectedGroupId: MAIN_GROUP_ID,
+  nextGroupId: GROUPS_MOCK_DATA_NEXT_GROUP_ID,
+};
+
 export const groupsSlice = createSlice({
   name: 'groups',
-  initialState: groupsInitialState,
+  initialState: sampleAsInitialState,
   reducers: {
     addSampleGroups: state => {
       state.groups = GROUPS_MOCK_DATA;

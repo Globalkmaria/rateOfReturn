@@ -71,6 +71,10 @@ This project allows you to:
 
 ## Version History
 
+### Version 2.2.6 (2024-01-23)
+
+- Use sample data as initial data.
+
 ### Version 2.2.5 (2024-01-22)
 
 - Split more files. Add skeleton to Stock Table page.
