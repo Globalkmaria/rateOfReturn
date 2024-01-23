@@ -20,9 +20,15 @@ export const stockInitialState: StockListState = {
   nextPurchasedId: 1,
 };
 
+export const sampleAsInitialState = {
+  stocks: MOCK_DATA,
+  nextStockId: MOCK_DATA_NEXT_STOCK_ID,
+  nextPurchasedId: MOCK_DATA_PURCHASED_ID,
+};
+
 const stockListSlice = createSlice({
   name: 'stockList',
-  initialState: stockInitialState,
+  initialState: sampleAsInitialState,
   reducers: {
     addSampleStockList: state => {
       state.stocks = MOCK_DATA;
