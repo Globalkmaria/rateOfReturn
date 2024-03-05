@@ -31,7 +31,7 @@ const PurchasedInput = ({ isLock, purchasedItem, changedInputs, setChangedInputB
 
   useEffect(() => {
     if (!focusedInput.current?.disabled) focusedInput.current?.focus();
-  }, [focusedInput.current?.disabled]);
+  }, [isLock]);
 
   return (
     <>
