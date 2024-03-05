@@ -71,6 +71,10 @@ This project allows you to:
 
 ## Version History
 
+### Version 2.2.8 (2024-03-06)
+
+- Fix List page purchase input bug.
+
 ### Version 2.2.7 (2024-03-06)
 
 - Fix List page summary input bugs.
