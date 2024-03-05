@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef } from 'react';
+import { memo, useEffect, useLayoutEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -22,12 +22,12 @@ const SummaryContent = ({ stockId, isLock, onInputChange, changedInputs }: Props
   const stockInfo = useSelector(selectStockInfoById(stockId));
   const summaryData = useGetStockSummaryData(stockId);
 
-  const stockName = changedInputs.stockName || stockInfo.mainInfo.stockName;
+  const stockName = changedInputs.stockName ?? stockInfo.mainInfo.stockName;
   const formattedCurrentPrice = changedInputs.currentPrice?.toString() || stockInfo.mainInfo.currentPrice.toString();
 
   useEffect(() => {
     if (!focusedInput.current?.disabled) focusedInput.current?.focus();
-  }, [focusedInput.current?.disabled]);
+  }, [isLock]);
 
   return (
     <>

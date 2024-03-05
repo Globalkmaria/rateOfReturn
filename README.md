@@ -71,6 +71,10 @@ This project allows you to:
 
 ## Version History
 
+### Version 2.2.7 (2024-03-06)
+
+- Fix List page summary input bugs.
+
 ### Version 2.2.6 (2024-01-23)
 
 - Use sample data as initial data.
