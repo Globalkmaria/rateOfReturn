@@ -34,9 +34,3 @@ export const getNewStockInfo = (newStockId: string, newPurchasedId: string, date
     },
   };
 };
-
-export const initStock = (state: StockListState, data: StockListState) => {
-  state.stocks = data.stocks;
-  state.nextStockId = data.nextStockId;
-  state.nextPurchasedId = data.nextPurchasedId;
-};

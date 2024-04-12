@@ -1,9 +1,9 @@
 import { PreloadedState, configureStore } from '@reduxjs/toolkit';
 
-import stockListReducer, { stockInitialState } from './features/stockList/stockListSlice';
-import checkedItemsReducer, { checkedInitialState } from './features/checkedItems/checkedItemsSlice';
-import groupsReducerReducer, { groupsInitialState } from './features/groups/groupsSlice';
-import userSliceReducer, { userInitialState } from './features/user/userSlice';
+import stockListReducer, { STOCK_INITIAL_STATE } from './features/stockList/stockListSlice';
+import checkedItemsReducer, { CHECKED_INITIAL_STATE } from './features/checkedItems/checkedItemsSlice';
+import groupsReducerReducer, { GROUP_INITIAL_STATE } from './features/groups/groupsSlice';
+import userSliceReducer, { USER_INITIAL_STATE } from './features/user/userSlice';
 
 export const store = configureStore({
   reducer: {
@@ -27,10 +27,10 @@ export function setupStore(preloadedState?: PreloadedState<RootState>) {
 }
 
 export const preloadedStoreState: RootState = {
-  stockList: stockInitialState,
-  user: userInitialState,
-  groups: groupsInitialState,
-  checkedItems: checkedInitialState,
+  stockList: STOCK_INITIAL_STATE,
+  user: USER_INITIAL_STATE,
+  groups: GROUP_INITIAL_STATE,
+  checkedItems: CHECKED_INITIAL_STATE,
 };
 
 export type RootState = ReturnType<typeof store.getState>;

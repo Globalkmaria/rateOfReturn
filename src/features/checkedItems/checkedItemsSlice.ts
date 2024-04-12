@@ -6,6 +6,7 @@ import {
   addGroup,
   addNewStock,
   addPurchasedItem,
+  addSampleData,
   deletePurchasedItem,
   deleteStock,
   initUserData,
@@ -13,22 +14,15 @@ import {
   setBackupData,
 } from '../actions';
 
-export const checkedInitialState: CheckedItemsState = {
+export const CHECKED_INITIAL_STATE: CheckedItemsState = {
   allChecked: true,
   stocksCheckInfo: {},
 };
 
 export const checkedItemsSlice = createSlice({
   name: 'checkedItems',
-  initialState: checkedInitialState,
+  initialState: CHECKED_INITIAL_STATE,
   reducers: {
-    addSampleCheckedItems: state => {
-      state.allChecked = true;
-      state.stocksCheckInfo = getInitialCheckedItemsInfo({
-        data: MOCK_DATA,
-        value: true,
-      }).stocksCheckInfo;
-    },
     initCheckedItems: (state, action: PayloadAction<CheckedItemsInfo>) => action.payload,
     updateCheckedItems: (state, action: PayloadAction<UpdateCheckedItemsInfoPayload>) => {
       updateCheckedItemsState(state, action.payload);
@@ -47,7 +41,7 @@ export const checkedItemsSlice = createSlice({
       delete state.stocksCheckInfo[payload];
     });
     builder.addCase(initUserData, (state, action) => action.payload.checkedItems);
-    builder.addCase(resetUserData, () => checkedInitialState);
+    builder.addCase(resetUserData, () => CHECKED_INITIAL_STATE);
     builder.addCase(addNewStock, (state, action) => {
       const { stockId, stockCheckInfo } = action.payload;
       state.stocksCheckInfo[stockId] = stockCheckInfo;
@@ -58,9 +52,15 @@ export const checkedItemsSlice = createSlice({
     });
     builder.addCase(setBackupData, (state, action) => action.payload.checkedItems);
     builder.addCase(addGroup, (state, action) => action.payload.checkedItems);
+    builder.addCase(addSampleData, () =>
+      getInitialCheckedItemsInfo({
+        data: MOCK_DATA,
+        value: true,
+      }),
+    );
   },
 });
 
-export const { initCheckedItems, updateCheckedItems, addSampleCheckedItems } = checkedItemsSlice.actions;
+export const { initCheckedItems, updateCheckedItems } = checkedItemsSlice.actions;
 
 export default checkedItemsSlice.reducer;

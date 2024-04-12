@@ -1,12 +1,20 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { GROUPS_MOCK_DATA, GROUPS_MOCK_DATA_NEXT_GROUP_ID } from './mockData';
-import { GroupsState, AddGroupPayload, UpdateMainGroupPayload } from './type';
+import { GroupsState, UpdateMainGroupPayload } from './type';
 import { deletePurchasedItemFromGroup, deleteStockFromGroup, initGroupsWithData, validCheckGroupDelete } from './utils';
-import { addGroup, deletePurchasedItem, deleteStock, initUserData, resetUserData, setBackupData } from '../actions';
+import {
+  addGroup,
+  addSampleData,
+  deletePurchasedItem,
+  deleteStock,
+  initUserData,
+  resetUserData,
+  setBackupData,
+} from '../actions';
 
 export const MAIN_GROUP_ID = '1';
 
-export const groupsInitialState: GroupsState = {
+export const GROUP_INITIAL_STATE: GroupsState = {
   groups: {
     byId: {},
     allIds: [],
@@ -14,8 +22,7 @@ export const groupsInitialState: GroupsState = {
   selectedGroupId: MAIN_GROUP_ID,
   nextGroupId: 2,
 };
-
-export const sampleAsInitialState: GroupsState = {
+const INITIAL_STATE_WITH_SAMPLE: GroupsState = {
   groups: GROUPS_MOCK_DATA,
   selectedGroupId: MAIN_GROUP_ID,
   nextGroupId: GROUPS_MOCK_DATA_NEXT_GROUP_ID,
@@ -23,13 +30,8 @@ export const sampleAsInitialState: GroupsState = {
 
 export const groupsSlice = createSlice({
   name: 'groups',
-  initialState: sampleAsInitialState,
+  initialState: INITIAL_STATE_WITH_SAMPLE,
   reducers: {
-    addSampleGroups: state => {
-      state.groups = GROUPS_MOCK_DATA;
-      state.selectedGroupId = MAIN_GROUP_ID;
-      state.nextGroupId = GROUPS_MOCK_DATA_NEXT_GROUP_ID;
-    },
     initGroups: (state, action: PayloadAction<Omit<GroupsState, 'selectedGroupId'>>) => {
       initGroupsWithData(state, { selectedGroupId: MAIN_GROUP_ID, ...action.payload });
     },
@@ -83,7 +85,7 @@ export const groupsSlice = createSlice({
     builder.addCase(initUserData, (state, action) => {
       initGroupsWithData(state, { selectedGroupId: MAIN_GROUP_ID, ...action.payload.groups });
     });
-    builder.addCase(resetUserData, () => groupsInitialState);
+    builder.addCase(resetUserData, () => GROUP_INITIAL_STATE);
     builder.addCase(setBackupData, (state, action) => action.payload.groups);
     builder.addCase(addGroup, (state, action) => {
       const { groupInfo } = action.payload;
@@ -93,8 +95,9 @@ export const groupsSlice = createSlice({
       state.selectedGroupId = groupInfo.groupId;
       state.nextGroupId += 1;
     });
+    builder.addCase(addSampleData, () => INITIAL_STATE_WITH_SAMPLE);
   },
 });
 
-export const { updateSelectedGroupId, deleteGroup, initGroups, updateMainGroup, addSampleGroups } = groupsSlice.actions;
+export const { updateSelectedGroupId, deleteGroup, initGroups, updateMainGroup } = groupsSlice.actions;
 export default groupsSlice.reducer;
