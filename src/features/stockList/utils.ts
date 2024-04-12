@@ -1,4 +1,5 @@
-import { PurchasedItemInfo, StockList, StockMainInfo } from './type';
+import { PayloadAction } from '@reduxjs/toolkit';
+import { PurchasedItemInfo, StockList, StockListState, StockMainInfo } from './type';
 
 export const objectToArray = (Obj: { [key: string | number]: any }) => {
   return Object.keys(Obj).map(ObjKey => Obj[ObjKey]);
@@ -32,4 +33,10 @@ export const getNewStockInfo = (newStockId: string, newPurchasedId: string, date
       allIds: [newPurchasedId],
     },
   };
+};
+
+export const initStock = (state: StockListState, data: StockListState) => {
+  state.stocks = data.stocks;
+  state.nextStockId = data.nextStockId;
+  state.nextPurchasedId = data.nextPurchasedId;
 };

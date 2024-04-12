@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { getInitialCheckedItemsInfo, updateCheckedItemsState } from './utils';
+import { getInitialCheckedItemsInfo, initCheckedItemsWithData, updateCheckedItemsState } from './utils';
 import {
   AddStockCheckInfoPayload,
   CheckedItemsInfo,
@@ -8,7 +8,7 @@ import {
   UpdateCheckedItemsInfoPayload,
 } from './type';
 import { MOCK_DATA } from '../stockList/mockData';
-import { deletePurchasedItem, deleteStock } from '../actions';
+import { deletePurchasedItem, deleteStock, initUserData } from '../actions';
 
 export const checkedInitialState: CheckedItemsState = {
   allChecked: true,
@@ -28,8 +28,7 @@ export const checkedItemsSlice = createSlice({
     },
     resetCheckedItems: () => checkedInitialState,
     initCheckedItems: (state, action: PayloadAction<CheckedItemsInfo>) => {
-      state.allChecked = action.payload.allChecked;
-      state.stocksCheckInfo = action.payload.stocksCheckInfo;
+      initCheckedItemsWithData(state, action.payload);
     },
     setBackupCheckedItems: (state, action: PayloadAction<CheckedItemsState>) => {
       state.allChecked = action.payload.allChecked;
@@ -58,6 +57,9 @@ export const checkedItemsSlice = createSlice({
     });
     builder.addCase(deleteStock, (state, { payload }) => {
       delete state.stocksCheckInfo[payload];
+    });
+    builder.addCase(initUserData, (state, action) => {
+      initCheckedItemsWithData(state, action.payload.checkedItems);
     });
   },
 });
