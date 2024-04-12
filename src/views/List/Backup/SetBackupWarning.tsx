@@ -1,9 +1,6 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
-import { setBackupCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
-import { setBackupGroups } from '../../../features/groups/groupsSlice';
-import { setBackupStockList } from '../../../features/stockList/stockListSlice';
 import WarningModal from '../../../components/WarningModal';
+import { setBackupData } from '../../../features/actions';
 
 type Props = {
   onClose: () => void;
@@ -15,20 +12,18 @@ const SetBackupWarning = ({ onClose, data }: Props) => {
 
   const backupData = () => {
     if (data === null || data === undefined) return;
-    dispatch(setBackupCheckedItems(data.checkedItems));
-    dispatch(setBackupGroups(data.groups));
-    dispatch(setBackupStockList(data.stockList));
+    dispatch(
+      setBackupData({
+        stockList: data.stockList,
+        groups: data.groups,
+        checkedItems: data.checkedItems,
+      }),
+    );
+
     onClose();
   };
 
-  return (
-    <WarningModal
-      onClose={onClose}
-      onConfirm={backupData}
-      message={MESSAGE}
-      buttonName='Set Backup'
-    />
-  );
+  return <WarningModal onClose={onClose} onConfirm={backupData} message={MESSAGE} buttonName='Set Backup' />;
 };
 
 export default SetBackupWarning;

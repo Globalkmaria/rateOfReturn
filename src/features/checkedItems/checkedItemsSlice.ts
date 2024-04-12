@@ -9,6 +9,7 @@ import {
   deleteStock,
   initUserData,
   resetUserData,
+  setBackupData,
 } from '../actions';
 
 export const checkedInitialState: CheckedItemsState = {
@@ -29,10 +30,6 @@ export const checkedItemsSlice = createSlice({
     },
     initCheckedItems: (state, action: PayloadAction<CheckedItemsInfo>) => {
       initCheckedItemsWithData(state, action.payload);
-    },
-    setBackupCheckedItems: (state, action: PayloadAction<CheckedItemsState>) => {
-      state.allChecked = action.payload.allChecked;
-      state.stocksCheckInfo = action.payload.stocksCheckInfo;
     },
     updateCheckedItems: (state, action: PayloadAction<UpdateCheckedItemsInfoPayload>) => {
       updateCheckedItemsState(state, action.payload);
@@ -62,10 +59,10 @@ export const checkedItemsSlice = createSlice({
       const { stockId, purchasedId } = action.payload;
       state.stocksCheckInfo[stockId].purchasedItems[purchasedId] = true;
     });
+    builder.addCase(setBackupData, (state, action) => action.payload.checkedItems);
   },
 });
 
-export const { setBackupCheckedItems, initCheckedItems, updateCheckedItems, addSampleCheckedItems } =
-  checkedItemsSlice.actions;
+export const { initCheckedItems, updateCheckedItems, addSampleCheckedItems } = checkedItemsSlice.actions;
 
 export default checkedItemsSlice.reducer;

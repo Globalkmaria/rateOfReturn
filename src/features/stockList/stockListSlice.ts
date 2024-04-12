@@ -1,13 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { MOCK_DATA, MOCK_DATA_NEXT_STOCK_ID, MOCK_DATA_PURCHASED_ID } from './mockData';
-import {
-  StockListState,
-  UpdateStockPayload,
-  UpdatePurchasedItemPayload,
-  AddNewPurchasedItemPayload,
-  StockMainPayload,
-} from './type';
+import { StockListState, UpdateStockPayload, UpdatePurchasedItemPayload, StockMainPayload } from './type';
 import {
   addNewStock,
   addPurchasedItem,
@@ -15,6 +9,7 @@ import {
   deleteStock,
   initUserData,
   resetUserData,
+  setBackupData,
 } from '../actions';
 import { initStock } from './utils';
 
@@ -43,11 +38,6 @@ const stockListSlice = createSlice({
       state.nextPurchasedId = MOCK_DATA_PURCHASED_ID;
     },
 
-    setBackupStockList: (state, action: PayloadAction<StockListState>) => {
-      state.stocks = action.payload.stocks;
-      state.nextStockId = action.payload.nextStockId;
-      state.nextPurchasedId = action.payload.nextPurchasedId;
-    },
     initStockList: (state, action: PayloadAction<StockListState>) => {
       initStock(state, action.payload);
     },
@@ -113,12 +103,12 @@ const stockListSlice = createSlice({
 
       state.nextPurchasedId = Number(state.nextPurchasedId) + 1;
     });
+    builder.addCase(setBackupData, (state, action) => action.payload.stockList);
   },
 });
 
 export const {
   addSampleStockList,
-  setBackupStockList,
   updateStock,
   updatePurchaseItem,
   initStockList,
