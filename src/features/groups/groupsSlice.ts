@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { GROUPS_MOCK_DATA, GROUPS_MOCK_DATA_NEXT_GROUP_ID } from './mockData';
-import { GroupsState, AddGroupPayload, DeletePurchaseItemFromGroupPayload, UpdateMainGroupPayload } from './type';
+import { GroupsState, AddGroupPayload, UpdateMainGroupPayload } from './type';
 import { deletePurchasedItemFromGroup, deleteStockFromGroup, initGroupsWithData, validCheckGroupDelete } from './utils';
-import { deletePurchasedItem, deleteStock, initUserData } from '../actions';
+import { deletePurchasedItem, deleteStock, initUserData, resetUserData } from '../actions';
 
 export const MAIN_GROUP_ID = '1';
 
@@ -33,7 +33,6 @@ export const groupsSlice = createSlice({
     initGroups: (state, action: PayloadAction<Omit<GroupsState, 'selectedGroupId'>>) => {
       initGroupsWithData(state, { selectedGroupId: MAIN_GROUP_ID, ...action.payload });
     },
-    resetGroups: () => groupsInitialState,
     setBackupGroups: (state, action: PayloadAction<GroupsState>) => {
       state.groups = action.payload.groups;
       state.selectedGroupId = action.payload.selectedGroupId;
@@ -98,6 +97,7 @@ export const groupsSlice = createSlice({
     builder.addCase(initUserData, (state, action) => {
       initGroupsWithData(state, { selectedGroupId: MAIN_GROUP_ID, ...action.payload.groups });
     });
+    builder.addCase(resetUserData, () => groupsInitialState);
   },
 });
 
@@ -109,7 +109,6 @@ export const {
   deleteGroup,
   initGroups,
   updateMainGroup,
-  resetGroups,
   addSampleGroups,
 } = groupsSlice.actions;
 export default groupsSlice.reducer;

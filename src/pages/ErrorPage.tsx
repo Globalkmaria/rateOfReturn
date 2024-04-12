@@ -3,10 +3,8 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 
 import { ContainedButton } from '../components/Button';
-import { resetCheckedItems } from '../features/checkedItems/checkedItemsSlice';
-import { restStockList } from '../features/stockList/stockListSlice';
-import { resetGroups } from '../features/groups/groupsSlice';
 import { handleGetDataFile } from '../utils/file';
+import { resetUserData } from '../features/actions';
 
 const ErrorPage = () => {
   const dispatch = useDispatch();
@@ -15,9 +13,7 @@ const ErrorPage = () => {
   console.error(error);
 
   const onReset = () => {
-    dispatch(resetCheckedItems());
-    dispatch(restStockList());
-    dispatch(resetGroups());
+    dispatch(resetUserData());
     localStorage.clear();
   };
 

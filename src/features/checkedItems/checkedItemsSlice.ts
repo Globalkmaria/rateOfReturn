@@ -8,7 +8,7 @@ import {
   UpdateCheckedItemsInfoPayload,
 } from './type';
 import { MOCK_DATA } from '../stockList/mockData';
-import { deletePurchasedItem, deleteStock, initUserData } from '../actions';
+import { deletePurchasedItem, deleteStock, initUserData, resetUserData } from '../actions';
 
 export const checkedInitialState: CheckedItemsState = {
   allChecked: true,
@@ -26,7 +26,6 @@ export const checkedItemsSlice = createSlice({
         value: true,
       }).stocksCheckInfo;
     },
-    resetCheckedItems: () => checkedInitialState,
     initCheckedItems: (state, action: PayloadAction<CheckedItemsInfo>) => {
       initCheckedItemsWithData(state, action.payload);
     },
@@ -61,6 +60,7 @@ export const checkedItemsSlice = createSlice({
     builder.addCase(initUserData, (state, action) => {
       initCheckedItemsWithData(state, action.payload.checkedItems);
     });
+    builder.addCase(resetUserData, () => checkedInitialState);
   },
 });
 
@@ -70,7 +70,6 @@ export const {
   updateCheckedItems,
   addStockCheckInfo,
   addPurchasedItemsCheckInfo,
-  resetCheckedItems,
   addSampleCheckedItems,
 } = checkedItemsSlice.actions;
 
