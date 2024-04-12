@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { getInitialCheckedItemsInfo, initCheckedItemsWithData, updateCheckedItemsState } from './utils';
+import { getInitialCheckedItemsInfo, updateCheckedItemsState } from './utils';
 import { CheckedItemsInfo, CheckedItemsState, UpdateCheckedItemsInfoPayload } from './type';
 import { MOCK_DATA } from '../stockList/mockData';
 import {
@@ -29,9 +29,7 @@ export const checkedItemsSlice = createSlice({
         value: true,
       }).stocksCheckInfo;
     },
-    initCheckedItems: (state, action: PayloadAction<CheckedItemsInfo>) => {
-      initCheckedItemsWithData(state, action.payload);
-    },
+    initCheckedItems: (state, action: PayloadAction<CheckedItemsInfo>) => action.payload,
     updateCheckedItems: (state, action: PayloadAction<UpdateCheckedItemsInfoPayload>) => {
       updateCheckedItemsState(state, action.payload);
     },
@@ -48,9 +46,7 @@ export const checkedItemsSlice = createSlice({
     builder.addCase(deleteStock, (state, { payload }) => {
       delete state.stocksCheckInfo[payload];
     });
-    builder.addCase(initUserData, (state, action) => {
-      initCheckedItemsWithData(state, action.payload.checkedItems);
-    });
+    builder.addCase(initUserData, (state, action) => action.payload.checkedItems);
     builder.addCase(resetUserData, () => checkedInitialState);
     builder.addCase(addNewStock, (state, action) => {
       const { stockId, stockCheckInfo } = action.payload;

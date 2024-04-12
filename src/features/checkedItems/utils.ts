@@ -136,8 +136,3 @@ export const updateCheckedItemsState = (state: CheckedItemsInfo, payload: Update
   }
   return state;
 };
-
-export const initCheckedItemsWithData = (state: CheckedItemsState, data: CheckedItemsInfo) => {
-  state.allChecked = data.allChecked;
-  state.stocksCheckInfo = data.stocksCheckInfo;
-};
