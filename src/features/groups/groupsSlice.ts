@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { GROUPS_MOCK_DATA, GROUPS_MOCK_DATA_NEXT_GROUP_ID } from './mockData';
 import { GroupsState, AddGroupPayload, DeletePurchaseItemFromGroupPayload, UpdateMainGroupPayload } from './type';
 import { deletePurchasedItemFromGroup, deleteStockFromGroup, validCheckGroupDelete } from './utils';
+import { deletePurchasedItem } from '../actions';
 
 export const MAIN_GROUP_ID = '1';
 
@@ -83,11 +84,13 @@ export const groupsSlice = createSlice({
         deleteStockFromGroup(group, stockId);
       }
     },
-    deletePurchaseItemFromGroups: (state, action: PayloadAction<DeletePurchaseItemFromGroupPayload>) => {
+  },
+  extraReducers(builder) {
+    builder.addCase(deletePurchasedItem, ({ groups }, action: PayloadAction<DeletePurchaseItemFromGroupPayload>) => {
       const { stockId, purchasedId } = action.payload;
 
-      for (const groupId of state.groups.allIds) {
-        const group = state.groups.byId[groupId];
+      for (const groupId of groups.allIds) {
+        const group = groups.byId[groupId];
 
         const isDeleted = deletePurchasedItemFromGroup(group, stockId, purchasedId);
         if (!isDeleted) continue;
@@ -95,7 +98,7 @@ export const groupsSlice = createSlice({
         const emptyPurchasedItems = !group.stocks.byId[stockId].length;
         if (emptyPurchasedItems) deleteStockFromGroup(group, stockId);
       }
-    },
+    });
   },
 });
 
@@ -104,7 +107,6 @@ export const {
   updateSelectedGroupId,
   updateNextGroupId,
   addGroup,
-  deletePurchaseItemFromGroups,
   deleteGroup,
   initGroups,
   deleteStockFromGroups,

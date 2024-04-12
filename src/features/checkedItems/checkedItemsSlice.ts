@@ -8,6 +8,7 @@ import {
   UpdateCheckedItemsInfoPayload,
 } from './type';
 import { MOCK_DATA } from '../stockList/mockData';
+import { deletePurchasedItem } from '../actions';
 
 export const checkedInitialState: CheckedItemsState = {
   allChecked: true,
@@ -45,17 +46,19 @@ export const checkedItemsSlice = createSlice({
     updateCheckedItems: (state, action: PayloadAction<UpdateCheckedItemsInfoPayload>) => {
       updateCheckedItemsState(state, action.payload);
     },
-    deleteCheckedItems: (state, action: PayloadAction<CheckInfoPayload>) => {
-      const { stockId, purchasedId } = action.payload;
-      const stockInfo = state.stocksCheckInfo[stockId];
-      delete stockInfo.purchasedItems[purchasedId];
-
-      const purchasedItemsExist = Object.keys(stockInfo.purchasedItems).length;
-      if (!purchasedItemsExist) delete state.stocksCheckInfo[stockId];
-    },
     deleteStockCheck: (state, action: PayloadAction<string>) => {
       delete state.stocksCheckInfo[action.payload];
     },
+  },
+  extraReducers(builder) {
+    builder.addCase(deletePurchasedItem, ({ stocksCheckInfo }, action: PayloadAction<CheckInfoPayload>) => {
+      const { stockId, purchasedId } = action.payload;
+      const stockInfo = stocksCheckInfo[stockId];
+      delete stockInfo.purchasedItems[purchasedId];
+
+      const purchasedItemsExist = Object.keys(stockInfo.purchasedItems).length;
+      if (!purchasedItemsExist) delete stocksCheckInfo[stockId];
+    });
   },
 });
 
@@ -65,7 +68,6 @@ export const {
   updateCheckedItems,
   addStockCheckInfo,
   addPurchasedItemsCheckInfo,
-  deleteCheckedItems,
   deleteStockCheck,
   resetCheckedItems,
   addSampleCheckedItems,

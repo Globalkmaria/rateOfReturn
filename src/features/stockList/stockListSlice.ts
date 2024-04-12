@@ -10,6 +10,7 @@ import {
   AddNewPurchasedItemPayload,
   StockMainPayload,
 } from './type';
+import { deletePurchasedItem } from '../actions';
 
 export const stockInitialState: StockListState = {
   stocks: {
@@ -92,7 +93,9 @@ const stockListSlice = createSlice({
       delete state.stocks.byId[stockId];
       state.stocks.allIds.splice(state.stocks.allIds.indexOf(stockId), 1);
     },
-    deletePurchasedItem: ({ stocks }, action: PayloadAction<DeletePurchasedItemPayload>) => {
+  },
+  extraReducers(builder) {
+    builder.addCase(deletePurchasedItem, ({ stocks }, action: PayloadAction<DeletePurchasedItemPayload>) => {
       const { stockId, purchasedId } = action.payload;
       const purchasedItems = stocks.byId[stockId].purchasedItems;
 
@@ -106,7 +109,7 @@ const stockListSlice = createSlice({
       const purchasedItemIdx = purchasedItems.allIds.indexOf(purchasedId);
       delete purchasedItems.byId[purchasedId];
       purchasedItems.allIds.splice(purchasedItemIdx, 1);
-    },
+    });
   },
 });
 
@@ -118,7 +121,6 @@ export const {
   updateStock,
   updatePurchaseItem,
   deleteStock,
-  deletePurchasedItem,
   initStockList,
   restStockList,
   updateNextStockId,
