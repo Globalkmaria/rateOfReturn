@@ -1,5 +1,4 @@
-import { PayloadAction } from '@reduxjs/toolkit';
-import { PurchasedItemInfo, StockList, StockListState, StockMainInfo } from './type';
+import { PurchasedItemInfo, StockList, StockMainInfo } from './type';
 
 export const objectToArray = (Obj: { [key: string | number]: any }) => {
   return Object.keys(Obj).map(ObjKey => Obj[ObjKey]);
