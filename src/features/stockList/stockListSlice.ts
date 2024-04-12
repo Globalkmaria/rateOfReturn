@@ -5,12 +5,17 @@ import {
   StockListState,
   UpdateStockPayload,
   UpdatePurchasedItemPayload,
-  DeletePurchasedItemPayload,
-  AddNewStockPayload,
   AddNewPurchasedItemPayload,
   StockMainPayload,
 } from './type';
-import { deletePurchasedItem, deleteStock, initUserData, resetUserData } from '../actions';
+import {
+  addNewStock,
+  addPurchasedItem,
+  deletePurchasedItem,
+  deleteStock,
+  initUserData,
+  resetUserData,
+} from '../actions';
 import { initStock } from './utils';
 
 export const stockInitialState: StockListState = {
@@ -37,12 +42,6 @@ const stockListSlice = createSlice({
       state.nextStockId = MOCK_DATA_NEXT_STOCK_ID;
       state.nextPurchasedId = MOCK_DATA_PURCHASED_ID;
     },
-    updateNextStockId: state => {
-      state.nextStockId = Number(state.nextStockId) + 1;
-    },
-    updateNextPurchasedId: state => {
-      state.nextPurchasedId = Number(state.nextPurchasedId) + 1;
-    },
 
     setBackupStockList: (state, action: PayloadAction<StockListState>) => {
       state.stocks = action.payload.stocks;
@@ -51,18 +50,6 @@ const stockListSlice = createSlice({
     },
     initStockList: (state, action: PayloadAction<StockListState>) => {
       initStock(state, action.payload);
-    },
-
-    addNewStock: (state, action: PayloadAction<AddNewStockPayload>) => {
-      const { stockId, stockInfo } = action.payload;
-      state.stocks.byId[stockId] = stockInfo;
-      state.stocks.allIds.push(stockId);
-    },
-    addPurchasedItem: (state, action: PayloadAction<AddNewPurchasedItemPayload>) => {
-      const { stockId, purchasedId, purchasedItem } = action.payload;
-      const curStock = state.stocks.byId[stockId];
-      curStock.purchasedItems.byId[purchasedId] = purchasedItem;
-      curStock.purchasedItems.allIds.push(purchasedId);
     },
 
     updateStock: (state: StockListState, action: PayloadAction<UpdateStockPayload>) => {
@@ -111,19 +98,30 @@ const stockListSlice = createSlice({
       initStock(state, action.payload.stocks);
     });
     builder.addCase(resetUserData, () => stockInitialState);
+    builder.addCase(addNewStock, (state, action) => {
+      const { stockId, stockInfo } = action.payload;
+      state.stocks.byId[stockId] = stockInfo;
+      state.stocks.allIds.push(stockId);
+      state.nextStockId = Number(state.nextStockId) + 1;
+      state.nextPurchasedId = Number(state.nextPurchasedId) + 1;
+    });
+    builder.addCase(addPurchasedItem, (state, action) => {
+      const { stockId, purchasedId, purchasedItem } = action.payload;
+      const purchasedItems = state.stocks.byId[stockId].purchasedItems;
+      purchasedItems.byId[purchasedId] = purchasedItem;
+      purchasedItems.allIds.push(purchasedId);
+
+      state.nextPurchasedId = Number(state.nextPurchasedId) + 1;
+    });
   },
 });
 
 export const {
   addSampleStockList,
   setBackupStockList,
-  addNewStock,
-  addPurchasedItem,
   updateStock,
   updatePurchaseItem,
   initStockList,
-  updateNextStockId,
-  updateNextPurchasedId,
   updateStockNeedInit,
   updatePurchaseItemNeedInit,
 } = stockListSlice.actions;

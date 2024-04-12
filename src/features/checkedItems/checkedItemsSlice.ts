@@ -1,14 +1,15 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { getInitialCheckedItemsInfo, initCheckedItemsWithData, updateCheckedItemsState } from './utils';
-import {
-  AddStockCheckInfoPayload,
-  CheckedItemsInfo,
-  CheckedItemsState,
-  CheckInfoPayload,
-  UpdateCheckedItemsInfoPayload,
-} from './type';
+import { CheckedItemsInfo, CheckedItemsState, UpdateCheckedItemsInfoPayload } from './type';
 import { MOCK_DATA } from '../stockList/mockData';
-import { deletePurchasedItem, deleteStock, initUserData, resetUserData } from '../actions';
+import {
+  addNewStock,
+  addPurchasedItem,
+  deletePurchasedItem,
+  deleteStock,
+  initUserData,
+  resetUserData,
+} from '../actions';
 
 export const checkedInitialState: CheckedItemsState = {
   allChecked: true,
@@ -33,14 +34,6 @@ export const checkedItemsSlice = createSlice({
       state.allChecked = action.payload.allChecked;
       state.stocksCheckInfo = action.payload.stocksCheckInfo;
     },
-    addStockCheckInfo: (state, action: PayloadAction<AddStockCheckInfoPayload>) => {
-      const { stockId, stockCheckInfo } = action.payload;
-      state.stocksCheckInfo[stockId] = stockCheckInfo;
-    },
-    addPurchasedItemsCheckInfo: (state, action: PayloadAction<CheckInfoPayload>) => {
-      const { stockId, purchasedId } = action.payload;
-      state.stocksCheckInfo[stockId].purchasedItems[purchasedId] = true;
-    },
     updateCheckedItems: (state, action: PayloadAction<UpdateCheckedItemsInfoPayload>) => {
       updateCheckedItemsState(state, action.payload);
     },
@@ -61,16 +54,18 @@ export const checkedItemsSlice = createSlice({
       initCheckedItemsWithData(state, action.payload.checkedItems);
     });
     builder.addCase(resetUserData, () => checkedInitialState);
+    builder.addCase(addNewStock, (state, action) => {
+      const { stockId, stockCheckInfo } = action.payload;
+      state.stocksCheckInfo[stockId] = stockCheckInfo;
+    });
+    builder.addCase(addPurchasedItem, (state, action) => {
+      const { stockId, purchasedId } = action.payload;
+      state.stocksCheckInfo[stockId].purchasedItems[purchasedId] = true;
+    });
   },
 });
 
-export const {
-  setBackupCheckedItems,
-  initCheckedItems,
-  updateCheckedItems,
-  addStockCheckInfo,
-  addPurchasedItemsCheckInfo,
-  addSampleCheckedItems,
-} = checkedItemsSlice.actions;
+export const { setBackupCheckedItems, initCheckedItems, updateCheckedItems, addSampleCheckedItems } =
+  checkedItemsSlice.actions;
 
 export default checkedItemsSlice.reducer;

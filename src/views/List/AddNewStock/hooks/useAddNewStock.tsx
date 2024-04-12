@@ -1,17 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import {
-  addNewStock,
-  updateNextPurchasedId,
-  updateNextStockId,
-} from '../../../../features/stockList/stockListSlice';
-import { addStockCheckInfo } from '../../../../features/checkedItems/checkedItemsSlice';
 import { selectNextIds } from '../../../../features/stockList/selectors';
 import { getNewStockInfo } from '../../../../features/stockList/utils';
 import { StockCheckInfo } from '../../../../features/checkedItems/type';
 import userStocksService from '../../../../service/userStocks/userStocks';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 import getDateAndTime from '../../../../utils/getDateAndTime';
+import { addNewStock } from '../../../../features/actions';
 
 export const useAddNewStock = () => {
   const dispatch = useDispatch();
@@ -42,19 +37,11 @@ export const useAddNewStock = () => {
 
     dispatch(
       addNewStock({
-        stockId: stockId,
+        stockId,
         stockInfo: newStockInfo,
-      }),
-    );
-    dispatch(
-      addStockCheckInfo({
         stockCheckInfo: newStockCheckInfo,
-        stockId: stockId,
       }),
     );
-
-    dispatch(updateNextStockId());
-    dispatch(updateNextPurchasedId());
   };
 
   return { onAddNewStock };

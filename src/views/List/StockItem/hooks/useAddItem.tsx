@@ -2,14 +2,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selectNextIds } from '../../../../features/stockList/selectors';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
-import {
-  addPurchasedItem,
-  updateNextPurchasedId,
-} from '../../../../features/stockList/stockListSlice';
-import { addPurchasedItemsCheckInfo } from '../../../../features/checkedItems/checkedItemsSlice';
 import { getNewPurchasedItemInfo } from '../../../../features/stockList/utils';
 import userStocksService from '../../../../service/userStocks/userStocks';
 import getDateAndTime from '../../../../utils/getDateAndTime';
+import { addPurchasedItem } from '../../../../features/actions';
 
 export function useAddItem(stockId: string) {
   const dispatch = useDispatch();
@@ -38,10 +34,6 @@ export function useAddItem(stockId: string) {
         purchasedItem: newPurchasedItem,
       }),
     );
-
-    dispatch(addPurchasedItemsCheckInfo({ stockId, purchasedId: itemId }));
-
-    dispatch(updateNextPurchasedId());
   };
 
   return onAddItem;
