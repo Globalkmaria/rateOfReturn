@@ -23,6 +23,11 @@ const MergeLocalDataModal = ({ onClose }: Props) => {
     onClose();
   };
 
+  const onDismiss = () => {
+    localStorage.clear();
+    onClose();
+  };
+
   return (
     <Modal title='Data Sync' onClose={onClose}>
       <div>
@@ -33,7 +38,7 @@ const MergeLocalDataModal = ({ onClose }: Props) => {
           <ContainedButton color='secondary1' size='m' onClick={onMerge}>
             Merge data
           </ContainedButton>
-          <ContainedButton size='m' onClick={onClose}>
+          <ContainedButton size='m' onClick={onDismiss}>
             Dismiss
           </ContainedButton>
         </StyledButtonGroup>
