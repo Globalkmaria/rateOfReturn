@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { GROUPS_MOCK_DATA, GROUPS_MOCK_DATA_NEXT_GROUP_ID } from './mockData';
 import { GroupsState, AddGroupPayload, DeletePurchaseItemFromGroupPayload, UpdateMainGroupPayload } from './type';
 import { deletePurchasedItemFromGroup, deleteStockFromGroup, validCheckGroupDelete } from './utils';
-import { deletePurchasedItem } from '../actions';
+import { deletePurchasedItem, deleteStock } from '../actions';
 
 export const MAIN_GROUP_ID = '1';
 
@@ -76,27 +76,25 @@ export const groupsSlice = createSlice({
 
       if (state.selectedGroupId === groupId) state.selectedGroupId = MAIN_GROUP_ID;
     },
-    deleteStockFromGroups: (state, action: PayloadAction<string>) => {
-      const stockId = action.payload;
+  },
+  extraReducers(builder) {
+    builder.addCase(deletePurchasedItem, (state, { payload }) => {
+      const { stockId, purchasedId } = payload;
 
       for (const groupId of state.groups.allIds) {
         const group = state.groups.byId[groupId];
-        deleteStockFromGroup(group, stockId);
-      }
-    },
-  },
-  extraReducers(builder) {
-    builder.addCase(deletePurchasedItem, ({ groups }, action: PayloadAction<DeletePurchaseItemFromGroupPayload>) => {
-      const { stockId, purchasedId } = action.payload;
-
-      for (const groupId of groups.allIds) {
-        const group = groups.byId[groupId];
 
         const isDeleted = deletePurchasedItemFromGroup(group, stockId, purchasedId);
         if (!isDeleted) continue;
 
         const emptyPurchasedItems = !group.stocks.byId[stockId].length;
         if (emptyPurchasedItems) deleteStockFromGroup(group, stockId);
+      }
+    });
+    builder.addCase(deleteStock, (state, { payload: stockId }) => {
+      for (const groupId of state.groups.allIds) {
+        const group = state.groups.byId[groupId];
+        deleteStockFromGroup(group, stockId);
       }
     });
   },
@@ -109,7 +107,6 @@ export const {
   addGroup,
   deleteGroup,
   initGroups,
-  deleteStockFromGroups,
   updateMainGroup,
   resetGroups,
   addSampleGroups,

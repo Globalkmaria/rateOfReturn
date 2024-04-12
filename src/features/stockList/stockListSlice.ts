@@ -10,7 +10,7 @@ import {
   AddNewPurchasedItemPayload,
   StockMainPayload,
 } from './type';
-import { deletePurchasedItem } from '../actions';
+import { deletePurchasedItem, deleteStock } from '../actions';
 
 export const stockInitialState: StockListState = {
   stocks: {
@@ -87,28 +87,27 @@ const stockListSlice = createSlice({
       const purchasedItem = state.stocks.byId[stockId]?.purchasedItems?.byId[purchasedId];
       if (purchasedItem) state.stocks.byId[stockId].purchasedItems.byId[purchasedId].needInit = false;
     },
-
-    deleteStock: (state, action: PayloadAction<string>) => {
-      const stockId = action.payload;
-      delete state.stocks.byId[stockId];
-      state.stocks.allIds.splice(state.stocks.allIds.indexOf(stockId), 1);
-    },
   },
   extraReducers(builder) {
-    builder.addCase(deletePurchasedItem, ({ stocks }, action: PayloadAction<DeletePurchasedItemPayload>) => {
-      const { stockId, purchasedId } = action.payload;
-      const purchasedItems = stocks.byId[stockId].purchasedItems;
+    builder.addCase(deletePurchasedItem, (state, { payload }) => {
+      const { stockId, purchasedId } = payload;
+      const purchasedItems = state.stocks.byId[stockId].purchasedItems;
 
-      const stockIdx = stocks.allIds.indexOf(stockId);
+      const stockIdx = state.stocks.allIds.indexOf(stockId);
       if (purchasedItems.allIds.length === 1) {
-        delete stocks.byId[stockId];
-        stocks.allIds.splice(stockIdx, 1);
+        delete state.stocks.byId[stockId];
+        state.stocks.allIds.splice(stockIdx, 1);
         return;
       }
 
       const purchasedItemIdx = purchasedItems.allIds.indexOf(purchasedId);
       delete purchasedItems.byId[purchasedId];
       purchasedItems.allIds.splice(purchasedItemIdx, 1);
+    });
+    builder.addCase(deleteStock, (state, { payload }) => {
+      const stockId = payload;
+      delete state.stocks.byId[stockId];
+      state.stocks.allIds.splice(state.stocks.allIds.indexOf(stockId), 1);
     });
   },
 });
@@ -120,7 +119,6 @@ export const {
   addPurchasedItem,
   updateStock,
   updatePurchaseItem,
-  deleteStock,
   initStockList,
   restStockList,
   updateNextStockId,
