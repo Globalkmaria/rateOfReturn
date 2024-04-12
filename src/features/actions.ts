@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { UserDataServiceRes } from '../service/userData/type';
 import { PurchasedItemInfo, StockList, StockListState } from './stockList/type';
 import { CheckedItemsInfo, StockCheckInfo } from './checkedItems/type';
-import { GroupsState } from './groups/type';
+import { Group, Groups, GroupsState } from './groups/type';
 
 export const deletePurchasedItem = createAction<{ stockId: string; purchasedId: string }>('stock/deletePurchasedItem');
 export const deleteStock = createAction<string>('stock/deleteStock');
@@ -21,3 +21,8 @@ export const setBackupData = createAction<{
   groups: GroupsState;
   checkedItems: CheckedItemsInfo;
 }>('stock/setBackupData');
+
+export const addGroup = createAction<{
+  groupInfo: Group;
+  checkedItems: CheckedItemsInfo;
+}>('stock/addGroup');

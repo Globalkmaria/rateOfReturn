@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { GROUPS_MOCK_DATA, GROUPS_MOCK_DATA_NEXT_GROUP_ID } from './mockData';
 import { GroupsState, AddGroupPayload, UpdateMainGroupPayload } from './type';
 import { deletePurchasedItemFromGroup, deleteStockFromGroup, initGroupsWithData, validCheckGroupDelete } from './utils';
-import { deletePurchasedItem, deleteStock, initUserData, resetUserData, setBackupData } from '../actions';
+import { addGroup, deletePurchasedItem, deleteStock, initUserData, resetUserData, setBackupData } from '../actions';
 
 export const MAIN_GROUP_ID = '1';
 
@@ -37,9 +37,7 @@ export const groupsSlice = createSlice({
     updateSelectedGroupId: (state, action: PayloadAction<string>) => {
       state.selectedGroupId = action.payload;
     },
-    updateNextGroupId: state => {
-      state.nextGroupId += 1;
-    },
+
     updateMainGroup: (state, action: PayloadAction<UpdateMainGroupPayload>) => {
       const { type, stockId, purchasedId } = action.payload;
       const mainGroup = state.groups.byId[MAIN_GROUP_ID];
@@ -49,13 +47,6 @@ export const groupsSlice = createSlice({
       }
 
       mainGroup.stocks.byId[stockId].push(purchasedId);
-    },
-
-    addGroup: (state, action: PayloadAction<AddGroupPayload>) => {
-      const { groupInfo, groupId } = action.payload;
-      state.groups.byId[groupId] = groupInfo;
-      state.groups.allIds.push(groupId);
-      state.selectedGroupId = groupId;
     },
 
     deleteGroup: (state, action: PayloadAction<string>) => {
@@ -94,16 +85,16 @@ export const groupsSlice = createSlice({
     });
     builder.addCase(resetUserData, () => groupsInitialState);
     builder.addCase(setBackupData, (state, action) => action.payload.groups);
+    builder.addCase(addGroup, (state, action) => {
+      const { groupInfo } = action.payload;
+      state.groups.byId[groupInfo.groupId] = groupInfo;
+      state.groups.allIds.push(groupInfo.groupId);
+
+      state.selectedGroupId = groupInfo.groupId;
+      state.nextGroupId += 1;
+    });
   },
 });
 
-export const {
-  updateSelectedGroupId,
-  updateNextGroupId,
-  addGroup,
-  deleteGroup,
-  initGroups,
-  updateMainGroup,
-  addSampleGroups,
-} = groupsSlice.actions;
+export const { updateSelectedGroupId, deleteGroup, initGroups, updateMainGroup, addSampleGroups } = groupsSlice.actions;
 export default groupsSlice.reducer;

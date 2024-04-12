@@ -3,6 +3,7 @@ import { getInitialCheckedItemsInfo, initCheckedItemsWithData, updateCheckedItem
 import { CheckedItemsInfo, CheckedItemsState, UpdateCheckedItemsInfoPayload } from './type';
 import { MOCK_DATA } from '../stockList/mockData';
 import {
+  addGroup,
   addNewStock,
   addPurchasedItem,
   deletePurchasedItem,
@@ -60,6 +61,7 @@ export const checkedItemsSlice = createSlice({
       state.stocksCheckInfo[stockId].purchasedItems[purchasedId] = true;
     });
     builder.addCase(setBackupData, (state, action) => action.payload.checkedItems);
+    builder.addCase(addGroup, (state, action) => action.payload.checkedItems);
   },
 });
 
