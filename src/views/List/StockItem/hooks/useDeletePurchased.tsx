@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 import userStocksService from '../../../../service/userStocks/userStocks';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
-import { deletePurchasedItem } from '../../../../features/actions';
+import { deletePurchasedItem } from '@/features';
 
 interface Props {
   onClose: () => void;

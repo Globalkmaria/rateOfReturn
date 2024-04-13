@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { ContainedButton } from '../components/Button';
 import { handleGetDataFile } from '../utils/file';
-import { resetUserData } from '../features/actions';
+import { resetUserData } from '@/features';
 
 const ErrorPage = () => {
   const dispatch = useDispatch();

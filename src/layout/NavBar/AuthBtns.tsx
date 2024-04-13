@@ -7,7 +7,7 @@ import authService from '../../service/auth';
 import { selectIsLoggedIn } from '../../features/user/selectors';
 import { resetUser } from '../../features/user/userSlice';
 import { cacheLoginPage, cacheSignupPage } from './utils';
-import { resetUserData } from '../../features/actions';
+import { resetUserData } from '@/features';
 
 const AuthBtns = () => {
   const dispatch = useDispatch();

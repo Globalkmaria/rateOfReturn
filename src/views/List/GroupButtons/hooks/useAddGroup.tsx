@@ -8,7 +8,7 @@ import { selectIsLoggedIn } from '../../../../features/user/selectors';
 import userGroupsService from '../../../../service/userGroups/userGroups';
 import { selectStocks } from '../../../../features/stockList/selectors';
 import { changeCheckInfoToGroupFormat } from '../utils';
-import { addGroup } from '../../../../features/actions';
+import { addGroup } from '@/features';
 
 export function useAddGroup() {
   const dispatch = useDispatch();

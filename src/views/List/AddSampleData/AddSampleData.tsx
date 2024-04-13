@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selectIsLoggedIn } from '../../../features/user/selectors';
 import userDataService from '../../../service/userData/userData';
-import { addSampleData } from '../../../features/actions';
+import { addSampleData } from '@/features';
 
 const AddSampleData = () => {
   const dispatch = useDispatch();

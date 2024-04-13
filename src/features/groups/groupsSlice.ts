@@ -10,7 +10,7 @@ import {
   initUserData,
   resetUserData,
   setBackupData,
-} from '../actions';
+} from '@/features';
 
 export const MAIN_GROUP_ID = '1';
 

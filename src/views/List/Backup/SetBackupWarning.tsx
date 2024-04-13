@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import WarningModal from '../../../components/WarningModal';
-import { setBackupData } from '../../../features/actions';
+import { setBackupData } from '@/features';
 
 type Props = {
   onClose: () => void;

@@ -6,7 +6,7 @@ import { StockCheckInfo } from '../../../../features/checkedItems/type';
 import userStocksService from '../../../../service/userStocks/userStocks';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 import getDateAndTime from '../../../../utils/getDateAndTime';
-import { addNewStock } from '../../../../features/actions';
+import { addNewStock } from '@/features';
 
 export const useAddNewStock = () => {
   const dispatch = useDispatch();

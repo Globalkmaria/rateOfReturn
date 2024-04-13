@@ -11,7 +11,7 @@ import {
   initUserData,
   resetUserData,
   setBackupData,
-} from '../actions';
+} from '@/features';
 
 export const STOCK_INITIAL_STATE: StockListState = {
   stocks: {

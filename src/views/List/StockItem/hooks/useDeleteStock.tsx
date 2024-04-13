@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 import userStocksService from '../../../../service/userStocks/userStocks';
-import { deleteStock } from '../../../../features/actions';
+import { deleteStock } from '@/features';
 
 interface Props {
   onClose: () => void;
