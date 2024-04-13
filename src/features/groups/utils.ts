@@ -1,11 +1,7 @@
 import { MAIN_GROUP_ID } from './groupsSlice';
 import { Group, GroupsState } from './type';
 
-export const getNewGroupInfo = (
-  groupId: string,
-  groupName: string,
-  stocks: Group['stocks'],
-): Group => {
+export const getNewGroupInfo = (groupId: string, groupName: string, stocks: Group['stocks']): Group => {
   return {
     groupId,
     groupName,
@@ -18,11 +14,7 @@ export const validCheckGroupDelete = (state: GroupsState, groupId: string) => {
   return notMainGroup;
 };
 
-export const deletePurchasedItemFromGroup = (
-  group: Group,
-  stockId: string,
-  purchasedId: string,
-) => {
+export const deletePurchasedItemFromGroup = (group: Group, stockId: string, purchasedId: string) => {
   const purchasedIds = group.stocks.byId[stockId];
   if (!purchasedIds) return false;
 
@@ -40,4 +32,10 @@ export const deleteStockFromGroup = (group: Group, stockId: string) => {
   const stockAllIdsInGroup = group.stocks.allIds;
   const stockIndex = stockAllIdsInGroup.indexOf(stockId);
   stockAllIdsInGroup.splice(stockIndex, 1);
+};
+
+export const initGroupsWithData = (state: GroupsState, data: GroupsState) => {
+  state.groups = data.groups;
+  state.selectedGroupId = data.selectedGroupId;
+  state.nextGroupId = data.nextGroupId;
 };

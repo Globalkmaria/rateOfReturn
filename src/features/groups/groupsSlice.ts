@@ -1,11 +1,20 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { GROUPS_MOCK_DATA, GROUPS_MOCK_DATA_NEXT_GROUP_ID } from './mockData';
-import { GroupsState, AddGroupPayload, DeletePurchaseItemFromGroupPayload, UpdateMainGroupPayload } from './type';
-import { deletePurchasedItemFromGroup, deleteStockFromGroup, validCheckGroupDelete } from './utils';
+import { GroupsState, UpdateMainGroupPayload } from './type';
+import { deletePurchasedItemFromGroup, deleteStockFromGroup, initGroupsWithData, validCheckGroupDelete } from './utils';
+import {
+  addGroup,
+  addSampleData,
+  deletePurchasedItem,
+  deleteStock,
+  initUserData,
+  resetUserData,
+  setBackupData,
+} from '@/features';
 
 export const MAIN_GROUP_ID = '1';
 
-export const groupsInitialState: GroupsState = {
+export const GROUP_INITIAL_STATE: GroupsState = {
   groups: {
     byId: {},
     allIds: [],
@@ -13,8 +22,7 @@ export const groupsInitialState: GroupsState = {
   selectedGroupId: MAIN_GROUP_ID,
   nextGroupId: 2,
 };
-
-export const sampleAsInitialState: GroupsState = {
+const INITIAL_STATE_WITH_SAMPLE: GroupsState = {
   groups: GROUPS_MOCK_DATA,
   selectedGroupId: MAIN_GROUP_ID,
   nextGroupId: GROUPS_MOCK_DATA_NEXT_GROUP_ID,
@@ -22,31 +30,16 @@ export const sampleAsInitialState: GroupsState = {
 
 export const groupsSlice = createSlice({
   name: 'groups',
-  initialState: sampleAsInitialState,
+  initialState: INITIAL_STATE_WITH_SAMPLE,
   reducers: {
-    addSampleGroups: state => {
-      state.groups = GROUPS_MOCK_DATA;
-      state.selectedGroupId = MAIN_GROUP_ID;
-      state.nextGroupId = GROUPS_MOCK_DATA_NEXT_GROUP_ID;
-    },
     initGroups: (state, action: PayloadAction<Omit<GroupsState, 'selectedGroupId'>>) => {
-      state.groups = action.payload.groups;
-      state.selectedGroupId = MAIN_GROUP_ID;
-      state.nextGroupId = action.payload.nextGroupId;
-    },
-    resetGroups: () => groupsInitialState,
-    setBackupGroups: (state, action: PayloadAction<GroupsState>) => {
-      state.groups = action.payload.groups;
-      state.selectedGroupId = action.payload.selectedGroupId;
-      state.nextGroupId = action.payload.nextGroupId;
+      initGroupsWithData(state, { selectedGroupId: MAIN_GROUP_ID, ...action.payload });
     },
 
     updateSelectedGroupId: (state, action: PayloadAction<string>) => {
       state.selectedGroupId = action.payload;
     },
-    updateNextGroupId: state => {
-      state.nextGroupId += 1;
-    },
+
     updateMainGroup: (state, action: PayloadAction<UpdateMainGroupPayload>) => {
       const { type, stockId, purchasedId } = action.payload;
       const mainGroup = state.groups.byId[MAIN_GROUP_ID];
@@ -56,13 +49,6 @@ export const groupsSlice = createSlice({
       }
 
       mainGroup.stocks.byId[stockId].push(purchasedId);
-    },
-
-    addGroup: (state, action: PayloadAction<AddGroupPayload>) => {
-      const { groupInfo, groupId } = action.payload;
-      state.groups.byId[groupId] = groupInfo;
-      state.groups.allIds.push(groupId);
-      state.selectedGroupId = groupId;
     },
 
     deleteGroup: (state, action: PayloadAction<string>) => {
@@ -75,16 +61,10 @@ export const groupsSlice = createSlice({
 
       if (state.selectedGroupId === groupId) state.selectedGroupId = MAIN_GROUP_ID;
     },
-    deleteStockFromGroups: (state, action: PayloadAction<string>) => {
-      const stockId = action.payload;
-
-      for (const groupId of state.groups.allIds) {
-        const group = state.groups.byId[groupId];
-        deleteStockFromGroup(group, stockId);
-      }
-    },
-    deletePurchaseItemFromGroups: (state, action: PayloadAction<DeletePurchaseItemFromGroupPayload>) => {
-      const { stockId, purchasedId } = action.payload;
+  },
+  extraReducers(builder) {
+    builder.addCase(deletePurchasedItem, (state, { payload }) => {
+      const { stockId, purchasedId } = payload;
 
       for (const groupId of state.groups.allIds) {
         const group = state.groups.byId[groupId];
@@ -95,21 +75,29 @@ export const groupsSlice = createSlice({
         const emptyPurchasedItems = !group.stocks.byId[stockId].length;
         if (emptyPurchasedItems) deleteStockFromGroup(group, stockId);
       }
-    },
+    });
+    builder.addCase(deleteStock, (state, { payload: stockId }) => {
+      for (const groupId of state.groups.allIds) {
+        const group = state.groups.byId[groupId];
+        deleteStockFromGroup(group, stockId);
+      }
+    });
+    builder.addCase(initUserData, (state, action) => {
+      initGroupsWithData(state, { selectedGroupId: MAIN_GROUP_ID, ...action.payload.groups });
+    });
+    builder.addCase(resetUserData, () => GROUP_INITIAL_STATE);
+    builder.addCase(setBackupData, (state, action) => action.payload.groups);
+    builder.addCase(addGroup, (state, action) => {
+      const { groupInfo } = action.payload;
+      state.groups.byId[groupInfo.groupId] = groupInfo;
+      state.groups.allIds.push(groupInfo.groupId);
+
+      state.selectedGroupId = groupInfo.groupId;
+      state.nextGroupId += 1;
+    });
+    builder.addCase(addSampleData, () => INITIAL_STATE_WITH_SAMPLE);
   },
 });
 
-export const {
-  setBackupGroups,
-  updateSelectedGroupId,
-  updateNextGroupId,
-  addGroup,
-  deletePurchaseItemFromGroups,
-  deleteGroup,
-  initGroups,
-  deleteStockFromGroups,
-  updateMainGroup,
-  resetGroups,
-  addSampleGroups,
-} = groupsSlice.actions;
+export const { updateSelectedGroupId, deleteGroup, initGroups, updateMainGroup } = groupsSlice.actions;
 export default groupsSlice.reducer;

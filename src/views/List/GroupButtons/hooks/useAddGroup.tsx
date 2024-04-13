@@ -4,12 +4,11 @@ import { selectCheckedPurchasedItems } from '../../../../features/checkedItems/s
 import { selectNextGroupId } from '../../../../features/groups/selectors';
 import { getNewGroupInfo } from '../../../../features/groups/utils';
 import { getInitialCheckedItemsInfo } from '../../../../features/checkedItems/utils';
-import { addGroup, updateNextGroupId } from '../../../../features/groups/groupsSlice';
-import { initCheckedItems } from '../../../../features/checkedItems/checkedItemsSlice';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 import userGroupsService from '../../../../service/userGroups/userGroups';
 import { selectStocks } from '../../../../features/stockList/selectors';
 import { changeCheckInfoToGroupFormat } from '../utils';
+import { addGroup } from '@/features';
 
 export function useAddGroup() {
   const dispatch = useDispatch();
@@ -49,9 +48,7 @@ export function useAddGroup() {
       value: true,
     });
 
-    dispatch(addGroup({ groupInfo: newGroupInfo, groupId: nextGroupId }));
-    dispatch(initCheckedItems(initCheckedItemsInfo));
-    dispatch(updateNextGroupId());
+    dispatch(addGroup({ groupInfo: newGroupInfo, checkedItems: initCheckedItemsInfo }));
 
     return true;
   };

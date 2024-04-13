@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import userDataService from '../../../service/userData/userData';
 import { selectIsLoggedIn } from '../../../features/user/selectors';
-import useInitUserData from '../../../features/customActions/useInitUserData';
+import { initUserData } from '@/features';
 
 const useGetUserData = () => {
+  const dispatch = useDispatch();
   const isLoggingIn = useSelector(selectIsLoggedIn);
   const [loading, setLoading] = useState(false);
-  const initUserData = useInitUserData();
 
   const getUserData = async () => {
     setLoading(true);
@@ -24,8 +24,7 @@ const useGetUserData = () => {
       return;
     }
 
-    initUserData(result);
-
+    dispatch(initUserData(result));
     setLoading(false);
   };
 

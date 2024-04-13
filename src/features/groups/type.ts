@@ -14,16 +14,6 @@ export interface GroupsState {
   nextGroupId: number;
 }
 
-export type AddGroupPayload = {
-  groupInfo: Group;
-  groupId: string;
-};
-
-export type DeletePurchaseItemFromGroupPayload = {
-  stockId: string;
-  purchasedId: string;
-};
-
 export type UpdateMainGroupPayload = {
   type: 'stock' | 'purchase';
   stockId: string;

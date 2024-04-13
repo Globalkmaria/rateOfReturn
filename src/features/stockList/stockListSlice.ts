@@ -1,17 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { MOCK_DATA, MOCK_DATA_NEXT_STOCK_ID, MOCK_DATA_PURCHASED_ID } from './mockData';
+import { StockListState, UpdateStockPayload, UpdatePurchasedItemPayload, StockMainPayload } from './type';
 import {
-  StockListState,
-  UpdateStockPayload,
-  UpdatePurchasedItemPayload,
-  DeletePurchasedItemPayload,
-  AddNewStockPayload,
-  AddNewPurchasedItemPayload,
-  StockMainPayload,
-} from './type';
+  addNewStock,
+  addPurchasedItem,
+  addSampleData,
+  deletePurchasedItem,
+  deleteStock,
+  initUserData,
+  resetUserData,
+  setBackupData,
+} from '@/features';
 
-export const stockInitialState: StockListState = {
+export const STOCK_INITIAL_STATE: StockListState = {
   stocks: {
     byId: {},
     allIds: [],
@@ -20,7 +22,7 @@ export const stockInitialState: StockListState = {
   nextPurchasedId: 1,
 };
 
-export const sampleAsInitialState = {
+export const INITIAL_STATE_WITH_SAMPLE = {
   stocks: MOCK_DATA,
   nextStockId: MOCK_DATA_NEXT_STOCK_ID,
   nextPurchasedId: MOCK_DATA_PURCHASED_ID,
@@ -28,44 +30,9 @@ export const sampleAsInitialState = {
 
 const stockListSlice = createSlice({
   name: 'stockList',
-  initialState: sampleAsInitialState,
+  initialState: INITIAL_STATE_WITH_SAMPLE,
   reducers: {
-    addSampleStockList: state => {
-      state.stocks = MOCK_DATA;
-      state.nextStockId = MOCK_DATA_NEXT_STOCK_ID;
-      state.nextPurchasedId = MOCK_DATA_PURCHASED_ID;
-    },
-    updateNextStockId: state => {
-      state.nextStockId = Number(state.nextStockId) + 1;
-    },
-    updateNextPurchasedId: state => {
-      state.nextPurchasedId = Number(state.nextPurchasedId) + 1;
-    },
-
-    setBackupStockList: (state, action: PayloadAction<StockListState>) => {
-      state.stocks = action.payload.stocks;
-      state.nextStockId = action.payload.nextStockId;
-      state.nextPurchasedId = action.payload.nextPurchasedId;
-    },
-    restStockList: () => stockInitialState,
-    initStockList: (state, action: PayloadAction<StockListState>) => {
-      state.stocks = action.payload.stocks;
-      state.nextStockId = action.payload.nextStockId;
-      state.nextPurchasedId = action.payload.nextPurchasedId;
-    },
-
-    addNewStock: (state, action: PayloadAction<AddNewStockPayload>) => {
-      const { stockId, stockInfo } = action.payload;
-      state.stocks.byId[stockId] = stockInfo;
-      state.stocks.allIds.push(stockId);
-    },
-    addPurchasedItem: (state, action: PayloadAction<AddNewPurchasedItemPayload>) => {
-      const { stockId, purchasedId, purchasedItem } = action.payload;
-      const curStock = state.stocks.byId[stockId];
-      curStock.purchasedItems.byId[purchasedId] = purchasedItem;
-      curStock.purchasedItems.allIds.push(purchasedId);
-    },
-
+    initStockList: (state, action: PayloadAction<StockListState>) => action.payload,
     updateStock: (state: StockListState, action: PayloadAction<UpdateStockPayload>) => {
       const { stockId, stockData } = action.payload;
       state.stocks.byId[stockId].mainInfo = stockData;
@@ -86,45 +53,51 @@ const stockListSlice = createSlice({
       const purchasedItem = state.stocks.byId[stockId]?.purchasedItems?.byId[purchasedId];
       if (purchasedItem) state.stocks.byId[stockId].purchasedItems.byId[purchasedId].needInit = false;
     },
+  },
+  extraReducers(builder) {
+    builder.addCase(deletePurchasedItem, (state, { payload }) => {
+      const { stockId, purchasedId } = payload;
+      const purchasedItems = state.stocks.byId[stockId].purchasedItems;
 
-    deleteStock: (state, action: PayloadAction<string>) => {
-      const stockId = action.payload;
-      delete state.stocks.byId[stockId];
-      state.stocks.allIds.splice(state.stocks.allIds.indexOf(stockId), 1);
-    },
-    deletePurchasedItem: ({ stocks }, action: PayloadAction<DeletePurchasedItemPayload>) => {
-      const { stockId, purchasedId } = action.payload;
-      const purchasedItems = stocks.byId[stockId].purchasedItems;
-
-      const stockIdx = stocks.allIds.indexOf(stockId);
+      const stockIdx = state.stocks.allIds.indexOf(stockId);
       if (purchasedItems.allIds.length === 1) {
-        delete stocks.byId[stockId];
-        stocks.allIds.splice(stockIdx, 1);
+        delete state.stocks.byId[stockId];
+        state.stocks.allIds.splice(stockIdx, 1);
         return;
       }
 
       const purchasedItemIdx = purchasedItems.allIds.indexOf(purchasedId);
       delete purchasedItems.byId[purchasedId];
       purchasedItems.allIds.splice(purchasedItemIdx, 1);
-    },
+    });
+    builder.addCase(deleteStock, (state, { payload }) => {
+      const stockId = payload;
+      delete state.stocks.byId[stockId];
+      state.stocks.allIds.splice(state.stocks.allIds.indexOf(stockId), 1);
+    });
+    builder.addCase(initUserData, (state, action) => action.payload.stocks);
+    builder.addCase(resetUserData, () => STOCK_INITIAL_STATE);
+    builder.addCase(addNewStock, (state, action) => {
+      const { stockId, stockInfo } = action.payload;
+      state.stocks.byId[stockId] = stockInfo;
+      state.stocks.allIds.push(stockId);
+      state.nextStockId = Number(state.nextStockId) + 1;
+      state.nextPurchasedId = Number(state.nextPurchasedId) + 1;
+    });
+    builder.addCase(addPurchasedItem, (state, action) => {
+      const { stockId, purchasedId, purchasedItem } = action.payload;
+      const purchasedItems = state.stocks.byId[stockId].purchasedItems;
+      purchasedItems.byId[purchasedId] = purchasedItem;
+      purchasedItems.allIds.push(purchasedId);
+
+      state.nextPurchasedId = Number(state.nextPurchasedId) + 1;
+    });
+    builder.addCase(setBackupData, (state, action) => action.payload.stockList);
+    builder.addCase(addSampleData, () => INITIAL_STATE_WITH_SAMPLE);
   },
 });
 
-export const {
-  addSampleStockList,
-  setBackupStockList,
-  addNewStock,
-  addPurchasedItem,
-  updateStock,
-  updatePurchaseItem,
-  deleteStock,
-  deletePurchasedItem,
-  initStockList,
-  restStockList,
-  updateNextStockId,
-  updateNextPurchasedId,
-  updateStockNeedInit,
-  updatePurchaseItemNeedInit,
-} = stockListSlice.actions;
+export const { updateStock, updatePurchaseItem, initStockList, updateStockNeedInit, updatePurchaseItemNeedInit } =
+  stockListSlice.actions;
 
 export default stockListSlice.reducer;

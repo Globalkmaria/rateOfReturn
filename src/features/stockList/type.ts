@@ -5,15 +5,6 @@ export type StockMainPayload = {
   purchasedId: string;
 };
 
-export type AddNewStockPayload = {
-  stockId: string;
-  stockInfo: StockList;
-};
-
-export type AddNewPurchasedItemPayload = {
-  purchasedItem: PurchasedItemInfo;
-} & StockMainPayload;
-
 export type UpdateStockPayload = {
   stockId: string;
   stockData: StockMainInfo;
@@ -22,8 +13,6 @@ export type UpdateStockPayload = {
 export type UpdatePurchasedItemPayload = {
   purchasedData: PurchasedItemInfo;
 } & StockMainPayload;
-
-export type DeletePurchasedItemPayload = StockMainPayload;
 
 export interface StockMainInfo {
   stockName: string;

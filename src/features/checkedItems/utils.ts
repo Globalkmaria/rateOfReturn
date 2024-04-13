@@ -1,6 +1,12 @@
 import { Group } from '../groups/type';
 import { StockListState } from '../stockList/type';
-import { CheckedItemsInfo, StockCheckInfo, UpdateCheckedItemsInfoPayload, getCheckedItemsInfoProps } from './type';
+import {
+  CheckedItemsInfo,
+  CheckedItemsState,
+  StockCheckInfo,
+  UpdateCheckedItemsInfoPayload,
+  getCheckedItemsInfoProps,
+} from './type';
 
 const getCheckItemPurchasedInfos = (items: string[], value: boolean) =>
   items.reduce((info, purchasedId) => {
