@@ -1,56 +1,29 @@
-import { ReactElement, ReactNode } from 'react';
-import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import { PropsWithChildren, ReactElement, ReactNode } from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
-import { PreloadedState, configureStore } from '@reduxjs/toolkit';
 import { RenderOptions, render } from '@testing-library/react';
 
-import { AppStore, RootState, preloadedStoreState } from '../store';
+import { AppStore, RootState, preloadedStoreState, setupStore } from '../store';
 import { theme } from '../styles/theme';
 import GlobalStyles from '../styles/GlobalStyles';
-import { rootRouterData } from '../router/routerData';
-import stockListReducer from '../features/stockList/stockListSlice';
-import checkedItemsReducer from '../features/checkedItems/checkedItemsSlice';
-import groupsReducerReducer from '../features/groups/groupsSlice';
-import userSliceReducer from '../features/user/userSlice';
-
-type Route = `/${string}`;
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
-  preloadedState?: PreloadedState<RootState>;
+  preloadedState?: Partial<RootState>;
   store?: AppStore;
 }
 
-export const renderWithProviders = (
-  ui: ReactElement,
-  route?: Route,
-  {
-    preloadedState = preloadedStoreState,
-    // Automatically create a store instance if no store was passed in
-    store = configureStore({
-      reducer: {
-        stockList: stockListReducer,
-        checkedItems: checkedItemsReducer,
-        groups: groupsReducerReducer,
-        user: userSliceReducer,
-      },
-      preloadedState,
-    }),
+export const renderWithProviders = (ui: ReactElement, extendedRenderOptions: ExtendedRenderOptions = {}) => {
+  const {
+    preloadedState = {},
+    store = setupStore(Object.keys(preloadedState).length ? preloadedState : preloadedStoreState),
     ...renderOptions
-  }: ExtendedRenderOptions = {},
-) => {
-  const router = createMemoryRouter(
-    rootRouterData.map(({ path, element }) => ({
-      path,
-      element,
-    })),
-    { initialEntries: [route ?? '/'] },
-  );
-  const Wrapper = () => (
+  } = extendedRenderOptions;
+  const Wrapper = ({ children }: PropsWithChildren) => (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <RouterProvider router={router} />
+        <MemoryRouter>{children}</MemoryRouter>
       </ThemeProvider>
     </Provider>
   );

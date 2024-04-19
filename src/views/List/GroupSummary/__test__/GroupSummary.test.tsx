@@ -20,7 +20,7 @@ describe('GroupSummary Component', () => {
 
     (calculateGroupSummary as jest.Mock).mockReturnValue(mockData);
 
-    renderWithProviders(<GroupSummary />, '/portfolio');
+    renderWithProviders(<GroupSummary />);
 
     const titleElement = screen.getByTitle(`returnOfInvestmentRatio`);
     expect(titleElement).toHaveTextContent('Return of Ration');
@@ -37,7 +37,7 @@ describe('GroupSummary Component', () => {
 
     (calculateGroupSummary as jest.Mock).mockReturnValue(mockData);
 
-    renderWithProviders(<GroupSummary />, '/portfolio');
+    renderWithProviders(<GroupSummary />);
 
     const totalPurchasedPrice = screen.getByTitle(`totalPurchasedPrice`);
     expect(totalPurchasedPrice).toHaveTextContent('Total Buy Price');

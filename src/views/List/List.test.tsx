@@ -5,12 +5,10 @@ import { renderWithProviders } from '../../__test__/renderUI';
 
 describe('List Component', () => {
   test('List render', async () => {
-    renderWithProviders(<List />, '/portfolio');
-
-    expect(
-      screen.getByRole('heading', {
-        name: /total buy price/i,
-      }),
-    ).toBeInTheDocument();
+    renderWithProviders(<List />);
+    const heading = await screen.findByRole('heading', {
+      name: /total buy price/i,
+    });
+    expect(heading).toBeInTheDocument();
   });
 });
