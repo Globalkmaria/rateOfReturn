@@ -1,6 +1,5 @@
 import { Group } from '../../../features/groups/type';
 import { StockListState } from '../../../features/stockList/type';
-
 interface CalculateGroupSummary {
   groupData: Group | null;
   stocksData: StockListState['stocks'];

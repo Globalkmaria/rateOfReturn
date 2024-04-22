@@ -1,4 +1,3 @@
-/// <reference types="vitest" />
 /// <reference types="vite/client" />
 
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -23,12 +22,6 @@ export default defineConfig({
       open: true,
     }),
   ],
-  test: {
-    exclude: ['**/node_modules/**', '**/dist/**'],
-    environment: 'jsdom',
-    setupFiles: 'src/setupTests.js',
-    globals: true,
-  },
   build: {
     rollupOptions: {
       output: {
