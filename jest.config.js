@@ -14,4 +14,7 @@ export default {
   moduleNameMapper: {
     '@/features': '<rootDir>/src/features',
   },
+  testEnvironmentOptions: {
+    customExportConditions: [''],
+  },
 };
