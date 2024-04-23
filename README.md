@@ -62,6 +62,7 @@ This project allows you to:
 - **Frontend**
   - Skills : React.js, Typescript, Redux, React-Router, Style-components, Chart.js
   - Deployment : Netlify
+  - Test : Jest
 - **Backend**
   - Github Repository : https://github.com/Globalkmaria/rorBack
   - Skills : Node.js, Express.js, Mongoose
@@ -70,6 +71,10 @@ This project allows you to:
   - Deployment: AWS EC2
 
 ## Version History
+
+### Version 2.3.0 (2024-04-23)
+
+- Refactor redux code and redux upgrade version. Now using Jest.
 
 ### Version 2.2.8 (2024-03-06)
 
