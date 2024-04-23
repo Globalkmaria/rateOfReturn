@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { http, HttpResponse } from 'msw';
 import Home from '../../pages/Home';
 import { renderWithProviders } from '../../__test__/renderUI';
+import { http, HttpResponse } from 'msw';
 import { TOP_STOCKS } from '../../__test__/mock/topStocks';
 import { setupServer } from 'msw/node';
 
