@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ContainedButton } from '../../components/Button';
@@ -11,6 +11,7 @@ import { resetUserData } from '@/features';
 
 const AuthBtns = () => {
   const dispatch = useDispatch();
+  const router = useNavigate();
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const onLogout = async () => {
@@ -18,6 +19,7 @@ const AuthBtns = () => {
     dispatch(resetUser());
     dispatch(resetUserData());
     localStorage.clear();
+    router('/');
   };
 
   return (
