@@ -6,18 +6,17 @@ import { ContainedButton } from '../../components/Button';
 import authService from '../../service/auth';
 import { selectIsLoggedIn } from '../../features/user/selectors';
 import { resetUser } from '../../features/user/userSlice';
-import { useResetUserData } from '../useResetUserData';
 import { cacheLoginPage, cacheSignupPage } from './utils';
+import { resetUserData } from '@/features';
 
 const AuthBtns = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const resetUserData = useResetUserData();
 
   const onLogout = async () => {
     await authService.logout();
     dispatch(resetUser());
-    resetUserData();
+    dispatch(resetUserData());
     localStorage.clear();
   };
 

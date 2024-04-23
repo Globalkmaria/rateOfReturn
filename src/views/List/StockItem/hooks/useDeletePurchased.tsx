@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 import userStocksService from '../../../../service/userStocks/userStocks';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
-import useDeletePurchasedItemState from '../../../../features/customActions/useDeletePurchasedItemState';
+import { deletePurchasedItem } from '@/features';
 
 interface Props {
   onClose: () => void;
@@ -13,9 +13,9 @@ interface Props {
 }
 
 function useDeletePurchased({ onClose, stockId, purchasedId }: Props) {
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const { purchasedItems } = useSelector(selectStockInfoById(stockId));
-  const deletePurchased = useDeletePurchasedItemState();
 
   const onDeletePurchased = useCallback(async () => {
     if (isLoggedIn) {
@@ -29,9 +29,9 @@ function useDeletePurchased({ onClose, stockId, purchasedId }: Props) {
       if (!result.success) return;
     }
 
-    deletePurchased({ stockId, purchasedId });
+    dispatch(deletePurchasedItem({ stockId, purchasedId }));
     onClose();
-  }, [onClose, isLoggedIn, stockId, purchasedId, purchasedItems.allIds.length, deletePurchased]);
+  }, [onClose, isLoggedIn, stockId, purchasedId, purchasedItems.allIds.length]);
 
   return onDeletePurchased;
 }

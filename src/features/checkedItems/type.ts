@@ -22,15 +22,6 @@ export type UpdateCheckedItemsInfoPayload =
       checked: boolean;
     };
 
-export type AddStockCheckInfoPayload = {
-  stockId: string;
-  stockCheckInfo: StockCheckInfo;
-};
-export type CheckInfoPayload = {
-  stockId: string;
-  purchasedId: string;
-};
-
 export type CheckedItemsState = CheckedItemsInfo;
 
 export type getCheckedItemsInfoProps<T> = {

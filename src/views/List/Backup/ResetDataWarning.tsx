@@ -1,9 +1,7 @@
 import { useDispatch } from 'react-redux';
 
-import WarningModal from '../../../components/WarningModal';
-import { restStockList } from '../../../features/stockList/stockListSlice';
-import { resetGroups } from '../../../features/groups/groupsSlice';
-import { resetCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
+import { resetUserData } from '@/features';
+import WarningModal from '@/components/WarningModal';
 
 type Props = {
   onClose: () => void;
@@ -13,20 +11,11 @@ const ResetDataWarning = ({ onClose }: Props) => {
   const dispatch = useDispatch();
 
   const onReset = () => {
-    dispatch(resetCheckedItems());
-    dispatch(restStockList());
-    dispatch(resetGroups());
+    dispatch(resetUserData());
     onClose();
   };
 
-  return (
-    <WarningModal
-      onClose={onClose}
-      onConfirm={onReset}
-      message={MESSAGE}
-      buttonName='Reset'
-    />
-  );
+  return <WarningModal onClose={onClose} onConfirm={onReset} message={MESSAGE} buttonName='Reset' />;
 };
 
 export default ResetDataWarning;

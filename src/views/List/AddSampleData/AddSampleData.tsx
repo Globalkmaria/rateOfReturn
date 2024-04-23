@@ -1,10 +1,9 @@
 import { BorderButton } from '../../../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { addSampleGroups } from '../../../features/groups/groupsSlice';
-import { addSampleStockList } from '../../../features/stockList/stockListSlice';
-import { addSampleCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
+
 import { selectIsLoggedIn } from '../../../features/user/selectors';
 import userDataService from '../../../service/userData/userData';
+import { addSampleData } from '@/features';
 
 const AddSampleData = () => {
   const dispatch = useDispatch();
@@ -16,9 +15,7 @@ const AddSampleData = () => {
       if (!result.success) return;
     }
 
-    dispatch(addSampleStockList());
-    dispatch(addSampleCheckedItems());
-    dispatch(addSampleGroups());
+    dispatch(addSampleData());
   };
 
   return (

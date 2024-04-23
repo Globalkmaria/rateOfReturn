@@ -1,17 +1,16 @@
-import { vi } from 'vitest';
 import { screen } from '@testing-library/react';
 
-import { calculateGroupSummary } from '../utils';
+import { CalculateStockSummaryResult, calculateGroupSummary } from '../utils';
 import { renderWithProviders } from '../../../../__test__/renderUI';
 import GroupSummary from '../GroupSummary';
 
-vi.mock('../utils', () => ({
-  calculateGroupSummary: vi.fn(),
+jest.mock('../utils', () => ({
+  calculateGroupSummary: jest.fn(),
 }));
 
 describe('GroupSummary Component', () => {
   test('GroupSummary render with correct summary values when returnOfInvestmentRatio is NaN', async () => {
-    const mockData = {
+    const mockData: CalculateStockSummaryResult = {
       totalPurchasedPrice: 10000,
       totalCurrentValue: 12000,
       returnOfInvestment: 2000,
@@ -20,7 +19,7 @@ describe('GroupSummary Component', () => {
 
     (calculateGroupSummary as jest.Mock).mockReturnValue(mockData);
 
-    renderWithProviders(<GroupSummary />, '/portfolio');
+    renderWithProviders(<GroupSummary />);
 
     const titleElement = screen.getByTitle(`returnOfInvestmentRatio`);
     expect(titleElement).toHaveTextContent('Return of Ration');
@@ -37,7 +36,7 @@ describe('GroupSummary Component', () => {
 
     (calculateGroupSummary as jest.Mock).mockReturnValue(mockData);
 
-    renderWithProviders(<GroupSummary />, '/portfolio');
+    renderWithProviders(<GroupSummary />);
 
     const totalPurchasedPrice = screen.getByTitle(`totalPurchasedPrice`);
     expect(totalPurchasedPrice).toHaveTextContent('Total Buy Price');
