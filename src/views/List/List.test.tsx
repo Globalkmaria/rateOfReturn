@@ -35,9 +35,8 @@ afterAll(() => {
 });
 
 describe('List Component', () => {
-  test.only('List render', async () => {
+  test('List render', async () => {
     renderWithProviders(<List />);
-
     const heading = await screen.findByRole('heading', {
       name: /total buy price/i,
     });

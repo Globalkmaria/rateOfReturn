@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 
 import { resetUserData } from '@/features';
-import WarningModal from '../../../components/WarningModal';
+import WarningModal from '@/components/WarningModal';
 
 type Props = {
   onClose: () => void;
