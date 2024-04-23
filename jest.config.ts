@@ -5,6 +5,7 @@ import type { JestConfigWithTsJest } from 'ts-jest';
 const jestConfig: JestConfigWithTsJest = {
   preset: 'ts-jest',
   testEnvironment: './test.environment.ts',
+  setupFiles: ['<rootDir>/jest.beforeSetup.ts'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   transform: {
     '^.+\\.tsx?$': [
