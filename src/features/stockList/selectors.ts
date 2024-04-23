@@ -1,13 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
-export const selectStockList = (state: RootState) => {
-  return {
-    ...state.stockList,
-    nextStockId: state.stockList.nextStockId + '',
-    nextPurchasedId: state.stockList.nextPurchasedId + '',
-  };
-};
+export const selectStockList = (state: RootState) => state.stockList;
 export const selectNextStockId = (state: RootState) => state.stockList.nextStockId + '';
 export const selectNextPurchasedId = (state: RootState) => state.stockList.nextPurchasedId + '';
 export const selectStocks = (state: RootState) => state.stockList.stocks;
