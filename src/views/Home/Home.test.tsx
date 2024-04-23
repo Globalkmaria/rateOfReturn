@@ -6,6 +6,14 @@ import { renderWithProviders } from '../../__test__/renderUI';
 import { TOP_STOCKS } from '../../__test__/mock/topStocks';
 import { setupServer } from 'msw/node';
 
+jest.mock('../../config', () => ({
+  config: {
+    server: {
+      url: 'http://localhost:8080/api/v1',
+    },
+  },
+}));
+
 const handlers = [
   http.get('http://localhost:8080/api/v1/const/top-stocks', () => {
     return HttpResponse.json(TOP_STOCKS);
