@@ -22,6 +22,7 @@ const handlers = [
     return HttpResponse.json({});
   }),
 ];
+
 const server = setupServer(...handlers);
 
 beforeAll(() => {
