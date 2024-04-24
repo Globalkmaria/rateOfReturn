@@ -1,39 +1,20 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { http, HttpResponse } from 'msw';
 import Home from '../../pages/Home';
 import { renderWithProviders } from '../../__test__/renderUI';
 import { TOP_STOCKS } from '../../__test__/mock/topStocks';
-import { setupServer } from 'msw/node';
+import { createServer } from '@/__test__/server';
 
-jest.mock('../../config', () => ({
-  config: {
-    server: {
-      url: 'http://localhost:8080/api/v1',
-    },
+createServer([
+  {
+    url: '/const/top-stocks',
+    response: TOP_STOCKS,
   },
-}));
-
-const handlers = [
-  http.get('http://localhost:8080/api/v1/const/top-stocks', () => {
-    return HttpResponse.json(TOP_STOCKS);
-  }),
-  http.get('http://localhost:8080/api/v1/auth/me', () => {
-    return HttpResponse.json({});
-  }),
-];
-
-const server = setupServer(...handlers);
-
-beforeAll(() => {
-  server.listen();
-});
-afterEach(() => {
-  server.resetHandlers();
-});
-afterAll(() => {
-  server.close();
-});
+  {
+    url: '/auth/me',
+    response: {},
+  },
+]);
 
 describe('Home Component', () => {
   test('Home render and Show Card', async () => {
