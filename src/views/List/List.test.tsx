@@ -46,6 +46,7 @@ describe('When add stock is clicked', () => {
   ]);
 
   test('Stock summary and new item is added correctly', async () => {
+    const user = userEvent.setup();
     renderWithProviders(<List />);
     await waitFor(
       () => {
@@ -62,32 +63,30 @@ describe('When add stock is clicked', () => {
       name: /add stock/i,
     });
 
-    const Summaries = screen.queryByRole('cell', { name: /summary/i });
-    expect(Summaries).not.toBeInTheDocument();
+    const preSummaries = screen.queryByRole('cell', { name: /summary/i });
+    expect(preSummaries).not.toBeInTheDocument();
 
-    userEvent.click(addStockBtn);
-    await waitFor(() => {
-      const Summaries = screen.getAllByRole('cell', { name: /summary/i });
-      expect(Summaries).toHaveLength(1);
+    await user.click(addStockBtn);
 
-      const purchaseItem = screen.getByRole('textbox', { name: /purchased quantity/i });
-      expect(purchaseItem).toBeInTheDocument();
-    });
+    const summaries = screen.getAllByRole('cell', { name: /summary/i });
+    expect(summaries).toHaveLength(1);
+
+    const purchaseItem = screen.getByRole('textbox', { name: /purchased quantity/i });
+    expect(purchaseItem).toBeInTheDocument();
 
     const addPurchaseItemBtn = screen.getByRole('button', {
       name: /add item/i,
     });
 
-    userEvent.click(addPurchaseItemBtn);
+    await user.click(addPurchaseItemBtn);
 
-    await waitFor(() => {
-      const purchaseItems = screen.getAllByRole('textbox', { name: /purchased quantity/i });
-      expect(purchaseItems).toHaveLength(2);
-    });
+    const purchaseItems = screen.getAllByRole('textbox', { name: /purchased quantity/i });
+    expect(purchaseItems).toHaveLength(2);
   });
 });
 
 test('When add item is clicked new item is added correctly ', async () => {
+  const user = userEvent.setup();
   renderWithProviders(<List />, { preloadedState: MOCK_STATE });
   await waitFor(
     () => {
@@ -105,10 +104,8 @@ test('When add item is clicked new item is added correctly ', async () => {
   const addStockBtn = screen.getAllByRole('button', {
     name: /add item/i,
   });
-  userEvent.click(addStockBtn[0]);
+  await user.click(addStockBtn[0]);
 
-  waitFor(() => {
-    const purchaseItems = screen.getAllByRole('textbox', { name: /purchased quantity/i });
-    expect(purchaseItems).toHaveLength(prePurchaseItems.length + 1);
-  });
+  const purchaseItems = screen.getAllByRole('textbox', { name: /purchased quantity/i });
+  expect(purchaseItems).toHaveLength(prePurchaseItems.length + 1);
 });
