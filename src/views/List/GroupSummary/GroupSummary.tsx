@@ -7,6 +7,16 @@ import { selectIsMainGroupSelected, selectSelectedGroupInfo } from '../../../fea
 import { selectStocks } from '../../../features/stockList/selectors';
 import { CalculateStockSummaryResult, calculateGroupSummary } from './utils';
 
+type Contents = {
+  key: keyof CalculateStockSummaryResult;
+  title: string;
+  format: (value: number) => string;
+  Component: IStyledComponent<
+    'web',
+    FastOmit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, never>
+  >;
+}[];
+
 const GroupSummary = () => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const groupInfo = useSelector(selectSelectedGroupInfo);
@@ -29,16 +39,6 @@ const GroupSummary = () => {
 };
 
 export default GroupSummary;
-
-type Contents = {
-  key: keyof CalculateStockSummaryResult;
-  title: string;
-  format: (value: number) => string;
-  Component: IStyledComponent<
-    'web',
-    FastOmit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, never>
-  >;
-}[];
 
 const StyledGroupSummary = styled.div`
   display: flex;

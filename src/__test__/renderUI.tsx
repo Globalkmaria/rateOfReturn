@@ -13,19 +13,27 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   store?: AppStore;
 }
 
-export const renderWithProviders = (ui: ReactElement, extendedRenderOptions: ExtendedRenderOptions = {}) => {
+export const renderWithProviders = (
+  ui: ReactElement,
+  extendedRenderOptions: ExtendedRenderOptions = {},
+) => {
   const {
     preloadedState = {},
-    store = setupStore(Object.keys(preloadedState).length ? preloadedState : preloadedStoreState),
+    store = setupStore(
+      Object.keys(preloadedState).length ? preloadedState : preloadedStoreState,
+    ),
     ...renderOptions
   } = extendedRenderOptions;
   const Wrapper = ({ children }: PropsWithChildren) => (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <GlobalStyles />
-        <MemoryRouter>{children}</MemoryRouter>
-      </ThemeProvider>
-    </Provider>
+    <>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <GlobalStyles />
+          <MemoryRouter>{children}</MemoryRouter>
+        </ThemeProvider>
+      </Provider>
+      <div id='portal-container'></div>
+    </>
   );
 
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
@@ -33,10 +41,13 @@ export const renderWithProviders = (ui: ReactElement, extendedRenderOptions: Ext
 
 export const renderWithStyle = (ui: ReactElement) => {
   const Wrapper = ({ children }: { children: ReactNode }) => (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      {children}
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        {children}
+      </ThemeProvider>
+      <div id='portal-container'></div>
+    </>
   );
 
   return { ...render(ui, { wrapper: Wrapper }) };

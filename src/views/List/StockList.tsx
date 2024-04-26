@@ -7,7 +7,6 @@ import AddSampleData from './AddSampleData/AddSampleData';
 import { useShowAddSampleBtn } from './AddSampleData/useShowAddSampleBtn';
 import useSaveChangedStocksData from './hooks/useSaveChangedStocksData';
 import useSaveChangedGroupsData from './hooks/useSaveChangedGroupedData';
-
 import StockListSkeleton from './StockListSkeleton';
 
 const GroupButtons = lazy(() => import('./GroupButtons/GroupButtons'));
