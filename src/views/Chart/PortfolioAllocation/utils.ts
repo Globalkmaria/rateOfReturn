@@ -17,7 +17,12 @@ const BASE_BACKGROUND_COLORS = [
   'rgba(255, 159, 64, 0.6)',
 ];
 
-const BACKGROUND_COLORS = repeatedColors(BASE_BACKGROUND_COLORS);
+const getBackgroundColor = (length: number) => {
+  return Array.from(
+    { length },
+    (_, i) => BASE_BACKGROUND_COLORS[i % BASE_BACKGROUND_COLORS.length],
+  );
+};
 
 const BASE_BORDER_COLORS = [
   'rgba(255, 99, 132, 1)',
@@ -27,14 +32,19 @@ const BASE_BORDER_COLORS = [
   'rgba(153, 102, 255, 1)',
   'rgba(255, 159, 64, 1)',
 ];
-const BORDER_COLORS = repeatedColors(BASE_BORDER_COLORS);
+const getBorderColor = (length: number) => {
+  return Array.from(
+    { length },
+    (_, i) => BASE_BORDER_COLORS[i % BASE_BORDER_COLORS.length],
+  );
+};
 
 export const getChartData = (summary: TotalSummary) => {
   const { groupSummary, stocksSummary } = summary;
   const labels = Object.keys(stocksSummary);
   const buyData: number[] = [];
   const currentData: number[] = [];
-  Object.keys(stocksSummary).forEach((stockId) => {
+  Object.keys(stocksSummary).forEach(stockId => {
     buyData.push(
       Number(
         (
@@ -54,7 +64,7 @@ export const getChartData = (summary: TotalSummary) => {
       ),
     );
   });
-  const buyDatalabels = {
+  const buyDataLabels = {
     labels: {
       value: {
         font: { size: 15 },
@@ -71,7 +81,7 @@ export const getChartData = (summary: TotalSummary) => {
       },
     },
   };
-  const currnetDatalabels = {
+  const currentDataLabels = {
     labels: {
       name: {
         align: 'top',
@@ -101,20 +111,23 @@ export const getChartData = (summary: TotalSummary) => {
     },
   };
 
+  const dataLength = currentData.length;
+  const backgroundColor = getBackgroundColor(dataLength);
+  const borderColor = getBorderColor(dataLength);
   const datasets = [
     {
       label: `current %`,
       data: currentData,
-      backgroundColor: BACKGROUND_COLORS,
-      borderColor: BORDER_COLORS,
-      datalabels: currnetDatalabels,
+      backgroundColor,
+      borderColor,
+      datalabels: currentDataLabels,
     },
     {
       label: `buy %`,
       data: buyData,
-      backgroundColor: BACKGROUND_COLORS,
-      borderColor: BORDER_COLORS,
-      datalabels: buyDatalabels,
+      backgroundColor,
+      borderColor,
+      datalabels: buyDataLabels,
     },
   ];
 
