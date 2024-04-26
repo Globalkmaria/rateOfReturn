@@ -72,6 +72,10 @@ This project allows you to:
 
 ## Version History
 
+### Version 2.4.0 (2024-04-23)
+
+- New Chart feature. Individual stock return bar chart.
+
 ### Version 2.3.0 (2024-04-23)
 
 - Refactor redux code and redux upgrade version. Now using Jest.
