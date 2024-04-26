@@ -6,15 +6,19 @@ const PortfolioAllocationDescription = () => {
       <div>
         <StyledTitle>Inner Circle : </StyledTitle>
         <span>
-          Percentage Allocation of Stock in Portfolio (Buy Price)
-          <br /> formula: (Stock total buy price / Portfolio total buy price) * 100
+          Portfolio stock allocation by
+          <StyledTitle> buy price</StyledTitle>
+          <br /> formula: (Stock total buy price / Portfolio total buy price) *
+          100
         </span>
       </div>
       <div>
         <StyledTitle>Outer Circle : </StyledTitle>
         <span>
-          Percentage Allocation of Stock in Portfolio (Current Price)
-          <br /> formula: (Stock total current price / Portfolio total current price) * 100
+          Portfolio stock allocation by
+          <StyledTitle> current price</StyledTitle>
+          <br /> formula: (Stock total current price / Portfolio total current
+          price) * 100
         </span>
       </div>
     </StyledPortfolioAllocationDescription>
