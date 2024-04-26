@@ -4,18 +4,25 @@ const PortfolioAllocationDescription = () => {
   return (
     <StyledPortfolioAllocationDescription>
       <div>
-        <StyledTitle>Inner Circle : </StyledTitle>
-        <span>
-          Percentage Allocation of Stock in Portfolio (Buy Price)
-          <br /> formula: (Stock total buy price / Portfolio total buy price) * 100
-        </span>
+        <p>
+          <StyledTitle>Inner Circle : </StyledTitle>
+          Portfolio stock allocation by
+          <StyledTitle> buy price</StyledTitle>
+        </p>
+        <StyledSubText>
+          Formula: (Stock total buy price / Portfolio total buy price) * 100
+        </StyledSubText>
       </div>
       <div>
-        <StyledTitle>Outer Circle : </StyledTitle>
-        <span>
-          Percentage Allocation of Stock in Portfolio (Current Price)
-          <br /> formula: (Stock total current price / Portfolio total current price) * 100
-        </span>
+        <p>
+          <StyledTitle>Outer Circle : </StyledTitle>
+          Portfolio stock allocation by
+          <StyledTitle> current price</StyledTitle>
+        </p>
+        <StyledSubText>
+          Formula: (Stock total current price / Portfolio total current price) *
+          100
+        </StyledSubText>
       </div>
     </StyledPortfolioAllocationDescription>
   );
@@ -31,4 +38,9 @@ const StyledPortfolioAllocationDescription = styled('div')`
 
 const StyledTitle = styled.span`
   font-weight: 700;
+`;
+
+const StyledSubText = styled('p')`
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.grey600};
 `;

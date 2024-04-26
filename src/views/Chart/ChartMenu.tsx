@@ -18,7 +18,9 @@ const ChartMenu = ({}: ChartMenuProps) => {
             <StyledMenu
               key={element.path}
               selected={currentLevelPath === element.path}
-              onClick={() => !element.disabled && menuClickHandler(element.path)}
+              onClick={() =>
+                !element.disabled && menuClickHandler(element.path)
+              }
               disabled={element.disabled}
             >
               {element.label}
@@ -45,7 +47,8 @@ const StyledMenuList = styled('ul')`
 
 const StyledMenu = styled('li')<MenuProps>`
   padding: 10px;
-  background: ${({ theme, selected }) => (selected ? theme.colors.grey100 : 'none')};
+  background: ${({ theme, selected }) =>
+    selected ? theme.colors.grey200 : 'none'};
   border-radius: 10px;
   transition: '200ms';
   font-size: 1.2rem;
@@ -53,7 +56,7 @@ const StyledMenu = styled('li')<MenuProps>`
   cursor: pointer;
 
   &:hover {
-    background: ${({ theme, disabled }) => !disabled && theme.colors.grey100};
+    background: ${({ theme, disabled }) => !disabled && theme.colors.grey200};
   }
 
   ${({ disabled, theme }) =>
