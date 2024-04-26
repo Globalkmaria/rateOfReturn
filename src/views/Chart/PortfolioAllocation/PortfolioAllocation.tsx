@@ -8,7 +8,9 @@ import { getOptions } from '../../List/GroupButtons/utils';
 import Description from './PortfolioAllocationDescription';
 import CartSkeleton from './CartSkeleton';
 
-const Chart = lazy(() => import('./PortfolioAllocationChart'));
+const PortfolioAllocationChart = lazy(
+  () => import('./PortfolioAllocationChart'),
+);
 
 const PortfolioAllocation = () => {
   const [groupId, setGroupId] = useState<string>('1');
@@ -26,7 +28,7 @@ const PortfolioAllocation = () => {
       />
       <Description />
       <Suspense fallback={<CartSkeleton />}>
-        <Chart groupId={groupId} />
+        <PortfolioAllocationChart groupId={groupId} />
       </Suspense>
     </StyledPortfolioAllocation>
   );
