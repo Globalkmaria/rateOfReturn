@@ -1,12 +1,25 @@
 import { z } from 'zod';
-import { PurchasedItemInfo, StockMainInfo } from '../../../features/stockList/type';
+import {
+  PurchasedItemInfo,
+  StockMainInfo,
+} from '../../../features/stockList/type';
 
 export type ValidityResult = { message?: string; isValid: boolean };
 type FieldType = keyof typeof schema;
 
-const stockNameSchema = z.string().max(12, { message: 'Stock name must be at most 12 characters long' });
-const stockPriceSchema = z.string().max(10, { message: 'Stock price must be at most 10 characters long' });
-const stockQuantitySchema = z.string().max(9, { message: 'Stock quantity must be at most 9 characters long' });
+const stockNameSchema = z
+  .string()
+  .max(12, { message: 'Stock name must be at most 12 characters long' });
+const stockPriceSchema = z
+  .number()
+  .min(0, { message: 'Stock price must be bigger than 0' })
+  .max(9999999.9999, {
+    message: 'Stock price must be smaller than 9,999,999.9999',
+  });
+const stockQuantitySchema = z
+  .number()
+  .min(0, { message: 'Stock price must be bigger than 0' })
+  .max(9999999, { message: 'Stock price must be smaller than 9,999,999' });
 
 const schema = {
   name: stockNameSchema,
@@ -14,7 +27,10 @@ const schema = {
   quantity: stockQuantitySchema,
 };
 
-const checkValidity = (type: FieldType, value: string): ValidityResult => {
+const checkValidity = (
+  type: FieldType,
+  value: string | number,
+): ValidityResult => {
   const result = schema[type].safeParse(value);
   return {
     isValid: result.success,
@@ -29,22 +45,33 @@ export const checkStockValidity = (
   const field = STOCK_FIELD_PAIRS[type];
   if (!field) return { isValid: true, message: '' };
 
-  return checkValidity(field, value);
+  if (type === 'stockName') return checkValidity(field, value);
+  const formattedValue = Number(value.replace(/,/g, ''));
+  return checkValidity(field, formattedValue);
 };
 
-const STOCK_FIELD_PAIRS: Record<keyof Omit<StockMainInfo, 'stockId' | 'needInit'>, FieldType> = {
+const STOCK_FIELD_PAIRS: Record<
+  keyof Omit<StockMainInfo, 'stockId' | 'needInit'>,
+  FieldType
+> = {
   stockName: 'name',
   currentPrice: 'price',
 };
 
-export const checkPurchasedItemValidity = (type: keyof PurchasedItemInfo, value: string): ValidityResult => {
+export const checkPurchasedItemValidity = (
+  type: keyof PurchasedItemInfo,
+  value: string,
+): ValidityResult => {
   const field = PURCHASED_ITEM_FIELD_PAIRS[type];
   if (!field) return { isValid: true, message: '' };
 
-  return checkValidity(field, value);
+  const formattedValue = Number(value.replace(/,/g, ''));
+  return checkValidity(field, formattedValue);
 };
 
-const PURCHASED_ITEM_FIELD_PAIRS: Partial<Record<keyof PurchasedItemInfo, FieldType>> = {
+const PURCHASED_ITEM_FIELD_PAIRS: Partial<
+  Record<keyof PurchasedItemInfo, FieldType>
+> = {
   purchasedQuantity: 'quantity',
   purchasedPrice: 'price',
 };
