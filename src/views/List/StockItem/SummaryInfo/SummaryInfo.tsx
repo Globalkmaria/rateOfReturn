@@ -15,16 +15,16 @@ import { selectStockInfoById } from '../../../../features/stockList/selectors';
 
 import { BorderButton } from '../../../../components/Button';
 import { TableCell, TableRow } from '../../../../components/Table';
+import { DropdownItem } from '@/components/Dropdown';
+import { EditButton, MoreButton } from '@/components/IconButton';
 
 import useModal from '../../hooks/useModal';
 import { CheckboxCell } from '../components';
 import { DeleteStockModal } from '../DeleteStockModal';
-import { EditButton } from '@/components/IconButton';
 import { checkNoChange, getChangedStockData } from '../utils';
 import { useStockSummaryInputChange } from './hooks/useStockSummaryInputChange';
 import SummaryContent from './SummaryContent';
 import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
-import IconButton from '@/components/IconButton';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -107,18 +107,17 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       {isMainGroupSelected ? (
         <>
           <TableCell>
-            <EditButton
-              isLock={isLock}
-              onClick={toggleLock}
-              disabled={!isMainGroupSelected}
-            />
-          </TableCell>
-          <TableCell>
-            <IconButton
-              icon='delete'
-              disabled={!isMainGroupSelected}
-              onClick={onOpenModal}
-            />
+            <StyledButtonGroup>
+              <EditButton
+                isLock={isLock}
+                onClick={toggleLock}
+                disabled={!isMainGroupSelected}
+              />
+              <MoreButton width={100} vertical='bottom' horizontal='right'>
+                <DropdownItem>Sold</DropdownItem>
+                <DropdownItem onClick={onOpenModal}>Delete</DropdownItem>
+              </MoreButton>
+            </StyledButtonGroup>
           </TableCell>
           {showModal && (
             <DeleteStockModal
@@ -147,4 +146,9 @@ export const StyledSummaryRow = styled(TableRow)`
       background: ${({ theme }) => theme.colors.grey300};
     }
   }
+`;
+
+export const StyledButtonGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;

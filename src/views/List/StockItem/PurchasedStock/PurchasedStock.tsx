@@ -23,7 +23,8 @@ import { DeleteStockModal } from '../DeleteStockModal';
 import PurchasedContent from './PurchasedContent';
 import { getChangedPurchasedData } from './utils';
 import { checkNoChange } from '../utils';
-import IconButton, { EditButton } from '@/components/IconButton';
+import { EditButton, MoreButton } from '@/components/IconButton';
+import { DropdownItem } from '@/components/Dropdown';
 
 export type SetChangedInputByFieldName = <
   T extends keyof ChangedPurchasedItemInputs,
@@ -134,18 +135,17 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
       {isMainGroupSelected ? (
         <>
           <TableCell>
-            <EditButton
-              isLock={isLock}
-              onClick={onToggleLock}
-              disabled={!isMainGroupSelected}
-            />
-          </TableCell>
-          <TableCell>
-            <IconButton
-              icon='delete'
-              onClick={onOpenModal}
-              disabled={!isMainGroupSelected}
-            />
+            <StyledButtonGroup>
+              <EditButton
+                isLock={isLock}
+                onClick={onToggleLock}
+                disabled={!isMainGroupSelected}
+              />
+              <MoreButton width={100} vertical='bottom' horizontal='right'>
+                <DropdownItem>Sold</DropdownItem>
+                <DropdownItem onClick={onOpenModal}>Delete</DropdownItem>
+              </MoreButton>
+            </StyledButtonGroup>
           </TableCell>
           {showModal && (
             <DeleteStockModal
@@ -176,4 +176,9 @@ const StyledPurchasedStock = styled(TableRow)`
       background: ${({ theme }) => theme.colors.grey400};
     }
   }
+`;
+
+export const StyledButtonGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
