@@ -1,8 +1,9 @@
+import styled from 'styled-components';
 import { FaEdit, FaSave, FaLock, FaLockOpen, FaTrash } from 'react-icons/fa';
 import { IoMdSettings } from 'react-icons/io';
 import { CgClose } from 'react-icons/cg';
 
-import { BorderButton, BorderButtonProps } from '../Button';
+import { BUTTON_HEIGHTS, BorderButton, BorderButtonProps } from '../Button';
 
 const ICON_KEYS = [
   'edit',
@@ -49,7 +50,7 @@ function IconButton({
   ...resProps
 }: IconButtonProps) {
   return (
-    <BorderButton
+    <StyledContainer
       disabled={disabled}
       width={width}
       aria-label={TITLES[icon]}
@@ -57,8 +58,13 @@ function IconButton({
       {...resProps}
     >
       {ICONS[icon]}
-    </BorderButton>
+    </StyledContainer>
   );
 }
 
 export default IconButton;
+
+const StyledContainer = styled(BorderButton)`
+  width: ${({ height, size = 's' }) =>
+    height ? `${height}px` : BUTTON_HEIGHTS[size]};
+`;

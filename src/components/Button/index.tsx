@@ -48,7 +48,7 @@ export const BUTTON_COLORS: Colors = {
   warning: 'red',
 };
 
-const HEIGHTS: Sizes = {
+export const BUTTON_HEIGHTS: Sizes = {
   s: '32px',
   m: '40px',
   l: '48px',
@@ -75,7 +75,7 @@ const BaseButton = styled('button')
     justifyContent: 'center',
 
     padding: PADDING_SIZES[size],
-    height: height ? `${height}px` : HEIGHTS[size],
+    height: height ? `${height}px` : BUTTON_HEIGHTS[size],
     width: width ? `${width}px` : fullWidth ? '100%' : 'auto',
     transition: '200ms',
 
