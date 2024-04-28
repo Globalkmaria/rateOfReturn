@@ -19,7 +19,6 @@ export interface BaseButtonProps
   height?: number;
   width?: number;
   fullWidth?: boolean;
-  disableIcon?: boolean;
 }
 
 export interface BorderButtonProps extends BaseButtonProps {
@@ -69,7 +68,7 @@ const BaseButton = styled('button')
   .attrs(props => ({
     type: props.type || 'button',
   }))<BaseButtonProps>(
-  ({ theme, height, width, fullWidth, disableIcon, size = 's' }) => ({
+  ({ theme, height, width, fullWidth, disabled, size = 's' }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -91,9 +90,9 @@ const BaseButton = styled('button')
     },
 
     svg: {
-      color: disableIcon ? theme.colors.grey500 : 'inherit',
+      color: disabled ? theme.colors.grey500 : 'inherit',
       path: {
-        color: disableIcon ? theme.colors.grey500 : 'inherit',
+        color: disabled ? theme.colors.grey500 : 'inherit',
       },
     },
 
