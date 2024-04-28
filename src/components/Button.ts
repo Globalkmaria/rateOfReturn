@@ -4,9 +4,16 @@ import { ColorsTypes } from '../styles/theme';
 
 const SIZES = ['s', 'm', 'l'] as const;
 type Sizes = { [key in (typeof SIZES)[number]]: string };
-const COLOR_KEYS = ['primary', 'secondary1', 'secondary2', 'warning'] as const;
+const COLOR_KEYS = [
+  'primary',
+  'secondary1',
+  'secondary2',
+  'warning',
+  'primary2',
+] as const;
 type Colors = { [key in (typeof COLOR_KEYS)[number]]: string };
-export interface BaseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface BaseButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: (typeof SIZES)[number];
   color?: (typeof COLOR_KEYS)[number];
   height?: number;
@@ -33,8 +40,9 @@ const PADDING_SIZES: Sizes = {
   l: '0.6rem',
 };
 
-const COLORS: Colors = {
+export const BUTTON_COLORS: Colors = {
   primary: 'grey',
+  primary2: 'white',
   secondary1: 'indigo',
   secondary2: 'violet',
   warning: 'red',
@@ -48,42 +56,52 @@ const HEIGHTS: Sizes = {
 
 const BaseButton = styled('button')
   .withConfig({
-    shouldForwardProp: props => !['size', 'color', 'height', 'width', 'fullWidth', 'disableIcon'].includes(props),
+    shouldForwardProp: props =>
+      ![
+        'size',
+        'color',
+        'height',
+        'width',
+        'fullWidth',
+        'disableIcon',
+      ].includes(props),
   })
   .attrs(props => ({
     type: props.type || 'button',
-  }))<BaseButtonProps>(({ theme, height, width, fullWidth, disableIcon, size = 's' }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  }))<BaseButtonProps>(
+  ({ theme, height, width, fullWidth, disableIcon, size = 's' }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
 
-  padding: PADDING_SIZES[size],
-  height: height ? `${height}px` : HEIGHTS[size],
-  width: width ? `${width}px` : fullWidth ? '100%' : 'auto',
-  transition: '200ms',
+    padding: PADDING_SIZES[size],
+    height: height ? `${height}px` : HEIGHTS[size],
+    width: width ? `${width}px` : fullWidth ? '100%' : 'auto',
+    transition: '200ms',
 
-  background: theme.colors.white,
-  borderRadius: '5px',
+    background: theme.colors.white,
+    borderRadius: '5px',
 
-  fontSize: `min(${FONT_SIZES[size]}, 5vw)`,
-  whiteSpace: 'nowrap',
+    fontSize: `min(${FONT_SIZES[size]}, 5vw)`,
+    whiteSpace: 'nowrap',
 
-  '&:disabled': {
-    color: theme.colors.grey500,
-    cursor: 'default',
-  },
-
-  svg: {
-    color: disableIcon ? theme.colors.grey500 : 'inherit',
-    path: {
-      color: disableIcon ? theme.colors.grey500 : 'inherit',
+    '&:disabled': {
+      color: theme.colors.grey500,
+      cursor: 'default',
     },
-  },
 
-  [`@media ${theme.devices.mobile}`]: {
-    fontSize: 'min(0.8rem, 5vw)',
-  },
-}));
+    svg: {
+      color: disableIcon ? theme.colors.grey500 : 'inherit',
+      path: {
+        color: disableIcon ? theme.colors.grey500 : 'inherit',
+      },
+    },
+
+    [`@media ${theme.devices.mobile}`]: {
+      fontSize: 'min(0.8rem, 5vw)',
+    },
+  }),
+);
 
 export const BorderButton = styled(BaseButton).withConfig({
   shouldForwardProp: props => !['showLine'].includes(props),
@@ -91,17 +109,33 @@ export const BorderButton = styled(BaseButton).withConfig({
   boxShadow: `rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px`,
 
   '&:not([disabled]):hover': {
-    background: `${theme.colors[(COLORS[color] + '100') as keyof ColorsTypes]}`,
+    background: `${
+      theme.colors[(BUTTON_COLORS[color] + '100') as keyof ColorsTypes]
+    }`,
   },
 }));
 
 export const ContainedButton = styled(BaseButton)<ContainedButtonProps>(
-  ({ theme, color = 'primary', mode = 'dark' }) => ({
-    background: `${theme.colors[(COLORS[color] + (mode === 'dark' ? '800' : '100')) as keyof ColorsTypes]}`,
+  ({ theme, color = 'primary', mode = 'dark', disabled }) => ({
+    background: `${
+      disabled
+        ? theme.colors.grey000
+        : theme.colors[
+            (BUTTON_COLORS[color] +
+              (mode === 'dark' ? '800' : '100')) as keyof ColorsTypes
+          ]
+    }`,
     color: mode === 'dark' ? theme.colors.white : theme.colors.grey900,
 
     '&:not([disabled]):hover': {
-      background: `${theme.colors[(COLORS[color] + (mode === 'dark' ? '600' : '300')) as keyof ColorsTypes]}`,
+      background: `${
+        color === 'primary2'
+          ? theme.colors.grey100
+          : theme.colors[
+              (BUTTON_COLORS[color] +
+                (mode === 'dark' ? '600' : '300')) as keyof ColorsTypes
+            ]
+      }`,
     },
   }),
 );
