@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { TableCell } from '../../../../components/Table';
 import { selectPurchasedItemsById } from '../../../../features/stockList/selectors';
-import { NumberCell } from '../components';
+import { NumberCell, StyledTextWrapper } from '../components';
 import PurchasedInput from './PurchasedInput';
 import { getPurchasedData } from './utils';
 import {
@@ -48,7 +48,9 @@ const PurchasedContent = ({
       <NumberCell withFixed value={purchasedData.evaluationPrice} />
       <NumberCell withFixed value={purchasedData.formattedEvaluationProfit} />
       <StyledProfitRate align='right'>
-        {purchasedData.formattedProfitRate}
+        <StyledTextWrapper>
+          {purchasedData.formattedProfitRate}
+        </StyledTextWrapper>
       </StyledProfitRate>
     </>
   );

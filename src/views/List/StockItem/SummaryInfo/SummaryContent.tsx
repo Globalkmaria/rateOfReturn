@@ -6,7 +6,7 @@ import { TableCell } from '../../../../components/Table';
 import { Input } from '../../../../components/Input/Input';
 import { TransformedValue } from '../../../../components/Input/BaseInput';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
-import { NumberCell } from '../components';
+import { NumberCell, StyledTextWrapper } from '../components';
 import { useGetStockSummaryData } from './hooks/useGetStockSummaryData';
 import { ChangedSummaryInputs } from './hooks/useStockSummaryInputChange';
 import { getFixedLocaleString } from '@/utils/number';
@@ -76,7 +76,7 @@ const SummaryContent = ({
       <NumberCell withFixed value={summaryData.evaluationPrice} />
       <NumberCell withFixed value={summaryData.evaluationProfit} />
       <StyledProfitRate align='right'>
-        {summaryData.profitRate}{' '}
+        <StyledTextWrapper>{summaryData.profitRate} </StyledTextWrapper>
       </StyledProfitRate>
     </>
   );
