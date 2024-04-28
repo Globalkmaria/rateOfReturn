@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-
-import { BorderButton } from '../Button';
+import IconButton from '../IconButton';
 
 export const StyledModal = styled('div').withConfig({
   shouldForwardProp: props => !['isOpen'].includes(props),
@@ -49,7 +48,7 @@ export const StyledModalTitle = styled.h1`
   }
 `;
 
-export const StyledCloseButton = styled(BorderButton)`
+export const StyledCloseButton = styled(IconButton)`
   align-self: flex-end;
   border: none;
 `;

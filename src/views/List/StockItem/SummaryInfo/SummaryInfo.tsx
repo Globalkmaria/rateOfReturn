@@ -6,22 +6,25 @@ import userStocksService from '../../../../service/userStocks/userStocks';
 
 import { selectStockCheckedInfo } from '../../../../features/checkedItems/selectors';
 import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
-import { updateStock, updateStockNeedInit } from '../../../../features/stockList/stockListSlice';
+import {
+  updateStock,
+  updateStockNeedInit,
+} from '../../../../features/stockList/stockListSlice';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
 
 import { BorderButton } from '../../../../components/Button';
-import { BaseInput } from '../../../../components/Input/BaseInput';
 import { TableCell, TableRow } from '../../../../components/Table';
 
 import useModal from '../../hooks/useModal';
-import { DeleteButton, CheckboxCell } from '../components';
+import { CheckboxCell } from '../components';
 import { DeleteStockModal } from '../DeleteStockModal';
-import EditButton from '../EditButton';
+import { EditButton } from '@/components/IconButton';
 import { checkNoChange, getChangedStockData } from '../utils';
 import { useStockSummaryInputChange } from './hooks/useStockSummaryInputChange';
 import SummaryContent from './SummaryContent';
 import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
+import IconButton from '@/components/IconButton';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -45,7 +48,8 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
 
   const [isLock, setIsLock] = useState(!mainInfo.needInit);
   const { showModal, onOpenModal, onCloseModal } = useModal();
-  const { changedInputs, initChangedInputs, onInputChange } = useStockSummaryInputChange(stockId);
+  const { changedInputs, initChangedInputs, onInputChange } =
+    useStockSummaryInputChange(stockId);
 
   const onChangeCheckbox = useChangeStockCheckbox(stockId);
 
@@ -56,11 +60,19 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
     if (checkNoChange(changedInputs)) return setIsLock(true);
 
     if (isLoggedIn) {
-      const result = await userStocksService.editUserStock({ stockId, data: changedInputs });
+      const result = await userStocksService.editUserStock({
+        stockId,
+        data: changedInputs,
+      });
       if (!result.success) return alert(result.message);
     }
 
-    dispatch(updateStock({ stockId: stockId, stockData: getChangedStockData(changedInputs, mainInfo) }));
+    dispatch(
+      updateStock({
+        stockId: stockId,
+        stockData: getChangedStockData(changedInputs, mainInfo),
+      }),
+    );
     initChangedInputs();
     setIsLock(true);
   };
@@ -86,12 +98,36 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
           title='Check all group items'
         />
       ) : null}
-      <SummaryContent stockId={stockId} isLock={isLock} onInputChange={onInputChange} changedInputs={changedInputs} />
+      <SummaryContent
+        stockId={stockId}
+        isLock={isLock}
+        onInputChange={onInputChange}
+        changedInputs={changedInputs}
+      />
       {isMainGroupSelected ? (
         <>
-          <EditButton isLock={isLock} onClick={toggleLock} disabled={!isMainGroupSelected} />
-          <DeleteButton onClick={onOpenModal} disabled={!isMainGroupSelected} />
-          {showModal && <DeleteStockModal type='stock' stockId={stockId} purchasedId={''} onClose={onCloseModal} />}
+          <TableCell>
+            <EditButton
+              isLock={isLock}
+              onClick={toggleLock}
+              disabled={!isMainGroupSelected}
+            />
+          </TableCell>
+          <TableCell>
+            <IconButton
+              icon='delete'
+              disabled={!isMainGroupSelected}
+              onClick={onOpenModal}
+            />
+          </TableCell>
+          {showModal && (
+            <DeleteStockModal
+              type='stock'
+              stockId={stockId}
+              purchasedId={''}
+              onClose={onCloseModal}
+            />
+          )}
         </>
       ) : null}
     </StyledSummaryRow>
