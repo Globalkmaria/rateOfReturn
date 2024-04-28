@@ -9,10 +9,12 @@ import {
   TableHeadProps,
 } from '@/components/Table';
 import { InputProps } from '../../../components/Input/BaseInput';
+import { getFixedLocaleString } from '@/utils/number';
 
 type InputCellProps = {
   disabled: boolean;
   value: string | number;
+  withFixed?: boolean;
 } & Omit<InputProps, 'value'>;
 type CheckboxCellProps = {
   onClick: (checked: boolean) => void;
@@ -25,16 +27,21 @@ type CheckboxCellProps = {
 
 type NumberCellProps = {
   value: number | string;
+  withFixed?: boolean;
 } & TableCellProps;
 
 export const NumberCell = memo(function NumberCell({
   value,
   className,
+  withFixed,
   ...props
 }: NumberCellProps) {
+  const formattedValue = withFixed
+    ? getFixedLocaleString(value)
+    : value.toLocaleString();
   return (
     <TableCell align='right' className={className} {...props}>
-      <StyledTextWrapper>{Number(value).toLocaleString()}</StyledTextWrapper>
+      <StyledTextWrapper>{formattedValue}</StyledTextWrapper>
     </TableCell>
   );
 });
@@ -42,9 +49,12 @@ export const NumberCell = memo(function NumberCell({
 export const InputCell = ({
   value,
   disabled,
+  withFixed,
   ...restProps
 }: InputCellProps) => {
-  value = value.toString();
+  const formattedValue = withFixed
+    ? getFixedLocaleString(value)
+    : value.toLocaleString();
 
   return (
     <TableCell>
@@ -52,7 +62,7 @@ export const InputCell = ({
         disabled={disabled}
         fullWidth
         type='number'
-        value={value}
+        value={formattedValue}
         {...restProps}
       />
     </TableCell>
