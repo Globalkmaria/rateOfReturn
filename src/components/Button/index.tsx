@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
-import { ColorsTypes } from '../styles/theme';
+
+import { ColorsTypes } from '@/styles/theme';
 
 const SIZES = ['s', 'm', 'l'] as const;
 type Sizes = { [key in (typeof SIZES)[number]]: string };
