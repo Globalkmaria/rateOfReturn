@@ -101,10 +101,7 @@ describe('List Component', () => {
       });
       await user.click(modalDeleteButton);
 
-      const stockAfterDelete = screen.queryByRole('row', {
-        name: /google summary/i,
-      });
-      expect(stockAfterDelete).toBeNull();
+      expect(stock).not.toBeInTheDocument();
 
       items = screen.queryAllByRole('row', {
         name: /google \d+/i,
@@ -116,6 +113,11 @@ describe('List Component', () => {
     describe('Edit Stock', () => {
       test('Stock name is changed Summary and purchased items names are changed too', async () => {
         await renderAndWait(MOCK_STATE);
+
+        const noTeslaStock = screen.queryByRole('row', {
+          name: /tesla summary/i,
+        });
+        expect(noTeslaStock).not.toBeInTheDocument();
 
         const googleItems = screen.getAllByRole('row', {
           name: /google \d+/i,
@@ -191,10 +193,7 @@ describe('List Component', () => {
       });
       await user.click(modalDeleteButton);
 
-      const itemAfterDelete = screen.queryByRole('row', {
-        name: /google 1/i,
-      });
-      expect(itemAfterDelete).toBeNull();
+      expect(item).not.toBeInTheDocument();
     });
 
     test('When there is 1 item in Stock and item is removed, stock is also removed', async () => {
@@ -220,10 +219,7 @@ describe('List Component', () => {
       });
       await user.click(modalDeleteButton1);
 
-      const itemAfterDelete1 = screen.queryByRole('row', {
-        name: /google 1/i,
-      });
-      expect(itemAfterDelete1).toBeNull();
+      expect(item1).not.toBeInTheDocument();
 
       const stock = screen.getByRole('row', {
         name: /google summary/i,
@@ -249,15 +245,8 @@ describe('List Component', () => {
       });
       await user.click(modalDeleteButton2);
 
-      const item2AfterDelete = screen.queryByRole('row', {
-        name: /google 2/i,
-      });
-      expect(item2AfterDelete).toBeNull();
-
-      const stockAfterItem2Deleted = screen.queryByRole('row', {
-        name: /google summary/i,
-      });
-      expect(stockAfterItem2Deleted).not.toBeInTheDocument();
+      expect(item2).not.toBeInTheDocument();
+      expect(stock).not.toBeInTheDocument();
     });
   });
 
@@ -279,10 +268,7 @@ describe('List Component', () => {
       });
       await user.click(soldBtn);
 
-      const itemAfterSold = screen.queryByRole('row', {
-        name: /google 1/i,
-      });
-      expect(itemAfterSold).not.toBeInTheDocument();
+      expect(item).not.toBeInTheDocument();
     });
 
     test('When current item is sold, and there is no more item in stock. Stock is removed.', async () => {
@@ -315,10 +301,7 @@ describe('List Component', () => {
       });
       expect(itemsAfterSold).toHaveLength(1);
 
-      const stockAfterSold = screen.getByRole('row', {
-        name: /google summary/i,
-      });
-      expect(stockAfterSold).toBeInTheDocument();
+      expect(stock).toBeInTheDocument();
 
       // sell item2
       const item2 = items[1];
@@ -335,10 +318,8 @@ describe('List Component', () => {
         name: /google \d+/i,
       });
       expect(itemsAfterSold2).toHaveLength(0);
-      const stockAfterSold2 = screen.queryByRole('row', {
-        name: /google summary/i,
-      });
-      expect(stockAfterSold2).not.toBeInTheDocument();
+
+      expect(stock).not.toBeInTheDocument();
     });
 
     test('When stock is sold, stock is removed from List page', async () => {
@@ -352,16 +333,9 @@ describe('List Component', () => {
       });
       await user.click(moreBtn);
 
-      const stockAfterSold = screen.queryByRole('row', {
-        name: /google summary/i,
-      });
-      waitForElementToBeRemoved(stockAfterSold);
-
-      const items = screen.queryAllByRole('row', {
-        name: /google \d+/i,
-      });
+      waitForElementToBeRemoved(stock);
+      const items = screen.queryAllByRole('row', { name: /google \d+/i });
       waitForElementToBeRemoved(items);
-      // expect(items).toHaveLength(0);
     });
   });
 });
