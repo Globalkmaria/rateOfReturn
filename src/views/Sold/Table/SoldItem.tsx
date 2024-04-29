@@ -15,6 +15,7 @@ import {
 import { checkSoldPriceValidity } from './util';
 import useModal from '@/views/List/hooks/useModal';
 import DeleteSoldModal from './DeleteSoldModal';
+import { getLocalDateTime } from '@/utils';
 
 type SoldItemInputs = Partial<
   Pick<Sold, 'soldTime' | 'soldDate' | 'soldPrice'>
@@ -62,6 +63,11 @@ function SoldItem({ purchasedId }: Props) {
     setChangedInputs({ ...changedInputs, [e.target.name]: value });
   };
 
+  const { localDate, localTime } = getLocalDateTime(
+    item.soldDate,
+    item.soldTime,
+  );
+
   useEffect(() => {
     if (!focusedInput.current?.disabled) focusedInput.current?.focus();
   }, [isLock]);
@@ -75,7 +81,7 @@ function SoldItem({ purchasedId }: Props) {
       <NumberCell value={item.purchasedQuantity} />
       <TableCell>
         <StyledTextWrapper>
-          {item.purchasedDate} {item.purchasedTime}
+          {localDate} {localTime}
         </StyledTextWrapper>
       </TableCell>
       <NumberCell withFixed value={item.purchasedPrice} />

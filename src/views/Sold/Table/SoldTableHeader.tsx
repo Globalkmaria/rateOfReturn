@@ -33,7 +33,7 @@ const HEADER_LIST: HeaderItemProps[] = [
     label: 'Quantity',
     minWidth: 50,
   },
-  { id: '4', label: 'Buy Date', fixedWidth: 160 },
+  { id: '4', label: 'Buy Date', fixedWidth: 200 },
   { id: '5', label: 'Buy Unit Price', minWidth: 120 },
   {
     id: '6',
