@@ -4,14 +4,10 @@ import styled from 'styled-components';
 
 interface Props {
   onClose: () => void;
-  purchasedId: string;
+  onDelete: () => Promise<void>;
 }
 
-function DeleteSoldModal({ onClose, purchasedId }: Props) {
-  const onDelete = async () => {
-    // TODO
-    onClose();
-  };
+function DeleteSoldModal({ onClose, onDelete }: Props) {
   return (
     <PortalModal onClose={onClose}>
       <StyledDeleteModal>

@@ -5,7 +5,6 @@ import IconButton, { EditButton } from '@/components/IconButton';
 import { TransformedValue } from '@/components/Input/BaseInput';
 import { Input } from '@/components/Input/Input';
 import { TableCell, TableRow } from '@/components/Table';
-import { SOLD_MOCK_DATA } from '@/features/sold/mockData';
 import { Sold } from '@/features/sold/type';
 import {
   InputCell,
@@ -16,6 +15,8 @@ import { checkSoldPriceValidity } from './util';
 import useModal from '@/views/List/hooks/useModal';
 import DeleteSoldModal from './DeleteSoldModal';
 import { getLocalDateTime } from '@/utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteSold, selectSoldItem, updateSold } from '@/features/sold';
 
 type SoldItemInputs = Partial<
   Pick<Sold, 'soldTime' | 'soldDate' | 'soldPrice'>
@@ -26,12 +27,13 @@ interface Props {
 }
 
 function SoldItem({ purchasedId }: Props) {
+  const dispatch = useDispatch();
   const focusedInput = useRef<HTMLInputElement>(null);
   const [isLock, setIsLock] = useState(true);
   const [changedInputs, setChangedInputs] = useState<SoldItemInputs>({});
   const { showModal, onOpenModal, onCloseModal } = useModal();
 
-  const item = SOLD_MOCK_DATA.list.byId[purchasedId];
+  const item = useSelector(selectSoldItem(purchasedId));
 
   const buyTotalCost = item.purchasedQuantity * item.purchasedPrice;
   const soldTotalValue = item.purchasedQuantity * item.soldPrice;
@@ -46,8 +48,30 @@ function SoldItem({ purchasedId }: Props) {
   };
 
   const onToggleLock = async () => {
-    // TODO
-    setIsLock(prev => !prev);
+    // TODO api
+    if (isLock) {
+      setIsLock(false);
+      return;
+    }
+
+    if (Object.keys(changedInputs).length === 0) {
+      setIsLock(true);
+      return;
+    }
+
+    const newItem: Sold = {
+      ...item,
+      ...changedInputs,
+    };
+    dispatch(updateSold(newItem));
+
+    setIsLock(true);
+  };
+
+  const onDelete = async () => {
+    // TODO api
+    dispatch(deleteSold(item.purchasedId));
+    onCloseModal();
   };
 
   const onSoldPriceChange = (
@@ -129,7 +153,7 @@ function SoldItem({ purchasedId }: Props) {
         </StyledButtonGroup>
       </TableCell>
       {showModal && (
-        <DeleteSoldModal purchasedId={purchasedId} onClose={onCloseModal} />
+        <DeleteSoldModal onDelete={onDelete} onClose={onCloseModal} />
       )}
     </StyledContainer>
   );

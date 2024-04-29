@@ -1,18 +1,21 @@
 import { Table, TableBody } from '@/components/Table';
 import styled from 'styled-components';
 import SoldTableHeader from './SoldTableHeader';
-import { SOLD_MOCK_DATA } from '@/features/sold/mockData';
 import SoldItem from './SoldItem';
+import { useSelector } from 'react-redux';
+import { selectSoldList } from '@/features/sold';
 
 interface Props {}
 
 function SoldTable({}: Props) {
+  const soldList = useSelector(selectSoldList);
+
   return (
     <StyledContainer>
       <StyledSoldTable>
         <SoldTableHeader />
         <TableBody>
-          {SOLD_MOCK_DATA.list.allIds.map(id => (
+          {soldList.allIds.map(id => (
             <SoldItem purchasedId={id} key={id} />
           ))}
         </TableBody>

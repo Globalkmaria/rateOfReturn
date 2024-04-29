@@ -29,7 +29,8 @@ const soldSlice = createSlice({
     deleteSold: (state, action: PayloadAction<string>) => {
       const itemId = action.payload;
       delete state.list.byId[itemId];
-      state.list.allIds = state.list.allIds.filter(id => id !== itemId);
+      const idx = state.list.allIds.indexOf(itemId);
+      state.list.allIds.splice(idx, 1);
     },
     updateSold: (state, action: PayloadAction<Sold>) => {
       const soldInfo = action.payload;
