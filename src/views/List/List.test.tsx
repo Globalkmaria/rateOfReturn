@@ -80,6 +80,12 @@ describe('List Component', () => {
       const stock = screen.getByRole('row', {
         name: /google summary/i,
       });
+
+      const moreBtn = within(stock).getByRole('button', {
+        name: /more/i,
+      });
+      await user.click(moreBtn);
+
       const removeBtn = within(stock).getByRole('button', {
         name: /delete/i,
       });
@@ -166,6 +172,10 @@ describe('List Component', () => {
       const item = screen.getByRole('row', {
         name: /google 1/i,
       });
+      const moreBtn = within(item).getByRole('button', {
+        name: /more/i,
+      });
+      await user.click(moreBtn);
       const removeBtn = within(item).getByRole('button', {
         name: /delete/i,
       });
@@ -189,6 +199,12 @@ describe('List Component', () => {
       const item1 = screen.getByRole('row', {
         name: /google 1/i,
       });
+
+      const moreBtn = within(item1).getByRole('button', {
+        name: /more/i,
+      });
+      await user.click(moreBtn);
+
       const removeBtn1 = within(item1).getByRole('button', {
         name: /delete/i,
       });
@@ -213,6 +229,11 @@ describe('List Component', () => {
       const item2 = screen.getByRole('row', {
         name: /google 2/i,
       });
+
+      const moreBtn2 = within(item2).getByRole('button', {
+        name: /more/i,
+      });
+      await user.click(moreBtn2);
       const removeBtn2 = within(item2).getByRole('button', {
         name: /delete/i,
       });
