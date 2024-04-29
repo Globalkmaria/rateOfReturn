@@ -1,6 +1,6 @@
-import { SoldState } from './type';
+import { SoldsState } from './type';
 
-export const SOLD_MOCK_DATA: SoldState = {
+export const SOLD_MOCK_DATA: SoldsState = {
   list: {
     byId: {
       '111': {

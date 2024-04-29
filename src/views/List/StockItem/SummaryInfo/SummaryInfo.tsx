@@ -25,8 +25,8 @@ import { checkNoChange, getChangedStockData } from '../utils';
 import { useStockSummaryInputChange } from './hooks/useStockSummaryInputChange';
 import SummaryContent from './SummaryContent';
 import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
-import { getSoldInfoFromPurchasedInfo } from '@/features/sold/utils';
-import { addNewSold } from '@/features/sold';
+import { getSoldInfoFromPurchasedInfo } from '@/features/solds/utils';
+import { addNewSold } from '@/features/solds';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;

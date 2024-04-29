@@ -17,7 +17,7 @@ import {
   resetUserData,
   setBackupData,
 } from '../actions';
-import { addNewSold } from '../sold';
+import { addNewSold } from '../solds';
 
 export const CHECKED_INITIAL_STATE: CheckedItemsState = {
   allChecked: true,

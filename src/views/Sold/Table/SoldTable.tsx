@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import SoldTableHeader from './SoldTableHeader';
 import SoldItem from './SoldItem';
 import { useSelector } from 'react-redux';
-import { selectSoldList } from '@/features/sold';
+import { selectSoldList } from '@/features/solds';
 
 interface Props {}
 

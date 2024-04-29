@@ -25,8 +25,8 @@ import { getChangedPurchasedData } from './utils';
 import { checkNoChange } from '../utils';
 import { EditButton, MoreButton } from '@/components/IconButton';
 import { DropdownItem } from '@/components/Dropdown';
-import { getSoldInfoFromPurchasedInfo } from '@/features/sold/utils';
-import { addNewSold } from '@/features/sold';
+import { getSoldInfoFromPurchasedInfo } from '@/features/solds/utils';
+import { addNewSold } from '@/features/solds';
 
 export type SetChangedInputByFieldName = <
   T extends keyof ChangedPurchasedItemInputs,

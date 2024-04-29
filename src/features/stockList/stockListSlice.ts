@@ -21,7 +21,7 @@ import {
   resetUserData,
   setBackupData,
 } from '@/features';
-import { addNewSold } from '../sold';
+import { addNewSold } from '../solds';
 
 export const STOCK_INITIAL_STATE: StockListState = {
   stocks: {

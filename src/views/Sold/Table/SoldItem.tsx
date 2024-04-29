@@ -5,7 +5,7 @@ import IconButton, { EditButton } from '@/components/IconButton';
 import { TransformedValue } from '@/components/Input/BaseInput';
 import { Input } from '@/components/Input/Input';
 import { TableCell, TableRow } from '@/components/Table';
-import { Sold } from '@/features/sold/type';
+import { Sold } from '@/features/solds/type';
 import {
   InputCell,
   NumberCell,
@@ -16,7 +16,7 @@ import useModal from '@/views/List/hooks/useModal';
 import DeleteSoldModal from './DeleteSoldModal';
 import { getLocalDateTime } from '@/utils';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteSold, selectSoldItem, updateSold } from '@/features/sold';
+import { deleteSold, selectSoldItem, updateSold } from '@/features/solds';
 
 type SoldItemInputs = Partial<
   Pick<Sold, 'soldTime' | 'soldDate' | 'soldPrice'>

@@ -15,6 +15,6 @@ export interface Sold {
   soldPrice: number;
 }
 
-export interface SoldState {
+export interface SoldsState {
   list: Collections<Sold>;
 }

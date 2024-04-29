@@ -16,7 +16,7 @@ import {
   resetUserData,
   setBackupData,
 } from '@/features';
-import { addNewSold } from '../sold';
+import { addNewSold } from '../solds';
 
 export const MAIN_GROUP_ID = '1';
 
