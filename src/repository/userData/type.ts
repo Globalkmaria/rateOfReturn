@@ -40,6 +40,13 @@ export type UserStocks = {
   [stockId: string]: UserStock;
 };
 
+export type UserSold = {
+  //TODO
+};
+export type UserSolds = {
+  [soldId: string]: UserSold;
+};
+
 export type UserDataRepRes = {
   docId: string;
   stocks: {
@@ -65,9 +72,11 @@ export type ReplaceUserDataRepReq = {
     groups: UserGroups;
     nextGroupId: number;
   };
+  solds: UserSolds;
 };
 
 export type mergeUserDataRepReq = {
   stocks: UserStocks;
   groups: UserGroups;
+  solds: UserSolds;
 };

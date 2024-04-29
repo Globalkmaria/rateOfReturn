@@ -2,6 +2,7 @@ import WarningModal from '../../../components/WarningModal';
 import formatStockAsServerFormat from '../../../utils/formatStockAsServerFormat';
 import formatGroupAsServerFormat from '../../../utils/formatGroupAsServerFormat';
 import userDataService from '../../../service/userData/userData';
+import { formatSoldAsServerFormat } from '@/utils/formatSoldsAsServerFormat';
 
 type Props = {
   onClose: () => void;
@@ -25,9 +26,15 @@ const StoreRemoteBackupWarning = ({ onClose, data }: Props) => {
       alert('Current backup file cannot be used to store remote data."');
       return;
     }
+    const solds = formatSoldAsServerFormat(data.solds);
+    if (!solds) {
+      alert('Current backup file cannot be used to store remote data."');
+      return;
+    }
     const result = await userDataService.replaceUserData({
       stocks,
       groups,
+      solds,
     });
 
     if (result.success) {

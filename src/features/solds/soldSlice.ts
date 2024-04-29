@@ -1,16 +1,17 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { SOLD_MOCK_DATA } from './mockData';
-import { Sold, SoldState } from './type';
+import { Sold, SoldsState } from './type';
+import { initUserData, setBackupData } from '../actions';
 
-export const SOLD_INITIAL_STATE: SoldState = {
+export const SOLD_INITIAL_STATE: SoldsState = {
   list: {
     byId: {},
     allIds: [],
   },
 };
 
-export const SOLD_DATA_INITIAL_STATE_WITH_SAMPLE: SoldState = SOLD_MOCK_DATA;
+export const SOLD_DATA_INITIAL_STATE_WITH_SAMPLE: SoldsState = SOLD_MOCK_DATA;
 
 const soldSlice = createSlice({
   name: 'solds',
@@ -36,10 +37,21 @@ const soldSlice = createSlice({
       const soldInfo = action.payload;
       state.list.byId[soldInfo.purchasedId] = soldInfo;
     },
+    initSolds: (state, action: PayloadAction<SoldsState>) => action.payload,
+  },
+  extraReducers(builder) {
+    builder.addCase(initUserData, (state, action) => action.payload.solds);
+    builder.addCase(setBackupData, (state, action) => action.payload.solds);
   },
 });
 
-export const { resetSold, addNewSold, addSampleData, deleteSold, updateSold } =
-  soldSlice.actions;
+export const {
+  resetSold,
+  addNewSold,
+  addSampleData,
+  deleteSold,
+  updateSold,
+  initSolds,
+} = soldSlice.actions;
 
 export const soldReducer = soldSlice.reducer;
