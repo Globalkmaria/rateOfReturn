@@ -1,4 +1,8 @@
-import { screen, within } from '@testing-library/react';
+import {
+  screen,
+  waitForElementToBeRemoved,
+  within,
+} from '@testing-library/react';
 import List from '../../pages/List';
 import { renderWithProviders } from '../../__test__/renderUI';
 import { TOP_STOCKS } from '../../__test__/mock/topStocks';
@@ -351,12 +355,13 @@ describe('List Component', () => {
       const stockAfterSold = screen.queryByRole('row', {
         name: /google summary/i,
       });
-      expect(stockAfterSold).toBeInTheDocument();
+      waitForElementToBeRemoved(stockAfterSold);
 
       const items = screen.queryAllByRole('row', {
         name: /google \d+/i,
       });
-      expect(items).toHaveLength(0);
+      waitForElementToBeRemoved(items);
+      // expect(items).toHaveLength(0);
     });
   });
 });

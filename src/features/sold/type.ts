@@ -3,10 +3,11 @@ import { Collections } from '@/typeUtils/typeGenerators';
 export interface Sold {
   stockName: string;
 
-  purchaseId: string;
+  purchasedId: string;
+  purchasedQuantity: number;
+
   purchasedDate: string;
   purchasedTime: string;
-  purchasedQuantity: number;
   purchasedPrice: number;
 
   soldDate: string;

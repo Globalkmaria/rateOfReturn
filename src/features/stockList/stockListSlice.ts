@@ -1,7 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { MOCK_DATA, MOCK_DATA_NEXT_STOCK_ID, MOCK_DATA_PURCHASED_ID } from './mockData';
-import { StockListState, UpdateStockPayload, UpdatePurchasedItemPayload, StockMainPayload } from './type';
+import {
+  MOCK_DATA,
+  MOCK_DATA_NEXT_STOCK_ID,
+  MOCK_DATA_PURCHASED_ID,
+} from './mockData';
+import {
+  StockListState,
+  UpdateStockPayload,
+  UpdatePurchasedItemPayload,
+  StockMainPayload,
+} from './type';
 import {
   addNewStock,
   addPurchasedItem,
@@ -12,6 +21,7 @@ import {
   resetUserData,
   setBackupData,
 } from '@/features';
+import { addNewSold } from '../sold';
 
 export const STOCK_INITIAL_STATE: StockListState = {
   stocks: {
@@ -32,14 +42,22 @@ const stockListSlice = createSlice({
   name: 'stockList',
   initialState: INITIAL_STATE_WITH_SAMPLE,
   reducers: {
-    initStockList: (state, action: PayloadAction<StockListState>) => action.payload,
-    updateStock: (state: StockListState, action: PayloadAction<UpdateStockPayload>) => {
+    initStockList: (state, action: PayloadAction<StockListState>) =>
+      action.payload,
+    updateStock: (
+      state: StockListState,
+      action: PayloadAction<UpdateStockPayload>,
+    ) => {
       const { stockId, stockData } = action.payload;
       state.stocks.byId[stockId].mainInfo = stockData;
     },
-    updatePurchaseItem: (state: StockListState, action: PayloadAction<UpdatePurchasedItemPayload>) => {
+    updatePurchaseItem: (
+      state: StockListState,
+      action: PayloadAction<UpdatePurchasedItemPayload>,
+    ) => {
       const { stockId, purchasedId, purchasedData } = action.payload;
-      state.stocks.byId[stockId].purchasedItems.byId[purchasedId] = purchasedData;
+      state.stocks.byId[stockId].purchasedItems.byId[purchasedId] =
+        purchasedData;
     },
 
     updateStockNeedInit: (state, action: PayloadAction<string>) => {
@@ -48,10 +66,16 @@ const stockListSlice = createSlice({
       state.stocks.byId[stockId].mainInfo.needInit = false;
     },
 
-    updatePurchaseItemNeedInit: (state, action: PayloadAction<StockMainPayload>) => {
+    updatePurchaseItemNeedInit: (
+      state,
+      action: PayloadAction<StockMainPayload>,
+    ) => {
       const { stockId, purchasedId } = action.payload;
-      const purchasedItem = state.stocks.byId[stockId]?.purchasedItems?.byId[purchasedId];
-      if (purchasedItem) state.stocks.byId[stockId].purchasedItems.byId[purchasedId].needInit = false;
+      const purchasedItem =
+        state.stocks.byId[stockId]?.purchasedItems?.byId[purchasedId];
+      if (purchasedItem)
+        state.stocks.byId[stockId].purchasedItems.byId[purchasedId].needInit =
+          false;
     },
   },
   extraReducers(builder) {
@@ -94,10 +118,32 @@ const stockListSlice = createSlice({
     });
     builder.addCase(setBackupData, (state, action) => action.payload.stockList);
     builder.addCase(addSampleData, () => INITIAL_STATE_WITH_SAMPLE);
+    builder.addCase(addNewSold, (state, action) => {
+      const { soldInfo, stockId } = action.payload;
+      const purchasedItems = state.stocks.byId[stockId].purchasedItems;
+
+      if (purchasedItems.allIds.length === 1) {
+        const stockIdx = state.stocks.allIds.indexOf(stockId);
+        delete state.stocks.byId[stockId];
+        state.stocks.allIds.splice(stockIdx, 1);
+        return;
+      }
+
+      const purchasedItemIdx = purchasedItems.allIds.indexOf(
+        soldInfo.purchasedId,
+      );
+      delete purchasedItems.byId[soldInfo.purchasedId];
+      purchasedItems.allIds.splice(purchasedItemIdx, 1);
+    });
   },
 });
 
-export const { updateStock, updatePurchaseItem, initStockList, updateStockNeedInit, updatePurchaseItemNeedInit } =
-  stockListSlice.actions;
+export const {
+  updateStock,
+  updatePurchaseItem,
+  initStockList,
+  updateStockNeedInit,
+  updatePurchaseItemNeedInit,
+} = stockListSlice.actions;
 
 export default stockListSlice.reducer;

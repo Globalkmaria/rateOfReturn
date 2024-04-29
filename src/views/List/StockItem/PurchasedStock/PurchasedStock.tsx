@@ -25,6 +25,8 @@ import { getChangedPurchasedData } from './utils';
 import { checkNoChange } from '../utils';
 import { EditButton, MoreButton } from '@/components/IconButton';
 import { DropdownItem } from '@/components/Dropdown';
+import { getSoldInfoFromPurchasedInfo } from '@/features/sold/utils';
+import { addNewSold } from '@/features/sold';
 
 export type SetChangedInputByFieldName = <
   T extends keyof ChangedPurchasedItemInputs,
@@ -48,7 +50,7 @@ export type ChangedPurchasedItemInputs = EditUserItemServiceData;
 const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const dispatch = useDispatch();
 
-  const { purchasedItem } = useSelector(
+  const { mainInfo, purchasedItem } = useSelector(
     selectPurchasedItemsById(stockId, purchasedId),
   );
   const isPurchasedItemChecked = useSelector(
@@ -102,6 +104,12 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
     setIsLock(true);
   };
 
+  const onItemSold = async () => {
+    // TODO api
+    const soldInfo = getSoldInfoFromPurchasedInfo(mainInfo, purchasedItem);
+    dispatch(addNewSold({ soldInfo, stockId: mainInfo.stockId }));
+  };
+
   useEffect(() => {
     if (isMainGroupSelected && purchasedItem.needInit)
       setIsLock(!purchasedItem.needInit);
@@ -142,7 +150,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
                 disabled={!isMainGroupSelected}
               />
               <MoreButton width={100} vertical='bottom' horizontal='right'>
-                <DropdownItem>Sold</DropdownItem>
+                <DropdownItem onClick={onItemSold}>Sold</DropdownItem>
                 <DropdownItem onClick={onOpenModal}>Delete</DropdownItem>
               </MoreButton>
             </StyledButtonGroup>

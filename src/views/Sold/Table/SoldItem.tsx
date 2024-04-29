@@ -68,7 +68,7 @@ function SoldItem({ purchasedId }: Props) {
 
   return (
     <StyledContainer>
-      <TableCell align='center'>{item.purchaseId}</TableCell>
+      <TableCell align='center'>{item.purchasedId}</TableCell>
       <TableCell>
         <StyledTextWrapper>{item.stockName}</StyledTextWrapper>
       </TableCell>

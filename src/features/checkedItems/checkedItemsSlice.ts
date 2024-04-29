@@ -1,6 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { getInitialCheckedItemsInfo, updateCheckedItemsState } from './utils';
-import { CheckedItemsInfo, CheckedItemsState, UpdateCheckedItemsInfoPayload } from './type';
+import {
+  CheckedItemsInfo,
+  CheckedItemsState,
+  UpdateCheckedItemsInfoPayload,
+} from './type';
 import { MOCK_DATA } from '../stockList/mockData';
 import {
   addGroup,
@@ -13,6 +17,7 @@ import {
   resetUserData,
   setBackupData,
 } from '../actions';
+import { addNewSold } from '../sold';
 
 export const CHECKED_INITIAL_STATE: CheckedItemsState = {
   allChecked: true,
@@ -23,8 +28,12 @@ export const checkedItemsSlice = createSlice({
   name: 'checkedItems',
   initialState: CHECKED_INITIAL_STATE,
   reducers: {
-    initCheckedItems: (state, action: PayloadAction<CheckedItemsInfo>) => action.payload,
-    updateCheckedItems: (state, action: PayloadAction<UpdateCheckedItemsInfoPayload>) => {
+    initCheckedItems: (state, action: PayloadAction<CheckedItemsInfo>) =>
+      action.payload,
+    updateCheckedItems: (
+      state,
+      action: PayloadAction<UpdateCheckedItemsInfoPayload>,
+    ) => {
       updateCheckedItemsState(state, action.payload);
     },
   },
@@ -40,7 +49,10 @@ export const checkedItemsSlice = createSlice({
     builder.addCase(deleteStock, (state, { payload }) => {
       delete state.stocksCheckInfo[payload];
     });
-    builder.addCase(initUserData, (state, action) => action.payload.checkedItems);
+    builder.addCase(
+      initUserData,
+      (state, action) => action.payload.checkedItems,
+    );
     builder.addCase(resetUserData, () => CHECKED_INITIAL_STATE);
     builder.addCase(addNewStock, (state, action) => {
       const { stockId, stockCheckInfo } = action.payload;
@@ -50,7 +62,10 @@ export const checkedItemsSlice = createSlice({
       const { stockId, purchasedId } = action.payload;
       state.stocksCheckInfo[stockId].purchasedItems[purchasedId] = true;
     });
-    builder.addCase(setBackupData, (state, action) => action.payload.checkedItems);
+    builder.addCase(
+      setBackupData,
+      (state, action) => action.payload.checkedItems,
+    );
     builder.addCase(addGroup, (state, action) => action.payload.checkedItems);
     builder.addCase(addSampleData, () =>
       getInitialCheckedItemsInfo({
@@ -58,9 +73,18 @@ export const checkedItemsSlice = createSlice({
         value: true,
       }),
     );
+    builder.addCase(addNewSold, (state, action) => {
+      const { soldInfo, stockId } = action.payload;
+      const stockInfo = state.stocksCheckInfo[stockId];
+      delete stockInfo.purchasedItems[soldInfo.purchasedId];
+
+      const purchasedItemsExist = Object.keys(stockInfo.purchasedItems).length;
+      if (!purchasedItemsExist) delete state.stocksCheckInfo[stockId];
+    });
   },
 });
 
-export const { initCheckedItems, updateCheckedItems } = checkedItemsSlice.actions;
+export const { initCheckedItems, updateCheckedItems } =
+  checkedItemsSlice.actions;
 
 export default checkedItemsSlice.reducer;

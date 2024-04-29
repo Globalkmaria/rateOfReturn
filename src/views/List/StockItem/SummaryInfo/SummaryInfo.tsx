@@ -25,6 +25,8 @@ import { checkNoChange, getChangedStockData } from '../utils';
 import { useStockSummaryInputChange } from './hooks/useStockSummaryInputChange';
 import SummaryContent from './SummaryContent';
 import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
+import { getSoldInfoFromPurchasedInfo } from '@/features/sold/utils';
+import { addNewSold } from '@/features/sold';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -44,7 +46,9 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const checkedInfo = useSelector(selectStockCheckedInfo(stockId));
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const { mainInfo } = useSelector(selectStockInfoById(stockId));
+  const { mainInfo, purchasedItems } = useSelector(
+    selectStockInfoById(stockId),
+  );
 
   const [isLock, setIsLock] = useState(!mainInfo.needInit);
   const { showModal, onOpenModal, onCloseModal } = useModal();
@@ -75,6 +79,18 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
     );
     initChangedInputs();
     setIsLock(true);
+  };
+
+  const onStockSold = async () => {
+    // TODO api
+
+    for (const purchasedItem of purchasedItems.allIds) {
+      const soldInfo = getSoldInfoFromPurchasedInfo(
+        mainInfo,
+        purchasedItems.byId[purchasedItem],
+      );
+      dispatch(addNewSold({ soldInfo, stockId: mainInfo.stockId }));
+    }
   };
 
   useEffect(() => {
@@ -114,7 +130,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
                 disabled={!isMainGroupSelected}
               />
               <MoreButton width={100} vertical='bottom' horizontal='right'>
-                <DropdownItem>Sold</DropdownItem>
+                <DropdownItem onClick={onStockSold}>Sold</DropdownItem>
                 <DropdownItem onClick={onOpenModal}>Delete</DropdownItem>
               </MoreButton>
             </StyledButtonGroup>

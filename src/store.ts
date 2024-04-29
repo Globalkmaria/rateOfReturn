@@ -1,16 +1,24 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import stockListReducer, { STOCK_INITIAL_STATE } from './features/stockList/stockListSlice';
+import stockListReducer, {
+  STOCK_INITIAL_STATE,
+} from './features/stockList/stockListSlice';
 import checkedItemsReducer from './features/checkedItems/checkedItemsSlice';
-import groupsReducerReducer, { GROUP_INITIAL_STATE } from './features/groups/groupsSlice';
-import userSliceReducer, { USER_INITIAL_STATE } from './features/user/userSlice';
+import groupsReducerReducer, {
+  GROUP_INITIAL_STATE,
+} from './features/groups/groupsSlice';
+import userSliceReducer, {
+  USER_INITIAL_STATE,
+} from './features/user/userSlice';
 import { getInitialCheckedItemsInfo } from './features/checkedItems/utils';
+import { SOLD_INITIAL_STATE, soldReducer } from './features/sold';
 
 const rootReducer = combineReducers({
   stockList: stockListReducer,
   checkedItems: checkedItemsReducer,
   groups: groupsReducerReducer,
   user: userSliceReducer,
+  sold: soldReducer,
 });
 
 export const store = configureStore({
@@ -19,6 +27,7 @@ export const store = configureStore({
     checkedItems: checkedItemsReducer,
     groups: groupsReducerReducer,
     user: userSliceReducer,
+    sold: soldReducer,
   },
 });
 
@@ -37,6 +46,7 @@ export const preloadedStoreState: RootState = {
     data: STOCK_INITIAL_STATE.stocks,
     value: true,
   }),
+  sold: SOLD_INITIAL_STATE,
 };
 
 export type RootState = ReturnType<typeof store.getState>;
