@@ -14,7 +14,7 @@ export const SOLD_DATA_INITIAL_STATE_WITH_SAMPLE: SoldState = SOLD_MOCK_DATA;
 
 const soldSlice = createSlice({
   name: 'sold',
-  initialState: SOLD_INITIAL_STATE,
+  initialState: SOLD_DATA_INITIAL_STATE_WITH_SAMPLE,
   reducers: {
     resetSold: () => SOLD_INITIAL_STATE,
     addSampleData: () => SOLD_DATA_INITIAL_STATE_WITH_SAMPLE,
