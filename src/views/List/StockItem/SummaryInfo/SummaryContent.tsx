@@ -6,10 +6,9 @@ import { TableCell } from '../../../../components/Table';
 import { Input } from '../../../../components/Input/Input';
 import { TransformedValue } from '../../../../components/Input/BaseInput';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
-import { NumberCell, StyledTextWrapper } from '../components';
+import { InputCell, NumberCell, StyledTextWrapper } from '../components';
 import { useGetStockSummaryData } from './hooks/useGetStockSummaryData';
 import { ChangedSummaryInputs } from './hooks/useStockSummaryInputChange';
-import { getFixedLocaleString } from '@/utils/number';
 
 type Props = {
   stockId: string;
@@ -32,11 +31,9 @@ const SummaryContent = ({
   const summaryData = useGetStockSummaryData(stockId);
 
   const stockName = changedInputs.stockName ?? stockInfo.mainInfo.stockName;
-  const formattedCurrentPrice = getFixedLocaleString(
+  const formattedCurrentPrice =
     changedInputs.currentPrice?.toString() ||
-      stockInfo.mainInfo.currentPrice.toString() ||
-      0,
-  );
+    stockInfo.mainInfo.currentPrice.toString();
 
   useEffect(() => {
     if (!focusedInput.current?.disabled) focusedInput.current?.focus();
@@ -61,18 +58,15 @@ const SummaryContent = ({
       <NumberCell value={summaryData.purchaseQuantitySum} />
       <NumberCell withFixed value={summaryData.purchasePriceAverage} />
       <StyledTotalPurchase withFixed value={summaryData.totalPurchasePrice} />
-      <TableCell>
-        <Input
-          fullWidth
-          aria-label='current price'
-          onChange={onInputChange}
-          onBlur={onInputChange}
-          type='number'
-          value={formattedCurrentPrice}
-          disabled={isLock}
-          name='currentPrice'
-        />
-      </TableCell>
+      <InputCell
+        withFixed
+        fullWidth
+        aria-label='current price'
+        onChange={onInputChange}
+        value={formattedCurrentPrice}
+        disabled={isLock}
+        name='currentPrice'
+      />
       <NumberCell withFixed value={summaryData.evaluationPrice} />
       <NumberCell withFixed value={summaryData.evaluationProfit} />
       <StyledProfitRate align='right'>

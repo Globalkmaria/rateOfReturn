@@ -52,9 +52,10 @@ export const InputCell = ({
   withFixed,
   ...restProps
 }: InputCellProps) => {
-  const formattedValue = withFixed
-    ? getFixedLocaleString(value)
-    : value.toLocaleString();
+  const formattedValue =
+    withFixed && disabled
+      ? getFixedLocaleString(value)
+      : value.toLocaleString();
 
   return (
     <TableCell>

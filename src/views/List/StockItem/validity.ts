@@ -10,16 +10,26 @@ type FieldType = keyof typeof schema;
 const stockNameSchema = z
   .string()
   .max(12, { message: 'Stock name must be at most 12 characters long' });
+
 const stockPriceSchema = z
   .number()
-  .min(0, { message: 'Stock price must be bigger than 0' })
+  .min(0, {
+    message: 'Stock price must be bigger than 0',
+  })
   .max(9999999.9999, {
     message: 'Stock price must be smaller than 9,999,999.9999',
   });
+const decimalPlacesSchema = z.number().refine(
+  n => {
+    return (n.toString().split('.')[1] || '').length <= 4;
+  },
+  { message: 'Max precision is 4 decimal places' },
+);
 const stockQuantitySchema = z
   .number()
   .min(0, { message: 'Stock price must be bigger than 0' })
-  .max(9999999, { message: 'Stock price must be smaller than 9,999,999' });
+  .max(9999999, { message: 'Stock price must be smaller than 9,999,999' })
+  .int();
 
 const schema = {
   name: stockNameSchema,
@@ -46,7 +56,17 @@ export const checkStockValidity = (
   if (!field) return { isValid: true, message: '' };
 
   if (type === 'stockName') return checkValidity(field, value);
+
   const formattedValue = Number(value.replace(/,/g, ''));
+  if (type === 'currentPrice') {
+    const result = decimalPlacesSchema.safeParse(formattedValue);
+    if (!result.success) {
+      return {
+        isValid: false,
+        message: result.error.issues[0].message,
+      };
+    }
+  }
   return checkValidity(field, formattedValue);
 };
 
@@ -66,6 +86,15 @@ export const checkPurchasedItemValidity = (
   if (!field) return { isValid: true, message: '' };
 
   const formattedValue = Number(value.replace(/,/g, ''));
+  if (type === 'purchasedPrice') {
+    const result = decimalPlacesSchema.safeParse(formattedValue);
+    if (!result.success) {
+      return {
+        isValid: false,
+        message: result.error.issues[0].message,
+      };
+    }
+  }
   return checkValidity(field, formattedValue);
 };
 

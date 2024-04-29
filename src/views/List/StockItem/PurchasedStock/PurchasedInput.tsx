@@ -38,6 +38,11 @@ const PurchasedInput = ({
     const validity = checkPurchasedItemValidity(fieldName, value);
     if (!validity.isValid) return alert(validity.message);
 
+    if (fieldName === 'purchasedQuantity') {
+      setChangedInputByFieldName('purchasedQuantity', parseInt(value));
+      return;
+    }
+
     setChangedInputByFieldName(fieldName, value);
   };
 
@@ -73,7 +78,6 @@ const PurchasedInput = ({
       <InputCell
         name='purchasedQuantity'
         onChange={onInputChange}
-        onBlur={onInputChange}
         value={
           changedInputs.purchasedQuantity || purchasedItem.purchasedQuantity
         }
@@ -84,7 +88,6 @@ const PurchasedInput = ({
         withFixed
         name='purchasedPrice'
         onChange={onInputChange}
-        onBlur={onInputChange}
         value={changedInputs.purchasedPrice || purchasedItem.purchasedPrice}
         aria-label='purchased price'
         disabled={isLock}

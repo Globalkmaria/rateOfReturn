@@ -17,12 +17,12 @@ export const getFixedLocaleString = (
     num = num.replace(/,/g, '');
   }
 
-  const localString = Number(num).toLocaleString();
+  const localString = Number(num).toString();
   const [integer, decimal] = localString.split('.');
-  const fixedDecimal = decimal
+  const fixedDecimal = decimal?.length
     ? decimal.length < fractionDigits
       ? decimal.padEnd(fractionDigits, '0')
       : decimal
     : '0000';
-  return `${integer}.${fixedDecimal}`;
+  return `${Number(integer).toLocaleString()}.${fixedDecimal}`;
 };
