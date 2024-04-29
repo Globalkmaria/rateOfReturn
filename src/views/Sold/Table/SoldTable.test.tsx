@@ -1,0 +1,115 @@
+import { screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
+import { renderWithProviders } from '@/__test__/renderUI';
+import SoldTable from './SoldTable';
+import { MOCK_STATE } from '@/__test__/mock/mockState';
+
+describe('Sold Table', () => {
+  let user: ReturnType<typeof userEvent.setup>;
+
+  beforeAll(() => {
+    user = userEvent.setup();
+  });
+
+  const renderAndWait = async (preloadedState = {}) => {
+    renderWithProviders(<SoldTable />, { preloadedState });
+    await screen.findByRole('table', undefined, { timeout: 1500 });
+  };
+
+  test('Sold table display data correctly', async () => {
+    await renderAndWait(MOCK_STATE);
+    const row = await screen.findByRole('row', {
+      name: /1 google/i,
+    });
+
+    expect(row).toBeInTheDocument();
+
+    const ROW1_DISPLAY_TEXT = [
+      '1',
+      'Google',
+      '2',
+      '06/05/2023 02:14 PM',
+      '2,000.0000',
+      '4,000.0000',
+      '',
+      '',
+      '4,400.0000',
+      '400.0000',
+      '10.00 %',
+    ];
+    const cells = within(row).getAllByRole('cell');
+    for (let i = 0; i < ROW1_DISPLAY_TEXT.length; i++) {
+      if (ROW1_DISPLAY_TEXT[i] === '') continue;
+      expect(cells[i]).toHaveTextContent(ROW1_DISPLAY_TEXT[i]);
+    }
+
+    const soldDate = within(row).getByLabelText(/sold date/i);
+    expect(soldDate).toHaveValue('2023-06-05');
+    const soldTime = within(row).getByLabelText(/sold time/i);
+    expect(soldTime).toHaveValue('14:14');
+    const soldPrice = within(row).getByLabelText(/sold price/i);
+    expect(soldPrice).toHaveValue('2,200.0000');
+  });
+
+  test('Update sold item', async () => {
+    await renderAndWait(MOCK_STATE);
+    const row = await screen.findByRole('row', {
+      name: /1 google/i,
+    });
+
+    const editBtn = within(row).getByRole('button', { name: /edit/i });
+    await user.click(editBtn);
+
+    const soldDate = within(row).getByLabelText(/sold date/i);
+    await userEvent.clear(soldDate);
+    await userEvent.type(soldDate, '2023-06-06');
+
+    const soldTime = within(row).getByLabelText(/sold time/i);
+    await userEvent.clear(soldTime);
+    await userEvent.type(soldTime, '05:15');
+
+    const soldPrice = within(row).getByLabelText(/sold price/i);
+    await userEvent.clear(soldPrice);
+    await userEvent.type(soldPrice, '1100');
+
+    const saveBtn = within(row).getByRole('button', { name: /save/i });
+    await user.click(saveBtn);
+
+    const rowAfterUpdate = await screen.findByRole('row', {
+      name: /1 google/i,
+    });
+
+    const soldDateAfterUpdate =
+      within(rowAfterUpdate).getByLabelText(/sold date/i);
+    expect(soldDateAfterUpdate).toHaveValue('2023-06-06');
+    const soldTimeAfterUpdate =
+      within(rowAfterUpdate).getByLabelText(/sold time/i);
+    expect(soldTimeAfterUpdate).toHaveValue('05:15');
+    const soldPriceAfterUpdate =
+      within(rowAfterUpdate).getByLabelText(/sold price/i);
+    expect(soldPriceAfterUpdate).toHaveValue('1,100.0000');
+  });
+
+  test('Delete sold item', async () => {
+    await renderAndWait(MOCK_STATE);
+    const row = await screen.findByRole('row', {
+      name: /1 google/i,
+    });
+
+    const deleteBtn = within(row).getByRole('button', { name: /delete/i });
+    await user.click(deleteBtn);
+
+    const dialog = await screen.findByRole('dialog', {
+      name: /are you sure/i,
+    });
+
+    const confirmBtn = within(dialog).getByRole('button', { name: /delete/i });
+    await user.click(confirmBtn);
+
+    const rowAfterDelete = screen.queryByRole('row', {
+      name: /1 google/i,
+    });
+    expect(rowAfterDelete).toBeNull();
+  });
+});
