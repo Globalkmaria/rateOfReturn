@@ -3,6 +3,7 @@ import {
   PurchasedItemInfo,
   StockMainInfo,
 } from '../../../features/stockList/type';
+import { getDecimalPlacesSchema } from '@/utils/validation';
 
 export type ValidityResult = { message?: string; isValid: boolean };
 type FieldType = keyof typeof schema;
@@ -19,12 +20,7 @@ const stockPriceSchema = z
   .max(9999999.9999, {
     message: 'Stock price must be smaller than 9,999,999.9999',
   });
-const decimalPlacesSchema = z.number().refine(
-  n => {
-    return (n.toString().split('.')[1] || '').length <= 4;
-  },
-  { message: 'Max precision is 4 decimal places' },
-);
+const decimalPlacesSchema = getDecimalPlacesSchema(4);
 const stockQuantitySchema = z
   .number()
   .min(0, { message: 'Stock price must be bigger than 0' })
