@@ -3,9 +3,9 @@ import { SoldState } from './type';
 export const SOLD_MOCK_DATA: SoldState = {
   list: {
     byId: {
-      '1': {
+      '111': {
         stockName: 'Google',
-        purchasedId: '1',
+        purchasedId: '111',
         purchasedDate: '2023-06-05',
         purchasedTime: '14:13',
         purchasedQuantity: 2,
@@ -14,9 +14,9 @@ export const SOLD_MOCK_DATA: SoldState = {
         soldTime: '14:14',
         soldPrice: 2200,
       },
-      '2': {
+      '112': {
         stockName: 'Google',
-        purchasedId: '2',
+        purchasedId: '112',
         purchasedDate: '2023-06-03',
         purchasedTime: '14:13',
         purchasedQuantity: 4,
@@ -25,9 +25,9 @@ export const SOLD_MOCK_DATA: SoldState = {
         soldTime: '15:13',
         soldPrice: 2500,
       },
-      '3': {
+      '113': {
         stockName: 'Apple',
-        purchasedId: '3',
+        purchasedId: '113',
         purchasedDate: '2023-06-05',
         purchasedTime: '16:12',
         purchasedQuantity: 6,
@@ -37,6 +37,6 @@ export const SOLD_MOCK_DATA: SoldState = {
         soldPrice: 1800,
       },
     },
-    allIds: ['1', '2', '3'],
+    allIds: ['111', '112', '113'],
   },
 };

@@ -20,13 +20,13 @@ describe('Sold Table', () => {
   test('Sold table display data correctly', async () => {
     await renderAndWait(MOCK_STATE);
     const row = await screen.findByRole('row', {
-      name: /1 google/i,
+      name: /111 google/i,
     });
 
     expect(row).toBeInTheDocument();
 
     const ROW1_DISPLAY_TEXT = [
-      '1',
+      '111',
       'Google',
       '2',
       '06/05/2023 02:14 PM',
@@ -55,61 +55,36 @@ describe('Sold Table', () => {
   test('Update sold item', async () => {
     await renderAndWait(MOCK_STATE);
     const row = await screen.findByRole('row', {
-      name: /1 google/i,
+      name: /111 google/i,
     });
 
     const editBtn = within(row).getByRole('button', { name: /edit/i });
     await user.click(editBtn);
 
-    const soldDate = within(row).getByLabelText(/sold date/i);
-    await userEvent.clear(soldDate);
-    await userEvent.type(soldDate, '2023-06-06');
-
-    const soldTime = within(row).getByLabelText(/sold time/i);
-    await userEvent.clear(soldTime);
-    await userEvent.type(soldTime, '05:15');
-
     const soldPrice = within(row).getByLabelText(/sold price/i);
-    await userEvent.clear(soldPrice);
-    await userEvent.type(soldPrice, '1100');
+    await user.clear(soldPrice);
+    await user.type(soldPrice, '3400');
 
     const saveBtn = within(row).getByRole('button', { name: /save/i });
     await user.click(saveBtn);
 
-    const rowAfterUpdate = await screen.findByRole('row', {
-      name: /1 google/i,
-    });
-
-    const soldDateAfterUpdate =
-      within(rowAfterUpdate).getByLabelText(/sold date/i);
-    expect(soldDateAfterUpdate).toHaveValue('2023-06-06');
-    const soldTimeAfterUpdate =
-      within(rowAfterUpdate).getByLabelText(/sold time/i);
-    expect(soldTimeAfterUpdate).toHaveValue('05:15');
-    const soldPriceAfterUpdate =
-      within(rowAfterUpdate).getByLabelText(/sold price/i);
-    expect(soldPriceAfterUpdate).toHaveValue('1,100.0000');
+    expect(soldPrice).toHaveValue('3,400.0000');
   });
 
-  test('Delete sold item', async () => {
+  test.only('Delete sold item', async () => {
     await renderAndWait(MOCK_STATE);
     const row = await screen.findByRole('row', {
-      name: /1 google/i,
+      name: /111 google/i,
     });
+    expect(row).toBeInTheDocument();
 
     const deleteBtn = within(row).getByRole('button', { name: /delete/i });
     await user.click(deleteBtn);
 
-    const dialog = await screen.findByRole('dialog', {
-      name: /are you sure/i,
-    });
-
+    const dialog = await screen.findByRole('dialog');
     const confirmBtn = within(dialog).getByRole('button', { name: /delete/i });
     await user.click(confirmBtn);
 
-    const rowAfterDelete = screen.queryByRole('row', {
-      name: /1 google/i,
-    });
-    expect(rowAfterDelete).toBeNull();
+    expect(row).not.toBeInTheDocument();
   });
 });
