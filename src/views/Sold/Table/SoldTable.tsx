@@ -4,6 +4,8 @@ import SoldTableHeader from './SoldTableHeader';
 import SoldItem from './SoldItem';
 import { useSelector } from 'react-redux';
 import { selectSoldList } from '@/features/solds';
+import { Suspense } from 'react';
+import SoldTableSkeleton from './SoldTableSkeleton';
 
 interface Props {}
 
@@ -12,14 +14,16 @@ function SoldTable({}: Props) {
 
   return (
     <StyledContainer>
-      <StyledSoldTable>
-        <SoldTableHeader />
-        <TableBody>
-          {soldList.allIds.map(id => (
-            <SoldItem purchasedId={id} key={id} />
-          ))}
-        </TableBody>
-      </StyledSoldTable>
+      <Suspense fallback={<SoldTableSkeleton />}>
+        <StyledSoldTable>
+          <SoldTableHeader />
+          <TableBody>
+            {soldList.allIds.map(id => (
+              <SoldItem id={id} key={id} />
+            ))}
+          </TableBody>
+        </StyledSoldTable>
+      </Suspense>
     </StyledContainer>
   );
 }
