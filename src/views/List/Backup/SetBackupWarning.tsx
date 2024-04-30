@@ -17,13 +17,21 @@ const SetBackupWarning = ({ onClose, data }: Props) => {
         stockList: data.stockList,
         groups: data.groups,
         checkedItems: data.checkedItems,
+        solds: data.solds,
       }),
     );
 
     onClose();
   };
 
-  return <WarningModal onClose={onClose} onConfirm={backupData} message={MESSAGE} buttonName='Set Backup' />;
+  return (
+    <WarningModal
+      onClose={onClose}
+      onConfirm={backupData}
+      message={MESSAGE}
+      buttonName='Set Backup'
+    />
+  );
 };
 
 export default SetBackupWarning;

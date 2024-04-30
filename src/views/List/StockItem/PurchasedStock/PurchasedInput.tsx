@@ -6,7 +6,11 @@ import { TableCell } from '../../../../components/Table';
 import { PurchasedItemInfo } from '../../../../features/stockList/type';
 import { InputCell } from '../components';
 import { checkPurchasedItemValidity } from '../validity';
-import { ChangedPurchasedItemInputs, PurchasedInputChangeProps, SetChangedInputByFieldName } from './PurchasedStock';
+import {
+  ChangedPurchasedItemInputs,
+  PurchasedInputChangeProps,
+  SetChangedInputByFieldName,
+} from './PurchasedStock';
 
 type Props = {
   purchasedItem: PurchasedItemInfo;
@@ -15,16 +19,29 @@ type Props = {
   changedInputs: ChangedPurchasedItemInputs;
 };
 
-const PurchasedInput = ({ isLock, purchasedItem, changedInputs, setChangedInputByFieldName }: Props) => {
+const PurchasedInput = ({
+  isLock,
+  purchasedItem,
+  changedInputs,
+  setChangedInputByFieldName,
+}: Props) => {
   const focusedInput = useRef<HTMLInputElement>(null);
   const onInputChange: PurchasedInputChangeProps = (e, transformedValue) => {
-    const fieldName = e.target.name as keyof Omit<PurchasedItemInfo, 'purchasedId'>;
+    const fieldName = e.target.name as keyof Omit<
+      PurchasedItemInfo,
+      'purchasedId'
+    >;
     if (transformedValue === null) return;
 
     const value = transformedValue[1];
 
     const validity = checkPurchasedItemValidity(fieldName, value);
     if (!validity.isValid) return alert(validity.message);
+
+    if (fieldName === 'purchasedQuantity') {
+      setChangedInputByFieldName('purchasedQuantity', parseInt(value));
+      return;
+    }
 
     setChangedInputByFieldName(fieldName, value);
   };
@@ -61,15 +78,16 @@ const PurchasedInput = ({ isLock, purchasedItem, changedInputs, setChangedInputB
       <InputCell
         name='purchasedQuantity'
         onChange={onInputChange}
-        onBlur={onInputChange}
-        value={changedInputs.purchasedQuantity || purchasedItem.purchasedQuantity}
+        value={
+          changedInputs.purchasedQuantity || purchasedItem.purchasedQuantity
+        }
         disabled={isLock}
         aria-label='purchased quantity'
       />
       <InputCell
+        withFixed
         name='purchasedPrice'
         onChange={onInputChange}
-        onBlur={onInputChange}
         value={changedInputs.purchasedPrice || purchasedItem.purchasedPrice}
         aria-label='purchased price'
         disabled={isLock}

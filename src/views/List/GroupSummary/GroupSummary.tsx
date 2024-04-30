@@ -3,7 +3,10 @@ import { FastOmit } from 'styled-components/dist/types';
 import styled, { IStyledComponent } from 'styled-components';
 import { useSelector } from 'react-redux';
 
-import { selectIsMainGroupSelected, selectSelectedGroupInfo } from '../../../features/groups/selectors';
+import {
+  selectIsMainGroupSelected,
+  selectSelectedGroupInfo,
+} from '../../../features/groups/selectors';
 import { selectStocks } from '../../../features/stockList/selectors';
 import { CalculateStockSummaryResult, calculateGroupSummary } from './utils';
 
@@ -13,7 +16,10 @@ type Contents = {
   format: (value: number) => string;
   Component: IStyledComponent<
     'web',
-    FastOmit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, never>
+    FastOmit<
+      DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
+      never
+    >
   >;
 }[];
 
@@ -63,7 +69,6 @@ export const StyledContent = styled.div`
   padding: 15px;
   min-width: fit-content;
   width: 170px;
-  min-height: 76px;
   background: ${({ theme }) => theme.colors.white};
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px 2px;

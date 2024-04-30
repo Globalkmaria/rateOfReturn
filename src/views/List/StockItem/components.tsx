@@ -1,15 +1,20 @@
 import { ChangeEvent, MouseEvent, memo } from 'react';
 import styled from 'styled-components';
-import { FaTrash, FaLockOpen, FaLock } from 'react-icons/fa';
 
-import { BaseButtonProps, BorderButton } from '../../../components/Button';
 import { Input } from '../../../components/Input/Input';
-import { TableCell, TableCellProps, TableHead, TableHeadProps } from '../../../components/Table';
+import {
+  TableCell,
+  TableCellProps,
+  TableHead,
+  TableHeadProps,
+} from '@/components/Table';
 import { InputProps } from '../../../components/Input/BaseInput';
+import { getFixedLocaleString } from '@/utils/number';
 
 type InputCellProps = {
   disabled: boolean;
   value: string | number;
+  withFixed?: boolean;
 } & Omit<InputProps, 'value'>;
 type CheckboxCellProps = {
   onClick: (checked: boolean) => void;
@@ -19,38 +24,60 @@ type CheckboxCellProps = {
   title?: string;
   className?: string;
 } & Pick<TableHeadProps, 'fixedWidth' | 'minWidth'>;
-export type LockButtonProps = {
-  isLock: boolean;
-  disabled?: boolean;
-  onClick: () => void;
-};
-type DeleteButtonProps = {
-  disabled?: boolean;
-} & BaseButtonProps;
 
 type NumberCellProps = {
   value: number | string;
+  withFixed?: boolean;
 } & TableCellProps;
 
-export const NumberCell = memo(function NumberCell({ value, className, ...props }: NumberCellProps) {
+export const NumberCell = memo(function NumberCell({
+  value,
+  className,
+  withFixed,
+  ...props
+}: NumberCellProps) {
+  const formattedValue = withFixed
+    ? getFixedLocaleString(value)
+    : value.toLocaleString();
   return (
     <TableCell align='right' className={className} {...props}>
-      <StyledTextWrapper>{Number(value).toLocaleString()}</StyledTextWrapper>
+      <StyledTextWrapper>{formattedValue}</StyledTextWrapper>
     </TableCell>
   );
 });
 
-export const InputCell = ({ value, disabled, ...restProps }: InputCellProps) => {
-  value = value.toString();
+export const InputCell = ({
+  value,
+  disabled,
+  withFixed,
+  ...restProps
+}: InputCellProps) => {
+  const formattedValue =
+    withFixed && disabled
+      ? getFixedLocaleString(value)
+      : value.toLocaleString();
 
   return (
     <TableCell>
-      <Input disabled={disabled} fullWidth type='number' value={value} {...restProps} />
+      <Input
+        disabled={disabled}
+        fullWidth
+        type='number'
+        value={formattedValue}
+        {...restProps}
+      />
     </TableCell>
   );
 };
 
-export const CheckboxCell = ({ onClick, value, type = 'td', disabled, className, ...restProps }: CheckboxCellProps) => {
+export const CheckboxCell = ({
+  onClick,
+  value,
+  type = 'td',
+  disabled,
+  className,
+  ...restProps
+}: CheckboxCellProps) => {
   const Cell = type === 'td' ? TableCell : TableHead;
   const onClickHandler = (e: MouseEvent<HTMLTableCellElement>) => {
     if (e.target instanceof HTMLInputElement) return;
@@ -62,62 +89,22 @@ export const CheckboxCell = ({ onClick, value, type = 'td', disabled, className,
   };
 
   return (
-    <Cell align='center' onClick={onClickHandler} className={className} {...restProps}>
-      <input disabled={disabled} type='checkbox' checked={value} onChange={onChange} />
+    <Cell
+      align='center'
+      onClick={onClickHandler}
+      className={className}
+      {...restProps}
+    >
+      <input
+        disabled={disabled}
+        type='checkbox'
+        checked={value}
+        onChange={onChange}
+      />
     </Cell>
   );
 };
 
-export const LockButton = ({ isLock, onClick, disabled }: LockButtonProps) => {
-  const Icon = isLock ? FaLock : FaLockOpen;
-
-  return (
-    <StyledBtnWrapper>
-      <BorderButton
-        disabled={disabled}
-        disableIcon={disabled}
-        width={40}
-        onClick={onClick}
-        aria-label='toggle lock'
-        title='toggle lock'
-      >
-        <Icon />
-      </BorderButton>
-    </StyledBtnWrapper>
-  );
-};
-
-export const DeleteButton = memo(function DeleteButton({ disabled, ...resProps }: DeleteButtonProps) {
-  return (
-    <StyledBtnWrapper>
-      <BorderButton
-        disabled={disabled}
-        disableIcon={disabled}
-        width={40}
-        aria-label='delete'
-        title='delete'
-        {...resProps}
-      >
-        <FaTrash />
-      </BorderButton>
-    </StyledBtnWrapper>
-  );
-});
-
 export const StyledTextWrapper = styled('div')`
   padding: 5px;
-`;
-
-const StyledBtnWrapper = styled(TableCell)`
-  ${BorderButton} {
-    margin: 0 2px;
-  }
-`;
-
-export const StyledEditBtnWrapper = styled(StyledBtnWrapper)<{
-  $isLock: boolean;
-}>`
-  ${BorderButton} {
-    ${({ $isLock, theme }) => !$isLock && `background: ${theme.colors.grey400}`}
-  }
 `;

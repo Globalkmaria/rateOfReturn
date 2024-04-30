@@ -6,6 +6,7 @@ import List from '../pages/List';
 import Chart from '../pages/Chart';
 import PortfolioAllocation from '../views/Chart/PortfolioAllocation/PortfolioAllocation';
 import StockBarChart from '@/views/Chart/StockBarChart';
+import Sold from '@/pages/Sold';
 const Login = lazy(() => import('../pages/Login'));
 const Signup = lazy(() => import('../pages/Signup'));
 
@@ -48,7 +49,7 @@ export const rootRouterData: RouterElement[] = [
   {
     id: 3,
     path: '/portfolio',
-    label: 'List',
+    label: 'Current',
     element: <List />,
   },
   {
@@ -58,5 +59,11 @@ export const rootRouterData: RouterElement[] = [
     label: 'Chart',
     element: <Chart />,
     children: chartRouterData,
+  },
+  {
+    id: 5,
+    path: '/sold',
+    label: 'Sold',
+    element: <Sold />,
   },
 ];

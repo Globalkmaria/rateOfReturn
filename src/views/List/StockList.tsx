@@ -8,6 +8,7 @@ import { useShowAddSampleBtn } from './AddSampleData/useShowAddSampleBtn';
 import useSaveChangedStocksData from './hooks/useSaveChangedStocksData';
 import useSaveChangedGroupsData from './hooks/useSaveChangedGroupedData';
 import StockListSkeleton from './StockListSkeleton';
+import useSaveChangedSoldsData from './hooks/useSaveChangedSoldData';
 
 const GroupButtons = lazy(() => import('./GroupButtons/GroupButtons'));
 const Backup = lazy(() => import('./Backup/Backup'));
@@ -18,6 +19,7 @@ const StockList = () => {
   const [showAddSampleBtn] = useShowAddSampleBtn();
   useSaveChangedGroupsData(firstLoad);
   useSaveChangedStocksData(firstLoad);
+  useSaveChangedSoldsData(firstLoad);
 
   useEffect(() => {
     setFirstLoad(false);

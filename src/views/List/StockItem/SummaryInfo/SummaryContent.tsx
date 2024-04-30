@@ -6,24 +6,34 @@ import { TableCell } from '../../../../components/Table';
 import { Input } from '../../../../components/Input/Input';
 import { TransformedValue } from '../../../../components/Input/BaseInput';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
-import { NumberCell } from '../components';
+import { InputCell, NumberCell, StyledTextWrapper } from '../components';
 import { useGetStockSummaryData } from './hooks/useGetStockSummaryData';
 import { ChangedSummaryInputs } from './hooks/useStockSummaryInputChange';
 
 type Props = {
   stockId: string;
   isLock: boolean;
-  onInputChange: (e: React.ChangeEvent<HTMLInputElement>, transformedValue: TransformedValue) => void;
+  onInputChange: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    transformedValue: TransformedValue,
+  ) => void;
   changedInputs: ChangedSummaryInputs;
 };
 
-const SummaryContent = ({ stockId, isLock, onInputChange, changedInputs }: Props) => {
+const SummaryContent = ({
+  stockId,
+  isLock,
+  onInputChange,
+  changedInputs,
+}: Props) => {
   const focusedInput = useRef<HTMLInputElement>(null);
   const stockInfo = useSelector(selectStockInfoById(stockId));
   const summaryData = useGetStockSummaryData(stockId);
 
   const stockName = changedInputs.stockName ?? stockInfo.mainInfo.stockName;
-  const formattedCurrentPrice = changedInputs.currentPrice?.toString() || stockInfo.mainInfo.currentPrice.toString();
+  const formattedCurrentPrice =
+    changedInputs.currentPrice?.toString() ||
+    stockInfo.mainInfo.currentPrice.toString();
 
   useEffect(() => {
     if (!focusedInput.current?.disabled) focusedInput.current?.focus();
@@ -46,23 +56,22 @@ const SummaryContent = ({ stockId, isLock, onInputChange, changedInputs }: Props
         Summary
       </TableCell>
       <NumberCell value={summaryData.purchaseQuantitySum} />
-      <NumberCell value={summaryData.purchasePriceAverage} />
-      <StyledTotalPurchase value={summaryData.totalPurchasePrice} />
-      <TableCell>
-        <Input
-          fullWidth
-          aria-label='current price'
-          onChange={onInputChange}
-          onBlur={onInputChange}
-          type='number'
-          value={formattedCurrentPrice}
-          disabled={isLock}
-          name='currentPrice'
-        />
-      </TableCell>
-      <NumberCell value={summaryData.evaluationPrice} />
-      <TableCell align='right'>{summaryData.evaluationProfit}</TableCell>
-      <StyledProfitRate align='right'>{summaryData.profitRate} </StyledProfitRate>
+      <NumberCell withFixed value={summaryData.purchasePriceAverage} />
+      <StyledTotalPurchase withFixed value={summaryData.totalPurchasePrice} />
+      <InputCell
+        withFixed
+        fullWidth
+        aria-label='current price'
+        onChange={onInputChange}
+        value={formattedCurrentPrice}
+        disabled={isLock}
+        name='currentPrice'
+      />
+      <NumberCell withFixed value={summaryData.evaluationPrice} />
+      <NumberCell withFixed value={summaryData.evaluationProfit} />
+      <StyledProfitRate align='right'>
+        <StyledTextWrapper>{summaryData.profitRate} </StyledTextWrapper>
+      </StyledProfitRate>
     </>
   );
 };

@@ -1,4 +1,8 @@
-import { screen, within } from '@testing-library/react';
+import {
+  screen,
+  waitForElementToBeRemoved,
+  within,
+} from '@testing-library/react';
 import List from '../../pages/List';
 import { renderWithProviders } from '../../__test__/renderUI';
 import { TOP_STOCKS } from '../../__test__/mock/topStocks';
@@ -20,7 +24,13 @@ describe('List Component', () => {
 
   const renderAndWait = async (preloadedState = {}) => {
     renderWithProviders(<List />, { preloadedState });
-    await screen.findByRole('heading', { name: /total buy price/i });
+    await screen.findByRole(
+      'heading',
+      { name: /total buy price/i },
+      {
+        timeout: 1500,
+      },
+    );
   };
 
   test('List Component is loaded correctly after Suspense', async () => {
@@ -74,6 +84,12 @@ describe('List Component', () => {
       const stock = screen.getByRole('row', {
         name: /google summary/i,
       });
+
+      const moreBtn = within(stock).getByRole('button', {
+        name: /more/i,
+      });
+      await user.click(moreBtn);
+
       const removeBtn = within(stock).getByRole('button', {
         name: /delete/i,
       });
@@ -85,10 +101,7 @@ describe('List Component', () => {
       });
       await user.click(modalDeleteButton);
 
-      const stockAfterDelete = screen.queryByRole('row', {
-        name: /google summary/i,
-      });
-      expect(stockAfterDelete).toBeNull();
+      expect(stock).not.toBeInTheDocument();
 
       items = screen.queryAllByRole('row', {
         name: /google \d+/i,
@@ -100,6 +113,11 @@ describe('List Component', () => {
     describe('Edit Stock', () => {
       test('Stock name is changed Summary and purchased items names are changed too', async () => {
         await renderAndWait(MOCK_STATE);
+
+        const noTeslaStock = screen.queryByRole('row', {
+          name: /tesla summary/i,
+        });
+        expect(noTeslaStock).not.toBeInTheDocument();
 
         const googleItems = screen.getAllByRole('row', {
           name: /google \d+/i,
@@ -160,6 +178,10 @@ describe('List Component', () => {
       const item = screen.getByRole('row', {
         name: /google 1/i,
       });
+      const moreBtn = within(item).getByRole('button', {
+        name: /more/i,
+      });
+      await user.click(moreBtn);
       const removeBtn = within(item).getByRole('button', {
         name: /delete/i,
       });
@@ -171,10 +193,7 @@ describe('List Component', () => {
       });
       await user.click(modalDeleteButton);
 
-      const itemAfterDelete = screen.queryByRole('row', {
-        name: /google 1/i,
-      });
-      expect(itemAfterDelete).toBeNull();
+      expect(item).not.toBeInTheDocument();
     });
 
     test('When there is 1 item in Stock and item is removed, stock is also removed', async () => {
@@ -183,6 +202,12 @@ describe('List Component', () => {
       const item1 = screen.getByRole('row', {
         name: /google 1/i,
       });
+
+      const moreBtn = within(item1).getByRole('button', {
+        name: /more/i,
+      });
+      await user.click(moreBtn);
+
       const removeBtn1 = within(item1).getByRole('button', {
         name: /delete/i,
       });
@@ -194,10 +219,7 @@ describe('List Component', () => {
       });
       await user.click(modalDeleteButton1);
 
-      const itemAfterDelete1 = screen.queryByRole('row', {
-        name: /google 1/i,
-      });
-      expect(itemAfterDelete1).toBeNull();
+      expect(item1).not.toBeInTheDocument();
 
       const stock = screen.getByRole('row', {
         name: /google summary/i,
@@ -207,6 +229,11 @@ describe('List Component', () => {
       const item2 = screen.getByRole('row', {
         name: /google 2/i,
       });
+
+      const moreBtn2 = within(item2).getByRole('button', {
+        name: /more/i,
+      });
+      await user.click(moreBtn2);
       const removeBtn2 = within(item2).getByRole('button', {
         name: /delete/i,
       });
@@ -218,15 +245,97 @@ describe('List Component', () => {
       });
       await user.click(modalDeleteButton2);
 
-      const item2AfterDelete = screen.queryByRole('row', {
-        name: /google 2/i,
-      });
-      expect(item2AfterDelete).toBeNull();
+      expect(item2).not.toBeInTheDocument();
+      expect(stock).not.toBeInTheDocument();
+    });
+  });
 
-      const stockAfterItem2Deleted = screen.queryByRole('row', {
+  describe('When sold', () => {
+    test('When current item is sold, item is removed from List page', async () => {
+      await renderAndWait(MOCK_STATE);
+
+      const item = screen.getByRole('row', {
+        name: /google 1/i,
+      });
+
+      const moreBtn = within(item).getByRole('button', {
+        name: /more/i,
+      });
+      await user.click(moreBtn);
+
+      const soldBtn = within(item).getByRole('button', {
+        name: /sold/i,
+      });
+      await user.click(soldBtn);
+
+      expect(item).not.toBeInTheDocument();
+    });
+
+    test('When current item is sold, and there is no more item in stock. Stock is removed.', async () => {
+      await renderAndWait(MOCK_STATE);
+
+      const stock = screen.getByRole('row', {
         name: /google summary/i,
       });
-      expect(stockAfterItem2Deleted).not.toBeInTheDocument();
+      expect(stock).toBeInTheDocument();
+
+      const items = screen.getAllByRole('row', {
+        name: /google \d+/i,
+      });
+      expect(items).toHaveLength(2);
+
+      // sell item 1
+      const item1 = items[0];
+      const moreBtn = within(item1).getByRole('button', {
+        name: /more/i,
+      });
+      await user.click(moreBtn);
+
+      const soldBtn = within(item1).getByRole('button', {
+        name: /sold/i,
+      });
+      await user.click(soldBtn);
+
+      const itemsAfterSold = screen.getAllByRole('row', {
+        name: /google \d+/i,
+      });
+      expect(itemsAfterSold).toHaveLength(1);
+
+      expect(stock).toBeInTheDocument();
+
+      // sell item2
+      const item2 = items[1];
+      const moreBtn2 = within(item2).getByRole('button', {
+        name: /more/i,
+      });
+      await user.click(moreBtn2);
+      const soldBtn2 = within(item2).getByRole('button', {
+        name: /sold/i,
+      });
+      await user.click(soldBtn2);
+
+      const itemsAfterSold2 = screen.queryAllByRole('row', {
+        name: /google \d+/i,
+      });
+      expect(itemsAfterSold2).toHaveLength(0);
+
+      expect(stock).not.toBeInTheDocument();
+    });
+
+    test('When stock is sold, stock is removed from List page', async () => {
+      await renderAndWait(MOCK_STATE);
+
+      const stock = screen.getByRole('row', {
+        name: /google summary/i,
+      });
+      const moreBtn = within(stock).getByRole('button', {
+        name: /more/i,
+      });
+      await user.click(moreBtn);
+
+      waitForElementToBeRemoved(stock);
+      const items = screen.queryAllByRole('row', { name: /google \d+/i });
+      waitForElementToBeRemoved(items);
     });
   });
 });

@@ -72,6 +72,10 @@ This project allows you to:
 
 ## Version History
 
+### Version 2.5.0 (2024-05-01)
+
+- New Sold feature. You can now save sold stocks and check it in separate table.
+
 ### Version 2.4.0 (2024-04-23)
 
 - New Chart feature. Individual stock return bar chart.

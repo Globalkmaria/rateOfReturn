@@ -1,7 +1,12 @@
 import { MouseEvent, useRef } from 'react';
-import { CgClose } from 'react-icons/cg';
 
-import { StyledCloseButton, StyledModal, StyledModalContent, StyledModalHeader, StyledModalTitle } from './Modal.style';
+import {
+  StyledCloseButton,
+  StyledModal,
+  StyledModalContent,
+  StyledModalHeader,
+  StyledModalTitle,
+} from './Modal.style';
 import useHideScroll from '../../views/List/hooks/useHideScroll';
 
 export interface ModalContentProps {
@@ -16,7 +21,13 @@ interface ModalProps {
   title?: string;
 }
 
-const Modal = ({ children, isOpen = true, onClose, title = '', showCloseButton = true }: ModalProps) => {
+const Modal = ({
+  children,
+  isOpen = true,
+  onClose,
+  title = '',
+  showCloseButton = true,
+}: ModalProps) => {
   const modalContent = useRef<HTMLDivElement>(null);
   const needHeader = !!title.length || showCloseButton;
   const onClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -33,9 +44,13 @@ const Modal = ({ children, isOpen = true, onClose, title = '', showCloseButton =
         <StyledModalHeader needHeader={needHeader}>
           <StyledModalTitle>{title}</StyledModalTitle>
           {showCloseButton && (
-            <StyledCloseButton size='s' showLine={false} width={32} onClick={onClose}>
-              <CgClose />
-            </StyledCloseButton>
+            <StyledCloseButton
+              size='s'
+              showLine={false}
+              width={32}
+              onClick={onClose}
+              icon='close'
+            />
           )}
         </StyledModalHeader>
         {children}
