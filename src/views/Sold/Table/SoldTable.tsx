@@ -1,11 +1,10 @@
-import { Table, TableBody } from '@/components/Table';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+
+import { Table, TableBody } from '@/components/Table';
 import SoldTableHeader from './SoldTableHeader';
 import SoldItem from './SoldItem';
-import { useSelector } from 'react-redux';
 import { selectSoldList } from '@/features/solds';
-import { Suspense } from 'react';
-import SoldTableSkeleton from './SoldTableSkeleton';
 
 interface Props {}
 
@@ -13,28 +12,18 @@ function SoldTable({}: Props) {
   const soldList = useSelector(selectSoldList);
 
   return (
-    <StyledContainer>
-      <Suspense fallback={<SoldTableSkeleton />}>
-        <StyledSoldTable>
-          <SoldTableHeader />
-          <TableBody>
-            {soldList.allIds.map(id => (
-              <SoldItem id={id} key={id} />
-            ))}
-          </TableBody>
-        </StyledSoldTable>
-      </Suspense>
-    </StyledContainer>
+    <StyledSoldTable>
+      <SoldTableHeader />
+      <TableBody>
+        {soldList.allIds.map(id => (
+          <SoldItem id={id} key={id} />
+        ))}
+      </TableBody>
+    </StyledSoldTable>
   );
 }
 
 export default SoldTable;
-
-const StyledContainer = styled.div`
-  width: 100%;
-  overflow: auto;
-  max-height: calc(100vh - 180px);
-`;
 
 const StyledSoldTable = styled(Table)`
   thead th {
