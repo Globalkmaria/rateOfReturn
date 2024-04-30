@@ -1,6 +1,8 @@
 import { Collections } from '@/typeUtils/typeGenerators';
 
 export interface Sold {
+  id: string;
+
   stockName: string;
   stockId: string;
 
@@ -18,4 +20,5 @@ export interface Sold {
 
 export interface SoldsState {
   list: Collections<Sold>;
+  nextId: number;
 }

@@ -27,7 +27,7 @@ const getLocalSold = () => {
     ? formatSoldAsServerFormat(JSON.parse(localSolds))
     : null;
 
-  return solds?.list;
+  return solds;
 };
 
 export const getLocalState = () => {

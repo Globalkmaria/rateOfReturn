@@ -1,10 +1,13 @@
 import { SoldsState } from '@/features/solds';
-import { UserSolds } from '@/repository/userData/type';
+import { ReplaceUserDataRepReq } from '@/repository/userData/type';
 
 export const formatSoldAsServerFormat = (
   solds: SoldsState,
-): UserSolds | null => {
+): ReplaceUserDataRepReq['solds'] | null => {
   if (!solds?.list?.byId) return null;
 
-  return solds.list.byId;
+  return {
+    solds: solds.list.byId,
+    nextId: solds.nextId,
+  };
 };

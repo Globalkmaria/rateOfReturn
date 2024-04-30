@@ -5,10 +5,11 @@ import { Sold } from './type';
 export const getSoldInfoFromPurchasedInfo = (
   stock: StockMainInfo,
   purchased: PurchasedItemInfo,
-): Sold => {
+): Omit<Sold, 'id'> => {
   const { date, time } = getDateAndTime();
 
   return {
+    stockId: stock.stockId,
     stockName: stock.stockName,
     purchasedId: purchased.purchasedId,
     purchasedQuantity: purchased.purchasedQuantity,

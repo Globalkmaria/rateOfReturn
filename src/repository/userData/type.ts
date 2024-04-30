@@ -1,3 +1,5 @@
+import { Sold } from '@/features/solds';
+
 export type UserGroup = {
   id: string;
   name: string;
@@ -40,9 +42,7 @@ export type UserStocks = {
   [stockId: string]: UserStock;
 };
 
-export type UserSold = {
-  //TODO
-};
+export type UserSold = Sold;
 export type UserSolds = {
   [soldId: string]: UserSold;
 };
@@ -60,6 +60,10 @@ export type UserDataRepRes = {
     nextGroupId: number;
     docId: string;
   };
+  solds: {
+    solds: UserSolds;
+    nextId: number;
+  };
 };
 
 export type ReplaceUserDataRepReq = {
@@ -72,7 +76,10 @@ export type ReplaceUserDataRepReq = {
     groups: UserGroups;
     nextGroupId: number;
   };
-  solds: UserSolds;
+  solds: {
+    solds: UserSolds;
+    nextId: number;
+  };
 };
 
 export type mergeUserDataRepReq = {
