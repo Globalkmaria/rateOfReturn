@@ -17,28 +17,35 @@ import DeleteSoldModal from './DeleteSoldModal';
 import { getLocalDateTime } from '@/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteSold, selectSoldItem, updateSold } from '@/features/solds';
+import { selectIsLoggedIn } from '@/features/user/selectors';
+import { getPercentage } from '@/utils/number';
+import userSoldsService from '@/service/userSolds/service';
 
 type SoldItemInputs = Partial<
   Pick<Sold, 'soldTime' | 'soldDate' | 'soldPrice'>
 >;
 
 interface Props {
-  purchasedId: string;
+  id: string;
 }
 
-function SoldItem({ purchasedId }: Props) {
+function SoldItem({ id }: Props) {
   const dispatch = useDispatch();
   const focusedInput = useRef<HTMLInputElement>(null);
   const [isLock, setIsLock] = useState(true);
   const [changedInputs, setChangedInputs] = useState<SoldItemInputs>({});
   const { showModal, onOpenModal, onCloseModal } = useModal();
 
-  const item = useSelector(selectSoldItem(purchasedId));
+  const item = useSelector(selectSoldItem(id));
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const buyTotalCost = item.purchasedQuantity * item.purchasedPrice;
   const soldTotalValue = item.purchasedQuantity * item.soldPrice;
   const returnOfInvestment = soldTotalValue - buyTotalCost;
-  const returnOfInvestmentRatio = `${((returnOfInvestment / buyTotalCost) * 100)
+  const returnOfInvestmentRatio = `${getPercentage(
+    returnOfInvestment,
+    buyTotalCost,
+  )
     .toFixed(2)
     .toLocaleString()} %`;
 
@@ -48,7 +55,6 @@ function SoldItem({ purchasedId }: Props) {
   };
 
   const onToggleLock = async () => {
-    // TODO api
     if (isLock) {
       setIsLock(false);
       return;
@@ -57,6 +63,18 @@ function SoldItem({ purchasedId }: Props) {
     if (Object.keys(changedInputs).length === 0) {
       setIsLock(true);
       return;
+    }
+
+    if (isLoggedIn) {
+      const result = await userSoldsService.editSold({
+        id: id,
+        data: changedInputs,
+      });
+
+      if (!result.success) {
+        alert(result.message);
+        return;
+      }
     }
 
     const newItem: Sold = {
@@ -69,8 +87,16 @@ function SoldItem({ purchasedId }: Props) {
   };
 
   const onDelete = async () => {
-    // TODO api
-    dispatch(deleteSold(item.purchasedId));
+    if (isLoggedIn) {
+      const result = await userSoldsService.deleteSold(item.id);
+
+      if (!result.success) {
+        alert(result.message);
+        return;
+      }
+    }
+
+    dispatch(deleteSold(item.id));
     onCloseModal();
   };
 
@@ -88,8 +114,8 @@ function SoldItem({ purchasedId }: Props) {
   };
 
   const { localDate, localTime } = getLocalDateTime(
-    item.soldDate,
-    item.soldTime,
+    item.purchasedDate,
+    item.purchasedTime,
   );
 
   useEffect(() => {
@@ -98,7 +124,7 @@ function SoldItem({ purchasedId }: Props) {
 
   return (
     <StyledContainer>
-      <TableCell align='center'>{item.purchasedId}</TableCell>
+      <TableCell align='center'>{item.id}</TableCell>
       <TableCell>
         <StyledTextWrapper>{item.stockName}</StyledTextWrapper>
       </TableCell>

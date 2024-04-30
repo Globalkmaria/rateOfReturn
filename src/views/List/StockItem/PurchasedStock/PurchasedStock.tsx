@@ -27,6 +27,9 @@ import { EditButton, MoreButton } from '@/components/IconButton';
 import { DropdownItem } from '@/components/Dropdown';
 import { getSoldInfoFromPurchasedInfo } from '@/features/solds/utils';
 import { addNewSold } from '@/features/solds';
+import userSoldsService from '@/service/userSolds/service';
+import getDateAndTime from '@/utils/getDateAndTime';
+import { NewSold } from '@/repository/userSolds';
 
 export type SetChangedInputByFieldName = <
   T extends keyof ChangedPurchasedItemInputs,
@@ -105,7 +108,26 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   };
 
   const onItemSold = async () => {
-    // TODO api
+    if (isLoggedIn) {
+      const { date, time } = getDateAndTime();
+      const soldItem: NewSold = {
+        ...purchasedItem,
+        stockId: mainInfo.stockId,
+        stockName: mainInfo.stockName,
+        soldPrice: mainInfo.currentPrice,
+      };
+      const result = await userSoldsService.addNewSolds({
+        date,
+        time,
+        solds: [soldItem],
+      });
+
+      if (!result.success) {
+        alert(result.message);
+        return;
+      }
+    }
+    // TODO get server data and set it to local Data
     const soldInfo = getSoldInfoFromPurchasedInfo(mainInfo, purchasedItem);
     dispatch(addNewSold({ soldInfo, stockId: mainInfo.stockId }));
   };
@@ -150,7 +172,9 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
                 disabled={!isMainGroupSelected}
               />
               <MoreButton width={100} vertical='bottom' horizontal='right'>
-                <DropdownItem onClick={onItemSold}>Sold</DropdownItem>
+                <DropdownItem onClick={onItemSold} disabled={!isLock}>
+                  Sold
+                </DropdownItem>
                 <DropdownItem onClick={onOpenModal}>Delete</DropdownItem>
               </MoreButton>
             </StyledButtonGroup>

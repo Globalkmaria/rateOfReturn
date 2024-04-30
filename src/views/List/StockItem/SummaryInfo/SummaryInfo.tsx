@@ -27,6 +27,9 @@ import SummaryContent from './SummaryContent';
 import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
 import { getSoldInfoFromPurchasedInfo } from '@/features/solds/utils';
 import { addNewSold } from '@/features/solds';
+import getDateAndTime from '@/utils/getDateAndTime';
+import { NewSold } from '@/repository/userSolds';
+import userSoldsService from '@/service/userSolds/service';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -82,7 +85,25 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   };
 
   const onStockSold = async () => {
-    // TODO api
+    if (isLoggedIn) {
+      const { date, time } = getDateAndTime();
+      const soldItem = purchasedItems.allIds.map<NewSold>(purchasedId => ({
+        ...purchasedItems.byId[purchasedId],
+        stockId: mainInfo.stockId,
+        stockName: mainInfo.stockName,
+        soldPrice: mainInfo.currentPrice,
+      }));
+      const result = await userSoldsService.addNewSolds({
+        date,
+        time,
+        solds: soldItem,
+      });
+
+      if (!result.success) {
+        alert(result.message);
+        return;
+      }
+    }
 
     for (const purchasedItem of purchasedItems.allIds) {
       const soldInfo = getSoldInfoFromPurchasedInfo(
@@ -130,7 +151,9 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
                 disabled={!isMainGroupSelected}
               />
               <MoreButton width={100} vertical='bottom' horizontal='right'>
-                <DropdownItem onClick={onStockSold}>Sold</DropdownItem>
+                <DropdownItem onClick={onStockSold} disabled={!isLock}>
+                  Sold
+                </DropdownItem>
                 <DropdownItem onClick={onOpenModal}>Delete</DropdownItem>
               </MoreButton>
             </StyledButtonGroup>
