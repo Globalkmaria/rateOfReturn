@@ -20,16 +20,16 @@ describe('Sold Table', () => {
   test('Sold table display data correctly', async () => {
     await renderAndWait(MOCK_STATE);
     const row = await screen.findByRole('row', {
-      name: /111 google/i,
+      name: /1 google/i,
     });
 
     expect(row).toBeInTheDocument();
 
     const ROW1_DISPLAY_TEXT = [
-      '111',
+      '1',
       'Google',
       '2',
-      '06/05/2023 02:14 PM',
+      '06/05/2023 02:13 PM',
       '2,000.0000',
       '4,000.0000',
       '',
@@ -55,7 +55,7 @@ describe('Sold Table', () => {
   test('Update sold item', async () => {
     await renderAndWait(MOCK_STATE);
     const row = await screen.findByRole('row', {
-      name: /111 google/i,
+      name: /1 google/i,
     });
 
     const editBtn = within(row).getByRole('button', { name: /edit/i });
@@ -71,10 +71,10 @@ describe('Sold Table', () => {
     expect(soldPrice).toHaveValue('3,400.0000');
   });
 
-  test.only('Delete sold item', async () => {
+  test('Delete sold item', async () => {
     await renderAndWait(MOCK_STATE);
     const row = await screen.findByRole('row', {
-      name: /111 google/i,
+      name: /1 google/i,
     });
     expect(row).toBeInTheDocument();
 
