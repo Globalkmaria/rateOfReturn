@@ -4,10 +4,13 @@ import styled from 'styled-components';
 
 import { TableCell } from '../../../../components/Table';
 import { selectPurchasedItemsById } from '../../../../features/stockList/selectors';
-import { NumberCell } from '../components';
+import { NumberCell, StyledTextWrapper } from '../components';
 import PurchasedInput from './PurchasedInput';
 import { getPurchasedData } from './utils';
-import { ChangedPurchasedItemInputs, SetChangedInputByFieldName } from './PurchasedStock';
+import {
+  ChangedPurchasedItemInputs,
+  SetChangedInputByFieldName,
+} from './PurchasedStock';
 
 type Props = {
   stockId: string;
@@ -17,8 +20,16 @@ type Props = {
   changedInputs: ChangedPurchasedItemInputs;
 };
 
-const PurchasedContent = ({ stockId, purchasedId, setChangedInputByFieldName, changedInputs, isLock }: Props) => {
-  const { mainInfo, purchasedItem } = useSelector(selectPurchasedItemsById(stockId, purchasedId));
+const PurchasedContent = ({
+  stockId,
+  purchasedId,
+  setChangedInputByFieldName,
+  changedInputs,
+  isLock,
+}: Props) => {
+  const { mainInfo, purchasedItem } = useSelector(
+    selectPurchasedItemsById(stockId, purchasedId),
+  );
   const purchasedData = getPurchasedData({ purchasedItem, mainInfo });
   return (
     <>
@@ -32,11 +43,15 @@ const PurchasedContent = ({ stockId, purchasedId, setChangedInputByFieldName, ch
         purchasedItem={purchasedItem}
         isLock={isLock}
       />
-      <StyledTotalPurchase value={purchasedData.totalPurchasePrice} />
-      <NumberCell value={mainInfo.currentPrice} />
-      <NumberCell value={purchasedData.evaluationPrice} />
-      <TableCell align='right'>{purchasedData.formattedEvaluationProfit}</TableCell>
-      <StyledProfitRate align='right'>{purchasedData.formattedProfitRate}</StyledProfitRate>
+      <StyledTotalPurchase withFixed value={purchasedData.totalPurchasePrice} />
+      <NumberCell withFixed value={mainInfo.currentPrice} />
+      <NumberCell withFixed value={purchasedData.evaluationPrice} />
+      <NumberCell withFixed value={purchasedData.formattedEvaluationProfit} />
+      <StyledProfitRate align='right'>
+        <StyledTextWrapper>
+          {purchasedData.formattedProfitRate}
+        </StyledTextWrapper>
+      </StyledProfitRate>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ContainedButton } from '../../components/Button';
@@ -8,6 +8,7 @@ import { selectIsLoggedIn } from '../../features/user/selectors';
 import { resetUser } from '../../features/user/userSlice';
 import { cacheLoginPage, cacheSignupPage } from './utils';
 import { resetUserData } from '@/features';
+import { ContainedAnchor } from '@/components/Anchor';
 
 const AuthBtns = () => {
   const dispatch = useDispatch();
@@ -30,16 +31,23 @@ const AuthBtns = () => {
         </ContainedButton>
       ) : (
         <>
-          <Link to='/login' onMouseEnter={cacheLoginPage}>
-            <ContainedButton as={'span'} size='s' mode='light' width={80}>
-              Login
-            </ContainedButton>
-          </Link>
-          <Link to='/signup' onMouseEnter={cacheSignupPage}>
-            <ContainedButton as={'span'} size='s' width={80}>
-              Sign up
-            </ContainedButton>
-          </Link>
+          <ContainedAnchor
+            to='/login'
+            onMouseEnter={cacheLoginPage}
+            size='s'
+            mode='light'
+            width={80}
+          >
+            Login
+          </ContainedAnchor>
+          <ContainedAnchor
+            to='/signup'
+            onMouseEnter={cacheSignupPage}
+            size='s'
+            width={80}
+          >
+            Sign up
+          </ContainedAnchor>
         </>
       )}
     </StyledAuthBtns>
@@ -54,7 +62,7 @@ const StyledAuthBtns = styled('div')`
   gap: 10px;
   grid-area: auth-btns;
 
-  ${ContainedButton} {
+  ${ContainedAnchor} {
     font-weight: 500;
   }
 `;
