@@ -4,6 +4,7 @@ export const SOLD_MOCK_DATA: SoldsState = {
   list: {
     byId: {
       '111': {
+        stockId: '111',
         stockName: 'Google',
         purchasedId: '111',
         purchasedDate: '2023-06-05',
@@ -15,6 +16,7 @@ export const SOLD_MOCK_DATA: SoldsState = {
         soldPrice: 2200,
       },
       '112': {
+        stockId: '111',
         stockName: 'Google',
         purchasedId: '112',
         purchasedDate: '2023-06-03',
@@ -26,6 +28,7 @@ export const SOLD_MOCK_DATA: SoldsState = {
         soldPrice: 2500,
       },
       '113': {
+        stockId: '112',
         stockName: 'Apple',
         purchasedId: '113',
         purchasedDate: '2023-06-05',

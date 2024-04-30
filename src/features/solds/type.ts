@@ -2,6 +2,7 @@ import { Collections } from '@/typeUtils/typeGenerators';
 
 export interface Sold {
   stockName: string;
+  stockId: string;
 
   purchasedId: string;
   purchasedQuantity: number;
