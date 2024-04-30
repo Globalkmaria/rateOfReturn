@@ -74,6 +74,46 @@ export const groupsSlice = createSlice({
       if (state.selectedGroupId === groupId)
         state.selectedGroupId = MAIN_GROUP_ID;
     },
+    addPurchasedItemToGroup: (
+      state,
+      action: PayloadAction<{
+        groupId: string;
+        stockId: string;
+        purchasedId: string;
+      }>,
+    ) => {
+      const { groupId, stockId, purchasedId } = action.payload;
+      const group = state.groups.byId[groupId];
+
+      if (group.stocks.byId[stockId] === undefined) {
+        group.stocks.byId[stockId] = [];
+        group.stocks.allIds.push(stockId);
+      }
+
+      group.stocks.byId[stockId].push(purchasedId);
+    },
+    removePurchasedItemFromGroup: (
+      state,
+      action: PayloadAction<{
+        groupId: string;
+        stockId: string;
+        purchasedId: string;
+      }>,
+    ) => {
+      const { groupId, stockId, purchasedId } = action.payload;
+      const group = state.groups.byId[groupId];
+
+      const idx = group.stocks.byId[stockId].indexOf(purchasedId);
+      if (idx === -1) return;
+      group.stocks.byId[stockId].splice(idx, 1);
+
+      if (group.stocks.byId[stockId].length === 0) {
+        delete group.stocks.byId[stockId];
+
+        const stockIdx = group.stocks.allIds.indexOf(stockId);
+        group.stocks.allIds.splice(stockIdx, 1);
+      }
+    },
   },
   extraReducers(builder) {
     builder.addCase(deletePurchasedItem, (state, { payload }) => {
@@ -140,5 +180,7 @@ export const {
   deleteGroup,
   initGroups,
   updateMainGroup,
+  addPurchasedItemToGroup,
+  removePurchasedItemFromGroup,
 } = groupsSlice.actions;
 export default groupsSlice.reducer;

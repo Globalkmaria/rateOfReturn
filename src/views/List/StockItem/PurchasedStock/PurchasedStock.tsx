@@ -4,7 +4,10 @@ import styled from 'styled-components';
 
 import { updateCheckedItems } from '../../../../features/checkedItems/checkedItemsSlice';
 import { selectIsPurchasedItemChecked } from '../../../../features/checkedItems/selectors';
-import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
+import {
+  selectIsMainGroupSelected,
+  selectSelectedGroupId,
+} from '../../../../features/groups/selectors';
 import { selectPurchasedItemsById } from '../../../../features/stockList/selectors';
 import {
   updatePurchaseItem,
@@ -23,13 +26,15 @@ import { DeleteStockModal } from '../DeleteStockModal';
 import PurchasedContent from './PurchasedContent';
 import { getChangedPurchasedData } from './utils';
 import { checkNoChange } from '../utils';
-import { EditButton, MoreButton } from '@/components/IconButton';
+import IconButton, { EditButton, MoreButton } from '@/components/IconButton';
 import { getSoldInfoFromPurchasedInfo } from '@/features/solds/utils';
 import { addNewSold } from '@/features/solds';
 import userSoldsService from '@/service/userSolds/service';
 import getDateAndTime from '@/utils/getDateAndTime';
 import { NewSold } from '@/repository/userSolds';
 import { DropboxItem } from '@/components/Dropbox/DropboxItem';
+import AddToGroupModal from './AddToGroupModal';
+import { removePurchasedItemFromGroup } from '@/features/groups/groupsSlice';
 
 export type SetChangedInputByFieldName = <
   T extends keyof ChangedPurchasedItemInputs,
@@ -60,12 +65,14 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
     selectIsPurchasedItemChecked(stockId, purchasedId),
   );
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
+  const selectedGroupId = useSelector(selectSelectedGroupId);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const [isLock, setIsLock] = useState(!purchasedItem.needInit);
   const [changedInputs, setChangedInputs] =
     useState<ChangedPurchasedItemInputs>({});
-  const { showModal, onOpenModal, onCloseModal } = useModal();
+  const deleteModal = useModal();
+  const groupModal = useModal();
 
   const setChangedInputByFieldName = useCallback<SetChangedInputByFieldName>(
     (fieldName, value) => {
@@ -132,6 +139,16 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
     dispatch(addNewSold({ soldInfo, stockId: mainInfo.stockId }));
   };
 
+  const onRemoveItemFromGroup = () => {
+    dispatch(
+      removePurchasedItemFromGroup({
+        groupId: selectedGroupId,
+        stockId,
+        purchasedId,
+      }),
+    );
+  };
+
   useEffect(() => {
     if (isMainGroupSelected && purchasedItem.needInit)
       setIsLock(!purchasedItem.needInit);
@@ -171,24 +188,56 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
                 onClick={onToggleLock}
                 disabled={!isMainGroupSelected}
               />
-              <MoreButton width={100} vertical='bottom' horizontal='right'>
-                <DropboxItem onClick={onItemSold} disabled={!isLock}>
+              <MoreButton width={80} vertical='bottom' horizontal='right'>
+                <DropboxItem
+                  onClick={onItemSold}
+                  disabled={!isLock}
+                  title='To sold list'
+                >
                   Sold
                 </DropboxItem>
-                <DropboxItem onClick={onOpenModal}>Delete</DropboxItem>
+                <DropboxItem
+                  onClick={groupModal.onOpenModal}
+                  title='Add this item to a group'
+                >
+                  Add Group
+                </DropboxItem>
+                <DropboxItem onClick={deleteModal.onOpenModal} title='delete'>
+                  Delete
+                </DropboxItem>
               </MoreButton>
             </StyledButtonGroup>
           </TableCell>
-          {showModal && (
+          {groupModal.showModal && (
+            <AddToGroupModal
+              stockId={stockId}
+              purchasedId={purchasedId}
+              onClose={groupModal.onCloseModal}
+            />
+          )}
+          {deleteModal.showModal && (
             <DeleteStockModal
               type='purchase'
               stockId={stockId}
               purchasedId={purchasedId}
-              onClose={onCloseModal}
+              onClose={deleteModal.onCloseModal}
             />
           )}
         </>
-      ) : null}
+      ) : (
+        <>
+          <TableCell>
+            <RemoveFromGroupButton>
+              <IconButton
+                width={32}
+                icon='remove'
+                onClick={onRemoveItemFromGroup}
+                title='Remove from group'
+              />
+            </RemoveFromGroupButton>
+          </TableCell>
+        </>
+      )}
     </StyledPurchasedStock>
   );
 };
@@ -213,4 +262,10 @@ const StyledPurchasedStock = styled(TableRow)`
 export const StyledButtonGroup = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const RemoveFromGroupButton = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
