@@ -24,12 +24,12 @@ import PurchasedContent from './PurchasedContent';
 import { getChangedPurchasedData } from './utils';
 import { checkNoChange } from '../utils';
 import { EditButton, MoreButton } from '@/components/IconButton';
-import { DropdownItem } from '@/components/Dropdown';
 import { getSoldInfoFromPurchasedInfo } from '@/features/solds/utils';
 import { addNewSold } from '@/features/solds';
 import userSoldsService from '@/service/userSolds/service';
 import getDateAndTime from '@/utils/getDateAndTime';
 import { NewSold } from '@/repository/userSolds';
+import { DropboxItem } from '@/components/Dropbox/DropboxItem';
 
 export type SetChangedInputByFieldName = <
   T extends keyof ChangedPurchasedItemInputs,
@@ -172,10 +172,10 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
                 disabled={!isMainGroupSelected}
               />
               <MoreButton width={100} vertical='bottom' horizontal='right'>
-                <DropdownItem onClick={onItemSold} disabled={!isLock}>
+                <DropboxItem onClick={onItemSold} disabled={!isLock}>
                   Sold
-                </DropdownItem>
-                <DropdownItem onClick={onOpenModal}>Delete</DropdownItem>
+                </DropboxItem>
+                <DropboxItem onClick={onOpenModal}>Delete</DropboxItem>
               </MoreButton>
             </StyledButtonGroup>
           </TableCell>

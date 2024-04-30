@@ -15,7 +15,6 @@ import { selectStockInfoById } from '../../../../features/stockList/selectors';
 
 import { BorderButton } from '../../../../components/Button';
 import { TableCell, TableRow } from '../../../../components/Table';
-import { DropdownItem } from '@/components/Dropdown';
 import { EditButton, MoreButton } from '@/components/IconButton';
 
 import useModal from '../../hooks/useModal';
@@ -30,6 +29,7 @@ import { addNewSold } from '@/features/solds';
 import getDateAndTime from '@/utils/getDateAndTime';
 import { NewSold } from '@/repository/userSolds';
 import userSoldsService from '@/service/userSolds/service';
+import { DropboxItem } from '@/components/Dropbox/DropboxItem';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -151,10 +151,10 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
                 disabled={!isMainGroupSelected}
               />
               <MoreButton width={100} vertical='bottom' horizontal='right'>
-                <DropdownItem onClick={onStockSold} disabled={!isLock}>
+                <DropboxItem onClick={onStockSold} disabled={!isLock}>
                   Sold
-                </DropdownItem>
-                <DropdownItem onClick={onOpenModal}>Delete</DropdownItem>
+                </DropboxItem>
+                <DropboxItem onClick={onOpenModal}>Delete</DropboxItem>
               </MoreButton>
             </StyledButtonGroup>
           </TableCell>

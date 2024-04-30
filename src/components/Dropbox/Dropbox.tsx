@@ -1,23 +1,23 @@
 import styled from 'styled-components';
 
-export interface DropDownStyleProps {
+export interface DropboxStyleProps {
   vertical?: 'top' | 'bottom';
   horizontal?: 'left' | 'right';
   width?: number;
 }
 
-interface DropDownProps extends DropDownStyleProps, React.PropsWithChildren {}
+interface DropboxProps extends DropboxStyleProps, React.PropsWithChildren {}
 
-function DropDown({ children, ...props }: DropDownProps) {
+function Dropbox({ children, ...props }: DropboxProps) {
   return <Container {...props}>{children}</Container>;
 }
 
-export default DropDown;
+export default Dropbox;
 
 const Container = styled.div.withConfig({
   shouldForwardProp: props =>
     !['width', 'vertical', 'horizontal'].includes(props),
-})<DropDownStyleProps>(({ vertical, horizontal, theme, width }) => ({
+})<DropboxStyleProps>(({ vertical, horizontal, theme, width }) => ({
   position: 'absolute',
   zIndex: 100,
   ...(vertical === 'bottom' && {

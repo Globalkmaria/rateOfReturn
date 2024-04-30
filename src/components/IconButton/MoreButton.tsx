@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import IconButton from './IconButton';
-import DropDown, { DropDownStyleProps } from '../Dropdown';
 import { BaseButtonProps } from '../Button';
+import Dropbox, { DropboxStyleProps } from '../Dropbox/Dropbox';
 
-interface Props extends DropDownStyleProps, React.PropsWithChildren {
+interface Props extends DropboxStyleProps, React.PropsWithChildren {
   disabled?: boolean;
   size?: BaseButtonProps['size'];
 }
@@ -39,9 +39,9 @@ function MoreButton({
         size={size}
       />
       {isOpened && (
-        <DropDown vertical={vertical} horizontal={horizontal} {...resProps}>
+        <Dropbox vertical={vertical} horizontal={horizontal} {...resProps}>
           {children}
-        </DropDown>
+        </Dropbox>
       )}
     </Container>
   );
