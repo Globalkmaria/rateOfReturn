@@ -74,7 +74,7 @@ function AddToGroupModal({
   };
 
   return (
-    <PortalModal onClose={onClose} title='Add this stock to a group'>
+    <PortalModal onClose={onClose} title={`Add #${purchasedId} to group`}>
       <StyledModalContainer>
         {groups.allIds.map(id => (
           <Item
