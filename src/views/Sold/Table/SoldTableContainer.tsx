@@ -20,4 +20,6 @@ const StyledContainer = styled.div`
   width: 100%;
   overflow: auto;
   max-height: calc(100vh - 180px);
+  min-height: calc(100vh - 180px);
+  background: ${({ theme }) => theme.colors.white};
 `;
