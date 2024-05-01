@@ -45,7 +45,12 @@ export const HEADER_LIST: HeaderItemProps[] = [
   { id: '12', label: 'Actions', fixedWidth: 80 },
 ];
 
-const NOT_SUBGROUP_COL = ['1', '12', '13'];
-export const SUB_GROUP_HEADER_LIST: HeaderItemProps[] = HEADER_LIST.filter(
-  h => !NOT_SUBGROUP_COL.includes(h.id),
-);
+const NOT_SUBGROUP_COL = ['1', '12'];
+export const SUB_GROUP_HEADER_LIST: HeaderItemProps[] = [
+  ...HEADER_LIST.filter(h => !NOT_SUBGROUP_COL.includes(h.id)),
+  {
+    id: '13',
+    label: 'Action',
+    fixedWidth: 50,
+  },
+];

@@ -3,10 +3,14 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 
 import Select from '../../../components/Select';
-import { selectGroups } from '../../../features/groups/selectors';
+import {
+  selectGroupStockInfo,
+  selectGroups,
+} from '../../../features/groups/selectors';
 import { getOptions } from '../../List/GroupButtons/utils';
 import Description from './PortfolioAllocationDescription';
 import CartSkeleton from './CartSkeleton';
+import { BorderAnchor } from '@/components/Anchor';
 
 const PortfolioAllocationChart = lazy(
   () => import('./PortfolioAllocationChart'),
@@ -14,8 +18,12 @@ const PortfolioAllocationChart = lazy(
 
 const PortfolioAllocation = () => {
   const [groupId, setGroupId] = useState<string>('1');
+  const stockInfo = useSelector(selectGroupStockInfo(groupId));
   const groups = useSelector(selectGroups);
   const options = getOptions(groups);
+
+  const noData = stockInfo.allIds.length === 0;
+
   return (
     <StyledPortfolioAllocation>
       <StyledSelect
@@ -27,9 +35,17 @@ const PortfolioAllocation = () => {
         title='Choose group to show'
       />
       <Description />
-      <Suspense fallback={<CartSkeleton />}>
-        <PortfolioAllocationChart groupId={groupId} />
-      </Suspense>
+      {noData ? (
+        <StyledNoStock>
+          Please add stocks in
+          <BorderAnchor to='/portfolio'>Current Portfolio</BorderAnchor>
+          to see this chart.
+        </StyledNoStock>
+      ) : (
+        <Suspense fallback={<CartSkeleton />}>
+          <PortfolioAllocationChart groupId={groupId} />
+        </Suspense>
+      )}
     </StyledPortfolioAllocation>
   );
 };
@@ -44,4 +60,14 @@ const StyledPortfolioAllocation = styled('div')`
 
 const StyledSelect = styled(Select)`
   margin-bottom: 10px;
+`;
+
+const StyledNoStock = styled('p')`
+  display: flex;
+  align-items: center;
+  margin: auto;
+
+  ${BorderAnchor} {
+    margin: 0 10px;
+  }
 `;

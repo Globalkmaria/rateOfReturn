@@ -167,7 +167,9 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
             />
           )}
         </>
-      ) : null}
+      ) : (
+        <TableCell />
+      )}
     </StyledSummaryRow>
   );
 };

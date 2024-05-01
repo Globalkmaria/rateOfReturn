@@ -1,7 +1,8 @@
-import useSaveChangedSoldsData from '@/views/List/hooks/useSaveChangedSoldData';
-import SoldTable from '@/views/Sold/Table/SoldTable';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+import useSaveChangedSoldsData from '@/views/List/hooks/useSaveChangedSoldData';
+import SoldTableContainer from '@/views/Sold/Table/SoldTableContainer';
 
 function SoldPage() {
   const [firstLoad, setFirstLoad] = useState(true);
@@ -10,9 +11,10 @@ function SoldPage() {
   useEffect(() => {
     setFirstLoad(false);
   }, []);
+
   return (
     <StyledContainer>
-      <SoldTable />
+      <SoldTableContainer />
     </StyledContainer>
   );
 }

@@ -72,6 +72,10 @@ This project allows you to:
 
 ## Version History
 
+### Version 2.6.0 (2024-05-01)
+
+- You can now add or remove purchased item from group.
+
 ### Version 2.5.0 (2024-05-01)
 
 - New Sold feature. You can now save sold stocks and check it in separate table.

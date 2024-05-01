@@ -1,6 +1,10 @@
 import { config } from '../../config';
 import HttpClient, { ErrorResponse } from '../../network/http';
-import { AddNewUserGroupRepReq, AddNewUserGroupRepRes } from './type';
+import {
+  AddNewUserGroupRepReq,
+  AddNewUserGroupRepRes,
+  PurchasedItemGroupRepReq,
+} from './type';
 
 class UserGroupsRepository {
   httpClient: HttpClient;
@@ -19,6 +23,26 @@ class UserGroupsRepository {
 
   async deleteUserGroup(groupId: string): Promise<null | ErrorResponse> {
     return this.httpClient.fetch(`/${groupId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async addPurchasedItemToUserGroup({
+    groupId,
+    stockId,
+    purchasedId,
+  }: PurchasedItemGroupRepReq): Promise<null | ErrorResponse> {
+    return this.httpClient.fetch(`/${groupId}/${stockId}/${purchasedId}`, {
+      method: 'POST',
+    });
+  }
+
+  async deletePurchasedItemFromUserGroup({
+    groupId,
+    stockId,
+    purchasedId,
+  }: PurchasedItemGroupRepReq): Promise<null | ErrorResponse> {
+    return this.httpClient.fetch(`/${groupId}/${stockId}/${purchasedId}`, {
       method: 'DELETE',
     });
   }
