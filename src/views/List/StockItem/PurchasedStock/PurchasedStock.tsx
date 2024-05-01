@@ -76,7 +76,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
       }),
     );
 
-  const onToggleLock = useCallback(async () => {
+  const onToggleLock = async () => {
     if (purchasedItem.needInit)
       dispatch(updatePurchaseItemNeedInit({ stockId, purchasedId }));
     if (isLock) return setIsLock(false);
@@ -97,7 +97,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
 
     setChangedInputs({});
     setIsLock(true);
-  }, []);
+  };
 
   useEffect(() => {
     if (isMainGroupSelected && purchasedItem.needInit)

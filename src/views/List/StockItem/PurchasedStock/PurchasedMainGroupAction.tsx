@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { TableCell } from '@/components/Table';
@@ -13,6 +13,7 @@ import getDateAndTime from '@/utils/getDateAndTime';
 import { NewSold } from '@/repository/userSolds';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 import { selectPurchasedItemsById } from '@/features/stockList/selectors';
+import { addNewSold, getSoldInfoFromPurchasedInfo } from '@/features/solds';
 
 interface Props {
   stockId: string;
@@ -26,6 +27,7 @@ function PurchasedMainGroupAction({
   isLock,
   onToggleLock,
 }: Props) {
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const { mainInfo, purchasedItem } = useSelector(
@@ -55,6 +57,8 @@ function PurchasedMainGroupAction({
         return;
       }
     }
+    const soldInfo = getSoldInfoFromPurchasedInfo(mainInfo, purchasedItem);
+    dispatch(addNewSold({ soldInfo, stockId: mainInfo.stockId }));
   };
 
   return (
