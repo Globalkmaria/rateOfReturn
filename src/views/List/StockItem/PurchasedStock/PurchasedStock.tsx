@@ -13,23 +13,16 @@ import {
 import { EditUserItemServiceData } from '../../../../service/userStocks/type';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 
-import { TableCell, TableRow } from '../../../../components/Table';
+import { TableRow } from '../../../../components/Table';
 import { BorderButton } from '../../../../components/Button';
 import { TransformedValue } from '../../../../components/Input/BaseInput';
 import userStocksService from '../../../../service/userStocks/userStocks';
-import useModal from '../../hooks/useModal';
 import { CheckboxCell } from '../components';
-import { DeleteStockModal } from '../DeleteStockModal';
 import PurchasedContent from './PurchasedContent';
 import { getChangedPurchasedData } from './utils';
 import { checkNoChange } from '../utils';
-import { EditButton, MoreButton } from '@/components/IconButton';
-import { getSoldInfoFromPurchasedInfo } from '@/features/solds/utils';
-import { addNewSold } from '@/features/solds';
-import userSoldsService from '@/service/userSolds/service';
-import getDateAndTime from '@/utils/getDateAndTime';
-import { NewSold } from '@/repository/userSolds';
-import { DropboxItem } from '@/components/Dropbox/DropboxItem';
+import PurchasedMainGroupAction from './PurchasedMainGroupAction';
+import PurchasedOtherGroupAction from './PurchasedOtherGroupAction';
 
 export type SetChangedInputByFieldName = <
   T extends keyof ChangedPurchasedItemInputs,
@@ -53,7 +46,7 @@ export type ChangedPurchasedItemInputs = EditUserItemServiceData;
 const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const dispatch = useDispatch();
 
-  const { mainInfo, purchasedItem } = useSelector(
+  const { purchasedItem } = useSelector(
     selectPurchasedItemsById(stockId, purchasedId),
   );
   const isPurchasedItemChecked = useSelector(
@@ -65,7 +58,6 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const [isLock, setIsLock] = useState(!purchasedItem.needInit);
   const [changedInputs, setChangedInputs] =
     useState<ChangedPurchasedItemInputs>({});
-  const { showModal, onOpenModal, onCloseModal } = useModal();
 
   const setChangedInputByFieldName = useCallback<SetChangedInputByFieldName>(
     (fieldName, value) => {
@@ -107,31 +99,6 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
     setIsLock(true);
   };
 
-  const onItemSold = async () => {
-    if (isLoggedIn) {
-      const { date, time } = getDateAndTime();
-      const soldItem: NewSold = {
-        ...purchasedItem,
-        stockId: mainInfo.stockId,
-        stockName: mainInfo.stockName,
-        soldPrice: mainInfo.currentPrice,
-      };
-      const result = await userSoldsService.addNewSolds({
-        date,
-        time,
-        solds: [soldItem],
-      });
-
-      if (!result.success) {
-        alert(result.message);
-        return;
-      }
-    }
-    // TODO get server data and set it to local Data
-    const soldInfo = getSoldInfoFromPurchasedInfo(mainInfo, purchasedItem);
-    dispatch(addNewSold({ soldInfo, stockId: mainInfo.stockId }));
-  };
-
   useEffect(() => {
     if (isMainGroupSelected && purchasedItem.needInit)
       setIsLock(!purchasedItem.needInit);
@@ -163,32 +130,19 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
         setChangedInputByFieldName={setChangedInputByFieldName}
       />
       {isMainGroupSelected ? (
-        <>
-          <TableCell>
-            <StyledButtonGroup>
-              <EditButton
-                isLock={isLock}
-                onClick={onToggleLock}
-                disabled={!isMainGroupSelected}
-              />
-              <MoreButton width={100} vertical='bottom' horizontal='right'>
-                <DropboxItem onClick={onItemSold} disabled={!isLock}>
-                  Sold
-                </DropboxItem>
-                <DropboxItem onClick={onOpenModal}>Delete</DropboxItem>
-              </MoreButton>
-            </StyledButtonGroup>
-          </TableCell>
-          {showModal && (
-            <DeleteStockModal
-              type='purchase'
-              stockId={stockId}
-              purchasedId={purchasedId}
-              onClose={onCloseModal}
-            />
-          )}
-        </>
-      ) : null}
+        <PurchasedMainGroupAction
+          stockId={stockId}
+          purchasedId={purchasedId}
+          isLock={isLock}
+          onToggleLock={onToggleLock}
+        />
+      ) : (
+        <PurchasedOtherGroupAction
+          stockId={stockId}
+          purchasedId={purchasedId}
+          isLock={isLock}
+        />
+      )}
     </StyledPurchasedStock>
   );
 };
@@ -208,9 +162,4 @@ const StyledPurchasedStock = styled(TableRow)`
       background: ${({ theme }) => theme.colors.grey400};
     }
   }
-`;
-
-export const StyledButtonGroup = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;
