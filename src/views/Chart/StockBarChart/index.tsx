@@ -6,6 +6,8 @@ import Select from '@/components/Select';
 import { selectStocks } from '@/features/stockList/selectors';
 import { getStockOptions } from './utils';
 import { Skeleton } from '@/components/Skeleton';
+import { Link } from 'react-router-dom';
+import { BorderAnchor } from '@/components/Anchor';
 
 const BarChart = lazy(() => import('./BarChart'));
 
@@ -34,9 +36,17 @@ function StockBarChart() {
         Formula: ((currentPrice - purchasedPrice) / purchasedPrice) * 100
       </StyledSubText>
 
-      <Suspense fallback={<StyledSkeleton />}>
-        <BarChart stock={stock} />
-      </Suspense>
+      {stock ? (
+        <Suspense fallback={<StyledSkeleton />}>
+          <BarChart stock={stock} />
+        </Suspense>
+      ) : (
+        <StyledNoStock>
+          Please add stocks in
+          <BorderAnchor to='/portfolio'>Current Portfolio</BorderAnchor>
+          to see this chart.
+        </StyledNoStock>
+      )}
     </StyledContainer>
   );
 }
@@ -62,4 +72,14 @@ const StyledSkeleton = styled(Skeleton)`
 const StyledSubText = styled('p')`
   font-size: 14px;
   color: ${({ theme }) => theme.colors.grey600};
+`;
+
+const StyledNoStock = styled('p')`
+  display: flex;
+  align-items: center;
+  margin: auto;
+
+  ${BorderAnchor} {
+    margin: 0 10px;
+  }
 `;
