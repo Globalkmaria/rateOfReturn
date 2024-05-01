@@ -1,5 +1,11 @@
-import { AddNewUserGroupRepReq, AddNewUserGroupRepRes } from '../../repository/userGroups/type';
-import UserGroupsRepository, { userGroupsRepository } from '../../repository/userGroups/userGroups';
+import {
+  AddNewUserGroupRepReq,
+  AddNewUserGroupRepRes,
+  PurchasedItemGroupRepReq,
+} from '../../repository/userGroups/type';
+import UserGroupsRepository, {
+  userGroupsRepository,
+} from '../../repository/userGroups/userGroups';
 import { Result } from '../type';
 
 class UserGroupsService {
@@ -8,7 +14,9 @@ class UserGroupsService {
     this.repo = repo;
   }
 
-  async addNewUserGroup(userGroup: AddNewUserGroupRepReq): Promise<AddNewUserGroupRepRes | null> {
+  async addNewUserGroup(
+    userGroup: AddNewUserGroupRepReq,
+  ): Promise<AddNewUserGroupRepRes | null> {
     try {
       const result = await this.repo.addNewUserGroup(userGroup);
       if ('groupId' in result) {
@@ -35,6 +43,47 @@ class UserGroupsService {
     } catch (err) {
       console.log(err);
       alert('Could not delete group');
+      return {
+        success: false,
+      };
+    }
+  }
+  async addPurchasedItemToUserGroup({
+    groupId,
+    stockId,
+    purchasedId,
+  }: PurchasedItemGroupRepReq): Promise<Result> {
+    try {
+      await this.repo.addPurchasedItemToUserGroup({
+        groupId,
+        stockId,
+        purchasedId,
+      });
+      return { success: true };
+    } catch (err) {
+      console.log(err);
+      alert('Could not add purchased item to group');
+      return {
+        success: false,
+      };
+    }
+  }
+
+  async deletePurchasedItemFromUserGroup({
+    groupId,
+    stockId,
+    purchasedId,
+  }: PurchasedItemGroupRepReq): Promise<Result> {
+    try {
+      await this.repo.deletePurchasedItemFromUserGroup({
+        groupId,
+        stockId,
+        purchasedId,
+      });
+      return { success: true };
+    } catch (err) {
+      console.log(err);
+      alert('Could not delete purchased item from group');
       return {
         success: false,
       };

@@ -10,6 +10,8 @@ import {
 import { selectGroups } from '@/features/groups/selectors';
 import { Group } from '@/features/groups/type';
 import { checkPurchasedItemInGroup } from './utils';
+import userGroupsService from '@/service/userGroups/userGroups';
+import { selectIsLoggedIn } from '@/features/user/selectors';
 
 interface AddToGroupModalProps {
   onClose: () => void;
@@ -30,9 +32,20 @@ function AddToGroupModal({
   purchasedId,
 }: AddToGroupModalProps) {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const { groups } = useSelector(selectGroups);
 
-  const handleAdd = (groupId: string) => {
+  const handleAdd = async (groupId: string) => {
+    if (isLoggedIn) {
+      const result = await userGroupsService.addPurchasedItemToUserGroup({
+        stockId,
+        purchasedId,
+        groupId,
+      });
+
+      if (!result.success) return;
+    }
+
     dispatch(
       addPurchasedItemToGroup({
         groupId,
@@ -41,7 +54,16 @@ function AddToGroupModal({
       }),
     );
   };
-  const handleRemove = (groupId: string) => {
+  const handleRemove = async (groupId: string) => {
+    if (isLoggedIn) {
+      const result = await userGroupsService.deletePurchasedItemFromUserGroup({
+        stockId,
+        purchasedId,
+        groupId,
+      });
+
+      if (!result.success) return;
+    }
     dispatch(
       removePurchasedItemFromGroup({
         groupId: groupId,
@@ -86,7 +108,6 @@ function Item({ groupInfo, isAdded, onRemove, onAdd }: ItemProps) {
     </StyledItem>
   );
 }
-
 const StyledModalContainer = styled('div')`
   margin-top: 10px;
   width: 320px;

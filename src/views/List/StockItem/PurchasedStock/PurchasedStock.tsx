@@ -35,6 +35,7 @@ import { NewSold } from '@/repository/userSolds';
 import { DropboxItem } from '@/components/Dropbox/DropboxItem';
 import AddToGroupModal from './AddToGroupModal';
 import { removePurchasedItemFromGroup } from '@/features/groups/groupsSlice';
+import userGroupsService from '@/service/userGroups/userGroups';
 
 export type SetChangedInputByFieldName = <
   T extends keyof ChangedPurchasedItemInputs,
@@ -134,12 +135,21 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
         return;
       }
     }
-    // TODO get server data and set it to local Data
+
     const soldInfo = getSoldInfoFromPurchasedInfo(mainInfo, purchasedItem);
     dispatch(addNewSold({ soldInfo, stockId: mainInfo.stockId }));
   };
 
-  const onRemoveItemFromGroup = () => {
+  const onRemoveItemFromGroup = async () => {
+    if (isLoggedIn) {
+      const result = await userGroupsService.deletePurchasedItemFromUserGroup({
+        stockId,
+        purchasedId,
+        groupId: selectedGroupId,
+      });
+
+      if (!result.success) return;
+    }
     dispatch(
       removePurchasedItemFromGroup({
         groupId: selectedGroupId,
@@ -198,11 +208,14 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
                 </DropboxItem>
                 <DropboxItem
                   onClick={groupModal.onOpenModal}
-                  title='Add this item to a group'
+                  title='Group actions'
                 >
-                  Add Group
+                  Group
                 </DropboxItem>
-                <DropboxItem onClick={deleteModal.onOpenModal} title='delete'>
+                <DropboxItem
+                  onClick={deleteModal.onOpenModal}
+                  title='Delete item'
+                >
                   Delete
                 </DropboxItem>
               </MoreButton>
