@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { RootState } from '../../../store';
 import { ContainedButton } from '../../../components/Button';
 import useModal from '../hooks/useModal';
-import StoreRemoteBackupWarning from './StoreRemoteBackupWarning';
+import BackupWarningModal from './BackupWarningModal';
 
 const SetBackup = () => {
   const [data, setData] = useState<RootState | null>(null);
@@ -48,9 +48,7 @@ const SetBackup = () => {
       <ContainedButton color='warning' fullWidth onClick={onClick}>
         Restore from Backup
       </ContainedButton>
-      {showModal && (
-        <StoreRemoteBackupWarning onClose={onCloseModal} data={data} />
-      )}
+      {showModal && <BackupWarningModal onClose={onCloseModal} data={data} />}
     </div>
   );
 };

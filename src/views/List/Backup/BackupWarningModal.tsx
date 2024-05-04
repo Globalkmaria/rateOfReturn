@@ -13,7 +13,7 @@ type Props = {
   data: any;
 };
 
-const StoreRemoteBackupWarning = ({ onClose, data }: Props) => {
+const BackupWarningModal = ({ onClose, data }: Props) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const dispatch = useDispatch();
 
@@ -76,7 +76,7 @@ const StoreRemoteBackupWarning = ({ onClose, data }: Props) => {
   );
 };
 
-export default StoreRemoteBackupWarning;
+export default BackupWarningModal;
 
 const WARNING_MESSAGE =
   'Current backup file cannot be used to store remote data.';
