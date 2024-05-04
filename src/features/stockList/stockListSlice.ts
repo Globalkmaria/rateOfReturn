@@ -116,7 +116,10 @@ const stockListSlice = createSlice({
 
       state.nextPurchasedId = Number(state.nextPurchasedId) + 1;
     });
-    builder.addCase(setBackupData, (state, action) => action.payload.stockList);
+    builder.addCase(
+      setBackupData,
+      (state, action) => action.payload.stockList ?? STOCK_INITIAL_STATE,
+    );
     builder.addCase(addSampleData, () => INITIAL_STATE_WITH_SAMPLE);
     builder.addCase(addNewSold, (state, action) => {
       const { soldInfo, stockId } = action.payload;

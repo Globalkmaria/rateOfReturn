@@ -64,7 +64,7 @@ export const checkedItemsSlice = createSlice({
     });
     builder.addCase(
       setBackupData,
-      (state, action) => action.payload.checkedItems,
+      (state, action) => action.payload.checkedItems ?? CHECKED_INITIAL_STATE,
     );
     builder.addCase(addGroup, (state, action) => action.payload.checkedItems);
     builder.addCase(addSampleData, () =>

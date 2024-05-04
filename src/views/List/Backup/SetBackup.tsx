@@ -3,9 +3,8 @@ import styled from 'styled-components';
 
 import { RootState } from '../../../store';
 import { ContainedButton } from '../../../components/Button';
-import SetBackupWarning from './SetBackupWarning';
 import useModal from '../hooks/useModal';
-import RemoteData from './RemoteData';
+import StoreRemoteBackupWarning from './StoreRemoteBackupWarning';
 
 const SetBackup = () => {
   const [data, setData] = useState<RootState | null>(null);
@@ -29,7 +28,7 @@ const SetBackup = () => {
     }
   };
 
-  const onLocalOpen = () => {
+  const onClick = () => {
     if (data === null || data === undefined) {
       alert('Please select a file.');
       return;
@@ -46,11 +45,12 @@ const SetBackup = () => {
         accept='.json'
         onChange={handleFileChange}
       />
-      <ContainedButton color='secondary1' fullWidth onClick={onLocalOpen}>
-        Restore local data from Backup
+      <ContainedButton color='warning' fullWidth onClick={onClick}>
+        Restore from Backup
       </ContainedButton>
-      {showModal && <SetBackupWarning onClose={onCloseModal} data={data} />}
-      <RemoteData data={data} />
+      {showModal && (
+        <StoreRemoteBackupWarning onClose={onCloseModal} data={data} />
+      )}
     </div>
   );
 };

@@ -47,7 +47,10 @@ const soldSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(initUserData, (state, action) => action.payload.solds);
-    builder.addCase(setBackupData, (state, action) => action.payload.solds);
+    builder.addCase(
+      setBackupData,
+      (state, action) => action.payload.solds ?? SOLD_INITIAL_STATE,
+    );
     builder.addCase(resetUserData, (state, action) => SOLD_INITIAL_STATE);
   },
 });
