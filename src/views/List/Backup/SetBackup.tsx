@@ -40,9 +40,14 @@ const SetBackup = () => {
 
   return (
     <div>
-      <StyledInputFile multiple={false} type='file' accept='.json' onChange={handleFileChange} />
+      <StyledInputFile
+        multiple={false}
+        type='file'
+        accept='.json'
+        onChange={handleFileChange}
+      />
       <ContainedButton color='secondary1' fullWidth onClick={onLocalOpen}>
-        Set Backup
+        Restore local data from Backup
       </ContainedButton>
       {showModal && <SetBackupWarning onClose={onCloseModal} data={data} />}
       <RemoteData data={data} />

@@ -13,22 +13,22 @@ const StoreRemoteBackupWarning = ({ onClose, data }: Props) => {
   const backupData = async () => {
     if (data === null || data === undefined) return;
     if (!data.stockList || !data.groups) {
-      alert('Current backup file cannot be used to store remote data."');
+      alert(WARNING_MESSAGE);
       return;
     }
     const stocks = formatStockAsServerFormat(data.stockList);
     if (!stocks) {
-      alert('Current backup file cannot be used to store remote data."');
+      alert(WARNING_MESSAGE);
       return;
     }
     const groups = formatGroupAsServerFormat(data.groups);
     if (!groups) {
-      alert('Current backup file cannot be used to store remote data."');
+      alert(WARNING_MESSAGE);
       return;
     }
     const solds = formatSoldAsServerFormat(data.solds);
     if (!solds) {
-      alert('Current backup file cannot be used to store remote data."');
+      alert(WARNING_MESSAGE);
       return;
     }
     const result = await userDataService.replaceUserData({
@@ -50,7 +50,7 @@ const StoreRemoteBackupWarning = ({ onClose, data }: Props) => {
       onClose={onClose}
       onConfirm={backupData}
       message={MESSAGE}
-      buttonName='Store Remote Data as Backup'
+      buttonName='Restore remote data from Backup'
     />
   );
 };
@@ -65,3 +65,6 @@ const MESSAGE = (
     <br /> Are you certain you want to proceed?
   </>
 );
+
+const WARNING_MESSAGE =
+  'Current backup file cannot be used to store remote data.';

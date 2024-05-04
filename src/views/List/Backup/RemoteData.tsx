@@ -15,12 +15,13 @@ function RemoteData({ data }: Props) {
   const { showModal, onOpenModal, onCloseModal } = useModal();
 
   const onRemoteOpen = () => {
-    if (!isLoggedIn) {
-      alert('Please login to use remote storage.');
-      return;
-    }
     if (data === null || data === undefined) {
       alert('Please select a file.');
+      return;
+    }
+
+    if (!isLoggedIn) {
+      alert('Please login to use remote storage.');
       return;
     }
 
@@ -29,9 +30,11 @@ function RemoteData({ data }: Props) {
   return (
     <>
       <StyledButton color='warning' fullWidth onClick={onRemoteOpen}>
-        Store Remote Data as Backup
+        Restore remote data from Backup
       </StyledButton>
-      {showModal && <StoreRemoteBackupWarning onClose={onCloseModal} data={data} />}
+      {showModal && (
+        <StoreRemoteBackupWarning onClose={onCloseModal} data={data} />
+      )}
     </>
   );
 }
