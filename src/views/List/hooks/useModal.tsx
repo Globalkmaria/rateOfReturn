@@ -4,9 +4,10 @@ function useModal() {
   const [showModal, setShowModal] = useState(false);
   const onOpenModal = () => setShowModal(true);
   const onCloseModal = () => setShowModal(false);
+  const onToggleModal = () => setShowModal(!showModal);
 
   const result = useMemo(
-    () => ({ showModal, onOpenModal, onCloseModal }),
+    () => ({ showModal, onOpenModal, onCloseModal, onToggleModal }),
     [showModal],
   );
 
