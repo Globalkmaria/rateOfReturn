@@ -44,7 +44,9 @@ const GroupItem = ({ groupInfo }: { groupInfo: Group }) => {
       <BorderButton onClick={onOpenModal} showLine={false}>
         <FaTrash />
       </BorderButton>
-      {showModal && <DeleteGroupWarning groupId={groupId} onClose={onCloseModal} />}
+      {showModal && (
+        <DeleteGroupWarning groupId={groupId} onClose={onCloseModal} />
+      )}
     </StyledGroupItem>
   );
 };
@@ -64,7 +66,7 @@ const StyledGroupItem = styled('div')`
   padding: 5px;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.grey300};
+    background-color: ${({ theme }) => theme.colors.grey100};
     border-radius: 5px;
   }
 `;
