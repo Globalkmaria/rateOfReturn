@@ -7,5 +7,5 @@ export function useShowAddSampleBtn() {
   const noUserStockData = useSelector(selectStockIds).length === 0;
   const showBtn = isMainGroup && noUserStockData;
 
-  return [showBtn];
+  return showBtn;
 }

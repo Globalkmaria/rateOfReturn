@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { BaseInput } from '../../components/Input/BaseInput';
 import GroupSummary from './GroupSummary/GroupSummary';
 import AddSampleData from './AddSampleData/AddSampleData';
-import { useShowAddSampleBtn } from './AddSampleData/useShowAddSampleBtn';
 import useSaveChangedStocksData from './hooks/useSaveChangedStocksData';
 import useSaveChangedGroupsData from './hooks/useSaveChangedGroupedData';
 import StockListSkeleton from './StockListSkeleton';
@@ -15,7 +14,7 @@ const StockTable = lazy(() => import('./StockTable'));
 
 const StockList = () => {
   const [firstLoad, setFirstLoad] = useState(true);
-  const [showAddSampleBtn] = useShowAddSampleBtn();
+
   useSaveChangedGroupsData(firstLoad);
   useSaveChangedStocksData(firstLoad);
   useSaveChangedSoldsData(firstLoad);
@@ -32,7 +31,7 @@ const StockList = () => {
             <GroupButtons />
           </div>
           <StyledControlBarRight>
-            {showAddSampleBtn && <AddSampleData />}
+            <AddSampleData />
           </StyledControlBarRight>
         </StyledControlBar>
         <GroupSummary />
