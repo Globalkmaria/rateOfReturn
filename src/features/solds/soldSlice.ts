@@ -19,7 +19,7 @@ const soldSlice = createSlice({
   initialState: SOLD_DATA_INITIAL_STATE_WITH_SAMPLE,
   reducers: {
     resetSold: () => SOLD_INITIAL_STATE,
-    addSampleData: () => SOLD_DATA_INITIAL_STATE_WITH_SAMPLE,
+    addSoldSampleData: () => SOLD_DATA_INITIAL_STATE_WITH_SAMPLE,
     addNewSold: (
       state,
       action: PayloadAction<{ soldInfo: Omit<Sold, 'id'>; stockId: string }>,
@@ -58,7 +58,7 @@ const soldSlice = createSlice({
 export const {
   resetSold,
   addNewSold,
-  addSampleData,
+  addSoldSampleData,
   deleteSold,
   updateSold,
   initSolds,
