@@ -11,7 +11,6 @@ import StockListSkeleton from './StockListSkeleton';
 import useSaveChangedSoldsData from './hooks/useSaveChangedSoldData';
 
 const GroupButtons = lazy(() => import('./GroupButtons/GroupButtons'));
-const Backup = lazy(() => import('./Backup/Backup'));
 const StockTable = lazy(() => import('./StockTable'));
 
 const StockList = () => {
@@ -34,7 +33,6 @@ const StockList = () => {
           </div>
           <StyledControlBarRight>
             {showAddSampleBtn && <AddSampleData />}
-            <Backup />
           </StyledControlBarRight>
         </StyledControlBar>
         <GroupSummary />
