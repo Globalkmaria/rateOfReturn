@@ -14,7 +14,7 @@ import {
 import {
   addNewStock,
   addPurchasedItem,
-  addSampleData,
+  addStockSampleData,
   deletePurchasedItem,
   deleteStock,
   initUserData,
@@ -120,7 +120,7 @@ const stockListSlice = createSlice({
       setBackupData,
       (state, action) => action.payload.stockList ?? STOCK_INITIAL_STATE,
     );
-    builder.addCase(addSampleData, () => INITIAL_STATE_WITH_SAMPLE);
+    builder.addCase(addStockSampleData, () => INITIAL_STATE_WITH_SAMPLE);
     builder.addCase(addNewSold, (state, action) => {
       const { soldInfo, stockId } = action.payload;
       const purchasedItems = state.stocks.byId[stockId].purchasedItems;

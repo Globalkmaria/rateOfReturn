@@ -10,7 +10,7 @@ import {
   addGroup,
   addNewStock,
   addPurchasedItem,
-  addSampleData,
+  addStockSampleData,
   deletePurchasedItem,
   deleteStock,
   initUserData,
@@ -67,7 +67,7 @@ export const checkedItemsSlice = createSlice({
       (state, action) => action.payload.checkedItems ?? CHECKED_INITIAL_STATE,
     );
     builder.addCase(addGroup, (state, action) => action.payload.checkedItems);
-    builder.addCase(addSampleData, () =>
+    builder.addCase(addStockSampleData, () =>
       getInitialCheckedItemsInfo({
         data: MOCK_DATA,
         value: true,
