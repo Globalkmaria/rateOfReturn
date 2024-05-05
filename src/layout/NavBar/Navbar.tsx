@@ -34,14 +34,14 @@ const StyledNav = styled('nav')`
   flex: 0 0 fit-content;
   padding: 10px 30px;
   display: grid;
-  grid-template-columns: 170px 1fr 200px;
+  grid-template-columns: 80px 1fr 220px;
   grid-template-rows: 60px;
   align-items: center;
   grid-template-areas: 'site-name menu auth-btns';
 
   border-bottom: 1px solid ${({ theme }) => theme.colors.grey200};
 
-  @media ${({ theme }) => theme.devices.tablet} {
+  @media ${({ theme }) => theme.devices.laptop} {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(2, 60px);
     grid-template-areas:

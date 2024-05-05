@@ -32,9 +32,12 @@ export default Menu;
 
 const StyledList = styled('ul')`
   display: flex;
-  justify-content: center;
   gap: 10px;
   grid-area: menu;
+
+  @media ${({ theme }) => theme.devices.laptop} {
+    justify-content: center;
+  }
 `;
 
 const StyledMenuItemWrapper = styled('li')`
