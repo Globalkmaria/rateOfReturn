@@ -144,7 +144,6 @@ function SoldItem({ id }: Props) {
             disabled={isLock}
             type='date'
             value={changedInputs.soldDate || item.soldDate}
-            fullWidth
             aria-label='sold date'
             ref={focusedInput}
           />
@@ -155,7 +154,6 @@ function SoldItem({ id }: Props) {
             type='time'
             aria-label='sold time'
             value={changedInputs.soldTime || item.soldTime}
-            fullWidth
           />
         </StyledDateTime>
       </TableCell>
