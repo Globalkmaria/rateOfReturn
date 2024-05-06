@@ -72,7 +72,7 @@ This project allows you to:
 
 ## Snapshot
 
-- Home
+- Home page
 
   <img src="https://velog.velcdn.com/images/tjdgus0528/post/1ee999cd-c5a0-49c2-9bf6-29832bd95200/image.png" alt="image" width="700" height="400">
 
@@ -88,7 +88,7 @@ This project allows you to:
 
   <img src="https://velog.velcdn.com/images/tjdgus0528/post/67529797-5332-4abd-a423-206df08e702a/image.png" alt="image" width="700" height="400">
 
-- Chart
+- Chart page
 
   <img src="https://velog.velcdn.com/images/tjdgus0528/post/c160b431-7ea2-432a-ba12-9245a2f87ece/image.png" alt="image" width="700" height="400">
 
@@ -96,7 +96,7 @@ This project allows you to:
 
   <img src="https://velog.velcdn.com/images/tjdgus0528/post/551f9a62-8589-4ad2-a208-de38e5d6208d/image.png" alt="image" width="700" height="400">
 
-- Login
+- Login page
 
   <img src="https://velog.velcdn.com/images/tjdgus0528/post/2f836849-5571-40b4-b1c8-f65c2e9d4966/image.png" alt="image" width="700" height="400">
 
