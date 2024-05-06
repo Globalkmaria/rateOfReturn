@@ -29,7 +29,7 @@ function StockBarChart() {
         title='Choose group to show'
       />
       <p>
-        Each bar represents the return percentage for an individually purchased
+        Each bar represents the return percentage for the individually purchased
         stock.
       </p>
       <StyledSubText>
