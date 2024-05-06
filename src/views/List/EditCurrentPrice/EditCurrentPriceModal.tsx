@@ -20,6 +20,7 @@ import { ChangeEventHandler, useState } from 'react';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 import { updateStocksCurrentPrice } from '@/features/stockList/stockListSlice';
 import userStocksService from '@/service/userStocks/userStocks';
+import { PurchasedInputChangeProps } from '../StockItem/PurchasedStock/PurchasedStock';
 
 interface Changes {
   [key: string]: number;
@@ -41,10 +42,12 @@ function EditCurrentPriceModal({ onClose }: Props) {
   const stocks = useSelector(selectStocks);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  const onInputChange: ChangeEventHandler<HTMLInputElement> = e => {
+  const onInputChange: PurchasedInputChangeProps = (e, transformedValue) => {
+    if (transformedValue === null) return;
+
     setChanges({
       ...changes,
-      [e.target.name]: Number(e.target.value),
+      [e.target.name]: Number(transformedValue[1]),
     });
   };
 
