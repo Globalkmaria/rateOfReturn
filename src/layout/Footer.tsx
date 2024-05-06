@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 
 const Footer = () => {
-  return <StyledFooter>Copyright © 2023 Dino.M. All rights reserved.</StyledFooter>;
+  return (
+    <StyledFooter>Copyright © 2024 Dino.M. All rights reserved.</StyledFooter>
+  );
 };
 
 export default Footer;
