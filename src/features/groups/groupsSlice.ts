@@ -9,7 +9,7 @@ import {
 } from './utils';
 import {
   addGroup,
-  addSampleData,
+  addStockSampleData,
   deletePurchasedItem,
   deleteStock,
   initUserData,
@@ -146,7 +146,10 @@ export const groupsSlice = createSlice({
       });
     });
     builder.addCase(resetUserData, () => GROUP_INITIAL_STATE);
-    builder.addCase(setBackupData, (state, action) => action.payload.groups);
+    builder.addCase(
+      setBackupData,
+      (state, action) => action.payload.groups ?? GROUP_INITIAL_STATE,
+    );
     builder.addCase(addGroup, (state, action) => {
       const { groupInfo } = action.payload;
       state.groups.byId[groupInfo.groupId] = groupInfo;
@@ -155,7 +158,7 @@ export const groupsSlice = createSlice({
       state.selectedGroupId = groupInfo.groupId;
       state.nextGroupId += 1;
     });
-    builder.addCase(addSampleData, () => INITIAL_STATE_WITH_SAMPLE);
+    builder.addCase(addStockSampleData, () => INITIAL_STATE_WITH_SAMPLE);
     builder.addCase(addNewSold, (state, action) => {
       const { soldInfo, stockId } = action.payload;
       for (const groupId of state.groups.allIds) {

@@ -14,7 +14,7 @@ import {
 import {
   addNewStock,
   addPurchasedItem,
-  addSampleData,
+  addStockSampleData,
   deletePurchasedItem,
   deleteStock,
   initUserData,
@@ -50,6 +50,19 @@ const stockListSlice = createSlice({
     ) => {
       const { stockId, stockData } = action.payload;
       state.stocks.byId[stockId].mainInfo = stockData;
+    },
+    updateStocksCurrentPrice: (
+      state: StockListState,
+      action: PayloadAction<{
+        [key: string]: number;
+      }>,
+    ) => {
+      const changedPrices = action.payload;
+
+      Object.keys(changedPrices).forEach(stockId => {
+        state.stocks.byId[stockId].mainInfo.currentPrice =
+          changedPrices[stockId];
+      });
     },
     updatePurchaseItem: (
       state: StockListState,
@@ -116,8 +129,11 @@ const stockListSlice = createSlice({
 
       state.nextPurchasedId = Number(state.nextPurchasedId) + 1;
     });
-    builder.addCase(setBackupData, (state, action) => action.payload.stockList);
-    builder.addCase(addSampleData, () => INITIAL_STATE_WITH_SAMPLE);
+    builder.addCase(
+      setBackupData,
+      (state, action) => action.payload.stockList ?? STOCK_INITIAL_STATE,
+    );
+    builder.addCase(addStockSampleData, () => INITIAL_STATE_WITH_SAMPLE);
     builder.addCase(addNewSold, (state, action) => {
       const { soldInfo, stockId } = action.payload;
       const purchasedItems = state.stocks.byId[stockId].purchasedItems;
@@ -144,6 +160,7 @@ export const {
   initStockList,
   updateStockNeedInit,
   updatePurchaseItemNeedInit,
+  updateStocksCurrentPrice,
 } = stockListSlice.actions;
 
 export default stockListSlice.reducer;

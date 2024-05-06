@@ -5,8 +5,11 @@ import {
   AddNewUserStockRepRes,
   DeleteUserItemRepReq,
   DeleteUserItemWithStockRepReq,
+  EditCurrentPricesRepReq,
 } from '../../repository/userStocks/type';
-import UserStocksRepository, { userStocksRepository } from '../../repository/userStocks/userStocks';
+import UserStocksRepository, {
+  userStocksRepository,
+} from '../../repository/userStocks/userStocks';
 import { Result } from '../type';
 import { EditUserItemServiceReq, EditUserStockServiceReq } from './type';
 import { renameItemKeysForServer, renameStockKeysForServer } from './utils';
@@ -17,7 +20,9 @@ class UserStocksService {
     this.repo = repo;
   }
 
-  async addNewUserStock(params: AddNewUserStockRepReq): Promise<AddNewUserStockRepRes | null> {
+  async addNewUserStock(
+    params: AddNewUserStockRepReq,
+  ): Promise<AddNewUserStockRepRes | null> {
     try {
       const result = await this.repo.addNewUserStock(params);
 
@@ -40,7 +45,8 @@ class UserStocksService {
 
       if (!result) return { success: true };
 
-      if (result?.response?.status === 400) return { success: false, message: 'Please check the input data.' };
+      if (result?.response?.status === 400)
+        return { success: false, message: 'Please check the input data.' };
       throw new Error('Error accrued while updating stock in server.');
     } catch (err) {
       console.log(err);
@@ -70,7 +76,9 @@ class UserStocksService {
     }
   }
 
-  async addNewUserItem(params: AddNewUserItemRepReq): Promise<AddNewUserItemRepRes | null> {
+  async addNewUserItem(
+    params: AddNewUserItemRepReq,
+  ): Promise<AddNewUserItemRepRes | null> {
     try {
       const result = await this.repo.addNewUserItem(params);
       if ('stockId' in result) {
@@ -94,7 +102,8 @@ class UserStocksService {
       });
 
       if (!result) return { success: true };
-      if (result?.response?.status === 400) return { success: false, message: 'Please check the input data.' };
+      if (result?.response?.status === 400)
+        return { success: false, message: 'Please check the input data.' };
 
       throw new Error('Error accrued while updating purchased item in server.');
     } catch (err) {
@@ -106,7 +115,10 @@ class UserStocksService {
     }
   }
 
-  async deleteUserItem({ stockId, purchasedId }: DeleteUserItemRepReq): Promise<Result> {
+  async deleteUserItem({
+    stockId,
+    purchasedId,
+  }: DeleteUserItemRepReq): Promise<Result> {
     try {
       const result = await this.repo.deleteUserItem({ stockId, purchasedId });
       if (!result) return { success: true };
@@ -125,9 +137,31 @@ class UserStocksService {
     }
   }
 
-  async deleteUserItemWithStock({ stockId, purchasedId, isOnlyItem }: DeleteUserItemWithStockRepReq): Promise<Result> {
+  async deleteUserItemWithStock({
+    stockId,
+    purchasedId,
+    isOnlyItem,
+  }: DeleteUserItemWithStockRepReq): Promise<Result> {
     if (isOnlyItem) return this.deleteUserStock(stockId);
     return this.deleteUserItem({ stockId, purchasedId });
+  }
+
+  async editCurrentPrices(data: EditCurrentPricesRepReq): Promise<Result> {
+    try {
+      const result = await this.repo.editCurrentPrices(data);
+      if (!result) return { success: true };
+
+      if (result?.response?.status === 400)
+        return { success: false, message: 'Please check the input data.' };
+
+      throw new Error('Error accrued while updating current prices in server.');
+    } catch (err) {
+      console.log(err);
+      return {
+        success: false,
+        message: 'Could not change stocks current price.',
+      };
+    }
   }
 }
 

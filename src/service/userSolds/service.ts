@@ -4,6 +4,7 @@ import UserSoldsRepository, {
   userSoldsRepository,
 } from '@/repository/userSolds';
 import { Result } from '../type';
+import { ReplaceUserDataRepReq } from '@/repository/userData/type';
 
 class UserSoldsService {
   repo: UserSoldsRepository;
@@ -60,6 +61,26 @@ class UserSoldsService {
       return {
         success: false,
         message: 'Could not delete sold item.',
+      };
+    }
+  }
+
+  async replaceSold(
+    data: Pick<ReplaceUserDataRepReq, 'solds'>,
+  ): Promise<Result> {
+    try {
+      const result = await this.repo.replaceSold(data);
+      if (!result) return { success: true };
+
+      if (result?.response?.status === 400)
+        return { success: false, message: 'Please check the input data.' };
+
+      throw new Error(result.message);
+    } catch (err) {
+      console.log(err);
+      return {
+        success: false,
+        message: 'Could not update sold item.',
       };
     }
   }

@@ -1,6 +1,7 @@
 import { config } from '@/config';
 import HttpClient, { ErrorResponse } from '@/network/http';
 import { AddNewSoldsRepReq, EditSoldsRepReq } from './type';
+import { ReplaceUserDataRepReq } from '../userData/type';
 
 class UserSoldsRepository {
   httpClient: HttpClient;
@@ -23,6 +24,15 @@ class UserSoldsRepository {
   async deleteSold(id: string): Promise<void | ErrorResponse> {
     return this.httpClient.fetch(`/${id}`, {
       method: 'DELETE',
+    });
+  }
+
+  async replaceSold(
+    data: Pick<ReplaceUserDataRepReq, 'solds'>,
+  ): Promise<void | ErrorResponse> {
+    return this.httpClient.fetch('/', {
+      method: 'PUT',
+      body: data,
     });
   }
 }
