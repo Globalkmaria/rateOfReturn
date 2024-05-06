@@ -51,6 +51,19 @@ const stockListSlice = createSlice({
       const { stockId, stockData } = action.payload;
       state.stocks.byId[stockId].mainInfo = stockData;
     },
+    updateStocksCurrentPrice: (
+      state: StockListState,
+      action: PayloadAction<{
+        [key: string]: number;
+      }>,
+    ) => {
+      const changedPrices = action.payload;
+
+      Object.keys(changedPrices).forEach(stockId => {
+        state.stocks.byId[stockId].mainInfo.currentPrice =
+          changedPrices[stockId];
+      });
+    },
     updatePurchaseItem: (
       state: StockListState,
       action: PayloadAction<UpdatePurchasedItemPayload>,
@@ -147,6 +160,7 @@ export const {
   initStockList,
   updateStockNeedInit,
   updatePurchaseItemNeedInit,
+  updateStocksCurrentPrice,
 } = stockListSlice.actions;
 
 export default stockListSlice.reducer;

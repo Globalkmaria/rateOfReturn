@@ -8,6 +8,7 @@ import useSaveChangedStocksData from './hooks/useSaveChangedStocksData';
 import useSaveChangedGroupsData from './hooks/useSaveChangedGroupedData';
 import StockListSkeleton from './StockListSkeleton';
 import useSaveChangedSoldsData from './hooks/useSaveChangedSoldData';
+import EditCurrentPrice from './EditCurrentPrice';
 
 const GroupButtons = lazy(() => import('./GroupButtons/GroupButtons'));
 const StockTable = lazy(() => import('./StockTable'));
@@ -32,6 +33,7 @@ const StockList = () => {
           </div>
           <StyledControlBarRight>
             <AddSampleData />
+            <EditCurrentPrice />
           </StyledControlBarRight>
         </StyledControlBar>
         <GroupSummary />
