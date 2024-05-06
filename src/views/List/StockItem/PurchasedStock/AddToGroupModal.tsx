@@ -113,6 +113,9 @@ const StyledModalContainer = styled('div')`
   width: 320px;
   display: flex;
   flex-direction: column;
+
+  overflow: auto;
+  max-height: 50vh;
 `;
 
 const StyledItem = styled.div`
