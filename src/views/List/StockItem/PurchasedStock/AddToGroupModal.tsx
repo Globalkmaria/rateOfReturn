@@ -122,7 +122,7 @@ const StyledItem = styled.div`
   padding: 5px;
 
   &:hover {
-    background: ${({ theme }) => theme.colors.grey200};
+    background: ${({ theme }) => theme.colors.grey100};
     border-radius: 5px;
   }
 `;

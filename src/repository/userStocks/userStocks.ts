@@ -6,6 +6,7 @@ import {
   AddNewUserStockRepReq,
   AddNewUserStockRepRes,
   DeleteUserItemRepReq,
+  EditCurrentPricesRepReq,
   EditUserItemRepReq,
   EditUserStockRepReq,
 } from './type';
@@ -59,6 +60,14 @@ class UserStocksRepository {
     return this.httpClient.fetch(`/${stockId}/items/${itemId}`, {
       method: 'PATCH',
       body: { ...data },
+    });
+  }
+  async editCurrentPrices(
+    data: EditCurrentPricesRepReq,
+  ): Promise<void | ErrorResponse> {
+    return this.httpClient.fetch(`/prices`, {
+      method: 'PATCH',
+      body: { prices: data },
     });
   }
 

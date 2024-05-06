@@ -3,11 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selectIsLoggedIn } from '../../../features/user/selectors';
 import userDataService from '../../../service/userData/userData';
-import { addSampleData } from '@/features';
+import { addStockSampleData } from '@/features';
+import { useShowAddSampleBtn } from './useShowAddSampleBtn';
 
 const AddSampleData = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const showAddSampleBtn = useShowAddSampleBtn();
+  if (!showAddSampleBtn) return null;
 
   const onClick = async () => {
     if (isLoggedIn) {
@@ -15,7 +18,7 @@ const AddSampleData = () => {
       if (!result.success) return;
     }
 
-    dispatch(addSampleData());
+    dispatch(addStockSampleData());
   };
 
   return (

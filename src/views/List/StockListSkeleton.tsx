@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 import ListTableSkeleton from './ListTableSkeleton';
 import GroupButtonSkeleton from './GroupButtons/GroupButtonSkeleton';
-import { StyledBackupSkeleton } from './Backup/BackupSkeleton';
 import GroupSummarySkeleton from './GroupSummary/GroupSummarySkeleton';
 
 const StockListSkeleton = () => {
@@ -12,9 +11,6 @@ const StockListSkeleton = () => {
         <div>
           <GroupButtonSkeleton />
         </div>
-        <StyledControlBarRight>
-          <StyledBackupSkeleton>Backup</StyledBackupSkeleton>
-        </StyledControlBarRight>
       </StyledControlBar>
       <GroupSummarySkeleton />
       <ListTableSkeleton />

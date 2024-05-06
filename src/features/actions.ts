@@ -29,7 +29,7 @@ export const addGroup = createAction<{
   groupInfo: Group;
   checkedItems: CheckedItemsInfo;
 }>('stock/addGroup');
-export const addSampleData = createAction('stock/addSampleData');
+export const addStockSampleData = createAction('stock/addSampleData');
 
 export const deletePurchasedItem = createAction<{
   stockId: string;
