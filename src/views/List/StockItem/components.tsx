@@ -12,7 +12,7 @@ import { InputProps } from '../../../components/Input/BaseInput';
 import { getFixedLocaleString } from '@/utils/number';
 
 type InputCellProps = {
-  disabled: boolean;
+  disabled?: boolean;
   value: string | number;
   withFixed?: boolean;
 } & Omit<InputProps, 'value'>;
