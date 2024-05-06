@@ -188,7 +188,7 @@ export default SoldItem;
 const StyledContainer = styled(TableRow)`
   background: ${({ theme }) => theme.colors.white};
 
-  &:hover {
+  &:hover ${TableCell} {
     background: ${({ theme }) => theme.colors.grey100};
   }
 
