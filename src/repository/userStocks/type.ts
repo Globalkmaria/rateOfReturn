@@ -38,3 +38,7 @@ export type DeleteUserItemRepReq = {
 export type DeleteUserItemWithStockRepReq = DeleteUserItemRepReq & {
   isOnlyItem: boolean;
 };
+
+export type EditCurrentPricesRepReq = {
+  [key: string]: number;
+};

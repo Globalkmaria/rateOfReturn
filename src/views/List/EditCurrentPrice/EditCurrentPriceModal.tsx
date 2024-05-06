@@ -19,6 +19,7 @@ import { InputCell } from '../StockItem/components';
 import { ChangeEventHandler, useState } from 'react';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 import { updateStocksCurrentPrice } from '@/features/stockList/stockListSlice';
+import userStocksService from '@/service/userStocks/userStocks';
 
 interface Changes {
   [key: string]: number;
@@ -48,9 +49,18 @@ function EditCurrentPriceModal({ onClose }: Props) {
   };
 
   const onUpdate = async () => {
-    // API
+    if (!Object.keys(changes).length) {
+      onClose();
+      return;
+    }
+
     if (isLoggedIn) {
-      console.log('update', changes);
+      const result = await userStocksService.editCurrentPrices(changes);
+
+      if (!result.success) {
+        alert(result.message);
+        return;
+      }
     }
     dispatch(updateStocksCurrentPrice(changes));
     onClose();
