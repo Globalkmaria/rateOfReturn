@@ -22,7 +22,8 @@ const AddGroupModal = ({ onClose }: Props) => {
     if (result) onClose();
   };
 
-  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value);
+  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setName(e.target.value);
 
   useEffect(() => {
     if (nameInputRef.current) nameInputRef.current?.focus();
@@ -32,8 +33,16 @@ const AddGroupModal = ({ onClose }: Props) => {
     <PortalModal title='Add Group' onClose={onClose}>
       <StyledAddGroupModal>
         <StyledGroupName>
-          <StyledGroupLabel htmlFor='group-name'>Group Name* :</StyledGroupLabel>
-          <Input ref={nameInputRef} value={name} onChange={onChangeName} width={150} id='group-name' />
+          <StyledGroupLabel htmlFor='group-name'>
+            Group Name* :
+          </StyledGroupLabel>
+          <Input
+            ref={nameInputRef}
+            value={name}
+            onChange={onChangeName}
+            width={150}
+            id='group-name'
+          />
         </StyledGroupName>
         <GroupModalTable />
         <StyledButtonGroups>
@@ -65,7 +74,11 @@ const StyledGroupName = styled('div')`
   margin-bottom: 10px;
 
   input {
-    background-color: ${({ theme }) => theme.colors.grey100};
+    background: ${({ theme }) => theme.colors.grey200};
+
+    &:focus {
+      background: ${({ theme }) => theme.colors.grey200};
+    }
   }
 `;
 
