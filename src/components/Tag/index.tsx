@@ -6,55 +6,52 @@ import TagDropbox from './TagDropbox';
 
 interface Props {
   width?: number;
+  height?: number;
   options?: string[];
-  handleCreateNewOption: (option: string) => void;
-  handleDeleteOption: (option: string) => void;
-  selectedOption: string | null;
-  handleSelectOption: (option: string | null) => void;
+  onCreateNewOption: (option: string) => void;
+  onDeleteOption: (option: string) => void;
+  selectedOption?: string;
+  onOptionSelect: (option: string) => void;
+  disabled?: boolean;
 }
 
 function Tag({
   width = 200,
-  handleCreateNewOption,
-  handleDeleteOption,
+  height = 30,
+  onCreateNewOption,
+  onDeleteOption,
   selectedOption,
-  handleSelectOption,
+  onOptionSelect,
   options,
+  disabled,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { showModal, onOpenModal, onCloseModal } = useModal();
-
-  const onOptionSelect = (option: string | null) => {
-    handleSelectOption(option);
-    onCloseModal();
-  };
-
-  const onCreateNewOption = handleCreateNewOption;
-
-  const onDeleteOption = (option: string) => {
-    handleDeleteOption(option);
-
-    if (selectedOption === option) {
-      handleSelectOption(null);
-    }
-  };
+  const tagDropboxRef = useRef<HTMLDivElement>(null);
+  const { showModal, onCloseModal, onToggleModal } = useModal();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if ((event.target as Element).closest('div[role="dialog"]')) return;
-
-      if (!containerRef.current?.contains(event.target as Node)) {
-        onCloseModal();
+      if ((event.target as Element).closest('div[role="dialog"]')) {
+        return;
       }
+
+      if (containerRef.current?.contains(event.target as Node)) return;
+      if (tagDropboxRef.current?.contains(event.target as Node)) return;
+
+      onCloseModal();
     };
 
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
-    <StyledContainer ref={containerRef}>
-      <StyledSelectedOption onClick={onOpenModal}>
+    <StyledContainer disabled={disabled} ref={containerRef}>
+      <StyledSelectedOption
+        height={height}
+        onClick={onToggleModal}
+        disabled={disabled}
+      >
         {selectedOption && (
           <StyledChip>
             <StyledChipText width={width - 20}>{selectedOption}</StyledChipText>
@@ -63,9 +60,11 @@ function Tag({
       </StyledSelectedOption>
       {showModal && (
         <TagDropbox
+          ref={tagDropboxRef}
           width={width}
           selectedOption={selectedOption}
           options={options}
+          onCloseModal={onCloseModal}
           onOptionSelect={onOptionSelect}
           onCreateNewOption={onCreateNewOption}
           onDeleteOption={onDeleteOption}
@@ -77,16 +76,26 @@ function Tag({
 
 export default Tag;
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.div<{
+  disabled?: boolean;
+}>`
   position: relative;
-  padding: 5px;
+  display: flex;
+  align-items: center;
 `;
 
 const StyledSelectedOption = styled.button.attrs({
   type: 'button',
-})`
-  height: 20px;
+})<{ height: number }>`
+  border-radius: 5px;
+  background: ${({ theme, disabled }) =>
+    disabled ? 'transparent' : theme.colors.grey300};
+  height: ${({ height }) => height}px;
   width: 100%;
+
+  &:disabled {
+    cursor: default;
+  }
 `;
 
 export const StyledChip = styled.div`

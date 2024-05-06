@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { ForwardedRef, forwardRef, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import TagOption from './TagOption';
@@ -8,21 +8,26 @@ import Icon from '../Icon';
 
 interface TagDropboxProps {
   options?: string[];
-  selectedOption: string | null;
-  onOptionSelect: (option: string | null) => void;
+  selectedOption?: string;
+  onCloseModal: () => void;
+  onOptionSelect: (option: string) => void;
   onCreateNewOption: (option: string) => void;
   onDeleteOption: (option: string) => void;
   width: number;
 }
 
-function TagDropbox({
-  options,
-  selectedOption,
-  onOptionSelect,
-  onCreateNewOption,
-  onDeleteOption,
-  width,
-}: TagDropboxProps) {
+const TagDropbox = forwardRef(function TagDropbox(
+  {
+    options,
+    selectedOption,
+    onOptionSelect,
+    onCreateNewOption,
+    onDeleteOption,
+    width,
+    onCloseModal,
+  }: TagDropboxProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>('');
 
@@ -41,18 +46,24 @@ function TagDropbox({
   const onOptionClick = (option: string) => {
     onOptionSelect(option);
     setInputValue('');
+    onCloseModal();
   };
 
   const onClickNewOption = () => {
     onCreateNewOption(inputValue);
     onOptionSelect(inputValue);
     setInputValue('');
+    onCloseModal();
   };
 
   const onKeyPress: React.KeyboardEventHandler<HTMLInputElement> = e => {
     if (e.key === 'Backspace' && selectedOption && !inputValue) {
-      onOptionSelect(null);
+      onOptionSelect('');
     }
+  };
+
+  const onDeleteSelectedOption: React.MouseEventHandler = e => {
+    onOptionSelect('');
   };
 
   const wrap = selectedOption
@@ -66,12 +77,12 @@ function TagDropbox({
   }, []);
 
   return (
-    <StyledDropbox>
+    <StyledDropbox ref={ref} className='tag-modal'>
       <StyledFirstLine wrap={wrap}>
         {selectedOption && (
           <StyledChip>
             <StyledChipText width={width}>{selectedOption}</StyledChipText>
-            <button type='button' onClick={() => onOptionSelect(null)}>
+            <button type='button' onClick={onDeleteSelectedOption}>
               <Icon icon='close' size='xs' color='grey600' />
             </button>
           </StyledChip>
@@ -110,7 +121,7 @@ function TagDropbox({
       </StyledOptions>
     </StyledDropbox>
   );
-}
+});
 
 export default TagDropbox;
 
