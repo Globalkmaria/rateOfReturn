@@ -28,7 +28,7 @@ export const HEADER_LIST: HeaderItemProps[] = [
     Component: StyledBuyId,
     notTableHead: false,
   },
-  { id: '4', label: 'Buy Date', fixedWidth: 230 },
+  { id: '4', label: 'Tag / Buy Date', fixedWidth: 230 },
   { id: '5', label: 'Buy Quantity', minWidth: 50 },
   { id: '6', label: 'Avg Buy Unit Price', minWidth: 120 },
   {

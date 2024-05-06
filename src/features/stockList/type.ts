@@ -19,6 +19,7 @@ export interface StockMainInfo {
   currentPrice: number;
   stockId: string;
   needInit?: boolean;
+  tag?: string;
 }
 
 export interface PurchasedItemInfo {
@@ -43,4 +44,5 @@ export interface StockListState {
   stocks: StocksCollection;
   nextStockId: number;
   nextPurchasedId: number;
+  tags: string[];
 }

@@ -55,7 +55,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
 
   const [isLock, setIsLock] = useState(!mainInfo.needInit);
   const { showModal, onOpenModal, onCloseModal } = useModal();
-  const { changedInputs, initChangedInputs, onInputChange } =
+  const { changedInputs, initChangedInputs, onInputChange, onTagChange } =
     useStockSummaryInputChange(stockId);
 
   const onChangeCheckbox = useChangeStockCheckbox(stockId);
@@ -140,6 +140,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
         isLock={isLock}
         onInputChange={onInputChange}
         changedInputs={changedInputs}
+        onTagChange={onTagChange}
       />
       {isMainGroupSelected ? (
         <>

@@ -30,26 +30,47 @@ export const STOCK_INITIAL_STATE: StockListState = {
   },
   nextStockId: 1,
   nextPurchasedId: 1,
+  tags: [],
 };
 
-export const INITIAL_STATE_WITH_SAMPLE = {
+export const INITIAL_STATE_WITH_SAMPLE: StockListState = {
   stocks: MOCK_DATA,
   nextStockId: MOCK_DATA_NEXT_STOCK_ID,
   nextPurchasedId: MOCK_DATA_PURCHASED_ID,
+  tags: [],
 };
 
 const stockListSlice = createSlice({
   name: 'stockList',
   initialState: INITIAL_STATE_WITH_SAMPLE,
   reducers: {
-    initStockList: (state, action: PayloadAction<StockListState>) =>
-      action.payload,
+    initStockList: (state, action: PayloadAction<StockListState>) => ({
+      ...state,
+      ...action.payload,
+    }),
     updateStock: (
       state: StockListState,
       action: PayloadAction<UpdateStockPayload>,
     ) => {
       const { stockId, stockData } = action.payload;
       state.stocks.byId[stockId].mainInfo = stockData;
+    },
+    deleteStockTag: (state, action: PayloadAction<string>) => {
+      const tag = action.payload;
+      const idx = state.tags.indexOf(tag);
+      if (idx === -1) return;
+      state.tags.splice(idx, 1);
+
+      state.stocks.allIds.forEach(stockId => {
+        if (state.stocks.byId[stockId].mainInfo.tag === tag) {
+          state.stocks.byId[stockId].mainInfo.tag = '';
+        }
+      });
+    },
+    addStockTag: (state, action: PayloadAction<string>) => {
+      const tag = action.payload;
+      if (state.tags.indexOf(tag) !== -1) return;
+      state.tags.push(tag);
     },
     updateStocksCurrentPrice: (
       state: StockListState,
@@ -161,6 +182,8 @@ export const {
   updateStockNeedInit,
   updatePurchaseItemNeedInit,
   updateStocksCurrentPrice,
+  deleteStockTag,
+  addStockTag,
 } = stockListSlice.actions;
 
 export default stockListSlice.reducer;

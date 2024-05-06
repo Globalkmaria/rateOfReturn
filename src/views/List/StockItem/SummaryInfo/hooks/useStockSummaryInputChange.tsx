@@ -14,14 +14,21 @@ export const useStockSummaryInputChange = (stockId: string) => {
   const initChangedInputs = useCallback(() => setChangedInputs({}), []);
 
   const onInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>, transformedValue: TransformedValue) => {
-      const fieldName = e.target.name as keyof Omit<StockMainInfo, 'stockId' | 'needInit'>;
+    (
+      e: React.ChangeEvent<HTMLInputElement>,
+      transformedValue: TransformedValue,
+    ) => {
+      const fieldName = e.target.name as keyof Omit<
+        StockMainInfo,
+        'stockId' | 'needInit'
+      >;
       if (fieldName === 'currentPrice' && transformedValue === null) return;
 
       const value =
         fieldName === 'stockName'
           ? e.target.value
-          : (transformedValue && transformedValue[1]) || e.target.value.replaceAll(',', '');
+          : (transformedValue && transformedValue[1]) ||
+            e.target.value.replaceAll(',', '');
 
       const validity = checkStockValidity(fieldName, value);
       if (!validity.isValid) return alert(validity.message);
@@ -31,9 +38,14 @@ export const useStockSummaryInputChange = (stockId: string) => {
     [stockId, dispatch],
   );
 
+  const onTagChange = useCallback((option: string) => {
+    setChangedInputs(prev => ({ ...prev, tag: option }));
+  }, []);
+
   return {
     changedInputs,
     initChangedInputs,
     onInputChange,
+    onTagChange,
   };
 };
