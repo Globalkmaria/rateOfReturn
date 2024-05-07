@@ -25,28 +25,11 @@ function Tag({
   options,
   disabled,
 }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const tagDropboxRef = useRef<HTMLDivElement>(null);
   const { showModal, onCloseModal, onToggleModal } = useModal();
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if ((event.target as Element).closest('div[role="dialog"]')) {
-        return;
-      }
-
-      if (containerRef.current?.contains(event.target as Node)) return;
-      if (tagDropboxRef.current?.contains(event.target as Node)) return;
-
-      onCloseModal();
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  const tagContainerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <StyledContainer disabled={disabled} ref={containerRef}>
+    <StyledContainer ref={tagContainerRef} disabled={disabled}>
       <StyledSelectedOption
         height={height}
         onClick={onToggleModal}
@@ -60,7 +43,7 @@ function Tag({
       </StyledSelectedOption>
       {showModal && (
         <TagDropbox
-          ref={tagDropboxRef}
+          tagContainerRef={tagContainerRef}
           width={width}
           selectedOption={selectedOption}
           options={options}

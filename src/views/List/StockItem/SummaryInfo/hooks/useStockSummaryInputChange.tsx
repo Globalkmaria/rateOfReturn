@@ -38,9 +38,10 @@ export const useStockSummaryInputChange = (stockId: string) => {
     [stockId, dispatch],
   );
 
-  const onTagChange = useCallback((option: string) => {
-    setChangedInputs(prev => ({ ...prev, tag: option }));
-  }, []);
+  const onTagChange = useCallback(
+    (option: string) => setChangedInputs(prev => ({ ...prev, tag: option })),
+    [],
+  );
 
   return {
     changedInputs,

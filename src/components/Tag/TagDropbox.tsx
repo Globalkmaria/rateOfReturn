@@ -14,6 +14,7 @@ interface TagDropboxProps {
   onCreateNewOption: (option: string) => void;
   onDeleteOption: (option: string) => void;
   width: number;
+  tagContainerRef: React.RefObject<HTMLDivElement>;
 }
 
 const TagDropbox = forwardRef(function TagDropbox(
@@ -25,9 +26,11 @@ const TagDropbox = forwardRef(function TagDropbox(
     onDeleteOption,
     width,
     onCloseModal,
+    tagContainerRef,
   }: TagDropboxProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>('');
 
@@ -80,8 +83,21 @@ const TagDropbox = forwardRef(function TagDropbox(
     inputRef.current?.focus();
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if ((event.target as Element).closest('div[role="dialog"]')) return;
+      if (tagContainerRef?.current?.contains(event.target as Node)) return;
+      if (containerRef.current?.contains(event.target as Node)) return;
+
+      onCloseModal();
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
-    <StyledDropbox ref={ref} className='tag-modal'>
+    <StyledDropbox ref={containerRef} className='tag-modal'>
       <StyledFirstLine wrap={wrap}>
         {selectedOption && (
           <StyledChip>
