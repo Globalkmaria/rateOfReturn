@@ -40,6 +40,10 @@ const TagDropbox = forwardRef(function TagDropbox(
   const placeholder = selectedOption ? '' : 'Select a tag...';
 
   const onInputChange: React.ChangeEventHandler<HTMLInputElement> = e => {
+    if (e.target.value.length > 20) {
+      alert('The tag name is too long. The maximum length is 20 characters.');
+      return;
+    }
     setInputValue(e.target.value);
   };
 
