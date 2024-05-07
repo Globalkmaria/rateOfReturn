@@ -9,3 +9,4 @@ const Dropbox = {
 };
 
 export default Dropbox;
+export type * from './Dropbox';
