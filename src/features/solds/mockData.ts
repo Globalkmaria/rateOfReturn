@@ -15,6 +15,7 @@ export const SOLD_MOCK_DATA: SoldsState = {
         soldDate: '2023-06-05',
         soldTime: '14:14',
         soldPrice: 2200,
+        tag: 'stock',
       },
       '2': {
         id: '2',
@@ -28,6 +29,7 @@ export const SOLD_MOCK_DATA: SoldsState = {
         soldDate: '2023-06-03',
         soldTime: '15:13',
         soldPrice: 2500,
+        tag: '',
       },
       '3': {
         id: '3',
@@ -41,6 +43,7 @@ export const SOLD_MOCK_DATA: SoldsState = {
         soldDate: '2023-06-05',
         soldTime: '14:13',
         soldPrice: 1800,
+        tag: '',
       },
     },
     allIds: ['1', '2', '3'],

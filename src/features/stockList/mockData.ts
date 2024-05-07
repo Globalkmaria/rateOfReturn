@@ -7,6 +7,7 @@ export const MOCK_DATA: StockListState['stocks'] = {
         stockName: 'Google',
         currentPrice: 3400,
         stockId: '1',
+        tag: 'stock',
       },
       purchasedItems: {
         byId: {
@@ -33,6 +34,7 @@ export const MOCK_DATA: StockListState['stocks'] = {
         stockName: 'Apple',
         currentPrice: 2000,
         stockId: '2',
+        tag: 'stock',
       },
       purchasedItems: {
         byId: {
@@ -59,6 +61,7 @@ export const MOCK_DATA: StockListState['stocks'] = {
         stockName: 'Tesla',
         currentPrice: 100,
         stockId: '3',
+        tag: '',
       },
       purchasedItems: {
         byId: {
@@ -85,6 +88,7 @@ export const MOCK_DATA: StockListState['stocks'] = {
         stockName: 'MS',
         currentPrice: 4000,
         stockId: '4',
+        tag: '',
       },
       purchasedItems: {
         byId: {
@@ -112,3 +116,4 @@ export const MOCK_DATA: StockListState['stocks'] = {
 
 export const MOCK_DATA_NEXT_STOCK_ID = 5;
 export const MOCK_DATA_PURCHASED_ID = 15;
+export const MOCK_DATA_TAGS = ['stock', 'bond'];
