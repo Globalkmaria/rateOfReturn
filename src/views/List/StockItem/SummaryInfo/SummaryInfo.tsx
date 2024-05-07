@@ -97,6 +97,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
         stockId: mainInfo.stockId,
         stockName: mainInfo.stockName,
         soldPrice: mainInfo.currentPrice,
+        tag: mainInfo.tag,
       }));
       const result = await userSoldsService.addNewSolds({
         date,

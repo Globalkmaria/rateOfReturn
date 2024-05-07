@@ -20,6 +20,7 @@ import { deleteSold, selectSoldItem, updateSold } from '@/features/solds';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 import { getPercentage } from '@/utils/number';
 import userSoldsService from '@/service/userSolds/service';
+import { StyledChip, StyledChipText } from '@/components/Tag';
 
 type SoldItemInputs = Partial<
   Pick<Sold, 'soldTime' | 'soldDate' | 'soldPrice'>
@@ -127,6 +128,13 @@ function SoldItem({ id }: Props) {
       <TableCell align='center'>{item.id}</TableCell>
       <TableCell>
         <StyledTextWrapper>{item.stockName}</StyledTextWrapper>
+      </TableCell>
+      <TableCell>
+        {item.tag && (
+          <StyledChip>
+            <StyledChipText width={180}>{item.tag}</StyledChipText>
+          </StyledChip>
+        )}
       </TableCell>
       <NumberCell value={item.purchasedQuantity} />
       <TableCell>
