@@ -16,12 +16,13 @@ const formatStockAsServerFormat = (
   for (const stockId in stocks) {
     const stock = stocks[stockId];
     const { mainInfo, purchasedItems } = stock;
-    const { stockName, currentPrice } = mainInfo;
+    const { stockName, currentPrice, tag } = mainInfo;
     const formattedStock: UserStock = {
       info: {
         id: stockId,
         name: stockName,
         currentPrice,
+        tag: tag || '',
         createdAt: new Date(),
       },
       items: {},
@@ -46,6 +47,7 @@ const formatStockAsServerFormat = (
     stocks: formattedStocks,
     nextStockId: stockList.nextStockId,
     nextItemId: stockList.nextPurchasedId,
+    tags: stockList.tags,
   };
 };
 

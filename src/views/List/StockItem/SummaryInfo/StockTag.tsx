@@ -8,6 +8,8 @@ import {
   addStockTag,
   deleteStockTag,
 } from '@/features/stockList/stockListSlice';
+import { selectIsLoggedIn } from '@/features/user/selectors';
+import userStocksService from '@/service/userStocks/userStocks';
 
 interface Props {
   disabled: boolean;
@@ -17,13 +19,31 @@ interface Props {
 
 function StockTag({ disabled, onTagChange, selectedOption }: Props) {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const options = useSelector(selectStockTags);
 
   const createNewOption = async (option: string) => {
+    if (isLoggedIn) {
+      const result = await userStocksService.addStockTag(option);
+
+      if (!result.success) {
+        alert(result.message);
+        return;
+      }
+    }
     dispatch(addStockTag(option));
   };
 
   const deleteOption = async (option: string) => {
+    if (isLoggedIn) {
+      const result = await userStocksService.deleteStockTag(option);
+
+      if (!result.success) {
+        alert(result.message);
+        return;
+      }
+    }
+
     dispatch(deleteStockTag(option));
 
     if (selectedOption === option) {

@@ -69,7 +69,12 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
     if (isLoggedIn) {
       const result = await userStocksService.editUserStock({
         stockId,
-        data: changedInputs,
+        data: {
+          stockName: mainInfo.stockName,
+          currentPrice: mainInfo.currentPrice,
+          tag: mainInfo.tag,
+          ...changedInputs,
+        },
       });
       if (!result.success) return alert(result.message);
     }
