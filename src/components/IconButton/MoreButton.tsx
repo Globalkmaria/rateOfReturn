@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import styled from 'styled-components';
 
 import IconButton from './IconButton';
 import { BaseButtonProps } from '../Button';
-import Dropbox, { DropboxStyleProps } from '../Dropbox/Dropbox';
+import Dropbox, { DropboxStyleProps } from '../Dropbox';
+import useModal from '@/views/List/hooks/useModal';
 
 interface Props extends DropboxStyleProps, React.PropsWithChildren {
   disabled?: boolean;
@@ -17,33 +18,24 @@ function MoreButton({
   size,
   ...resProps
 }: Props) {
-  const [isOpened, setIsOpened] = useState(false);
+  const { showModal, onToggleModal, onCloseModal } = useModal();
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setIsOpened(false);
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
-
   return (
-    <Container ref={ref}>
-      <IconButton
-        icon={'more'}
-        onClick={() => setIsOpened(!isOpened)}
-        size={size}
-      />
-      {isOpened && (
-        <Dropbox vertical={vertical} horizontal={horizontal} {...resProps}>
+    <Dropbox.Wrapper ref={ref}>
+      <IconButton icon={'more'} onClick={onToggleModal} size={size} />
+      {showModal && (
+        <Dropbox.Container
+          containerRef={ref}
+          onCloseModal={onCloseModal}
+          vertical={vertical}
+          horizontal={horizontal}
+          {...resProps}
+        >
           {children}
-        </Dropbox>
+        </Dropbox.Container>
       )}
-    </Container>
+    </Dropbox.Wrapper>
   );
 }
 

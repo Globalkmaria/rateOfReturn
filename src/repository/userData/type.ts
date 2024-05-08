@@ -27,6 +27,7 @@ export type StockInfo = {
   name: string;
   currentPrice: number;
   createdAt: Date;
+  tag: string;
   id: string;
 };
 
@@ -53,6 +54,7 @@ export type UserDataRepRes = {
     stocks: UserStocks;
     nextStockId: number;
     nextItemId: number;
+    tags: string[];
     docId: string;
   };
   groups: {
@@ -71,6 +73,7 @@ export type ReplaceUserDataRepReq = {
     stocks: UserStocks;
     nextStockId: number;
     nextItemId: number;
+    tags: string[];
   };
   groups: {
     groups: UserGroups;
@@ -83,7 +86,11 @@ export type ReplaceUserDataRepReq = {
 };
 
 export type mergeUserDataRepReq = {
-  stocks: UserStocks;
+  stocks:
+    | ReplaceUserDataRepReq['stocks']
+    | {
+        [key: string]: never;
+      };
   groups: UserGroups;
   solds: UserSolds;
 };

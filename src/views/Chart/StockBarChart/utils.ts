@@ -1,12 +1,11 @@
 import { Context } from 'chartjs-plugin-datalabels';
 
 import {
-  PurchaseItemCollection,
   PurchasedItemInfo,
   StockList,
   StocksCollection,
 } from '@/features/stockList/type';
-import { fixedAsNumber, getPercentage } from '@/utils/number';
+import { getFixedLocaleString, getPercentage } from '@/utils/number';
 
 export const getStockOptions = (stockList: StocksCollection) => {
   return stockList.allIds.map(stockId => {
@@ -18,27 +17,10 @@ export const getStockOptions = (stockList: StocksCollection) => {
 };
 
 const getReturnOfRation = (currentPrice: number, purchasedPrice: number) =>
-  fixedAsNumber(
-    getPercentage(currentPrice - purchasedPrice, purchasedPrice),
-    2,
-  );
-
-const getItemsData = (
-  stock: StockList,
-  purchasedItems: PurchaseItemCollection,
-) =>
-  purchasedItems.allIds.map(itemId =>
-    getReturnOfRation(
-      stock.mainInfo.currentPrice,
-      purchasedItems.byId[itemId].purchasedPrice,
-    ),
-  );
+  getPercentage(currentPrice - purchasedPrice, purchasedPrice).toFixed(2);
 
 const getItemLabel = (item: PurchasedItemInfo) =>
   `#${item.purchasedId} ${item.purchasedDate} ${item.purchasedTime}`;
-
-const getStockLabels = (items: PurchaseItemCollection) =>
-  items.allIds.map(itemId => getItemLabel(items.byId[itemId]));
 
 const getAverageReturn = (stock: StockList) => {
   const { totalQuantity, totalBuyCost } = stock.purchasedItems.allIds.reduce(
@@ -58,10 +40,13 @@ const getAverageReturn = (stock: StockList) => {
   );
 
   const totalCurrentValue = stock.mainInfo.currentPrice * totalQuantity;
-  return fixedAsNumber(
-    getPercentage(totalCurrentValue - totalBuyCost, totalBuyCost),
-    2,
-  );
+  const profit = getFixedLocaleString(totalCurrentValue - totalBuyCost);
+  const ratio = getReturnOfRation(totalCurrentValue, totalBuyCost);
+
+  return {
+    ratio,
+    profit,
+  };
 };
 
 const RED = 'rgba(255, 99, 132, 0.5)';
@@ -91,16 +76,23 @@ const DATA_LABELS = {
   },
 };
 
-export const stockData = (stock: StockList) => {
-  const labels = ['average', ...getStockLabels(stock.purchasedItems)];
-  const average = getAverageReturn(stock);
-  const data = [average, ...getItemsData(stock, stock.purchasedItems)];
+export const stockData = (
+  stockName: string,
+  stockBarChartInfos: StockBarChartInfos,
+) => {
+  const labels = [];
+  const data = [];
+
+  for (const [, { label, ratio }] of stockBarChartInfos.entries()) {
+    labels.push(label);
+    data.push(Number(ratio));
+  }
 
   return {
     labels,
     datasets: [
       {
-        label: stock.mainInfo.stockName,
+        label: stockName,
         data,
         backgroundColor: getBackgroundColors(data),
         borderColor: getBorderColors(data),
@@ -111,4 +103,46 @@ export const stockData = (stock: StockList) => {
       },
     ],
   };
+};
+
+export type StockBarChartInfo = {
+  label: string;
+  profit: string;
+  ratio: string;
+};
+
+export type StockBarChartInfos = Map<string, StockBarChartInfo>;
+
+export const getStockBarChartInfos = (stock: StockList) => {
+  const result: StockBarChartInfos = new Map();
+
+  const averageReturn = getAverageReturn(stock);
+
+  result.set('Average', {
+    label: 'Average',
+    profit: averageReturn.profit,
+    ratio: averageReturn.ratio,
+  });
+
+  for (const id of stock.purchasedItems.allIds) {
+    const purchasedItem = stock.purchasedItems.byId[id];
+    const profit = getFixedLocaleString(
+      (stock.mainInfo.currentPrice - purchasedItem.purchasedPrice) *
+        purchasedItem.purchasedQuantity,
+    );
+    const ratio = getReturnOfRation(
+      stock.mainInfo.currentPrice,
+      purchasedItem.purchasedPrice,
+    );
+
+    const label = getItemLabel(purchasedItem);
+
+    result.set(id, {
+      label,
+      profit,
+      ratio,
+    });
+  }
+
+  return result;
 };

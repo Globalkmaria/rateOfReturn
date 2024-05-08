@@ -12,17 +12,17 @@ import {
 import { Doughnut } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-import { StockAllocationInfo, getChartData } from './utils';
+import { TagsInfo, getChartData } from './utils';
 
 ChartJS.register(ArcElement, Tooltip, Legend, Colors, ChartDataLabels);
 
 interface Props {
-  stockAllocationInfo: StockAllocationInfo;
+  tagsInfo: TagsInfo;
 }
 
-const PortfolioAllocationChart = ({ stockAllocationInfo }: Props) => {
+const TagAllocationChart = ({ tagsInfo }: Props) => {
   // @ts-ignore
-  const chartData: ChartData<'doughnut'> = getChartData(stockAllocationInfo);
+  const chartData: ChartData<'doughnut'> = getChartData(tagsInfo);
   const options: ChartOptions<'doughnut'> = {
     layout: {
       padding: 20,
@@ -31,15 +31,15 @@ const PortfolioAllocationChart = ({ stockAllocationInfo }: Props) => {
   };
 
   return (
-    <StyledPortfolioAllocationChart>
+    <StyledContainer>
       <Doughnut data={chartData} options={options} />
-    </StyledPortfolioAllocationChart>
+    </StyledContainer>
   );
 };
 
-export default PortfolioAllocationChart;
+export default TagAllocationChart;
 
-const StyledPortfolioAllocationChart = styled('div')`
+const StyledContainer = styled('div')`
   margin: auto;
   max-width: 700px;
   width: min(calc(100vw - 60px), calc(100vh - 383px));

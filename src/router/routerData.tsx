@@ -5,6 +5,7 @@ import Home from '../pages/Home';
 import List from '../pages/List';
 import Chart from '../pages/Chart';
 import PortfolioAllocation from '../views/Chart/PortfolioAllocation/PortfolioAllocation';
+import TagAllocation from '../views/Chart/TagAllocation';
 import StockBarChart from '@/views/Chart/StockBarChart';
 import Sold from '@/pages/Sold';
 const Login = lazy(() => import('../pages/Login'));
@@ -15,10 +16,16 @@ export const chartRouterData: RouterElement[] = [
     id: 0,
     path: 'portfolio-allocation',
     element: <PortfolioAllocation />,
-    label: 'Portfolio Allocation',
+    label: 'Stock Allocation',
   },
   {
     id: 1,
+    path: 'tag-allocation',
+    element: <TagAllocation />,
+    label: 'Tag Allocation',
+  },
+  {
+    id: 2,
     path: 'individual-stock-bar',
     element: <StockBarChart />,
     label: 'Individual Stock Return',

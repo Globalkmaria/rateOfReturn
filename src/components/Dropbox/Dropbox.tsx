@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 export interface DropboxStyleProps {
@@ -6,9 +7,32 @@ export interface DropboxStyleProps {
   width?: number;
 }
 
-interface DropboxProps extends DropboxStyleProps, React.PropsWithChildren {}
+interface DropboxProps extends DropboxStyleProps, React.PropsWithChildren {
+  containerRef: React.RefObject<HTMLDivElement>;
+  onCloseModal: () => void;
+}
 
-function Dropbox({ children, ...props }: DropboxProps) {
+function Dropbox({
+  children,
+  containerRef,
+  onCloseModal,
+  ...props
+}: DropboxProps) {
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if ((e.target as Element).closest('div[role="dialog"]')) return;
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        onCloseModal();
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
+
   return <Container {...props}>{children}</Container>;
 }
 

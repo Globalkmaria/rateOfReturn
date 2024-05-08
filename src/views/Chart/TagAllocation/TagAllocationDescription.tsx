@@ -1,36 +1,36 @@
 import styled from 'styled-components';
 
-const PortfolioAllocationDescription = () => {
+const TagAllocationDescription = () => {
   return (
-    <StyledPortfolioAllocationDescription>
+    <StyledContainer>
       <div>
         <p>
           <StyledTitle>Inner Circle : </StyledTitle>
-          Stock allocation by
+          Tag allocation by
           <StyledTitle> buy price</StyledTitle>
         </p>
         <StyledSubText>
-          Formula: (Stock total buy price / Portfolio total buy price) * 100
+          Formula: (Tag total buy price / Portfolio total buy price) * 100
         </StyledSubText>
       </div>
       <div>
         <p>
           <StyledTitle>Outer Circle : </StyledTitle>
-          Stock allocation by
+          Tag allocation by
           <StyledTitle> current price</StyledTitle>
         </p>
         <StyledSubText>
-          Formula: (Stock total current price / Portfolio total current price) *
+          Formula: (Tag total current price / Portfolio total current price) *
           100
         </StyledSubText>
       </div>
-    </StyledPortfolioAllocationDescription>
+    </StyledContainer>
   );
 };
 
-export default PortfolioAllocationDescription;
+export default TagAllocationDescription;
 
-const StyledPortfolioAllocationDescription = styled('div')`
+const StyledContainer = styled('div')`
   display: flex;
   flex-direction: column;
   gap: 10px;

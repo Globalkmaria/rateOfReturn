@@ -25,6 +25,7 @@ const getMainInfo = (
   stockId,
   stockName: stock.name,
   currentPrice: stock.currentPrice,
+  tag: stock.tag,
 });
 
 const transformToStocksState = (userStocks: UserStocks): StocksCollection => {
@@ -48,6 +49,7 @@ const getStocks = (
   stocks: transformToStocksState(stockData.stocks),
   nextStockId: stockData.nextStockId,
   nextPurchasedId: stockData.nextItemId,
+  tags: stockData.tags,
 });
 
 const getPurchasedInfo = (purchasedId: string, item: Item) => ({

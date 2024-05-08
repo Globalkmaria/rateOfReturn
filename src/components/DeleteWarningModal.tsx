@@ -9,12 +9,16 @@ interface DeleteWarningModalProps {
   onClose: () => void;
 }
 
-const DeleteWarningModal = ({ onClose, onDelete, message }: DeleteWarningModalProps) => {
+const DeleteWarningModal = ({
+  onClose,
+  onDelete,
+  message,
+}: DeleteWarningModalProps) => {
   return (
     <PortalModal onClose={onClose}>
       <StyledDeleteWarningModal>
         <StyledMessage>{message}</StyledMessage>
-        <ContainedButton size='l' color='warning' onClick={onDelete}>
+        <ContainedButton size='m' color='warning' onClick={onDelete}>
           Delete
         </ContainedButton>
       </StyledDeleteWarningModal>
@@ -29,7 +33,7 @@ const StyledDeleteWarningModal = styled('div')`
   flex-direction: column;
   align-items: center;
   width: 500px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   @media ${({ theme }) => theme.devices.mobile} {
     width: 70vw;
@@ -37,7 +41,7 @@ const StyledDeleteWarningModal = styled('div')`
 `;
 
 const StyledMessage = styled('p')`
-  padding: 20px 0 40px;
-  font-size: 1.4em;
-  font-weight: 700;
+  padding-bottom: 20px;
+  font-size: 1.2em;
+  font-weight: 600;
 `;

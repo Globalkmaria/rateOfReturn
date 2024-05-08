@@ -15,6 +15,7 @@ export const renameStockKeysForServer = (
   return {
     ...mapKey('stockName', 'name'),
     ...mapKey('currentPrice', 'currentPrice'),
+    ...mapKey('tag', 'tag'),
   };
 };
 

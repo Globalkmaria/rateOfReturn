@@ -55,7 +55,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
 
   const [isLock, setIsLock] = useState(!mainInfo.needInit);
   const { showModal, onOpenModal, onCloseModal } = useModal();
-  const { changedInputs, initChangedInputs, onInputChange } =
+  const { changedInputs, initChangedInputs, onInputChange, onTagChange } =
     useStockSummaryInputChange(stockId);
 
   const onChangeCheckbox = useChangeStockCheckbox(stockId);
@@ -69,7 +69,12 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
     if (isLoggedIn) {
       const result = await userStocksService.editUserStock({
         stockId,
-        data: changedInputs,
+        data: {
+          stockName: mainInfo.stockName,
+          currentPrice: mainInfo.currentPrice,
+          tag: mainInfo.tag,
+          ...changedInputs,
+        },
       });
       if (!result.success) return alert(result.message);
     }
@@ -92,6 +97,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
         stockId: mainInfo.stockId,
         stockName: mainInfo.stockName,
         soldPrice: mainInfo.currentPrice,
+        tag: mainInfo.tag,
       }));
       const result = await userSoldsService.addNewSolds({
         date,
@@ -140,6 +146,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
         isLock={isLock}
         onInputChange={onInputChange}
         changedInputs={changedInputs}
+        onTagChange={onTagChange}
       />
       {isMainGroupSelected ? (
         <>

@@ -9,7 +9,7 @@ const getLocalStock = () => {
     ? formatStockAsServerFormat(JSON.parse(localStocks))
     : null;
 
-  return stocks?.stocks;
+  return stocks;
 };
 
 const getLocalGroup = () => {
@@ -30,9 +30,18 @@ const getLocalSold = () => {
   return solds;
 };
 
+const STOCK_INIT = {
+  stocks: {},
+  nextStockId: 1,
+  nextPurchasedId: 1,
+  tags: [],
+};
+
 export const getLocalState = () => {
+  const localStocks = getLocalStock();
+  const stocks = localStocks ? { ...STOCK_INIT, ...localStocks } : {};
   return {
-    stocks: getLocalStock() || {},
+    stocks,
     groups: getLocalGroup() || {},
     solds: getLocalSold() || {},
   };

@@ -72,31 +72,31 @@ This project allows you to:
 
 ## Snapshot
 
-- Home
+- Home page
 
   <img src="https://velog.velcdn.com/images/tjdgus0528/post/1ee999cd-c5a0-49c2-9bf6-29832bd95200/image.png" alt="image" width="700" height="400">
 
 - Current page
 
-  <img src="https://velog.velcdn.com/images/tjdgus0528/post/f45d6972-74eb-4dec-8b9c-df54f6ac04fc/image.png" alt="image" width="700" height="400">
+  <img src="https://velog.velcdn.com/images/tjdgus0528/post/185152d2-eccd-44bd-9153-b146ab1ab949/image.png" alt="image" width="700" height="400">
 
 - Add group
 
-  <img src="https://velog.velcdn.com/images/tjdgus0528/post/0e11d9f3-3e08-4d37-a756-8dfeea32ede3/image.png" alt="image" width="700" height="400">
+  <img src="https://velog.velcdn.com/images/tjdgus0528/post/d279bb52-5715-434c-b862-ce53576a5d6b/image.png" alt="image" width="700" height="400">
 
 - Edit current prices
 
-  <img src="https://velog.velcdn.com/images/tjdgus0528/post/67529797-5332-4abd-a423-206df08e702a/image.png" alt="image" width="700" height="400">
+  <img src="https://velog.velcdn.com/images/tjdgus0528/post/0ce5af52-941c-41e9-a381-f1bef6abd936/image.png" alt="image" width="700" height="400">
 
-- Chart
+- Chart page
 
-  <img src="https://velog.velcdn.com/images/tjdgus0528/post/c160b431-7ea2-432a-ba12-9245a2f87ece/image.png" alt="image" width="700" height="400">
+  <img src="https://velog.velcdn.com/images/tjdgus0528/post/01e9bb11-e707-41cb-8e28-f079f81eced5/image.png" alt="image" width="700" height="400">
 
 - Sold page
 
-  <img src="https://velog.velcdn.com/images/tjdgus0528/post/551f9a62-8589-4ad2-a208-de38e5d6208d/image.png" alt="image" width="700" height="400">
+  <img src="https://velog.velcdn.com/images/tjdgus0528/post/13b99a57-ddfa-4970-897e-c8faf28368a6/image.png" alt="image" width="700" height="400">
 
-- Login
+- Login page
 
   <img src="https://velog.velcdn.com/images/tjdgus0528/post/2f836849-5571-40b4-b1c8-f65c2e9d4966/image.png" alt="image" width="700" height="400">
 

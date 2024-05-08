@@ -26,22 +26,38 @@ export const getGroupPurchasedData = (
   return { allIds, byId };
 };
 
-const getPurchasedQuantity = (
+const getQuantitySumAndTotalPrice = (
   purchasedItems: StockList['purchasedItems'],
-  id: string,
-): number => {
-  const purchasedItem = purchasedItems.byId[id];
-  return purchasedItem ? purchasedItem.purchasedQuantity * 1 : 0;
-};
+): { purchaseQuantitySum: number; totalPurchasePrice: number } =>
+  purchasedItems.allIds.reduce(
+    (acc, id) => {
+      const { purchasedQuantity = 0, purchasedPrice = 0 } =
+        purchasedItems?.byId?.[id] || {};
 
-const getTotalPurchasedPrice = (
-  purchasedItems: StockList['purchasedItems'],
-  id: string,
-): number => {
-  const purchasedItem = purchasedItems.byId[id];
-  return purchasedItem
-    ? purchasedItem.purchasedQuantity * purchasedItem.purchasedPrice
-    : 0;
+      acc.purchaseQuantitySum += purchasedQuantity;
+      acc.totalPurchasePrice += purchasedQuantity * purchasedPrice;
+      return acc;
+    },
+    {
+      purchaseQuantitySum: 0,
+      totalPurchasePrice: 0,
+    },
+  );
+
+export const getStockTotals = (
+  stockInfo: StockList,
+): Pick<SummaryInfoData, 'evaluationPrice' | 'totalPurchasePrice'> => {
+  const { mainInfo, purchasedItems } = stockInfo;
+
+  const { purchaseQuantitySum, totalPurchasePrice } =
+    getQuantitySumAndTotalPrice(purchasedItems);
+
+  const evaluationPrice = purchaseQuantitySum * mainInfo.currentPrice;
+
+  return {
+    evaluationPrice,
+    totalPurchasePrice,
+  };
 };
 
 export const getStockSummaryInfo = (
@@ -54,15 +70,8 @@ export const getStockSummaryInfo = (
     ? stockInfo.purchasedItems
     : getGroupPurchasedData(stockInfo.purchasedItems, groupPurchasedIds || []);
 
-  const purchaseQuantitySum = purchasedItems.allIds.reduce(
-    (acc, id) => acc + getPurchasedQuantity(purchasedItems, id),
-    0,
-  );
-
-  const totalPurchasePrice = purchasedItems.allIds.reduce(
-    (acc, id) => acc + getTotalPurchasedPrice(purchasedItems, id),
-    0,
-  );
+  const { purchaseQuantitySum, totalPurchasePrice } =
+    getQuantitySumAndTotalPrice(purchasedItems);
 
   const purchasePriceAverage = getAverage(
     totalPurchasePrice,
