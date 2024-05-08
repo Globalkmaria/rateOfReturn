@@ -9,8 +9,8 @@ import {
 } from '../../../features/groups/selectors';
 import { getOptions } from '../../List/GroupButtons/utils';
 import Description from './PortfolioAllocationDescription';
-import CartSkeleton from './CartSkeleton';
 import { BorderAnchor } from '@/components/Anchor';
+import { DoughnutSkeleton } from '../ChartSkeleton';
 
 const PortfolioAllocationChart = lazy(
   () => import('./PortfolioAllocationChart'),
@@ -42,7 +42,7 @@ const PortfolioAllocation = () => {
           to see this chart.
         </StyledNoStock>
       ) : (
-        <Suspense fallback={<CartSkeleton />}>
+        <Suspense fallback={<DoughnutSkeleton />}>
           <PortfolioAllocationChart groupId={groupId} />
         </Suspense>
       )}

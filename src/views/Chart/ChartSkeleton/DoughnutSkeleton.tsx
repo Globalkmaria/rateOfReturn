@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 
-const CartSkeleton = () => {
+export const DoughnutSkeleton = () => {
   return (
     <StyledSkeleton>
       <Skeleton />
     </StyledSkeleton>
   );
 };
-
-export default CartSkeleton;
 
 const StyledSkeleton = styled('div')`
   flex-grow: 1;
