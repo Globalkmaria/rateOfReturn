@@ -4,10 +4,11 @@ import styled from 'styled-components';
 
 import Select from '@/components/Select';
 import { selectStocks } from '@/features/stockList/selectors';
-import { getStockOptions } from './utils';
+import { getStockBarChartInfos, getStockOptions } from './utils';
 import { Skeleton } from '@/components/Skeleton';
 import { BorderAnchor } from '@/components/Anchor';
 import NoStockMessage from '../NoStockMessage';
+import BarChartTable from './BarChartTable';
 
 const BarChart = lazy(() => import('./BarChart'));
 
@@ -17,6 +18,8 @@ function StockBarChart() {
   const stockOptions = getStockOptions(stockList);
 
   const stock = stockList.byId[selectedStock];
+
+  const stockBarChartInfos = getStockBarChartInfos(stock);
 
   return (
     <StyledContainer>
@@ -29,7 +32,7 @@ function StockBarChart() {
         title='Choose group to show'
       />
       <p>
-        Each bar represents the return percentage for the individually purchased
+        Each bar represents the rate of return for the individually purchased
         stock.
       </p>
       <StyledSubText>
@@ -38,7 +41,11 @@ function StockBarChart() {
 
       {stock ? (
         <Suspense fallback={<StyledSkeleton />}>
-          <BarChart stock={stock} />
+          <BarChart
+            stockBarChartInfos={stockBarChartInfos}
+            stockName={stock.mainInfo.stockName}
+          />
+          <BarChartTable stockBarChartInfos={stockBarChartInfos} />
         </Suspense>
       ) : (
         <NoStockMessage />
@@ -68,14 +75,4 @@ const StyledSkeleton = styled(Skeleton)`
 const StyledSubText = styled('p')`
   font-size: 14px;
   color: ${({ theme }) => theme.colors.grey600};
-`;
-
-const StyledNoStock = styled('p')`
-  display: flex;
-  align-items: center;
-  margin: auto;
-
-  ${BorderAnchor} {
-    margin: 0 10px;
-  }
 `;
