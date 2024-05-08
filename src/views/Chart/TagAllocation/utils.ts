@@ -74,7 +74,7 @@ export const getChartData = (summary: TotalSummary, tagsTotal: TagsTotal) => {
   const buyDataLabels = {
     labels: {
       value: {
-        font: { size: 15 },
+        font: { size: 15, weight: 'bold' },
         align: 'center',
         anchor: 'bottom',
         offset: 8,
