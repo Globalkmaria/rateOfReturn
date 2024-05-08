@@ -33,7 +33,7 @@ function StockBarChart() {
         stock.
       </p>
       <StyledSubText>
-        Formula: ((currentPrice - purchasedPrice) / purchasedPrice) * 100
+        Formula: ((current price - buy price) / buy price) * 100
       </StyledSubText>
 
       {stock ? (
