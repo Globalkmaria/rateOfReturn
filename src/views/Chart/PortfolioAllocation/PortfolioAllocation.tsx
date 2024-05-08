@@ -11,6 +11,7 @@ import { getOptions } from '../../List/GroupButtons/utils';
 import Description from './PortfolioAllocationDescription';
 import { BorderAnchor } from '@/components/Anchor';
 import { DoughnutSkeleton } from '../ChartSkeleton';
+import NoStockMessage from '../NoStockMessage';
 
 const PortfolioAllocationChart = lazy(
   () => import('./PortfolioAllocationChart'),
@@ -36,11 +37,7 @@ const PortfolioAllocation = () => {
       />
       <Description />
       {noData ? (
-        <StyledNoStock>
-          Please add stocks in
-          <BorderAnchor to='/portfolio'>Current Portfolio</BorderAnchor>
-          to see this chart.
-        </StyledNoStock>
+        <NoStockMessage />
       ) : (
         <Suspense fallback={<DoughnutSkeleton />}>
           <PortfolioAllocationChart groupId={groupId} />

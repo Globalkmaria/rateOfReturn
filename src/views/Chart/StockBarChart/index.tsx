@@ -6,8 +6,8 @@ import Select from '@/components/Select';
 import { selectStocks } from '@/features/stockList/selectors';
 import { getStockOptions } from './utils';
 import { Skeleton } from '@/components/Skeleton';
-import { Link } from 'react-router-dom';
 import { BorderAnchor } from '@/components/Anchor';
+import NoStockMessage from '../NoStockMessage';
 
 const BarChart = lazy(() => import('./BarChart'));
 
@@ -41,11 +41,7 @@ function StockBarChart() {
           <BarChart stock={stock} />
         </Suspense>
       ) : (
-        <StyledNoStock>
-          Please add stocks in
-          <BorderAnchor to='/portfolio'>Current Portfolio</BorderAnchor>
-          to see this chart.
-        </StyledNoStock>
+        <NoStockMessage />
       )}
     </StyledContainer>
   );

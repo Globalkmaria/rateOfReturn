@@ -10,7 +10,7 @@ import {
 import { getOptions } from '../../List/GroupButtons/utils';
 import Description from './TagAllocationDescription';
 import { DoughnutSkeleton } from '../ChartSkeleton';
-import { BorderAnchor } from '@/components/Anchor';
+import NoStockMessage from '../NoStockMessage';
 
 const Chart = lazy(() => import('./TagAllocationChart'));
 
@@ -34,11 +34,7 @@ const TagAllocation = () => {
       />
       <Description />
       {noData ? (
-        <StyledNoStock>
-          Please add stocks in
-          <BorderAnchor to='/portfolio'>Current Portfolio</BorderAnchor>
-          to see this chart.
-        </StyledNoStock>
+        <NoStockMessage />
       ) : (
         <Suspense fallback={<DoughnutSkeleton />}>
           <Chart groupId={groupId} />
@@ -58,14 +54,4 @@ const StyledTagAllocation = styled('div')`
 
 const StyledSelect = styled(Select)`
   margin-bottom: 10px;
-`;
-
-const StyledNoStock = styled('p')`
-  display: flex;
-  align-items: center;
-  margin: auto;
-
-  ${BorderAnchor} {
-    margin: 0 10px;
-  }
 `;
