@@ -110,10 +110,37 @@ export const MOCK_DATA: StockListState['stocks'] = {
         allIds: ['10', '14'],
       },
     },
+    '5': {
+      mainInfo: {
+        stockName: 'TLT',
+        currentPrice: 4000,
+        stockId: '5',
+        tag: 'bond',
+      },
+      purchasedItems: {
+        byId: {
+          '16': {
+            purchasedId: '16',
+            purchasedDate: '2024-02-22',
+            purchasedQuantity: 1,
+            purchasedPrice: 3400,
+            purchasedTime: '14:15',
+          },
+          '17': {
+            purchasedId: '17',
+            purchasedDate: '2024-04-28',
+            purchasedTime: '15:26',
+            purchasedQuantity: 2,
+            purchasedPrice: 4300,
+          },
+        },
+        allIds: ['16', '17'],
+      },
+    },
   },
-  allIds: ['1', '2', '3', '4'],
+  allIds: ['1', '2', '3', '4', '5'],
 };
 
 export const MOCK_DATA_NEXT_STOCK_ID = 5;
-export const MOCK_DATA_PURCHASED_ID = 15;
+export const MOCK_DATA_PURCHASED_ID = 18;
 export const MOCK_DATA_TAGS = ['stock', 'bond'];
