@@ -6,7 +6,7 @@ const PortfolioAllocationDescription = () => {
       <div>
         <p>
           <StyledTitle>Inner Circle : </StyledTitle>
-          Portfolio stock allocation by
+          Stock allocation by
           <StyledTitle> buy price</StyledTitle>
         </p>
         <StyledSubText>
@@ -16,7 +16,7 @@ const PortfolioAllocationDescription = () => {
       <div>
         <p>
           <StyledTitle>Outer Circle : </StyledTitle>
-          Portfolio stock allocation by
+          Stock allocation by
           <StyledTitle> current price</StyledTitle>
         </p>
         <StyledSubText>

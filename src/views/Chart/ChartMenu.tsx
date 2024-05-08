@@ -47,4 +47,5 @@ const StyledMenuList = styled('ul')`
 
 const StyledMenu = styled(BorderAnchor)<MenuProps>`
   padding: 20px;
+  font-weight: 500;
 `;
