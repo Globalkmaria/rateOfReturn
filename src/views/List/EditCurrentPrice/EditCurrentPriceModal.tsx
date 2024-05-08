@@ -33,7 +33,7 @@ interface Props {
 interface ItemProps {
   stockId: string;
   changes: Changes;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  onChange: PurchasedInputChangeProps;
 }
 
 function EditCurrentPriceModal({ onClose }: Props) {
