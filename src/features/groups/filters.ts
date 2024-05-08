@@ -14,12 +14,12 @@ type StockSummaryInfo = SummaryInfo & {
 };
 
 type StocksTotal = {
-  [stockName: string]: StockSummaryInfo;
+  [stockId: string]: StockSummaryInfo;
 };
 
 export type TotalSummary = {
   groupSummary: SummaryInfo;
-  stocksSummary: { [stockName: string]: StockSummaryInfo };
+  stocksSummary: StocksTotal;
 };
 
 const getPurchasedInfos = (
@@ -86,15 +86,17 @@ const getGroupTotal = (stockInfo: StockListState['stocks']) => {
 };
 
 const getStocksTotal = (stockInfo: StockListState['stocks']): StocksTotal => {
-  return stockInfo.allIds.reduce<{
-    [stockName: string]: StockSummaryInfo;
-  }>((summary, stockId) => {
+  const result: {
+    [stockId: string]: StockSummaryInfo;
+  } = {};
+
+  return stockInfo.allIds.reduce((summary, stockId) => {
     const stock = stockInfo.byId[stockId];
     const { totalPurchasePrice, evaluationPrice: totalCurrentValue } =
       getStockTotals(stock);
     const stockName = stock.mainInfo.stockName;
 
-    summary[stockName] = {
+    summary[stockId] = {
       totalPurchasePrice,
       totalCurrentValue,
       stockName,
@@ -102,7 +104,7 @@ const getStocksTotal = (stockInfo: StockListState['stocks']): StocksTotal => {
     };
 
     return summary;
-  }, {});
+  }, result);
 };
 
 export const getTotalSummary = (stockInfo: StockListState['stocks']) => {

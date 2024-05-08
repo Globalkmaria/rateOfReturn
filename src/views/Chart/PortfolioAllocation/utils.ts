@@ -1,13 +1,9 @@
-import { TotalSummary } from '../../../features/groups/filters';
+import { StockListState } from '@/features/stockList/type';
+import { getTotalSummary } from '../../../features/groups/filters';
 import { Context } from 'chartjs-plugin-datalabels';
+import { getFixedLocaleString } from '@/utils/number';
+import { PercentageAndTotalPrice } from '../type';
 
-const repeatedColors = (base: string[], times = 17): string[] => {
-  const background = [];
-  for (let i = 0; i < times; i++) {
-    background.push(...base);
-  }
-  return background;
-};
 const BASE_BACKGROUND_COLORS = [
   'rgba(255, 99, 132, 0.6)',
   'rgba(54, 162, 235, 0.6)',
@@ -39,31 +35,17 @@ const getBorderColor = (length: number) => {
   );
 };
 
-export const getChartData = (summary: TotalSummary) => {
-  const { groupSummary, stocksSummary } = summary;
-  const labels = Object.keys(stocksSummary);
-  const buyData: number[] = [];
-  const currentData: number[] = [];
-  Object.keys(stocksSummary).forEach(stockId => {
-    buyData.push(
-      Number(
-        (
-          (stocksSummary[stockId]['totalPurchasePrice'] /
-            groupSummary.totalPurchasePrice) *
-          100
-        ).toFixed(3),
-      ),
-    );
-    currentData.push(
-      Number(
-        (
-          (stocksSummary[stockId]['totalCurrentValue'] /
-            groupSummary.totalCurrentValue) *
-          100
-        ).toFixed(3),
-      ),
-    );
-  });
+export const getChartData = (stockAllocationInfo: StockAllocationInfo) => {
+  const labels = [];
+  const buyData = [];
+  const currentData = [];
+
+  for (const stockId of stockAllocationInfo.stockIds) {
+    labels.push(stockAllocationInfo.stockIdAndNamePairs[stockId]);
+    buyData.push(stockAllocationInfo.buyPrice[stockId].percent);
+    currentData.push(stockAllocationInfo.currentPrice[stockId].percent);
+  }
+
   const buyDataLabels = {
     labels: {
       value: {
@@ -134,5 +116,49 @@ export const getChartData = (summary: TotalSummary) => {
   return {
     labels,
     datasets,
+  };
+};
+
+export type StockAllocationInfo = ReturnType<typeof getStockAllocationInfo>;
+
+export const getStockAllocationInfo = (stockInfo: StockListState['stocks']) => {
+  const summary = getTotalSummary(stockInfo);
+
+  const stockIds = stockInfo.allIds;
+  const stockIdAndNamePairs = stockIds.reduce((acc, stockId) => {
+    acc[stockId] = summary.stocksSummary[stockId].stockName;
+    return acc;
+  }, {} as Record<string, string>);
+
+  const buyPrice: Record<string, PercentageAndTotalPrice> = {};
+  const currentPrice: Record<string, PercentageAndTotalPrice> = {};
+
+  for (const stockId of stockIds) {
+    const stockSummary = summary.stocksSummary[stockId];
+
+    buyPrice[stockId] = {
+      percent: (
+        (stockSummary.totalPurchasePrice /
+          summary.groupSummary.totalPurchasePrice) *
+        100
+      ).toFixed(3),
+      totalPrice: getFixedLocaleString(stockSummary.totalPurchasePrice),
+    };
+
+    currentPrice[stockId] = {
+      percent: (
+        (stockSummary.totalCurrentValue /
+          summary.groupSummary.totalCurrentValue) *
+        100
+      ).toFixed(3),
+      totalPrice: getFixedLocaleString(stockSummary.totalCurrentValue),
+    };
+  }
+
+  return {
+    stockIdAndNamePairs,
+    buyPrice,
+    currentPrice,
+    stockIds,
   };
 };

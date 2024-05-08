@@ -5,6 +5,7 @@ import {
 } from '../../../features/groups/filters';
 import { Context } from 'chartjs-plugin-datalabels';
 import { getFixedLocaleString } from '@/utils/number';
+import { PercentageAndTotalPrice } from '../type';
 
 interface TagsTotal {
   buyPrice: Record<string, number>;
@@ -141,11 +142,6 @@ export const getTagsTotal = (
     buyPrice,
     currentPrice,
   };
-};
-
-type PercentageAndTotalPrice = {
-  percent: string;
-  totalPrice: string;
 };
 
 export type TagsInfo = {

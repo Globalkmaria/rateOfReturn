@@ -12,6 +12,8 @@ import Description from './PortfolioAllocationDescription';
 import { BorderAnchor } from '@/components/Anchor';
 import { DoughnutSkeleton } from '../ChartSkeleton';
 import NoStockMessage from '../NoStockMessage';
+import PortfolioAllocationTable from './PortfolioAllocationTable';
+import { getStockAllocationInfo } from './utils';
 
 const PortfolioAllocationChart = lazy(
   () => import('./PortfolioAllocationChart'),
@@ -24,6 +26,7 @@ const PortfolioAllocation = () => {
   const options = getOptions(groups);
 
   const noData = stockInfo.allIds.length === 0;
+  const stockAllocationInfo = getStockAllocationInfo(stockInfo);
 
   return (
     <StyledPortfolioAllocation>
@@ -40,7 +43,8 @@ const PortfolioAllocation = () => {
         <NoStockMessage />
       ) : (
         <Suspense fallback={<DoughnutSkeleton />}>
-          <PortfolioAllocationChart groupId={groupId} />
+          <PortfolioAllocationChart stockAllocationInfo={stockAllocationInfo} />
+          <PortfolioAllocationTable stockAllocationInfo={stockAllocationInfo} />
         </Suspense>
       )}
     </StyledPortfolioAllocation>

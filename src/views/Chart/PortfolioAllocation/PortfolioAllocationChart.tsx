@@ -1,20 +1,28 @@
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, Colors, ChartData, ChartOptions } from 'chart.js';
+
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  Colors,
+  ChartData,
+  ChartOptions,
+} from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-import { getTotalSummary } from '../../../features/groups/filters';
-import { selectGroupStockInfo } from '../../../features/groups/selectors';
-import { getChartData } from './utils';
+import { StockAllocationInfo, getChartData } from './utils';
 
 ChartJS.register(ArcElement, Tooltip, Legend, Colors, ChartDataLabels);
 
-const PortfolioAllocationChart = ({ groupId }: { groupId: string }) => {
-  const stockInfo = useSelector(selectGroupStockInfo(groupId));
-  const summary = getTotalSummary(stockInfo);
+interface Props {
+  stockAllocationInfo: StockAllocationInfo;
+}
+
+const PortfolioAllocationChart = ({ stockAllocationInfo }: Props) => {
   // @ts-ignore
-  const chartData: ChartData<'doughnut'> = getChartData(summary);
+  const chartData: ChartData<'doughnut'> = getChartData(stockAllocationInfo);
   const options: ChartOptions<'doughnut'> = {
     layout: {
       padding: 20,
