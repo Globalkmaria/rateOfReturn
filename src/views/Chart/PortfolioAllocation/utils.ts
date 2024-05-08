@@ -141,7 +141,7 @@ export const getStockAllocationInfo = (stockInfo: StockListState['stocks']) => {
         (stockSummary.totalPurchasePrice /
           summary.groupSummary.totalPurchasePrice) *
         100
-      ).toFixed(3),
+      ).toFixed(2),
       totalPrice: getFixedLocaleString(stockSummary.totalPurchasePrice),
     };
 
@@ -150,7 +150,7 @@ export const getStockAllocationInfo = (stockInfo: StockListState['stocks']) => {
         (stockSummary.totalCurrentValue /
           summary.groupSummary.totalCurrentValue) *
         100
-      ).toFixed(3),
+      ).toFixed(2),
       totalPrice: getFixedLocaleString(stockSummary.totalCurrentValue),
     };
   }

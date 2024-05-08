@@ -28,10 +28,10 @@ function PortfolioAllocationTable({ stockAllocationInfo }: Props) {
               <TableHead colSpan={2}>Current</TableHead>
             </TableRow>
             <TableRow>
-              <TableHead>%</TableHead>
-              <TableHead>Total Price</TableHead>
-              <TableHead>%</TableHead>
-              <TableHead>Total Price</TableHead>
+              <TableHead width={110}>%</TableHead>
+              <TableHead width={180}>Total Price</TableHead>
+              <TableHead width={110}>%</TableHead>
+              <TableHead width={180}>Total Price</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -55,9 +55,9 @@ const StyledWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
+
 const StyledContainer = styled.div`
   overflow: auto;
-  width: 100%;
 `;
 
 const StyledTable = styled(Table)`

@@ -164,7 +164,7 @@ export const getTagsInfo = (stockInfo: StockListState['stocks']): TagsInfo => {
       percent: (
         (tagsTotal.buyPrice[tag] / summary.groupSummary.totalPurchasePrice) *
         100
-      ).toFixed(3),
+      ).toFixed(2),
       totalPrice: getFixedLocaleString(tagsTotal.buyPrice[tag]),
     };
 
@@ -172,7 +172,7 @@ export const getTagsInfo = (stockInfo: StockListState['stocks']): TagsInfo => {
       percent: (
         (tagsTotal.currentPrice[tag] / summary.groupSummary.totalCurrentValue) *
         100
-      ).toFixed(3),
+      ).toFixed(2),
       totalPrice: getFixedLocaleString(tagsTotal.currentPrice[tag]),
     };
   }
