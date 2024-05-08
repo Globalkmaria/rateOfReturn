@@ -1,3 +1,4 @@
+import { MOCK_DATA_TAGS } from '@/features/stockList/mockData';
 import { StockListState } from '../../features/stockList/type';
 
 export const STOCKS_DATA: StockListState['stocks'] = {
@@ -62,4 +63,5 @@ export const STOCKS_STATE: StockListState = {
   stocks: STOCKS_DATA,
   nextStockId: 3,
   nextPurchasedId: 5,
+  tags: MOCK_DATA_TAGS,
 };
