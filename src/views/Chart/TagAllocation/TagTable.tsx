@@ -21,7 +21,7 @@ function TagTable({ tagsInfo }: Props) {
         <StyledTable>
           <TableHeader>
             <TableRow>
-              <TableHead fixedWidth={200} rowSpan={2}>
+              <TableHead fixedWidth={180} rowSpan={2}>
                 Name
               </TableHead>
               <TableHead colSpan={2}>Buy</TableHead>
@@ -95,7 +95,7 @@ function Item({ tag, tagsInfo }: ItemProps) {
   return (
     <TableRow>
       <TableCell>
-        <StyledEllipsis width={200}>{tag}</StyledEllipsis>
+        <StyledEllipsis width={180}>{tag}</StyledEllipsis>
       </TableCell>
       <TableCell align='right'>{tagsInfo.buyPrice[tag].percent} %</TableCell>
       <TableCell align='right'>{tagsInfo.buyPrice[tag].totalPrice}</TableCell>
