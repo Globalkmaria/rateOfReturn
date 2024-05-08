@@ -141,15 +141,16 @@ export const groupsSlice = createSlice({
     });
     builder.addCase(initUserData, (state, action) => {
       initGroupsWithData(state, {
+        ...GROUP_INITIAL_STATE,
         selectedGroupId: MAIN_GROUP_ID,
         ...action.payload.groups,
       });
     });
     builder.addCase(resetUserData, () => GROUP_INITIAL_STATE);
-    builder.addCase(
-      setBackupData,
-      (state, action) => action.payload.groups ?? GROUP_INITIAL_STATE,
-    );
+    builder.addCase(setBackupData, (state, action) => ({
+      ...GROUP_INITIAL_STATE,
+      ...action.payload.groups,
+    }));
     builder.addCase(addGroup, (state, action) => {
       const { groupInfo } = action.payload;
       state.groups.byId[groupInfo.groupId] = groupInfo;

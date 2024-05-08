@@ -1,22 +1,31 @@
+import { useRef } from 'react';
+import styled from 'styled-components';
+
 import Dropbox from '@/components/Dropbox';
 import IconButton from '@/components/IconButton';
 import BackupModal from '@/views/List/Backup/BackupModal';
 import useModal from '@/views/List/hooks/useModal';
-import styled from 'styled-components';
 
 function Setting() {
   const settingControl = useModal();
   const backupControl = useModal();
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
   return (
-    <Dropbox.Wrapper onCloseModal={settingControl.onCloseModal}>
+    <Dropbox.Wrapper ref={containerRef}>
       <IconButton
         icon='setting'
         size='m'
         onClick={settingControl.onToggleModal}
       />
       {settingControl.showModal && (
-        <Dropbox.Container vertical={'bottom'} horizontal={'right'}>
+        <Dropbox.Container
+          containerRef={containerRef}
+          onCloseModal={settingControl.onCloseModal}
+          vertical={'bottom'}
+          horizontal={'right'}
+        >
           <Item onClick={backupControl.onOpenModal}>Backup</Item>
         </Dropbox.Container>
       )}

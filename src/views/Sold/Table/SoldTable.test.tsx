@@ -28,6 +28,7 @@ describe('Sold Table', () => {
     const ROW1_DISPLAY_TEXT = [
       '1',
       'Google',
+      'stock',
       '2',
       '06/05/2023 02:13 PM',
       '2,000.0000',

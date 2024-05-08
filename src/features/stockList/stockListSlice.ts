@@ -4,6 +4,7 @@ import {
   MOCK_DATA,
   MOCK_DATA_NEXT_STOCK_ID,
   MOCK_DATA_PURCHASED_ID,
+  MOCK_DATA_TAGS,
 } from './mockData';
 import {
   StockListState,
@@ -30,26 +31,47 @@ export const STOCK_INITIAL_STATE: StockListState = {
   },
   nextStockId: 1,
   nextPurchasedId: 1,
+  tags: [],
 };
 
-export const INITIAL_STATE_WITH_SAMPLE = {
+export const INITIAL_STATE_WITH_SAMPLE: StockListState = {
   stocks: MOCK_DATA,
   nextStockId: MOCK_DATA_NEXT_STOCK_ID,
   nextPurchasedId: MOCK_DATA_PURCHASED_ID,
+  tags: MOCK_DATA_TAGS,
 };
 
 const stockListSlice = createSlice({
   name: 'stockList',
   initialState: INITIAL_STATE_WITH_SAMPLE,
   reducers: {
-    initStockList: (state, action: PayloadAction<StockListState>) =>
-      action.payload,
+    initStockList: (state, action: PayloadAction<StockListState>) => ({
+      ...state,
+      ...action.payload,
+    }),
     updateStock: (
       state: StockListState,
       action: PayloadAction<UpdateStockPayload>,
     ) => {
       const { stockId, stockData } = action.payload;
       state.stocks.byId[stockId].mainInfo = stockData;
+    },
+    deleteStockTag: (state, action: PayloadAction<string>) => {
+      const tag = action.payload;
+      const idx = state.tags.indexOf(tag);
+      if (idx === -1) return;
+      state.tags.splice(idx, 1);
+
+      state.stocks.allIds.forEach(stockId => {
+        if (state.stocks.byId[stockId].mainInfo.tag === tag) {
+          state.stocks.byId[stockId].mainInfo.tag = '';
+        }
+      });
+    },
+    addStockTag: (state, action: PayloadAction<string>) => {
+      const tag = action.payload;
+      if (state.tags.indexOf(tag) !== -1) return;
+      state.tags.push(tag);
     },
     updateStocksCurrentPrice: (
       state: StockListState,
@@ -112,7 +134,10 @@ const stockListSlice = createSlice({
       delete state.stocks.byId[stockId];
       state.stocks.allIds.splice(state.stocks.allIds.indexOf(stockId), 1);
     });
-    builder.addCase(initUserData, (state, action) => action.payload.stocks);
+    builder.addCase(initUserData, (state, action) => ({
+      ...STOCK_INITIAL_STATE,
+      ...action.payload.stocks,
+    }));
     builder.addCase(resetUserData, () => STOCK_INITIAL_STATE);
     builder.addCase(addNewStock, (state, action) => {
       const { stockId, stockInfo } = action.payload;
@@ -129,10 +154,10 @@ const stockListSlice = createSlice({
 
       state.nextPurchasedId = Number(state.nextPurchasedId) + 1;
     });
-    builder.addCase(
-      setBackupData,
-      (state, action) => action.payload.stockList ?? STOCK_INITIAL_STATE,
-    );
+    builder.addCase(setBackupData, (state, action) => ({
+      ...STOCK_INITIAL_STATE,
+      ...action.payload.stockList,
+    }));
     builder.addCase(addStockSampleData, () => INITIAL_STATE_WITH_SAMPLE);
     builder.addCase(addNewSold, (state, action) => {
       const { soldInfo, stockId } = action.payload;
@@ -161,6 +186,8 @@ export const {
   updateStockNeedInit,
   updatePurchaseItemNeedInit,
   updateStocksCurrentPrice,
+  deleteStockTag,
+  addStockTag,
 } = stockListSlice.actions;
 
 export default stockListSlice.reducer;

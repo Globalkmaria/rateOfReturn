@@ -163,6 +163,42 @@ class UserStocksService {
       };
     }
   }
+
+  async addStockTag(tag: string): Promise<Result> {
+    try {
+      const result = await this.repo.addStockTag(tag);
+      if (!result) return { success: true };
+
+      if (result?.response?.status === 400)
+        return { success: false, message: 'Please check the tag.' };
+
+      throw new Error('Error accrued while adding stock tag in server.');
+    } catch (err) {
+      console.log(err);
+      return {
+        success: false,
+        message: 'Could not add tag.',
+      };
+    }
+  }
+
+  async deleteStockTag(tag: string): Promise<Result> {
+    try {
+      const result = await this.repo.deleteStockTag(tag);
+      if (!result) return { success: true };
+
+      if (result?.response?.status === 400)
+        return { success: false, message: 'Please check the tag.' };
+
+      throw new Error('Error accrued while deleting stock tag in server.');
+    } catch (err) {
+      console.log(err);
+      return {
+        success: false,
+        message: 'Could not delete tag.',
+      };
+    }
+  }
 }
 
 const userStocksService = new UserStocksService(userStocksRepository);

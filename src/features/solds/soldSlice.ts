@@ -43,14 +43,20 @@ const soldSlice = createSlice({
       const soldInfo = action.payload;
       state.list.byId[soldInfo.id] = soldInfo;
     },
-    initSolds: (state, action: PayloadAction<SoldsState>) => action.payload,
+    initSolds: (state, action: PayloadAction<SoldsState>) => ({
+      ...SOLD_INITIAL_STATE,
+      ...action.payload,
+    }),
   },
   extraReducers(builder) {
-    builder.addCase(initUserData, (state, action) => action.payload.solds);
-    builder.addCase(
-      setBackupData,
-      (state, action) => action.payload.solds ?? SOLD_INITIAL_STATE,
-    );
+    builder.addCase(initUserData, (state, action) => ({
+      ...SOLD_INITIAL_STATE,
+      ...action.payload.solds,
+    }));
+    builder.addCase(setBackupData, (state, action) => ({
+      ...SOLD_INITIAL_STATE,
+      ...action.payload.solds,
+    }));
     builder.addCase(resetUserData, (state, action) => SOLD_INITIAL_STATE);
   },
 });

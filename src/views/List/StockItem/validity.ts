@@ -68,10 +68,11 @@ export const checkStockValidity = (
 
 const STOCK_FIELD_PAIRS: Record<
   keyof Omit<StockMainInfo, 'stockId' | 'needInit'>,
-  FieldType
+  FieldType | null
 > = {
   stockName: 'name',
   currentPrice: 'price',
+  tag: null,
 };
 
 export const checkPurchasedItemValidity = (

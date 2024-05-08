@@ -49,12 +49,16 @@ describe('List Component', () => {
         name: /add stock/i,
       });
 
-      const preSummaries = screen.queryByRole('cell', { name: /summary/i });
+      const preSummaries = screen.queryByRole('textbox', {
+        name: /stock name/i,
+      });
       expect(preSummaries).not.toBeInTheDocument();
 
       await user.click(addStockBtn);
 
-      const summaries = screen.getAllByRole('cell', { name: /summary/i });
+      const summaries = screen.getAllByRole('textbox', {
+        name: /stock name/i,
+      });
       expect(summaries).toHaveLength(1);
 
       const purchaseItem = screen.getByRole('textbox', {
@@ -77,13 +81,13 @@ describe('List Component', () => {
     test('When stock is removed, stock and all the items included in stock is removed', async () => {
       await renderAndWait(MOCK_STATE);
       let items = screen.getAllByRole('row', {
-        name: /google \d+/i,
+        name: /google/i,
       });
-      expect(items).toHaveLength(2);
+      expect(items).toHaveLength(3);
 
-      const stock = screen.getByRole('row', {
-        name: /google summary/i,
-      });
+      const stock = screen.getAllByRole('row', {
+        name: /google/i,
+      })[0];
 
       const moreBtn = within(stock).getByRole('button', {
         name: /more/i,
@@ -115,18 +119,18 @@ describe('List Component', () => {
         await renderAndWait(MOCK_STATE);
 
         const noTeslaStock = screen.queryByRole('row', {
-          name: /tesla summary/i,
+          name: /tesla/i,
         });
         expect(noTeslaStock).not.toBeInTheDocument();
 
         const googleItems = screen.getAllByRole('row', {
-          name: /google \d+/i,
+          name: /google /i,
         });
         const googleItemLength = googleItems.length;
 
-        const stock = screen.getByRole('row', {
-          name: /google summary/i,
-        });
+        const stock = screen.getAllByRole('row', {
+          name: /google/i,
+        })[0];
         const editBtn = within(stock).getByRole('button', {
           name: /edit/i,
         });
@@ -140,13 +144,8 @@ describe('List Component', () => {
         const saveBtn = screen.getByRole('button', { name: /save/i });
         await user.click(saveBtn);
 
-        const teslaStock = screen.getByRole('row', {
-          name: /tesla summary/i,
-        });
-        expect(teslaStock).toBeInTheDocument();
-
         const teslaItems = screen.getAllByRole('row', {
-          name: /tesla \d+/i,
+          name: /tesla/i,
         });
         expect(teslaItems).toHaveLength(googleItemLength);
       });
@@ -199,9 +198,9 @@ describe('List Component', () => {
     test('When there is 1 item in Stock and item is removed, stock is also removed', async () => {
       await renderAndWait(MOCK_STATE);
 
-      const item1 = screen.getByRole('row', {
-        name: /google 1/i,
-      });
+      const item1 = screen.getAllByRole('row', {
+        name: /google/i,
+      })[1];
 
       const moreBtn = within(item1).getByRole('button', {
         name: /more/i,
@@ -221,14 +220,13 @@ describe('List Component', () => {
 
       expect(item1).not.toBeInTheDocument();
 
-      const stock = screen.getByRole('row', {
-        name: /google summary/i,
-      });
+      const stock = screen.getAllByRole('row', {
+        name: /google/i,
+      })[0];
       expect(stock).toBeInTheDocument();
-
-      const item2 = screen.getByRole('row', {
-        name: /google 2/i,
-      });
+      const item2 = screen.getAllByRole('row', {
+        name: /google/i,
+      })[1];
 
       const moreBtn2 = within(item2).getByRole('button', {
         name: /more/i,
@@ -273,15 +271,15 @@ describe('List Component', () => {
 
     test('When current item is sold, and there is no more item in stock. Stock is removed.', async () => {
       await renderAndWait(MOCK_STATE);
-
-      const stock = screen.getByRole('row', {
-        name: /google summary/i,
-      });
+      const stock = screen.getAllByRole('row', {
+        name: /google/i,
+      })[0];
       expect(stock).toBeInTheDocument();
 
       const items = screen.getAllByRole('row', {
-        name: /google \d+/i,
+        name: /google \d+ purchased/i,
       });
+
       expect(items).toHaveLength(2);
 
       // sell item 1
@@ -297,7 +295,7 @@ describe('List Component', () => {
       await user.click(soldBtn);
 
       const itemsAfterSold = screen.getAllByRole('row', {
-        name: /google \d+/i,
+        name: /google \d+ purchased/i,
       });
       expect(itemsAfterSold).toHaveLength(1);
 
@@ -325,9 +323,9 @@ describe('List Component', () => {
     test('When stock is sold, stock is removed from List page', async () => {
       await renderAndWait(MOCK_STATE);
 
-      const stock = screen.getByRole('row', {
-        name: /google summary/i,
-      });
+      const stock = screen.getAllByRole('row', {
+        name: /google/i,
+      })[0];
       const moreBtn = within(stock).getByRole('button', {
         name: /more/i,
       });

@@ -79,6 +79,17 @@ class UserStocksRepository {
       method: 'DELETE',
     });
   }
+
+  async addStockTag(tag: string): Promise<void | ErrorResponse> {
+    return this.httpClient.fetch(`/tags/${tag}`, {
+      method: 'POST',
+    });
+  }
+  async deleteStockTag(tag: string): Promise<void | ErrorResponse> {
+    return this.httpClient.fetch(`/tags/${tag}`, {
+      method: 'DELETE',
+    });
+  }
 }
 
 const UserStocksBaseURL = `${config.server.url}/user/stocks`;

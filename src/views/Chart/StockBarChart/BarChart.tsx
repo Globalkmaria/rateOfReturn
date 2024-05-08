@@ -13,7 +13,7 @@ import {
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-import { stockData } from './utils';
+import { StockBarChartInfos, stockData } from './utils';
 import { StockList } from '@/features/stockList/type';
 
 ChartJS.register(
@@ -35,16 +35,17 @@ const CHART_OPTIONS: ChartOptions<'bar'> = {
 };
 
 interface Props {
-  stock: StockList;
+  stockBarChartInfos: StockBarChartInfos;
+  stockName: StockList['mainInfo']['stockName'];
 }
 
-function BarChart({ stock }: Props) {
+function BarChart({ stockBarChartInfos, stockName }: Props) {
   // @ts-ignore
-  const data: ChartData<'bar'> = stockData(stock);
+  const data: ChartData<'bar'> = stockData(stockName, stockBarChartInfos);
 
   return (
     <StyledContainer>
-      <StyledTitle>{stock.mainInfo.stockName}</StyledTitle>
+      <StyledTitle>{stockName}</StyledTitle>
       <Bar data={data} options={CHART_OPTIONS} />
     </StyledContainer>
   );

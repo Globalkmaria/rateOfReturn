@@ -41,10 +41,12 @@ const StyledChartMenu = styled('nav')`
 
 const StyledMenuList = styled('ul')`
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 10px 20px;
 `;
 
 const StyledMenu = styled(BorderAnchor)<MenuProps>`
   padding: 20px;
+  font-weight: 500;
 `;

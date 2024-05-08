@@ -9,6 +9,7 @@ import { selectStockInfoById } from '../../../../features/stockList/selectors';
 import { InputCell, NumberCell, StyledTextWrapper } from '../components';
 import { useGetStockSummaryData } from './hooks/useGetStockSummaryData';
 import { ChangedSummaryInputs } from './hooks/useStockSummaryInputChange';
+import StockTag from './StockTag';
 
 type Props = {
   stockId: string;
@@ -18,6 +19,7 @@ type Props = {
     transformedValue: TransformedValue,
   ) => void;
   changedInputs: ChangedSummaryInputs;
+  onTagChange: (option: string) => void;
 };
 
 const SummaryContent = ({
@@ -25,6 +27,7 @@ const SummaryContent = ({
   isLock,
   onInputChange,
   changedInputs,
+  onTagChange,
 }: Props) => {
   const focusedInput = useRef<HTMLInputElement>(null);
   const stockInfo = useSelector(selectStockInfoById(stockId));
@@ -34,6 +37,7 @@ const SummaryContent = ({
   const formattedCurrentPrice =
     changedInputs.currentPrice?.toString() ||
     stockInfo.mainInfo.currentPrice.toString();
+  const selectedOption = changedInputs.tag ?? stockInfo.mainInfo.tag;
 
   useEffect(() => {
     if (!focusedInput.current?.disabled) focusedInput.current?.focus();
@@ -52,9 +56,12 @@ const SummaryContent = ({
           ref={focusedInput}
         />
       </TableCell>
-      <TableCell align='center' colSpan={2}>
-        Summary
-      </TableCell>
+      <TableCell align='center'></TableCell>
+      <StockTag
+        disabled={isLock}
+        selectedOption={selectedOption}
+        onTagChange={onTagChange}
+      />
       <NumberCell value={summaryData.purchaseQuantitySum} />
       <NumberCell withFixed value={summaryData.purchasePriceAverage} />
       <StyledTotalPurchase withFixed value={summaryData.totalPurchasePrice} />

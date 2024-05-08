@@ -21,5 +21,6 @@ export const getSoldInfoFromPurchasedInfo = (
     soldDate: date,
     soldTime: time,
     soldPrice: stock.currentPrice || 0,
+    tag: stock.tag,
   };
 };

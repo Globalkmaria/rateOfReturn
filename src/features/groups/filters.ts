@@ -1,5 +1,5 @@
 import { RootState } from '../../store';
-import { getStockSummaryInfo } from '../../views/List/StockItem/utils';
+import { getStockTotals } from '../../views/List/StockItem/utils';
 import { StockList, StockListState } from '../stockList/type';
 import { MAIN_GROUP_ID } from './groupsSlice';
 
@@ -13,16 +13,26 @@ type StockSummaryInfo = SummaryInfo & {
   stockId: string;
 };
 
-export type TotalSummary = {
-  groupSummary: SummaryInfo;
-  stocksSummary: { [stockName: string]: StockSummaryInfo };
+type StocksTotal = {
+  [stockId: string]: StockSummaryInfo;
 };
 
-const getPurchasedInfos = (purchasedIds: string[], mainPurchasedInfo: StockList['purchasedItems']['byId']) =>
-  purchasedIds.reduce<StockList['purchasedItems']['byId']>((purchasedInfo, purchasedId) => {
-    purchasedInfo[purchasedId] = mainPurchasedInfo[purchasedId];
-    return purchasedInfo;
-  }, {});
+export type TotalSummary = {
+  groupSummary: SummaryInfo;
+  stocksSummary: StocksTotal;
+};
+
+const getPurchasedInfos = (
+  purchasedIds: string[],
+  mainPurchasedInfo: StockList['purchasedItems']['byId'],
+) =>
+  purchasedIds.reduce<StockList['purchasedItems']['byId']>(
+    (purchasedInfo, purchasedId) => {
+      purchasedInfo[purchasedId] = mainPurchasedInfo[purchasedId];
+      return purchasedInfo;
+    },
+    {},
+  );
 
 export const getGroupStockInfo = (
   mainStocks: RootState['stockList']['stocks'],
@@ -57,26 +67,52 @@ export const getGroupStockInfo = (
   }, initialState);
 };
 
-export const getTotalSummary = (stockInfo: StockListState['stocks']) => {
-  const init: TotalSummary = {
-    groupSummary: {
-      totalPurchasePrice: 0,
-      totalCurrentValue: 0,
-    },
-    stocksSummary: {},
+const getGroupTotal = (stockInfo: StockListState['stocks']) => {
+  const init: SummaryInfo = {
+    totalPurchasePrice: 0,
+    totalCurrentValue: 0,
   };
 
   return stockInfo.allIds.reduce((summary, stockId) => {
-    const { groupSummary, stocksSummary } = summary;
     const stock = stockInfo.byId[stockId];
-    const { totalPurchasePrice, evaluationPrice: totalCurrentValue } = getStockSummaryInfo(stock, true);
+    const { totalPurchasePrice, evaluationPrice: totalCurrentValue } =
+      getStockTotals(stock);
 
-    groupSummary.totalPurchasePrice += totalPurchasePrice;
-    groupSummary.totalCurrentValue += totalCurrentValue;
-
-    const stockName = stock.mainInfo.stockName;
-    stocksSummary[stockName] = { totalPurchasePrice, totalCurrentValue, stockName, stockId };
+    summary.totalPurchasePrice += totalPurchasePrice;
+    summary.totalCurrentValue += totalCurrentValue;
 
     return summary;
   }, init);
+};
+
+const getStocksTotal = (stockInfo: StockListState['stocks']): StocksTotal => {
+  const result: {
+    [stockId: string]: StockSummaryInfo;
+  } = {};
+
+  return stockInfo.allIds.reduce((summary, stockId) => {
+    const stock = stockInfo.byId[stockId];
+    const { totalPurchasePrice, evaluationPrice: totalCurrentValue } =
+      getStockTotals(stock);
+    const stockName = stock.mainInfo.stockName;
+
+    summary[stockId] = {
+      totalPurchasePrice,
+      totalCurrentValue,
+      stockName,
+      stockId,
+    };
+
+    return summary;
+  }, result);
+};
+
+export const getTotalSummary = (stockInfo: StockListState['stocks']) => {
+  const groupSummary = getGroupTotal(stockInfo);
+  const stocksSummary = getStocksTotal(stockInfo);
+
+  return {
+    groupSummary,
+    stocksSummary,
+  };
 };
