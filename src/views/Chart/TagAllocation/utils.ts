@@ -1,6 +1,10 @@
 import { StockListState } from '@/features/stockList/type';
-import { TotalSummary } from '../../../features/groups/filters';
+import {
+  TotalSummary,
+  getTotalSummary,
+} from '../../../features/groups/filters';
 import { Context } from 'chartjs-plugin-datalabels';
+import { getFixedLocaleString } from '@/utils/number';
 
 interface TagsTotal {
   buyPrice: Record<string, number>;
@@ -38,38 +42,13 @@ const getBorderColor = (length: number) => {
   );
 };
 
-export const getChartData = (summary: TotalSummary, tagsTotal: TagsTotal) => {
-  const { groupSummary } = summary;
-
-  const tags = Object.keys(tagsTotal.buyPrice);
+export const getChartData = (tagsInfo: TagsInfo) => {
+  const { tags, buyPrice, currentPrice } = tagsInfo;
 
   const labels = tags;
-  if (tags.includes('Others')) {
-    labels.splice(tags.indexOf('Others'), 1);
-    labels.push('Others');
-  }
 
-  const buyData: number[] = [];
-  const currentData: number[] = [];
-
-  tags.forEach(tag => {
-    buyData.push(
-      Number(
-        (
-          (tagsTotal.buyPrice[tag] / groupSummary.totalPurchasePrice) *
-          100
-        ).toFixed(3),
-      ),
-    );
-    currentData.push(
-      Number(
-        (
-          (tagsTotal.currentPrice[tag] / groupSummary.totalCurrentValue) *
-          100
-        ).toFixed(3),
-      ),
-    );
-  });
+  const buyData = labels.map(tag => buyPrice[tag].percent);
+  const currentData = labels.map(tag => currentPrice[tag].percent);
 
   const buyDataLabels = {
     labels: {
@@ -149,14 +128,10 @@ export const getTagsTotal = (
   stockInfo: StockListState['stocks'],
   summary: TotalSummary,
 ): TagsTotal => {
-  const buyPrice: Record<string, number> = {
-    Others: 0,
-  };
-  const currentPrice: Record<string, number> = {
-    Others: 0,
-  };
+  const buyPrice: Record<string, number> = {};
+  const currentPrice: Record<string, number> = {};
 
-  for (const [_, stock] of Object.entries(summary.stocksSummary)) {
+  for (const stock of Object.values(summary.stocksSummary)) {
     const tag = stockInfo.byId[stock.stockId].mainInfo.tag || 'Others';
     buyPrice[tag] = (buyPrice[tag] || 0) + stock.totalPurchasePrice;
     currentPrice[tag] = (currentPrice[tag] || 0) + stock.totalCurrentValue;
@@ -165,5 +140,55 @@ export const getTagsTotal = (
   return {
     buyPrice,
     currentPrice,
+  };
+};
+
+type PercentageAndTotalPrice = {
+  percent: string;
+  totalPrice: string;
+};
+
+export type TagsInfo = {
+  tags: string[];
+  buyPrice: Record<string, PercentageAndTotalPrice>;
+  currentPrice: Record<string, PercentageAndTotalPrice>;
+};
+
+export const getTagsInfo = (stockInfo: StockListState['stocks']): TagsInfo => {
+  const summary = getTotalSummary(stockInfo);
+  const tagsTotal = getTagsTotal(stockInfo, summary);
+
+  const tags = Object.keys(tagsTotal.buyPrice);
+
+  const buyPrice: Record<string, PercentageAndTotalPrice> = {};
+  const currentPrice: Record<string, PercentageAndTotalPrice> = {};
+
+  for (const tag of tags) {
+    buyPrice[tag] = {
+      percent: (
+        (tagsTotal.buyPrice[tag] / summary.groupSummary.totalPurchasePrice) *
+        100
+      ).toFixed(3),
+      totalPrice: getFixedLocaleString(tagsTotal.buyPrice[tag]),
+    };
+
+    currentPrice[tag] = {
+      percent: (
+        (tagsTotal.currentPrice[tag] / summary.groupSummary.totalCurrentValue) *
+        100
+      ).toFixed(3),
+      totalPrice: getFixedLocaleString(tagsTotal.currentPrice[tag]),
+    };
+  }
+
+  if (tags.includes('Others')) {
+    tags.splice(tags.indexOf('Others'), 1);
+    tags.push('Others');
+  }
+
+  return {
+    buyPrice,
+    currentPrice,
+    tags,
   };
 };

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+
 import {
   Chart as ChartJS,
   ArcElement,
@@ -12,19 +12,17 @@ import {
 import { Doughnut } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-import { getTotalSummary } from '../../../features/groups/filters';
-import { selectGroupStockInfo } from '../../../features/groups/selectors';
-import { getChartData, getTagsTotal } from './utils';
+import { TagsInfo, getChartData } from './utils';
 
 ChartJS.register(ArcElement, Tooltip, Legend, Colors, ChartDataLabels);
 
-const TagAllocationChart = ({ groupId }: { groupId: string }) => {
-  const stockInfo = useSelector(selectGroupStockInfo(groupId));
-  const summary = getTotalSummary(stockInfo);
-  const tagsTotal = getTagsTotal(stockInfo, summary);
+interface Props {
+  tagsInfo: TagsInfo;
+}
 
+const TagAllocationChart = ({ tagsInfo }: Props) => {
   // @ts-ignore
-  const chartData: ChartData<'doughnut'> = getChartData(summary, tagsTotal);
+  const chartData: ChartData<'doughnut'> = getChartData(tagsInfo);
   const options: ChartOptions<'doughnut'> = {
     layout: {
       padding: 20,

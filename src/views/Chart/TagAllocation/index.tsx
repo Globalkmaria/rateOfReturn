@@ -11,6 +11,8 @@ import { getOptions } from '../../List/GroupButtons/utils';
 import Description from './TagAllocationDescription';
 import { DoughnutSkeleton } from '../ChartSkeleton';
 import NoStockMessage from '../NoStockMessage';
+import TagTable from './TagTable';
+import { getTagsInfo } from './utils';
 
 const Chart = lazy(() => import('./TagAllocationChart'));
 
@@ -20,6 +22,7 @@ const TagAllocation = () => {
   const groups = useSelector(selectGroups);
   const options = getOptions(groups);
 
+  const tagsInfo = getTagsInfo(stockInfo);
   const noData = stockInfo.allIds.length === 0;
 
   return (
@@ -37,9 +40,10 @@ const TagAllocation = () => {
         <NoStockMessage />
       ) : (
         <Suspense fallback={<DoughnutSkeleton />}>
-          <Chart groupId={groupId} />
+          <Chart tagsInfo={tagsInfo} />
         </Suspense>
       )}
+      <TagTable tagsInfo={tagsInfo} />
     </StyledTagAllocation>
   );
 };
