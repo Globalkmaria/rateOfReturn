@@ -41,9 +41,9 @@ const TagAllocation = () => {
       ) : (
         <Suspense fallback={<DoughnutSkeleton />}>
           <Chart tagsInfo={tagsInfo} />
+          <TagTable tagsInfo={tagsInfo} />
         </Suspense>
       )}
-      <TagTable tagsInfo={tagsInfo} />
     </StyledTagAllocation>
   );
 };
