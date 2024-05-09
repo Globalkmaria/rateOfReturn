@@ -85,7 +85,7 @@ export type ReplaceUserDataRepReq = {
   };
 };
 
-export type mergeUserDataRepReq = {
+export type MergeUserDataRepReq = {
   stocks:
     | ReplaceUserDataRepReq['stocks']
     | {
@@ -94,3 +94,8 @@ export type mergeUserDataRepReq = {
   groups: UserGroups;
   solds: UserSolds;
 };
+
+export type AddCurrentPageSample = Pick<
+  MergeUserDataRepReq,
+  'groups' | 'stocks'
+>;

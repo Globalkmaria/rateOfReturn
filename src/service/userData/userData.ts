@@ -1,8 +1,18 @@
-import { ReplaceUserDataRepReq, mergeUserDataRepReq } from '../../repository/userData/type';
-import UserDataRepository, { userDataRepository } from '../../repository/userData/userData';
+import { STOCK_STATE_SAMPLE } from '@/features/stockList/mockData';
+import {
+  ReplaceUserDataRepReq,
+  MergeUserDataRepReq,
+  AddCurrentPageSample,
+} from '../../repository/userData/type';
+import UserDataRepository, {
+  userDataRepository,
+} from '../../repository/userData/userData';
 import { Result } from '../type';
 import { UserDataServiceRes } from './type';
 import { transformUserDataForFrontend } from './util';
+import { GROUP_STATE_SAMPLE } from '@/features/groups/mockData';
+import formatStockAsServerFormat from '@/utils/formatStockAsServerFormat';
+import formatGroupAsServerFormat from '@/utils/formatGroupAsServerFormat';
 
 class UserDataService {
   repo: UserDataRepository;
@@ -10,7 +20,7 @@ class UserDataService {
     this.repo = repo;
   }
 
-  async mergeUserData(data: mergeUserDataRepReq): Promise<Result> {
+  async mergeUserData(data: MergeUserDataRepReq): Promise<Result> {
     try {
       const result = await this.repo.mergeUserData(data);
       if ('success' in result) return result;
@@ -47,10 +57,16 @@ class UserDataService {
     }
   }
 
-  async addSampleUserData(): Promise<Result> {
+  async addStockAndGroupSample(): Promise<Result> {
     try {
-      const result = await this.repo.addSampleUserData();
-      if (!result) return { success: true };
+      const data: AddCurrentPageSample = {
+        stocks: formatStockAsServerFormat(STOCK_STATE_SAMPLE) || {},
+        groups: formatGroupAsServerFormat(GROUP_STATE_SAMPLE)?.groups || {},
+      };
+
+      const result = await this.repo.addStockAndGroupSample(data);
+      if ('success' in result) return result;
+
       throw new Error(result.message);
     } catch (error) {
       alert(error);

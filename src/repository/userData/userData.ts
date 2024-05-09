@@ -4,7 +4,8 @@ import { Result } from '../../service/type';
 import {
   ReplaceUserDataRepReq,
   UserDataRepRes,
-  mergeUserDataRepReq,
+  MergeUserDataRepReq,
+  AddCurrentPageSample,
 } from './type';
 
 class UserDataRepository {
@@ -20,7 +21,7 @@ class UserDataRepository {
   }
 
   async mergeUserData(
-    data: mergeUserDataRepReq,
+    data: MergeUserDataRepReq,
   ): Promise<Result | ErrorResponse> {
     return this.httpClient.fetch('/', {
       method: 'PATCH',
@@ -37,9 +38,12 @@ class UserDataRepository {
     });
   }
 
-  async addSampleUserData(): Promise<null | ErrorResponse> {
-    return this.httpClient.fetch('/sample', {
+  async addStockAndGroupSample(
+    data: AddCurrentPageSample,
+  ): Promise<Result | ErrorResponse> {
+    return this.httpClient.fetch('/samples/current', {
       method: 'POST',
+      body: JSON.stringify(data),
     });
   }
 }

@@ -1,5 +1,7 @@
 import { GroupsState } from './type';
 
+export const MAIN_GROUP_ID = '1';
+
 export const GROUPS_MOCK_DATA: GroupsState['groups'] = {
   byId: {
     '2': {
@@ -31,3 +33,9 @@ export const GROUPS_MOCK_DATA: GroupsState['groups'] = {
 };
 
 export const GROUPS_MOCK_DATA_NEXT_GROUP_ID = 5;
+
+export const GROUP_STATE_SAMPLE: GroupsState = {
+  groups: GROUPS_MOCK_DATA,
+  selectedGroupId: MAIN_GROUP_ID,
+  nextGroupId: GROUPS_MOCK_DATA_NEXT_GROUP_ID,
+};

@@ -1,11 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import {
-  MOCK_DATA,
-  MOCK_DATA_NEXT_STOCK_ID,
-  MOCK_DATA_PURCHASED_ID,
-  MOCK_DATA_TAGS,
-} from './mockData';
+import { STOCK_STATE_SAMPLE } from './mockData';
 import {
   StockListState,
   UpdateStockPayload,
@@ -34,16 +29,9 @@ export const STOCK_INITIAL_STATE: StockListState = {
   tags: [],
 };
 
-export const INITIAL_STATE_WITH_SAMPLE: StockListState = {
-  stocks: MOCK_DATA,
-  nextStockId: MOCK_DATA_NEXT_STOCK_ID,
-  nextPurchasedId: MOCK_DATA_PURCHASED_ID,
-  tags: MOCK_DATA_TAGS,
-};
-
 const stockListSlice = createSlice({
   name: 'stockList',
-  initialState: INITIAL_STATE_WITH_SAMPLE,
+  initialState: STOCK_STATE_SAMPLE,
   reducers: {
     initStockList: (state, action: PayloadAction<StockListState>) => ({
       ...state,
@@ -158,7 +146,7 @@ const stockListSlice = createSlice({
       ...STOCK_INITIAL_STATE,
       ...action.payload.stockList,
     }));
-    builder.addCase(addStockSampleData, () => INITIAL_STATE_WITH_SAMPLE);
+    builder.addCase(addStockSampleData, () => STOCK_STATE_SAMPLE);
     builder.addCase(addNewSold, (state, action) => {
       const { soldInfo, stockId } = action.payload;
       const purchasedItems = state.stocks.byId[stockId].purchasedItems;
