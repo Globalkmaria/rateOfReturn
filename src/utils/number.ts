@@ -26,3 +26,6 @@ export const getFixedLocaleString = (
     : '0000';
   return `${Number(integer).toLocaleString()}.${fixedDecimal}`;
 };
+
+export const localStringToNumber = (localString: string): number =>
+  Number(localString.replace(/,/g, ''));
