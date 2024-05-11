@@ -4,6 +4,7 @@ import {
   StockMainInfo,
 } from '../../../../features/stockList/type';
 import { ChangedPurchasedItemInputs } from './PurchasedStock';
+import { localStringToNumber } from '@/utils';
 
 export const getPurchasedData = ({
   purchasedItem,
@@ -15,7 +16,8 @@ export const getPurchasedData = ({
   const totalPurchasePrice =
     purchasedItem.purchasedQuantity * purchasedItem.purchasedPrice;
   const evaluationPrice =
-    purchasedItem.purchasedQuantity * mainInfo.currentPrice;
+    purchasedItem.purchasedQuantity *
+    localStringToNumber(mainInfo.currentPrice);
   const evaluationProfit = evaluationPrice - totalPurchasePrice;
   const formattedEvaluationProfit = evaluationProfit.toLocaleString();
   const profitRate = totalPurchasePrice

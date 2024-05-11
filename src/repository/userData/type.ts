@@ -25,14 +25,18 @@ export type Item = {
 
 export type StockInfo = {
   name: string;
-  currentPrice: number;
+  currentPrice: string;
   createdAt: Date;
   tag: string;
   id: string;
 };
 
+type UserStockInfo = Omit<StockInfo, 'currentPrice'> & {
+  currentPrice: number;
+};
+
 export type UserStock = {
-  info: StockInfo;
+  info: UserStockInfo;
   items: {
     [itemId: string]: Item;
   };

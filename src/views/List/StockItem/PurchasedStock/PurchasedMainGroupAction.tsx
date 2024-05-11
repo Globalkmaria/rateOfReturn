@@ -14,6 +14,7 @@ import { NewSold } from '@/repository/userSolds';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 import { selectPurchasedItemsById } from '@/features/stockList/selectors';
 import { addNewSold, getSoldInfoFromPurchasedInfo } from '@/features/solds';
+import { localStringToNumber } from '@/utils';
 
 interface Props {
   stockId: string;
@@ -44,7 +45,7 @@ function PurchasedMainGroupAction({
         ...purchasedItem,
         stockId: mainInfo.stockId,
         stockName: mainInfo.stockName,
-        soldPrice: mainInfo.currentPrice,
+        soldPrice: localStringToNumber(mainInfo.currentPrice),
         tag: mainInfo.tag,
       };
       const result = await userSoldsService.addNewSolds({

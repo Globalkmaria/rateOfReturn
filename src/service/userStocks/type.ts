@@ -1,17 +1,16 @@
-import {
-  PurchasedItemInfo,
-  StockMainInfo,
-} from '../../features/stockList/type';
-import {
-  EditUserItemRepReq,
-  EditUserStockRepReq,
-} from '../../repository/userStocks/type';
+import { PurchasedItemInfo } from '../../features/stockList/type';
+import { EditUserItemRepReq } from '../../repository/userStocks/type';
 
-export type EditUserStockServiceData = Partial<Omit<StockMainInfo, 'stockId'>>;
+export type EditUserStockServiceData = {
+  stockName?: string;
+  currentPrice?: number;
+  tag?: string;
+};
 
 export type EditUserStockServiceReq = {
   data: EditUserStockServiceData;
-} & Omit<EditUserStockRepReq, 'data'>;
+  stockId: string;
+};
 
 export type EditUserItemServiceData = Partial<
   Omit<PurchasedItemInfo, 'purchasedId'>

@@ -16,7 +16,7 @@ export type UpdatePurchasedItemPayload = {
 
 export interface StockMainInfo {
   stockName: string;
-  currentPrice: number;
+  currentPrice: string;
   stockId: string;
   needInit?: boolean;
   tag?: string;

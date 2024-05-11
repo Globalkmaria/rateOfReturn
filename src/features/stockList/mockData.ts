@@ -5,7 +5,7 @@ export const MOCK_DATA: StockListState['stocks'] = {
     '1': {
       mainInfo: {
         stockName: 'Google',
-        currentPrice: 3400,
+        currentPrice: '3400.0000',
         stockId: '1',
         tag: 'bond',
       },
@@ -32,7 +32,7 @@ export const MOCK_DATA: StockListState['stocks'] = {
     '2': {
       mainInfo: {
         stockName: 'Apple',
-        currentPrice: 2000,
+        currentPrice: '2000.0000',
         stockId: '2',
         tag: 'stock',
       },
@@ -59,7 +59,7 @@ export const MOCK_DATA: StockListState['stocks'] = {
     '3': {
       mainInfo: {
         stockName: 'Tesla',
-        currentPrice: 100,
+        currentPrice: '100.0000',
         stockId: '3',
         tag: '',
       },
@@ -86,7 +86,7 @@ export const MOCK_DATA: StockListState['stocks'] = {
     '4': {
       mainInfo: {
         stockName: 'MS',
-        currentPrice: 4000,
+        currentPrice: '4000.0000',
         stockId: '4',
         tag: '',
       },
@@ -113,7 +113,7 @@ export const MOCK_DATA: StockListState['stocks'] = {
     '5': {
       mainInfo: {
         stockName: 'TLT',
-        currentPrice: 4000,
+        currentPrice: '4000.0000',
         stockId: '5',
         tag: 'bond',
       },

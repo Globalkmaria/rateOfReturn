@@ -16,14 +16,16 @@ import {
 } from '@/features/stockList/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { InputCell } from '../StockItem/components';
-import { ChangeEventHandler, useState } from 'react';
+import { useState } from 'react';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 import { updateStocksCurrentPrice } from '@/features/stockList/stockListSlice';
 import userStocksService from '@/service/userStocks/userStocks';
 import { PurchasedInputChangeProps } from '../StockItem/PurchasedStock/PurchasedStock';
+import { getFixedLocaleString } from '@/utils';
+import { checkCurrentPrice } from '../StockItem/validity';
 
 interface Changes {
-  [key: string]: number;
+  [key: string]: string;
 }
 
 interface Props {
@@ -47,7 +49,7 @@ function EditCurrentPriceModal({ onClose }: Props) {
 
     setChanges({
       ...changes,
-      [e.target.name]: Number(transformedValue[1]),
+      [e.target.name]: transformedValue[0],
     });
   };
 
@@ -65,7 +67,13 @@ function EditCurrentPriceModal({ onClose }: Props) {
         return;
       }
     }
-    dispatch(updateStocksCurrentPrice(changes));
+
+    const data = Object.entries(changes).reduce((acc, [id, value]) => {
+      acc[id] = getFixedLocaleString(value);
+      return acc;
+    }, {} as { [key: string]: string });
+
+    dispatch(updateStocksCurrentPrice(data));
     onClose();
   };
 
@@ -148,6 +156,8 @@ function Item({ stockId, onChange, changes }: ItemProps) {
         value={value}
         align='right'
         onChange={onChange}
+        validation={checkCurrentPrice}
+        type='decimal'
       />
     </StyledTableRow>
   );

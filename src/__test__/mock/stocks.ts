@@ -6,7 +6,7 @@ export const STOCKS_DATA: StockListState['stocks'] = {
     '1': {
       mainInfo: {
         stockName: 'Google',
-        currentPrice: 3400,
+        currentPrice: '3400.0000',
         stockId: '1',
       },
       purchasedItems: {
@@ -32,7 +32,7 @@ export const STOCKS_DATA: StockListState['stocks'] = {
     '2': {
       mainInfo: {
         stockName: 'Apple',
-        currentPrice: 2000,
+        currentPrice: '2000.0000',
         stockId: '2',
       },
       purchasedItems: {

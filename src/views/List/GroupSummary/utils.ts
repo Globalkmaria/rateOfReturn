@@ -1,3 +1,4 @@
+import { localStringToNumber } from '@/utils';
 import { Group } from '../../../features/groups/type';
 import { StockListState } from '../../../features/stockList/type';
 interface CalculateGroupSummary {
@@ -17,7 +18,11 @@ const getStockIds = ({ groupData, stocksData }: CalculateGroupSummary) => {
   return stocksData.allIds;
 };
 
-const getPurchasedIds = ({ groupData, stocksData, stockId }: { stockId: string } & CalculateGroupSummary) => {
+const getPurchasedIds = ({
+  groupData,
+  stocksData,
+  stockId,
+}: { stockId: string } & CalculateGroupSummary) => {
   if (groupData) return groupData.stocks.byId[stockId];
   return stocksData.byId[stockId].purchasedItems.allIds;
 };
@@ -38,13 +43,18 @@ export const calculateGroupSummary = ({
     for (const purchasedId of purchasedIds) {
       const purchasedItem = stock.purchasedItems.byId[purchasedId];
 
-      totalPurchasedPrice += purchasedItem.purchasedPrice * purchasedItem.purchasedQuantity;
-      totalCurrentValue += stock.mainInfo.currentPrice * purchasedItem.purchasedQuantity;
+      totalPurchasedPrice +=
+        purchasedItem.purchasedPrice * purchasedItem.purchasedQuantity;
+      totalCurrentValue +=
+        localStringToNumber(stock.mainInfo.currentPrice) *
+        purchasedItem.purchasedQuantity;
     }
   }
 
   const returnOfInvestment = totalCurrentValue - totalPurchasedPrice;
-  const returnOfInvestmentRatio = Number(((returnOfInvestment / totalPurchasedPrice) * 100).toFixed(3));
+  const returnOfInvestmentRatio = Number(
+    ((returnOfInvestment / totalPurchasedPrice) * 100).toFixed(3),
+  );
 
   return {
     totalPurchasedPrice,

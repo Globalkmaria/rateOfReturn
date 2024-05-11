@@ -24,7 +24,7 @@ const getMainInfo = (
 ): StockList['mainInfo'] => ({
   stockId,
   stockName: stock.name,
-  currentPrice: stock.currentPrice,
+  currentPrice: stock.currentPrice.toLocaleString(),
   tag: stock.tag,
 });
 

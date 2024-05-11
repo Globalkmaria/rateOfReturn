@@ -5,6 +5,7 @@ import {
   UserStock,
   UserStocks,
 } from '../repository/userData/type';
+import { localStringToNumber } from './number';
 
 const formatStockAsServerFormat = (
   stockList: StockListState,
@@ -21,7 +22,7 @@ const formatStockAsServerFormat = (
       info: {
         id: stockId,
         name: stockName,
-        currentPrice,
+        currentPrice: localStringToNumber(currentPrice),
         tag: tag || '',
         createdAt: new Date(),
       },

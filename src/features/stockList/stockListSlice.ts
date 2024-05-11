@@ -64,7 +64,7 @@ const stockListSlice = createSlice({
     updateStocksCurrentPrice: (
       state: StockListState,
       action: PayloadAction<{
-        [key: string]: number;
+        [key: string]: string;
       }>,
     ) => {
       const changedPrices = action.payload;

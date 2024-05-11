@@ -7,13 +7,17 @@ export const objectToArray = (Obj: { [key: string | number]: any }) => {
 export const getNewMainInfo = (newStockId: string): StockMainInfo => {
   return {
     stockName: '',
-    currentPrice: 0,
+    currentPrice: '0',
     stockId: newStockId,
     needInit: true,
   };
 };
 
-export const getNewPurchasedItemInfo = (newPurchasedId: string, date: string, time: string): PurchasedItemInfo => {
+export const getNewPurchasedItemInfo = (
+  newPurchasedId: string,
+  date: string,
+  time: string,
+): PurchasedItemInfo => {
   return {
     purchasedId: newPurchasedId,
     purchasedDate: date,
@@ -24,11 +28,18 @@ export const getNewPurchasedItemInfo = (newPurchasedId: string, date: string, ti
   };
 };
 
-export const getNewStockInfo = (newStockId: string, newPurchasedId: string, date: string, time: string): StockList => {
+export const getNewStockInfo = (
+  newStockId: string,
+  newPurchasedId: string,
+  date: string,
+  time: string,
+): StockList => {
   return {
     mainInfo: getNewMainInfo(newStockId),
     purchasedItems: {
-      byId: { [newPurchasedId]: getNewPurchasedItemInfo(newPurchasedId, date, time) },
+      byId: {
+        [newPurchasedId]: getNewPurchasedItemInfo(newPurchasedId, date, time),
+      },
       allIds: [newPurchasedId],
     },
   };

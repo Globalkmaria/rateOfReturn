@@ -5,7 +5,11 @@ import {
   StockList,
   StocksCollection,
 } from '@/features/stockList/type';
-import { getFixedLocaleString, getPercentage } from '@/utils/number';
+import {
+  getFixedLocaleString,
+  getPercentage,
+  localStringToNumber,
+} from '@/utils/number';
 
 export const getStockOptions = (stockList: StocksCollection) => {
   return stockList.allIds.map(stockId => {
@@ -39,7 +43,8 @@ const getAverageReturn = (stock: StockList) => {
     },
   );
 
-  const totalCurrentValue = stock.mainInfo.currentPrice * totalQuantity;
+  const totalCurrentValue =
+    localStringToNumber(stock.mainInfo.currentPrice) * totalQuantity;
   const profit = getFixedLocaleString(totalCurrentValue - totalBuyCost);
   const ratio = getReturnOfRation(totalCurrentValue, totalBuyCost);
 
@@ -127,11 +132,12 @@ export const getStockBarChartInfos = (stock: StockList) => {
   for (const id of stock.purchasedItems.allIds) {
     const purchasedItem = stock.purchasedItems.byId[id];
     const profit = getFixedLocaleString(
-      (stock.mainInfo.currentPrice - purchasedItem.purchasedPrice) *
+      (localStringToNumber(stock.mainInfo.currentPrice) -
+        purchasedItem.purchasedPrice) *
         purchasedItem.purchasedQuantity,
     );
     const ratio = getReturnOfRation(
-      stock.mainInfo.currentPrice,
+      localStringToNumber(stock.mainInfo.currentPrice),
       purchasedItem.purchasedPrice,
     );
 

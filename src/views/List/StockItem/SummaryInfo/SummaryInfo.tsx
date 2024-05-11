@@ -20,7 +20,11 @@ import { EditButton, MoreButton } from '@/components/IconButton';
 import useModal from '../../hooks/useModal';
 import { CheckboxCell } from '../components';
 import { DeleteStockModal } from '../DeleteStockModal';
-import { checkNoChange, getChangedStockData } from '../utils';
+import {
+  checkNoChange,
+  getChangedStockData,
+  getEditUserStockData,
+} from '../utils';
 import { useStockSummaryInputChange } from './hooks/useStockSummaryInputChange';
 import SummaryContent from './SummaryContent';
 import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
@@ -30,6 +34,7 @@ import getDateAndTime from '@/utils/getDateAndTime';
 import { NewSold } from '@/repository/userSolds';
 import userSoldsService from '@/service/userSolds/service';
 import { DropboxItem } from '@/components/Dropbox/DropboxItem';
+import { localStringToNumber } from '@/utils';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -69,13 +74,9 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
     if (isLoggedIn) {
       const result = await userStocksService.editUserStock({
         stockId,
-        data: {
-          stockName: mainInfo.stockName,
-          currentPrice: mainInfo.currentPrice,
-          tag: mainInfo.tag,
-          ...changedInputs,
-        },
+        data: getEditUserStockData(changedInputs, mainInfo),
       });
+
       if (!result.success) return alert(result.message);
     }
 
@@ -96,7 +97,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
         ...purchasedItems.byId[purchasedId],
         stockId: mainInfo.stockId,
         stockName: mainInfo.stockName,
-        soldPrice: mainInfo.currentPrice,
+        soldPrice: localStringToNumber(mainInfo.currentPrice),
         tag: mainInfo.tag,
       }));
       const result = await userSoldsService.addNewSolds({
