@@ -40,7 +40,7 @@ const removeInvalidedEdgeChars = (value: string) => {
   return value.slice(validStart, validEnd + 1);
 };
 
-const trimInsertPaste = (
+const trimDecimalInsertPaste = (
   value: string,
   validation: (value: any) => boolean,
 ): TransformedValue => {
@@ -58,7 +58,7 @@ const trimInsertPaste = (
   return [localValue, numValue];
 };
 
-const trimInsertText = (
+const trimDecimalInsertText = (
   value: string,
   validation: InputValidation,
 ): TransformedValue => {
@@ -88,10 +88,61 @@ const handleDecimalChange = (
   const inputType = (e.nativeEvent as InputEvent).inputType;
 
   if (inputType === 'insertFromPaste') {
-    return trimInsertPaste(value, validation);
+    return trimDecimalInsertPaste(value, validation);
   }
 
-  return trimInsertText(value, validation);
+  return trimDecimalInsertText(value, validation);
+};
+
+const trimNumberInsertPaste = (
+  value: string,
+  validation: (value: any) => boolean,
+): TransformedValue => {
+  const cleanedValue = removeInvalidedEdgeChars(value);
+  const commaRemovedValue = removeComma(cleanedValue);
+
+  const numValue = Number(commaRemovedValue);
+  if (isNaN(numValue)) return null;
+
+  const isValid = validation(numValue);
+  if (!isValid) return null;
+
+  const localValue = numValue.toLocaleString();
+
+  return [localValue, numValue];
+};
+
+const trimNumberInsertText = (
+  value: string,
+  validation: InputValidation,
+): TransformedValue => {
+  const commaRemovedValue = removeComma(value);
+
+  const numValue = Number(commaRemovedValue);
+  if (isNaN(numValue)) return null;
+
+  const isValid = validation(numValue);
+  if (!isValid) return null;
+
+  const localValue = numValue.toLocaleString();
+
+  return [localValue, numValue];
+};
+
+const handleNumberChange = (
+  e: ChangeEvent<HTMLInputElement>,
+  validation: InputValidation,
+): TransformedValue => {
+  const value = e.target.value;
+  if (value === '') return ['', 0];
+
+  const inputType = (e.nativeEvent as InputEvent).inputType;
+
+  if (inputType === 'insertFromPaste') {
+    return trimNumberInsertPaste(value, validation);
+  }
+
+  return trimNumberInsertText(value, validation);
 };
 
 const handleChange = (
@@ -111,7 +162,8 @@ export const getTransformedValue = (
   switch (type) {
     case 'decimal':
       return handleDecimalChange(e, validation);
-
+    case 'number':
+      return handleNumberChange(e, validation);
     default:
       return handleChange(e, validation);
   }
