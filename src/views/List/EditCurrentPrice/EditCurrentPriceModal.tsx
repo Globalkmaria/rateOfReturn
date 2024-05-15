@@ -113,7 +113,7 @@ const HEADER_LIST: HeaderItemProps[] = [
   {
     id: '1',
     label: 'Stock Name',
-    fixedWidth: 150,
+    minWidth: 200,
   },
   {
     id: '2',
@@ -137,6 +137,11 @@ const StyledTableWrapper = styled('div')`
   max-width: 1000px;
   max-height: 500px;
   overflow: auto;
+  padding: 0 50px;
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    padding: 0;
+  }
 `;
 
 interface ItemProps {
