@@ -1,16 +1,16 @@
 import { z } from 'zod';
+import { PurchasedItemInfo } from '../../../features/stockList/type';
 import {
-  PurchasedItemInfo,
-  StockMainInfo,
-} from '../../../features/stockList/type';
-import { getDecimalPlacesSchema } from '@/utils/validation';
+  alertAndReturnValue,
+  getDecimalPlacesSchema,
+} from '@/utils/validation';
 
 export type ValidityResult = { message?: string; isValid: boolean };
 type FieldType = keyof typeof schema;
 
 const stockNameSchema = z
   .string()
-  .max(12, { message: 'Stock name must be at most 12 characters long' });
+  .max(40, { message: 'Stock name must be at most 40 characters long' });
 
 const stockPriceSchema = z
   .number()
@@ -33,7 +33,7 @@ const schema = {
   quantity: stockQuantitySchema,
 };
 
-const checkValidity = (
+export const checkStockValidity = (
   type: FieldType,
   value: string | number,
 ): ValidityResult => {
@@ -42,37 +42,6 @@ const checkValidity = (
     isValid: result.success,
     message: result.success ? '' : result.error.issues[0].message,
   };
-};
-
-export const checkStockValidity = (
-  type: keyof Omit<StockMainInfo, 'stockId' | 'needInit'>,
-  value: string,
-): ValidityResult => {
-  const field = STOCK_FIELD_PAIRS[type];
-  if (!field) return { isValid: true, message: '' };
-
-  if (type === 'stockName') return checkValidity(field, value);
-
-  const formattedValue = Number(value.replace(/,/g, ''));
-  if (type === 'currentPrice') {
-    const result = decimalPlacesSchema.safeParse(formattedValue);
-    if (!result.success) {
-      return {
-        isValid: false,
-        message: result.error.issues[0].message,
-      };
-    }
-  }
-  return checkValidity(field, formattedValue);
-};
-
-const STOCK_FIELD_PAIRS: Record<
-  keyof Omit<StockMainInfo, 'stockId' | 'needInit'>,
-  FieldType | null
-> = {
-  stockName: 'name',
-  currentPrice: 'price',
-  tag: null,
 };
 
 export const checkPurchasedItemValidity = (
@@ -92,7 +61,7 @@ export const checkPurchasedItemValidity = (
       };
     }
   }
-  return checkValidity(field, formattedValue);
+  return checkStockValidity(field, formattedValue);
 };
 
 const PURCHASED_ITEM_FIELD_PAIRS: Partial<
@@ -101,3 +70,19 @@ const PURCHASED_ITEM_FIELD_PAIRS: Partial<
   purchasedQuantity: 'quantity',
   purchasedPrice: 'price',
 };
+
+export const checkCurrentPrice = (value: number) => {
+  const isValidDecimal = decimalPlacesSchema.safeParse(value);
+  if (!isValidDecimal.success) {
+    alert(isValidDecimal.error.issues[0].message);
+    return false;
+  }
+
+  return alertAndReturnValue(checkStockValidity('price', value));
+};
+
+export const checkStockName = (value: string) =>
+  alertAndReturnValue(checkStockValidity('name', value));
+
+export const checkQuantity = (value: number) =>
+  alertAndReturnValue(checkStockValidity('quantity', value));

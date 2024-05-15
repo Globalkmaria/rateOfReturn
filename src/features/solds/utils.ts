@@ -1,8 +1,13 @@
 import getDateAndTime from '@/utils/getDateAndTime';
-import { PurchasedItemInfo, StockMainInfo } from '../stockList/type';
+import {
+  PurchaseItemCollection,
+  PurchasedItemInfo,
+  StockMainInfo,
+} from '../stockList/type';
 import { Sold } from './type';
+import { localStringToNumber } from '@/utils';
 
-export const getSoldInfoFromPurchasedInfo = (
+export const generateSoldInfoFromPurchasedInfo = (
   stock: StockMainInfo,
   purchased: PurchasedItemInfo,
 ): Omit<Sold, 'id'> => {
@@ -12,15 +17,26 @@ export const getSoldInfoFromPurchasedInfo = (
     stockId: stock.stockId,
     stockName: stock.stockName,
     purchasedId: purchased.purchasedId,
-    purchasedQuantity: purchased.purchasedQuantity,
+    purchasedQuantity: localStringToNumber(purchased.purchasedQuantity),
 
     purchasedDate: purchased.purchasedDate,
     purchasedTime: purchased.purchasedTime,
-    purchasedPrice: purchased.purchasedPrice,
+    purchasedPrice: localStringToNumber(purchased.purchasedPrice),
 
     soldDate: date,
     soldTime: time,
-    soldPrice: stock.currentPrice || 0,
+    soldPrice: stock.currentPrice || '0',
     tag: stock.tag,
   };
 };
+
+export const generateSoldListWithStockInfo = (
+  mainInfo: StockMainInfo,
+  purchasedItems: PurchaseItemCollection,
+) =>
+  purchasedItems.allIds.map(purchasedItem => {
+    return generateSoldInfoFromPurchasedInfo(
+      mainInfo,
+      purchasedItems.byId[purchasedItem],
+    );
+  });

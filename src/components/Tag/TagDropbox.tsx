@@ -6,6 +6,10 @@ import { BaseInput } from '../Input/BaseInput';
 import { StyledChip, StyledChipText } from '.';
 import Icon from '../Icon';
 
+export interface TagDropboxSettings {
+  height?: number;
+}
+
 interface TagDropboxProps {
   options?: string[];
   selectedOption?: string;
@@ -27,7 +31,8 @@ const TagDropbox = forwardRef(function TagDropbox(
     width,
     onCloseModal,
     tagContainerRef,
-  }: TagDropboxProps,
+    height,
+  }: TagDropboxProps & TagDropboxSettings,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -116,7 +121,7 @@ const TagDropbox = forwardRef(function TagDropbox(
           placeholder={placeholder}
         />
       </StyledFirstLine>
-      <StyledOptions>
+      <StyledOptions height={height}>
         <StyledOptionHelperText>
           Select a tag or create one
         </StyledOptionHelperText>
@@ -172,11 +177,18 @@ const StyledFirstLine = styled.div.withConfig({
   }
 `;
 
-const StyledOptions = styled.div`
+const StyledOptions = styled.div<{
+  height?: number;
+}>`
   display: flex;
   flex-direction: column;
   gap: 5px;
   padding: 5px;
+
+  ${({ height }) =>
+    height &&
+    `max-height: ${height}px;
+  overflow: auto;`}
 `;
 
 const StyledOptionHelperText = styled.span`

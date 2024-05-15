@@ -17,7 +17,7 @@ export const HEADER_LIST: HeaderItemProps[] = [
   {
     id: '2',
     label: 'Stock Name',
-    fixedWidth: 120,
+    fixedWidth: 180,
     Component: StyledStockName,
     notTableHead: false,
   },

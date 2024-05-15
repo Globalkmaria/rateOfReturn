@@ -1,49 +1,39 @@
-import { memo, useEffect, useRef } from 'react';
+import { Dispatch, SetStateAction, memo, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { Input } from '../../../../components/Input/Input';
 import { TableCell } from '../../../../components/Table';
 import { PurchasedItemInfo } from '../../../../features/stockList/type';
 import { InputCell } from '../components';
-import { checkPurchasedItemValidity } from '../validity';
-import {
-  ChangedPurchasedItemInputs,
-  PurchasedInputChangeProps,
-  SetChangedInputByFieldName,
-} from './PurchasedStock';
+import { PurchasedInputChangeProps } from './PurchasedStock';
+import { EditUserItemServiceData } from '@/service/userStocks/type';
+import { checkCurrentPrice, checkQuantity } from '../validity';
 
 type Props = {
   purchasedItem: PurchasedItemInfo;
   isLock: boolean;
-  setChangedInputByFieldName: SetChangedInputByFieldName;
-  changedInputs: ChangedPurchasedItemInputs;
+  setChangedInputs: Dispatch<SetStateAction<EditUserItemServiceData>>;
+  changedInputs: EditUserItemServiceData;
 };
 
 const PurchasedInput = ({
   isLock,
   purchasedItem,
   changedInputs,
-  setChangedInputByFieldName,
+  setChangedInputs,
 }: Props) => {
   const focusedInput = useRef<HTMLInputElement>(null);
+
   const onInputChange: PurchasedInputChangeProps = (e, transformedValue) => {
-    const fieldName = e.target.name as keyof Omit<
-      PurchasedItemInfo,
-      'purchasedId'
-    >;
+    const fieldName = e.target.name as keyof EditUserItemServiceData;
     if (transformedValue === null) return;
 
-    const value = transformedValue[1];
-
-    const validity = checkPurchasedItemValidity(fieldName, value);
-    if (!validity.isValid) return alert(validity.message);
-
-    if (fieldName === 'purchasedQuantity') {
-      setChangedInputByFieldName('purchasedQuantity', parseInt(value));
-      return;
+    let value = transformedValue;
+    if (fieldName === 'purchasedPrice' || fieldName === 'purchasedQuantity') {
+      value = transformedValue[0];
     }
 
-    setChangedInputByFieldName(fieldName, value);
+    setChangedInputs(prev => ({ ...prev, [fieldName]: value }));
   };
 
   useEffect(() => {
@@ -59,7 +49,7 @@ const PurchasedInput = ({
             onChange={onInputChange}
             disabled={isLock}
             type='date'
-            value={changedInputs.purchasedDate || purchasedItem.purchasedDate}
+            value={changedInputs.purchasedDate ?? purchasedItem.purchasedDate}
             fullWidth
             aria-label='purchased date'
             ref={focusedInput}
@@ -70,7 +60,7 @@ const PurchasedInput = ({
             disabled={isLock}
             type='time'
             aria-label='purchased time'
-            value={changedInputs.purchasedTime || purchasedItem.purchasedTime}
+            value={changedInputs.purchasedTime ?? purchasedItem.purchasedTime}
             fullWidth
           />
         </StyledDateTime>
@@ -79,18 +69,21 @@ const PurchasedInput = ({
         name='purchasedQuantity'
         onChange={onInputChange}
         value={
-          changedInputs.purchasedQuantity || purchasedItem.purchasedQuantity
+          changedInputs.purchasedQuantity ?? purchasedItem.purchasedQuantity
         }
         disabled={isLock}
         aria-label='purchased quantity'
+        validation={checkQuantity}
       />
       <InputCell
         withFixed
+        type='decimal'
         name='purchasedPrice'
         onChange={onInputChange}
-        value={changedInputs.purchasedPrice || purchasedItem.purchasedPrice}
+        value={changedInputs.purchasedPrice ?? purchasedItem.purchasedPrice}
         aria-label='purchased price'
         disabled={isLock}
+        validation={checkCurrentPrice}
       />
     </>
   );

@@ -3,7 +3,8 @@ import {
   PurchasedItemInfo,
   StockMainInfo,
 } from '../../../../features/stockList/type';
-import { ChangedPurchasedItemInputs } from './PurchasedStock';
+import { getFixedLocaleString, localStringToNumber } from '@/utils';
+import { EditUserItemServiceData } from '@/service/userStocks/type';
 
 export const getPurchasedData = ({
   purchasedItem,
@@ -12,10 +13,14 @@ export const getPurchasedData = ({
   purchasedItem: PurchasedItemInfo;
   mainInfo: StockMainInfo;
 }) => {
-  const totalPurchasePrice =
-    purchasedItem.purchasedQuantity * purchasedItem.purchasedPrice;
-  const evaluationPrice =
-    purchasedItem.purchasedQuantity * mainInfo.currentPrice;
+  const purchasedQuantity = localStringToNumber(
+    purchasedItem.purchasedQuantity,
+  );
+  const purchasedPrice = localStringToNumber(purchasedItem.purchasedPrice);
+  const currentPrice = localStringToNumber(mainInfo.currentPrice);
+
+  const totalPurchasePrice = purchasedQuantity * purchasedPrice;
+  const evaluationPrice = purchasedQuantity * currentPrice;
   const evaluationProfit = evaluationPrice - totalPurchasePrice;
   const formattedEvaluationProfit = evaluationProfit.toLocaleString();
   const profitRate = totalPurchasePrice
@@ -47,10 +52,17 @@ export const formatDateOrNumber = ({
 
 export const getChangedPurchasedData = (
   purchasedItem: PurchasedItemInfo,
-  changedInputs: ChangedPurchasedItemInputs,
+  changedInputs: EditUserItemServiceData,
 ): PurchasedItemInfo => ({
   ...purchasedItem,
   ...changedInputs,
+  purchasedQuantity:
+    changedInputs.purchasedQuantity === undefined
+      ? purchasedItem.purchasedQuantity
+      : changedInputs.purchasedQuantity || '0',
+  purchasedPrice: getFixedLocaleString(
+    changedInputs.purchasedPrice ?? purchasedItem.purchasedPrice,
+  ),
   needInit: false,
 });
 

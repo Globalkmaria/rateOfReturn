@@ -1,4 +1,4 @@
-import { ChangeEvent, memo, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -10,7 +10,6 @@ import {
   updatePurchaseItem,
   updatePurchaseItemNeedInit,
 } from '../../../../features/stockList/stockListSlice';
-import { EditUserItemServiceData } from '../../../../service/userStocks/type';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 
 import { TableRow } from '../../../../components/Table';
@@ -23,25 +22,24 @@ import { getChangedPurchasedData } from './utils';
 import { checkNoChange } from '../utils';
 import PurchasedMainGroupAction from './PurchasedMainGroupAction';
 import PurchasedOtherGroupAction from './PurchasedOtherGroupAction';
+import { EditUserItemServiceData } from '@/service/userStocks/type';
 
 export type SetChangedInputByFieldName = <
-  T extends keyof ChangedPurchasedItemInputs,
+  T extends keyof EditUserItemServiceData,
 >(
   fieldName: T,
-  value: ChangedPurchasedItemInputs[T],
+  value: EditUserItemServiceData[T],
 ) => void;
 
 export type PurchasedInputChangeProps = (
   e: ChangeEvent<HTMLInputElement>,
-  transformedValue: TransformedValue | null,
+  transformedValue: TransformedValue,
 ) => void;
 
 interface PurchasedStockProps {
   stockId: string;
   purchasedId: string;
 }
-
-export type ChangedPurchasedItemInputs = EditUserItemServiceData;
 
 const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const dispatch = useDispatch();
@@ -56,14 +54,8 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const [isLock, setIsLock] = useState(!purchasedItem.needInit);
-  const [changedInputs, setChangedInputs] =
-    useState<ChangedPurchasedItemInputs>({});
-
-  const setChangedInputByFieldName = useCallback<SetChangedInputByFieldName>(
-    (fieldName, value) => {
-      setChangedInputs(prev => ({ ...prev, [fieldName]: value }));
-    },
-    [],
+  const [changedInputs, setChangedInputs] = useState<EditUserItemServiceData>(
+    {},
   );
 
   const onChangeCheckbox = (value: boolean) =>
@@ -127,7 +119,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
         purchasedId={purchasedId}
         changedInputs={changedInputs}
         isLock={isLock}
-        setChangedInputByFieldName={setChangedInputByFieldName}
+        setChangedInputs={setChangedInputs}
       />
       {isMainGroupSelected ? (
         <PurchasedMainGroupAction

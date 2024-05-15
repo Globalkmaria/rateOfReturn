@@ -33,6 +33,21 @@ const soldSlice = createSlice({
       state.list.allIds.push(id);
       state.nextId++;
     },
+    addNewSoldList: (
+      state,
+      action: PayloadAction<{ soldList: Omit<Sold, 'id'>[]; stockId: string }>,
+    ) => {
+      const { soldList } = action.payload;
+      for (const soldInfo of soldList) {
+        const id = state.nextId.toString();
+        state.list.byId[state.nextId] = {
+          ...soldInfo,
+          id,
+        };
+        state.list.allIds.push(id);
+        state.nextId++;
+      }
+    },
     deleteSold: (state, action: PayloadAction<string>) => {
       const id = action.payload;
       delete state.list.byId[id];
@@ -68,6 +83,7 @@ export const {
   deleteSold,
   updateSold,
   initSolds,
+  addNewSoldList,
 } = soldSlice.actions;
 
 export const soldReducer = soldSlice.reducer;

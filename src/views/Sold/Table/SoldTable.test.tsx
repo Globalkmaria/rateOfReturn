@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { renderWithProviders } from '@/__test__/renderUI';
 import SoldTable from './SoldTable';
 import { MOCK_STATE } from '@/__test__/mock/mockState';
+import { SOLD_MOCK_DATA } from '@/features/solds';
 
 describe('Sold Table', () => {
   let user: ReturnType<typeof userEvent.setup>;
@@ -19,25 +20,26 @@ describe('Sold Table', () => {
 
   test('Sold table display data correctly', async () => {
     await renderAndWait(MOCK_STATE);
+    const name = new RegExp(SOLD_MOCK_DATA.list.byId['1'].stockName, 'i');
     const row = await screen.findByRole('row', {
-      name: /1 google/i,
+      name,
     });
 
     expect(row).toBeInTheDocument();
 
     const ROW1_DISPLAY_TEXT = [
       '1',
-      'Google',
+      'APPLE',
       'stock',
-      '2',
-      '06/05/2023 02:13 PM',
-      '2,000.0000',
-      '4,000.0000',
+      '12',
+      '05/16/2024 12:53 AM',
+      '161.7272',
+      '1,940.7264',
       '',
       '',
-      '4,400.0000',
-      '400.0000',
-      '10.00 %',
+      '2,167.2000',
+      '226.4735',
+      '11.67 %',
     ];
     const cells = within(row).getAllByRole('cell');
     for (let i = 0; i < ROW1_DISPLAY_TEXT.length; i++) {
@@ -46,17 +48,18 @@ describe('Sold Table', () => {
     }
 
     const soldDate = within(row).getByLabelText(/sold date/i);
-    expect(soldDate).toHaveValue('2023-06-05');
+    expect(soldDate).toHaveValue('2024-05-16');
     const soldTime = within(row).getByLabelText(/sold time/i);
-    expect(soldTime).toHaveValue('14:14');
+    expect(soldTime).toHaveValue('00:53');
     const soldPrice = within(row).getByLabelText(/sold price/i);
-    expect(soldPrice).toHaveValue('2,200.0000');
+    expect(soldPrice).toHaveValue('180.6000');
   });
 
   test('Update sold item', async () => {
     await renderAndWait(MOCK_STATE);
+    const name = new RegExp(SOLD_MOCK_DATA.list.byId['1'].stockName, 'i');
     const row = await screen.findByRole('row', {
-      name: /1 google/i,
+      name,
     });
 
     const editBtn = within(row).getByRole('button', { name: /edit/i });
@@ -74,8 +77,9 @@ describe('Sold Table', () => {
 
   test('Delete sold item', async () => {
     await renderAndWait(MOCK_STATE);
+    const name = new RegExp(SOLD_MOCK_DATA.list.byId['1'].stockName, 'i');
     const row = await screen.findByRole('row', {
-      name: /1 google/i,
+      name: name,
     });
     expect(row).toBeInTheDocument();
 

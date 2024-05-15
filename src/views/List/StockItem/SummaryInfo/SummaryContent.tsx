@@ -10,6 +10,7 @@ import { InputCell, NumberCell, StyledTextWrapper } from '../components';
 import { useGetStockSummaryData } from './hooks/useGetStockSummaryData';
 import { ChangedSummaryInputs } from './hooks/useStockSummaryInputChange';
 import StockTag from './StockTag';
+import { checkCurrentPrice, checkStockName } from '../validity';
 
 type Props = {
   stockId: string;
@@ -35,8 +36,8 @@ const SummaryContent = ({
 
   const stockName = changedInputs.stockName ?? stockInfo.mainInfo.stockName;
   const formattedCurrentPrice =
-    changedInputs.currentPrice?.toString() ||
-    stockInfo.mainInfo.currentPrice.toString();
+    changedInputs.currentPrice ?? stockInfo.mainInfo.currentPrice;
+
   const selectedOption = changedInputs.tag ?? stockInfo.mainInfo.tag;
 
   useEffect(() => {
@@ -54,6 +55,7 @@ const SummaryContent = ({
           value={stockName}
           disabled={isLock}
           ref={focusedInput}
+          validation={checkStockName}
         />
       </TableCell>
       <TableCell align='center'></TableCell>
@@ -68,11 +70,13 @@ const SummaryContent = ({
       <InputCell
         withFixed
         fullWidth
+        type='decimal'
         aria-label='current price'
         onChange={onInputChange}
         value={formattedCurrentPrice}
         disabled={isLock}
         name='currentPrice'
+        validation={checkCurrentPrice}
       />
       <NumberCell withFixed value={summaryData.evaluationPrice} />
       <NumberCell withFixed value={summaryData.evaluationProfit} />

@@ -2,14 +2,11 @@ import { Suspense, lazy } from 'react';
 import styled from 'styled-components';
 import SoldTableSkeleton from './SoldTableSkeleton';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  SOLD_DATA_INITIAL_STATE_WITH_SAMPLE,
-  addSoldSampleData,
-  selectSoldList,
-} from '@/features/solds';
+import { addSoldSampleData, selectSoldList } from '@/features/solds';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 import userSolds from '@/service/userSolds';
 import { BorderButton } from '@/components/Button';
+import { getSoldServerSampleData } from '@/service/userSolds/utils';
 
 const SoldTable = lazy(() => import('./SoldTable'));
 
@@ -21,11 +18,8 @@ function SoldTableContainer() {
 
   const onClick = async () => {
     if (isLoggedIn) {
-      const sampleData = {
-        nextId: SOLD_DATA_INITIAL_STATE_WITH_SAMPLE.nextId,
-        solds: SOLD_DATA_INITIAL_STATE_WITH_SAMPLE.list.byId,
-      };
-      const result = await userSolds.replaceSold({ solds: sampleData });
+      const data = getSoldServerSampleData();
+      const result = await userSolds.replaceSold(data);
 
       if (!result.success) {
         alert('Failed to add sample data.');

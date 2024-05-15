@@ -16,29 +16,26 @@ import {
 } from '@/features/stockList/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { InputCell } from '../StockItem/components';
-import { ChangeEventHandler, useState } from 'react';
+import { useState } from 'react';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 import { updateStocksCurrentPrice } from '@/features/stockList/stockListSlice';
 import userStocksService from '@/service/userStocks/userStocks';
 import { PurchasedInputChangeProps } from '../StockItem/PurchasedStock/PurchasedStock';
+import { getFixedLocaleString } from '@/utils';
+import { checkCurrentPrice } from '../StockItem/validity';
+import { StockMainInfo } from '@/features/stockList/type';
 
-interface Changes {
-  [key: string]: number;
+export interface CurrentPriceChanges {
+  [key: string]: StockMainInfo['currentPrice'];
 }
 
 interface Props {
   onClose: () => void;
 }
 
-interface ItemProps {
-  stockId: string;
-  changes: Changes;
-  onChange: PurchasedInputChangeProps;
-}
-
 function EditCurrentPriceModal({ onClose }: Props) {
   const dispatch = useDispatch();
-  const [changes, setChanges] = useState<Changes>({});
+  const [changes, setChanges] = useState<CurrentPriceChanges>({});
   const stocks = useSelector(selectStocks);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
@@ -47,7 +44,7 @@ function EditCurrentPriceModal({ onClose }: Props) {
 
     setChanges({
       ...changes,
-      [e.target.name]: Number(transformedValue[1]),
+      [e.target.name]: transformedValue[0],
     });
   };
 
@@ -65,7 +62,14 @@ function EditCurrentPriceModal({ onClose }: Props) {
         return;
       }
     }
-    dispatch(updateStocksCurrentPrice(changes));
+
+    const data = Object.entries(changes).reduce((acc, [id, value]) => {
+      acc[id] = getFixedLocaleString(value);
+      return acc;
+    }, {} as { [key: string]: string });
+
+    dispatch(updateStocksCurrentPrice(data));
+    setChanges({});
     onClose();
   };
 
@@ -109,7 +113,7 @@ const HEADER_LIST: HeaderItemProps[] = [
   {
     id: '1',
     label: 'Stock Name',
-    fixedWidth: 150,
+    minWidth: 200,
   },
   {
     id: '2',
@@ -133,7 +137,18 @@ const StyledTableWrapper = styled('div')`
   max-width: 1000px;
   max-height: 500px;
   overflow: auto;
+  padding: 0 50px;
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    padding: 0;
+  }
 `;
+
+interface ItemProps {
+  stockId: string;
+  changes: CurrentPriceChanges;
+  onChange: PurchasedInputChangeProps;
+}
 
 function Item({ stockId, onChange, changes }: ItemProps) {
   const { mainInfo } = useSelector(selectStockInfoById(stockId));
@@ -148,6 +163,8 @@ function Item({ stockId, onChange, changes }: ItemProps) {
         value={value}
         align='right'
         onChange={onChange}
+        validation={checkCurrentPrice}
+        type='decimal'
       />
     </StyledTableRow>
   );

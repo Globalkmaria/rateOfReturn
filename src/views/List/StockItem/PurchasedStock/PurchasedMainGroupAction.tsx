@@ -13,7 +13,11 @@ import getDateAndTime from '@/utils/getDateAndTime';
 import { NewSold } from '@/repository/userSolds';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 import { selectPurchasedItemsById } from '@/features/stockList/selectors';
-import { addNewSold, getSoldInfoFromPurchasedInfo } from '@/features/solds';
+import {
+  addNewSold,
+  generateSoldInfoFromPurchasedInfo,
+} from '@/features/solds';
+import { generateSoldItem } from '../SummaryInfo/utils';
 
 interface Props {
   stockId: string;
@@ -40,13 +44,7 @@ function PurchasedMainGroupAction({
   const onItemSold = async () => {
     if (isLoggedIn) {
       const { date, time } = getDateAndTime();
-      const soldItem: NewSold = {
-        ...purchasedItem,
-        stockId: mainInfo.stockId,
-        stockName: mainInfo.stockName,
-        soldPrice: mainInfo.currentPrice,
-        tag: mainInfo.tag,
-      };
+      const soldItem: NewSold = generateSoldItem(mainInfo, purchasedItem);
       const result = await userSoldsService.addNewSolds({
         date,
         time,
@@ -58,7 +56,7 @@ function PurchasedMainGroupAction({
         return;
       }
     }
-    const soldInfo = getSoldInfoFromPurchasedInfo(mainInfo, purchasedItem);
+    const soldInfo = generateSoldInfoFromPurchasedInfo(mainInfo, purchasedItem);
     dispatch(addNewSold({ soldInfo, stockId: mainInfo.stockId }));
   };
 

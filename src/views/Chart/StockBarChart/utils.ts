@@ -5,7 +5,11 @@ import {
   StockList,
   StocksCollection,
 } from '@/features/stockList/type';
-import { getFixedLocaleString, getPercentage } from '@/utils/number';
+import {
+  getFixedLocaleString,
+  getPercentage,
+  localStringToNumber,
+} from '@/utils/number';
 
 export const getStockOptions = (stockList: StocksCollection) => {
   return stockList.allIds.map(stockId => {
@@ -28,8 +32,10 @@ const getAverageReturn = (stock: StockList) => {
       const { purchasedPrice, purchasedQuantity } =
         stock.purchasedItems.byId[itemId];
 
-      acc.totalQuantity += purchasedQuantity;
-      acc.totalBuyCost += purchasedQuantity * purchasedPrice;
+      acc.totalQuantity += localStringToNumber(purchasedQuantity);
+      acc.totalBuyCost +=
+        localStringToNumber(purchasedQuantity) *
+        localStringToNumber(purchasedPrice);
 
       return acc;
     },
@@ -39,7 +45,8 @@ const getAverageReturn = (stock: StockList) => {
     },
   );
 
-  const totalCurrentValue = stock.mainInfo.currentPrice * totalQuantity;
+  const totalCurrentValue =
+    localStringToNumber(stock.mainInfo.currentPrice) * totalQuantity;
   const profit = getFixedLocaleString(totalCurrentValue - totalBuyCost);
   const ratio = getReturnOfRation(totalCurrentValue, totalBuyCost);
 
@@ -126,14 +133,14 @@ export const getStockBarChartInfos = (stock: StockList) => {
 
   for (const id of stock.purchasedItems.allIds) {
     const purchasedItem = stock.purchasedItems.byId[id];
+    const currentPrice = localStringToNumber(stock.mainInfo.currentPrice);
+    const purchasedPrice = localStringToNumber(purchasedItem.purchasedPrice);
+    const quantity = localStringToNumber(purchasedItem.purchasedQuantity);
+
     const profit = getFixedLocaleString(
-      (stock.mainInfo.currentPrice - purchasedItem.purchasedPrice) *
-        purchasedItem.purchasedQuantity,
+      (currentPrice - purchasedPrice) * quantity,
     );
-    const ratio = getReturnOfRation(
-      stock.mainInfo.currentPrice,
-      purchasedItem.purchasedPrice,
-    );
+    const ratio = getReturnOfRation(currentPrice, purchasedPrice);
 
     const label = getItemLabel(purchasedItem);
 

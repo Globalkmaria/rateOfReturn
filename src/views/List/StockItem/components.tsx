@@ -13,7 +13,7 @@ import { getFixedLocaleString } from '@/utils/number';
 
 type InputCellProps = {
   disabled?: boolean;
-  value: string | number;
+  value: string;
   withFixed?: boolean;
 } & Omit<InputProps, 'value'>;
 type CheckboxCellProps = {
@@ -50,20 +50,17 @@ export const InputCell = ({
   value,
   disabled,
   withFixed,
+  type = 'number',
   ...restProps
 }: InputCellProps) => {
-  const formattedValue =
-    withFixed && disabled
-      ? getFixedLocaleString(value)
-      : value.toLocaleString();
-
   return (
     <TableCell>
       <Input
+        align='right'
         disabled={disabled}
         fullWidth
-        type='number'
-        value={formattedValue}
+        type={type}
+        value={value}
         {...restProps}
       />
     </TableCell>

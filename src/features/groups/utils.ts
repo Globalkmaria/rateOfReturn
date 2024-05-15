@@ -1,7 +1,11 @@
-import { MAIN_GROUP_ID } from './groupsSlice';
+import { MAIN_GROUP_ID } from './mockData';
 import { Group, GroupsState } from './type';
 
-export const getNewGroupInfo = (groupId: string, groupName: string, stocks: Group['stocks']): Group => {
+export const getNewGroupInfo = (
+  groupId: string,
+  groupName: string,
+  stocks: Group['stocks'],
+): Group => {
   return {
     groupId,
     groupName,
@@ -14,7 +18,11 @@ export const validCheckGroupDelete = (state: GroupsState, groupId: string) => {
   return notMainGroup;
 };
 
-export const deletePurchasedItemFromGroup = (group: Group, stockId: string, purchasedId: string) => {
+export const deletePurchasedItemFromGroup = (
+  group: Group,
+  stockId: string,
+  purchasedId: string,
+) => {
   const purchasedIds = group.stocks.byId[stockId];
   if (!purchasedIds) return false;
 

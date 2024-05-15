@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import useModal from '@/views/List/hooks/useModal';
-import TagDropbox from './TagDropbox';
+import TagDropbox, { TagDropboxSettings } from './TagDropbox';
 
 interface Props {
   width?: number;
@@ -13,6 +13,7 @@ interface Props {
   selectedOption?: string;
   onOptionSelect: (option: string) => void;
   disabled?: boolean;
+  dropboxSettings?: TagDropboxSettings;
 }
 
 function Tag({
@@ -24,6 +25,7 @@ function Tag({
   onOptionSelect,
   options,
   disabled,
+  dropboxSettings,
 }: Props) {
   const { showModal, onCloseModal, onToggleModal } = useModal();
   const tagContainerRef = useRef<HTMLDivElement>(null);
@@ -51,6 +53,7 @@ function Tag({
           onOptionSelect={onOptionSelect}
           onCreateNewOption={onCreateNewOption}
           onDeleteOption={onDeleteOption}
+          {...dropboxSettings}
         />
       )}
     </StyledContainer>

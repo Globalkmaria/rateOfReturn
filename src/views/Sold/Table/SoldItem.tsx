@@ -11,18 +11,22 @@ import {
   NumberCell,
   StyledTextWrapper,
 } from '@/views/List/StockItem/components';
-import { checkSoldPriceValidity } from './util';
+import { checkSoldPrice } from './util';
 import useModal from '@/views/List/hooks/useModal';
 import DeleteSoldModal from './DeleteSoldModal';
 import { getLocalDateTime } from '@/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteSold, selectSoldItem, updateSold } from '@/features/solds';
 import { selectIsLoggedIn } from '@/features/user/selectors';
-import { getPercentage } from '@/utils/number';
+import {
+  getFixedLocaleString,
+  getPercentage,
+  localStringToNumber,
+} from '@/utils/number';
 import userSoldsService from '@/service/userSolds/service';
 import { StyledChip, StyledChipText } from '@/components/Tag';
 
-type SoldItemInputs = Partial<
+export type SoldItemInputs = Partial<
   Pick<Sold, 'soldTime' | 'soldDate' | 'soldPrice'>
 >;
 
@@ -41,7 +45,8 @@ function SoldItem({ id }: Props) {
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const buyTotalCost = item.purchasedQuantity * item.purchasedPrice;
-  const soldTotalValue = item.purchasedQuantity * item.soldPrice;
+  const soldTotalValue =
+    item.purchasedQuantity * localStringToNumber(item.soldPrice);
   const returnOfInvestment = soldTotalValue - buyTotalCost;
   const returnOfInvestmentRatio = `${getPercentage(
     returnOfInvestment,
@@ -81,8 +86,11 @@ function SoldItem({ id }: Props) {
     const newItem: Sold = {
       ...item,
       ...changedInputs,
+      soldPrice: getFixedLocaleString(changedInputs.soldPrice || 0),
     };
+
     dispatch(updateSold(newItem));
+    setChangedInputs({});
 
     setIsLock(true);
   };
@@ -106,10 +114,7 @@ function SoldItem({ id }: Props) {
     transformedValue: TransformedValue | null,
   ) => {
     if (transformedValue === null) return;
-    const value = transformedValue[1];
-
-    const validity = checkSoldPriceValidity(value);
-    if (!validity.isValid) return alert(validity.message);
+    const value = transformedValue[0];
 
     setChangedInputs({ ...changedInputs, [e.target.name]: value });
   };
@@ -151,7 +156,7 @@ function SoldItem({ id }: Props) {
             onChange={onInputChange}
             disabled={isLock}
             type='date'
-            value={changedInputs.soldDate || item.soldDate}
+            value={changedInputs.soldDate ?? item.soldDate}
             aria-label='sold date'
             ref={focusedInput}
           />
@@ -161,17 +166,19 @@ function SoldItem({ id }: Props) {
             disabled={isLock}
             type='time'
             aria-label='sold time'
-            value={changedInputs.soldTime || item.soldTime}
+            value={changedInputs.soldTime ?? item.soldTime}
           />
         </StyledDateTime>
       </TableCell>
       <InputCell
         withFixed
+        type='decimal'
         name='soldPrice'
         onChange={onSoldPriceChange}
-        value={changedInputs.soldPrice || item.soldPrice}
+        value={changedInputs.soldPrice ?? item.soldPrice}
         disabled={isLock}
         aria-label='sold Price'
+        validation={checkSoldPrice}
       />
       <NumberCell withFixed value={soldTotalValue} />
       <NumberCell withFixed value={returnOfInvestment} />

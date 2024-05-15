@@ -17,7 +17,7 @@ import {
   resetUserData,
   setBackupData,
 } from '../actions';
-import { addNewSold } from '../solds';
+import { addNewSold, addNewSoldList } from '../solds';
 
 export const CHECKED_INITIAL_STATE: CheckedItemsState = {
   allChecked: true,
@@ -80,6 +80,10 @@ export const checkedItemsSlice = createSlice({
 
       const purchasedItemsExist = Object.keys(stockInfo.purchasedItems).length;
       if (!purchasedItemsExist) delete state.stocksCheckInfo[stockId];
+    });
+    builder.addCase(addNewSoldList, (state, action) => {
+      const { stockId } = action.payload;
+      delete state.stocksCheckInfo[stockId];
     });
   },
 });

@@ -1,12 +1,15 @@
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { StockMainInfo } from '../../../../../features/stockList/type';
 import { EditUserStockServiceData } from '../../../../../service/userStocks/type';
 import { TransformedValue } from '../../../../../components/Input/BaseInput';
-import { checkStockValidity } from '../../validity';
 
-export type ChangedSummaryInputs = EditUserStockServiceData;
+export type ChangedSummaryInputs = Omit<
+  EditUserStockServiceData,
+  'currentPrice'
+> & {
+  currentPrice?: string;
+};
 
 export const useStockSummaryInputChange = (stockId: string) => {
   const dispatch = useDispatch();
@@ -18,20 +21,13 @@ export const useStockSummaryInputChange = (stockId: string) => {
       e: React.ChangeEvent<HTMLInputElement>,
       transformedValue: TransformedValue,
     ) => {
-      const fieldName = e.target.name as keyof Omit<
-        StockMainInfo,
-        'stockId' | 'needInit'
-      >;
-      if (fieldName === 'currentPrice' && transformedValue === null) return;
+      const fieldName = e.target.name as keyof ChangedSummaryInputs;
+      if (transformedValue === null) return;
 
-      const value =
-        fieldName === 'stockName'
-          ? e.target.value
-          : (transformedValue && transformedValue[1]) ||
-            e.target.value.replaceAll(',', '');
-
-      const validity = checkStockValidity(fieldName, value);
-      if (!validity.isValid) return alert(validity.message);
+      let value = transformedValue;
+      if (fieldName === 'currentPrice') {
+        value = transformedValue[0];
+      }
 
       setChangedInputs(prev => ({ ...prev, [fieldName]: value }));
     },
