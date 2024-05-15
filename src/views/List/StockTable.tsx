@@ -44,6 +44,10 @@ const StyledStockTableBase = styled('div')`
     top: 0;
   }
 
+  ${Table} {
+    margin-bottom: 50px;
+  }
+
   @media ${({ theme }) => theme.devices.mobile} {
     th,
     td,
