@@ -17,7 +17,7 @@ import {
   resetUserData,
   setBackupData,
 } from '@/features';
-import { addNewSold } from '../solds';
+import { addNewSold, addNewSoldList } from '../solds';
 
 export const STOCK_INITIAL_STATE: StockListState = {
   stocks: {
@@ -163,6 +163,13 @@ const stockListSlice = createSlice({
       );
       delete purchasedItems.byId[soldInfo.purchasedId];
       purchasedItems.allIds.splice(purchasedItemIdx, 1);
+    });
+    builder.addCase(addNewSoldList, (state, action) => {
+      const { stockId } = action.payload;
+
+      const stockIdx = state.stocks.allIds.indexOf(stockId);
+      delete state.stocks.byId[stockId];
+      state.stocks.allIds.splice(stockIdx, 1);
     });
   },
 });

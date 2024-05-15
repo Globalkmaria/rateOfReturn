@@ -16,7 +16,7 @@ import {
   resetUserData,
   setBackupData,
 } from '@/features';
-import { addNewSold } from '../solds';
+import { addNewSold, addNewSoldList } from '../solds';
 
 export const GROUP_INITIAL_STATE: GroupsState = {
   groups: {
@@ -167,6 +167,13 @@ export const groupsSlice = createSlice({
 
         const emptyPurchasedItems = !group.stocks.byId[stockId].length;
         if (emptyPurchasedItems) deleteStockFromGroup(group, stockId);
+      }
+    });
+    builder.addCase(addNewSoldList, (state, action) => {
+      const { stockId } = action.payload;
+      for (const groupId of state.groups.allIds) {
+        const group = state.groups.byId[groupId];
+        deleteStockFromGroup(group, stockId);
       }
     });
   },
