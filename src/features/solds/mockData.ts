@@ -1,3 +1,4 @@
+import { getFixedLocaleString } from '@/utils';
 import { SoldsState } from './type';
 
 export const SOLD_MOCK_DATA: SoldsState = {
@@ -14,7 +15,7 @@ export const SOLD_MOCK_DATA: SoldsState = {
         purchasedPrice: 2000,
         soldDate: '2023-06-05',
         soldTime: '14:14',
-        soldPrice: 2200,
+        soldPrice: getFixedLocaleString(2200),
         tag: 'stock',
       },
       '2': {
@@ -28,7 +29,7 @@ export const SOLD_MOCK_DATA: SoldsState = {
         purchasedPrice: 2000,
         soldDate: '2023-06-03',
         soldTime: '15:13',
-        soldPrice: 2500,
+        soldPrice: getFixedLocaleString(2500),
         tag: '',
       },
       '3': {
@@ -42,7 +43,7 @@ export const SOLD_MOCK_DATA: SoldsState = {
         purchasedPrice: 2000,
         soldDate: '2023-06-05',
         soldTime: '14:13',
-        soldPrice: 1800,
+        soldPrice: getFixedLocaleString(1800),
         tag: '',
       },
     },

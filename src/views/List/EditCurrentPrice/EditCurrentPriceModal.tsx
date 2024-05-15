@@ -23,24 +23,19 @@ import userStocksService from '@/service/userStocks/userStocks';
 import { PurchasedInputChangeProps } from '../StockItem/PurchasedStock/PurchasedStock';
 import { getFixedLocaleString } from '@/utils';
 import { checkCurrentPrice } from '../StockItem/validity';
+import { StockMainInfo } from '@/features/stockList/type';
 
-interface Changes {
-  [key: string]: string;
+export interface CurrentPriceChanges {
+  [key: string]: StockMainInfo['currentPrice'];
 }
 
 interface Props {
   onClose: () => void;
 }
 
-interface ItemProps {
-  stockId: string;
-  changes: Changes;
-  onChange: PurchasedInputChangeProps;
-}
-
 function EditCurrentPriceModal({ onClose }: Props) {
   const dispatch = useDispatch();
-  const [changes, setChanges] = useState<Changes>({});
+  const [changes, setChanges] = useState<CurrentPriceChanges>({});
   const stocks = useSelector(selectStocks);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
@@ -142,6 +137,12 @@ const StyledTableWrapper = styled('div')`
   max-height: 500px;
   overflow: auto;
 `;
+
+interface ItemProps {
+  stockId: string;
+  changes: CurrentPriceChanges;
+  onChange: PurchasedInputChangeProps;
+}
 
 function Item({ stockId, onChange, changes }: ItemProps) {
   const { mainInfo } = useSelector(selectStockInfoById(stockId));

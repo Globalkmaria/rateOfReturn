@@ -145,7 +145,10 @@ const transformToSoldsState = (userSolds: UserSolds): SoldsState['list'] => {
     sold.purchasedDate = getDateFromIOSString(sold.purchasedDate);
     sold.soldDate = getDateFromIOSString(sold.soldDate);
 
-    acc.byId[soldId] = sold;
+    acc.byId[soldId] = {
+      ...sold,
+      soldPrice: getFixedLocaleString(sold.soldPrice),
+    };
     acc.allIds.push(soldId);
 
     return acc;

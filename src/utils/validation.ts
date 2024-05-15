@@ -13,3 +13,11 @@ export const alertAndReturnValue = (result: ValidityResult) => {
   if (!result.isValid) alert(result.message);
   return result.isValid;
 };
+
+export const alertAndReturnValueZod = (
+  result: z.SafeParseReturnType<any, any>,
+) => {
+  if (!result.success) alert(result.error.issues[0].message);
+
+  return result.success;
+};

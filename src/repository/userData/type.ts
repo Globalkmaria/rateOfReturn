@@ -47,7 +47,9 @@ export type UserStocks = {
   [stockId: string]: UserStock;
 };
 
-export type UserSold = Sold;
+export type UserSold = Omit<Sold, 'soldPrice'> & {
+  soldPrice: number;
+};
 export type UserSolds = {
   [soldId: string]: UserSold;
 };

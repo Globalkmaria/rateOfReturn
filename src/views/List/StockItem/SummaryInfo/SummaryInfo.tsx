@@ -28,8 +28,8 @@ import {
 import { useStockSummaryInputChange } from './hooks/useStockSummaryInputChange';
 import SummaryContent from './SummaryContent';
 import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
-import { getSoldInfoFromPurchasedInfo } from '@/features/solds/utils';
-import { addNewSold } from '@/features/solds';
+import { generateSoldListWithStockInfo } from '@/features/solds/utils';
+import { addNewSoldList } from '@/features/solds';
 import getDateAndTime from '@/utils/getDateAndTime';
 import userSoldsService from '@/service/userSolds/service';
 import { DropboxItem } from '@/components/Dropbox/DropboxItem';
@@ -105,13 +105,8 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       }
     }
 
-    for (const purchasedItem of purchasedItems.allIds) {
-      const soldInfo = getSoldInfoFromPurchasedInfo(
-        mainInfo,
-        purchasedItems.byId[purchasedItem],
-      );
-      dispatch(addNewSold({ soldInfo, stockId: mainInfo.stockId }));
-    }
+    const soldList = generateSoldListWithStockInfo(mainInfo, purchasedItems);
+    dispatch(addNewSoldList({ soldList, stockId: mainInfo.stockId }));
   };
 
   useEffect(() => {

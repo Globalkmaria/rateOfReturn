@@ -16,7 +16,7 @@ export interface Sold {
 
   soldDate: string;
   soldTime: string;
-  soldPrice: number;
+  soldPrice: string;
 }
 
 export interface SoldsState {

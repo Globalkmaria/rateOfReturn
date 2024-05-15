@@ -1,4 +1,6 @@
+import { CurrentPriceChanges } from '@/views/List/EditCurrentPrice/EditCurrentPriceModal';
 import {
+  EditCurrentPricesRepReq,
   EditUserItemRepData,
   EditUserStockRepReq,
 } from '../../repository/userStocks/type';
@@ -34,4 +36,13 @@ export const getEditUserItemRepData = (
     ...mapFn('purchasedPrice', 'buyPrice', localStringToNumber),
     ...mapFn('purchasedQuantity', 'quantity', localStringToNumber),
   };
+};
+
+export const generateServerCurrentPrices = (
+  data: CurrentPriceChanges,
+): EditCurrentPricesRepReq => {
+  return Object.entries(data).reduce((acc, [id, value]) => {
+    acc[id] = localStringToNumber(value);
+    return acc;
+  }, {} as EditCurrentPricesRepReq);
 };
