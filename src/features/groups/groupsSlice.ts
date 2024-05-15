@@ -152,7 +152,7 @@ export const groupsSlice = createSlice({
       state.selectedGroupId = groupInfo.groupId;
       state.nextGroupId += 1;
     });
-    builder.addCase(addStockSampleData, () => GROUP_INITIAL_STATE);
+    builder.addCase(addStockSampleData, () => GROUP_STATE_SAMPLE);
     builder.addCase(addNewSold, (state, action) => {
       const { soldInfo, stockId } = action.payload;
       for (const groupId of state.groups.allIds) {
