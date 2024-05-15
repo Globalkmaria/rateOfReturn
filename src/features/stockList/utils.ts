@@ -7,7 +7,7 @@ export const objectToArray = (Obj: { [key: string | number]: any }) => {
 export const getNewMainInfo = (newStockId: string): StockMainInfo => {
   return {
     stockName: '',
-    currentPrice: '0',
+    currentPrice: '',
     stockId: newStockId,
     needInit: true,
   };
@@ -21,8 +21,8 @@ export const getNewPurchasedItemInfo = (
   return {
     purchasedId: newPurchasedId,
     purchasedDate: date,
-    purchasedQuantity: '0',
-    purchasedPrice: '0',
+    purchasedQuantity: '',
+    purchasedPrice: '',
     purchasedTime: time,
     needInit: true,
   };
