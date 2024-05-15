@@ -25,14 +25,18 @@ export type Item = {
 
 export type StockInfo = {
   name: string;
-  currentPrice: number;
+  currentPrice: string;
   createdAt: Date;
   tag: string;
   id: string;
 };
 
+type UserStockInfo = Omit<StockInfo, 'currentPrice'> & {
+  currentPrice: number;
+};
+
 export type UserStock = {
-  info: StockInfo;
+  info: UserStockInfo;
   items: {
     [itemId: string]: Item;
   };
@@ -43,7 +47,9 @@ export type UserStocks = {
   [stockId: string]: UserStock;
 };
 
-export type UserSold = Sold;
+export type UserSold = Omit<Sold, 'soldPrice'> & {
+  soldPrice: number;
+};
 export type UserSolds = {
   [soldId: string]: UserSold;
 };
@@ -85,7 +91,7 @@ export type ReplaceUserDataRepReq = {
   };
 };
 
-export type mergeUserDataRepReq = {
+export type MergeUserDataRepReq = {
   stocks:
     | ReplaceUserDataRepReq['stocks']
     | {
@@ -94,3 +100,8 @@ export type mergeUserDataRepReq = {
   groups: UserGroups;
   solds: UserSolds;
 };
+
+export type AddCurrentPageSample = Pick<
+  MergeUserDataRepReq,
+  'groups' | 'stocks'
+>;

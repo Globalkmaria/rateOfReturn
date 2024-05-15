@@ -11,7 +11,9 @@ import { selectStockIds } from '../../features/selectors';
 const StockTable = () => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const stockIds = useSelector(selectStockIds);
-  const StyledTable = isMainGroupSelected ? StyledMainStockTable : StyledSubStockTable;
+  const StyledTable = isMainGroupSelected
+    ? StyledMainStockTable
+    : StyledSubStockTable;
 
   return (
     <StyledTable>
@@ -40,6 +42,10 @@ const StyledStockTableBase = styled('div')`
     position: sticky;
     z-index: 2;
     top: 0;
+  }
+
+  ${Table} {
+    margin-bottom: 50px;
   }
 
   @media ${({ theme }) => theme.devices.mobile} {
@@ -75,7 +81,7 @@ const StyledMainStockTable = styled(StyledStockTableBase)`
     left: 50px;
   }
   thead tr > :nth-child(3) {
-    left: 170px;
+    left: 230px;
   }
 
   tbody tr > :first-child,
@@ -97,7 +103,7 @@ const StyledMainStockTable = styled(StyledStockTableBase)`
     left: 50px;
   }
   tbody tr > td:nth-child(3) {
-    left: 170px;
+    left: 230px;
   }
   tbody tr > td[colspan='2']:nth-child(3) {
     left: auto;

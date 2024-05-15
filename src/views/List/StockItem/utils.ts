@@ -1,4 +1,9 @@
-import { getAverage, getPercentage } from '@/utils/number';
+import {
+  getAverage,
+  getFixedLocaleString,
+  getPercentage,
+  localStringToNumber,
+} from '@/utils/number';
 import {
   PurchasedItemInfo,
   StockList,
@@ -6,6 +11,7 @@ import {
 } from '../../../features/stockList/type';
 import { SummaryInfoData } from './SummaryInfo/SummaryInfo';
 import { ChangedSummaryInputs } from './SummaryInfo/hooks/useStockSummaryInputChange';
+import { EditUserStockServiceReq } from '@/service/userStocks/type';
 
 const getPurchasedInfo = (data: StockList['purchasedItems'], id: string) =>
   data.byId[id];
@@ -31,8 +37,12 @@ const getQuantitySumAndTotalPrice = (
 ): { purchaseQuantitySum: number; totalPurchasePrice: number } =>
   purchasedItems.allIds.reduce(
     (acc, id) => {
-      const { purchasedQuantity = 0, purchasedPrice = 0 } =
-        purchasedItems?.byId?.[id] || {};
+      const purchasedItem = purchasedItems?.byId?.[id] || {};
+
+      const purchasedPrice = localStringToNumber(purchasedItem?.purchasedPrice);
+      const purchasedQuantity = localStringToNumber(
+        purchasedItem?.purchasedQuantity,
+      );
 
       acc.purchaseQuantitySum += purchasedQuantity;
       acc.totalPurchasePrice += purchasedQuantity * purchasedPrice;
@@ -52,7 +62,8 @@ export const getStockTotals = (
   const { purchaseQuantitySum, totalPurchasePrice } =
     getQuantitySumAndTotalPrice(purchasedItems);
 
-  const evaluationPrice = purchaseQuantitySum * mainInfo.currentPrice;
+  const evaluationPrice =
+    purchaseQuantitySum * localStringToNumber(mainInfo.currentPrice);
 
   return {
     evaluationPrice,
@@ -77,7 +88,8 @@ export const getStockSummaryInfo = (
     totalPurchasePrice,
     purchaseQuantitySum,
   );
-  const evaluationPrice = purchaseQuantitySum * mainInfo.currentPrice;
+  const evaluationPrice =
+    purchaseQuantitySum * localStringToNumber(mainInfo.currentPrice);
   const evaluationProfit = evaluationPrice - totalPurchasePrice;
   const profitRate = getPercentage(evaluationProfit, totalPurchasePrice);
 
@@ -107,9 +119,25 @@ export const checkNoChange = (values: { [key: string]: any }) =>
 
 export const getChangedStockData = (
   changedInputs: ChangedSummaryInputs,
-  stockInfo: StockMainInfo,
-): StockMainInfo => ({
-  ...stockInfo,
-  ...changedInputs,
-  needInit: false,
-});
+  mainInfo: StockMainInfo,
+): StockMainInfo => {
+  const currentPrice = getFixedLocaleString(
+    changedInputs.currentPrice ?? mainInfo.currentPrice,
+  );
+
+  return { ...mainInfo, ...changedInputs, currentPrice, needInit: false };
+};
+
+export const getEditUserStockData = (
+  changedInputs: ChangedSummaryInputs,
+  mainInfo: StockMainInfo,
+): Partial<EditUserStockServiceReq['data']> => {
+  const currentPrice = changedInputs.currentPrice ?? mainInfo.currentPrice;
+  const numCurrentPrice = localStringToNumber(currentPrice);
+
+  return {
+    stockName: changedInputs.stockName ?? mainInfo.stockName,
+    tag: changedInputs.tag ?? mainInfo.tag,
+    currentPrice: numCurrentPrice,
+  };
+};

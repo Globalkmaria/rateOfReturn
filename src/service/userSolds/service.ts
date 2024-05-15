@@ -1,10 +1,11 @@
 import UserSoldsRepository, {
   AddNewSoldsRepReq,
-  EditSoldsRepReq,
   userSoldsRepository,
 } from '@/repository/userSolds';
 import { Result } from '../type';
 import { ReplaceUserDataRepReq } from '@/repository/userData/type';
+import { generateEditUserSoldRepData } from './utils';
+import { EditSoldServiceReq } from './type';
 
 class UserSoldsService {
   repo: UserSoldsRepository;
@@ -29,9 +30,13 @@ class UserSoldsService {
     }
   }
 
-  async editSold(params: EditSoldsRepReq): Promise<Result> {
+  async editSold({ data, ...restProps }: EditSoldServiceReq): Promise<Result> {
     try {
-      const result = await this.repo.editSold(params);
+      const serverData = generateEditUserSoldRepData(data);
+      const result = await this.repo.editSold({
+        ...restProps,
+        data: serverData,
+      });
       if (!result) return { success: true };
 
       if (result?.response?.status === 400)

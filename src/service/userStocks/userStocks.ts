@@ -1,3 +1,4 @@
+import { CurrentPriceChanges } from '@/views/List/EditCurrentPrice/EditCurrentPriceModal';
 import {
   AddNewUserItemRepReq,
   AddNewUserItemRepRes,
@@ -5,14 +6,17 @@ import {
   AddNewUserStockRepRes,
   DeleteUserItemRepReq,
   DeleteUserItemWithStockRepReq,
-  EditCurrentPricesRepReq,
 } from '../../repository/userStocks/type';
 import UserStocksRepository, {
   userStocksRepository,
 } from '../../repository/userStocks/userStocks';
 import { Result } from '../type';
 import { EditUserItemServiceReq, EditUserStockServiceReq } from './type';
-import { renameItemKeysForServer, renameStockKeysForServer } from './utils';
+import {
+  generateServerCurrentPrices,
+  getEditUserItemRepData,
+  renameStockKeysForServer,
+} from './utils';
 
 class UserStocksService {
   repo: UserStocksRepository;
@@ -95,7 +99,7 @@ class UserStocksService {
 
   async editUserItem(params: EditUserItemServiceReq): Promise<Result> {
     try {
-      const data = renameItemKeysForServer(params.data);
+      const data = getEditUserItemRepData(params.data);
       const result = await this.repo.editUserItem({
         ...params,
         data,
@@ -146,9 +150,10 @@ class UserStocksService {
     return this.deleteUserItem({ stockId, purchasedId });
   }
 
-  async editCurrentPrices(data: EditCurrentPricesRepReq): Promise<Result> {
+  async editCurrentPrices(data: CurrentPriceChanges): Promise<Result> {
     try {
-      const result = await this.repo.editCurrentPrices(data);
+      const serverData = generateServerCurrentPrices(data);
+      const result = await this.repo.editCurrentPrices(serverData);
       if (!result) return { success: true };
 
       if (result?.response?.status === 400)

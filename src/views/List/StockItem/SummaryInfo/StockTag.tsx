@@ -54,6 +54,7 @@ function StockTag({ disabled, onTagChange, selectedOption }: Props) {
   return (
     <TableCell>
       <Tag
+        dropboxSettings={{ height: 170 }}
         height={29}
         disabled={disabled}
         options={options}

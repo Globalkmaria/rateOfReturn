@@ -1,11 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import {
-  MOCK_DATA,
-  MOCK_DATA_NEXT_STOCK_ID,
-  MOCK_DATA_PURCHASED_ID,
-  MOCK_DATA_TAGS,
-} from './mockData';
+import { STOCK_STATE_SAMPLE } from './mockData';
 import {
   StockListState,
   UpdateStockPayload,
@@ -22,7 +17,7 @@ import {
   resetUserData,
   setBackupData,
 } from '@/features';
-import { addNewSold } from '../solds';
+import { addNewSold, addNewSoldList } from '../solds';
 
 export const STOCK_INITIAL_STATE: StockListState = {
   stocks: {
@@ -34,16 +29,9 @@ export const STOCK_INITIAL_STATE: StockListState = {
   tags: [],
 };
 
-export const INITIAL_STATE_WITH_SAMPLE: StockListState = {
-  stocks: MOCK_DATA,
-  nextStockId: MOCK_DATA_NEXT_STOCK_ID,
-  nextPurchasedId: MOCK_DATA_PURCHASED_ID,
-  tags: MOCK_DATA_TAGS,
-};
-
 const stockListSlice = createSlice({
   name: 'stockList',
-  initialState: INITIAL_STATE_WITH_SAMPLE,
+  initialState: STOCK_STATE_SAMPLE,
   reducers: {
     initStockList: (state, action: PayloadAction<StockListState>) => ({
       ...state,
@@ -76,7 +64,7 @@ const stockListSlice = createSlice({
     updateStocksCurrentPrice: (
       state: StockListState,
       action: PayloadAction<{
-        [key: string]: number;
+        [key: string]: string;
       }>,
     ) => {
       const changedPrices = action.payload;
@@ -158,7 +146,7 @@ const stockListSlice = createSlice({
       ...STOCK_INITIAL_STATE,
       ...action.payload.stockList,
     }));
-    builder.addCase(addStockSampleData, () => INITIAL_STATE_WITH_SAMPLE);
+    builder.addCase(addStockSampleData, () => STOCK_STATE_SAMPLE);
     builder.addCase(addNewSold, (state, action) => {
       const { soldInfo, stockId } = action.payload;
       const purchasedItems = state.stocks.byId[stockId].purchasedItems;
@@ -175,6 +163,13 @@ const stockListSlice = createSlice({
       );
       delete purchasedItems.byId[soldInfo.purchasedId];
       purchasedItems.allIds.splice(purchasedItemIdx, 1);
+    });
+    builder.addCase(addNewSoldList, (state, action) => {
+      const { stockId } = action.payload;
+
+      const stockIdx = state.stocks.allIds.indexOf(stockId);
+      delete state.stocks.byId[stockId];
+      state.stocks.allIds.splice(stockIdx, 1);
     });
   },
 });

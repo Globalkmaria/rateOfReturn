@@ -1,4 +1,7 @@
-import { getDecimalPlacesSchema } from '@/utils/validation';
+import {
+  alertAndReturnValueZod,
+  getDecimalPlacesSchema,
+} from '@/utils/validation';
 import { z } from 'zod';
 
 const soldPriceSchema = z
@@ -10,15 +13,11 @@ const soldPriceSchema = z
 
 const decimalPlacesSchema = getDecimalPlacesSchema(4);
 
-export const checkSoldPriceValidity = (value: string) => {
-  const formattedValue = Number(value.replace(/,/g, ''));
-  let result = decimalPlacesSchema.safeParse(formattedValue);
-  if (result.success) {
-    result = soldPriceSchema.safeParse(formattedValue);
+export const checkSoldPrice = (value: number) => {
+  const isValidDecimal = decimalPlacesSchema.safeParse(value);
+  if (!isValidDecimal.success) {
+    alert(isValidDecimal.error.issues[0].message);
+    return false;
   }
-
-  return {
-    isValid: result.success,
-    message: result.success ? '' : result.error.issues[0].message,
-  };
+  return alertAndReturnValueZod(soldPriceSchema.safeParse(value));
 };

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { GROUPS_MOCK_DATA, GROUPS_MOCK_DATA_NEXT_GROUP_ID } from './mockData';
+import { GROUP_STATE_SAMPLE, MAIN_GROUP_ID } from './mockData';
 import { GroupsState, UpdateMainGroupPayload } from './type';
 import {
   deletePurchasedItemFromGroup,
@@ -16,9 +16,7 @@ import {
   resetUserData,
   setBackupData,
 } from '@/features';
-import { addNewSold } from '../solds';
-
-export const MAIN_GROUP_ID = '1';
+import { addNewSold, addNewSoldList } from '../solds';
 
 export const GROUP_INITIAL_STATE: GroupsState = {
   groups: {
@@ -28,15 +26,10 @@ export const GROUP_INITIAL_STATE: GroupsState = {
   selectedGroupId: MAIN_GROUP_ID,
   nextGroupId: 2,
 };
-const INITIAL_STATE_WITH_SAMPLE: GroupsState = {
-  groups: GROUPS_MOCK_DATA,
-  selectedGroupId: MAIN_GROUP_ID,
-  nextGroupId: GROUPS_MOCK_DATA_NEXT_GROUP_ID,
-};
 
 export const groupsSlice = createSlice({
   name: 'groups',
-  initialState: INITIAL_STATE_WITH_SAMPLE,
+  initialState: GROUP_STATE_SAMPLE,
   reducers: {
     initGroups: (
       state,
@@ -159,7 +152,7 @@ export const groupsSlice = createSlice({
       state.selectedGroupId = groupInfo.groupId;
       state.nextGroupId += 1;
     });
-    builder.addCase(addStockSampleData, () => INITIAL_STATE_WITH_SAMPLE);
+    builder.addCase(addStockSampleData, () => GROUP_STATE_SAMPLE);
     builder.addCase(addNewSold, (state, action) => {
       const { soldInfo, stockId } = action.payload;
       for (const groupId of state.groups.allIds) {
@@ -174,6 +167,13 @@ export const groupsSlice = createSlice({
 
         const emptyPurchasedItems = !group.stocks.byId[stockId].length;
         if (emptyPurchasedItems) deleteStockFromGroup(group, stockId);
+      }
+    });
+    builder.addCase(addNewSoldList, (state, action) => {
+      const { stockId } = action.payload;
+      for (const groupId of state.groups.allIds) {
+        const group = state.groups.byId[groupId];
+        deleteStockFromGroup(group, stockId);
       }
     });
   },

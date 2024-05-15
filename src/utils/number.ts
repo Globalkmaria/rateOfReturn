@@ -22,7 +22,13 @@ export const getFixedLocaleString = (
   const fixedDecimal = decimal?.length
     ? decimal.length < fractionDigits
       ? decimal.padEnd(fractionDigits, '0')
-      : decimal
+      : decimal.slice(0, fractionDigits)
     : '0000';
   return `${Number(integer).toLocaleString()}.${fixedDecimal}`;
+};
+
+export const localStringToNumber = (localString?: string): number => {
+  if (typeof localString === 'number') return localString;
+
+  return localString ? Number(localString.replace(/,/g, '')) : 0;
 };

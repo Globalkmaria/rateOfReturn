@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { Dispatch, SetStateAction, memo } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -7,23 +7,20 @@ import { selectPurchasedItemsById } from '../../../../features/stockList/selecto
 import { NumberCell, StyledTextWrapper } from '../components';
 import PurchasedInput from './PurchasedInput';
 import { getPurchasedData } from './utils';
-import {
-  ChangedPurchasedItemInputs,
-  SetChangedInputByFieldName,
-} from './PurchasedStock';
+import { EditUserItemServiceData } from '@/service/userStocks/type';
 
 type Props = {
   stockId: string;
   purchasedId: string;
   isLock: boolean;
-  setChangedInputByFieldName: SetChangedInputByFieldName;
-  changedInputs: ChangedPurchasedItemInputs;
+  setChangedInputs: Dispatch<SetStateAction<EditUserItemServiceData>>;
+  changedInputs: EditUserItemServiceData;
 };
 
 const PurchasedContent = ({
   stockId,
   purchasedId,
-  setChangedInputByFieldName,
+  setChangedInputs,
   changedInputs,
   isLock,
 }: Props) => {
@@ -38,7 +35,7 @@ const PurchasedContent = ({
         {purchasedId}
       </TableCell>
       <PurchasedInput
-        setChangedInputByFieldName={setChangedInputByFieldName}
+        setChangedInputs={setChangedInputs}
         changedInputs={changedInputs}
         purchasedItem={purchasedItem}
         isLock={isLock}

@@ -14,7 +14,7 @@ const AddSampleData = () => {
 
   const onClick = async () => {
     if (isLoggedIn) {
-      const result = await userDataService.addSampleUserData();
+      const result = await userDataService.addStockAndGroupSample();
       if (!result.success) return;
     }
 

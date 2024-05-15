@@ -1,5 +1,6 @@
 import { SoldsState } from '@/features/solds';
 import { ReplaceUserDataRepReq } from '@/repository/userData/type';
+import { soldListToServerFormat } from '@/service/userSolds/utils';
 
 export const formatSoldAsServerFormat = (
   solds: SoldsState,
@@ -7,7 +8,7 @@ export const formatSoldAsServerFormat = (
   if (!solds?.list?.byId) return null;
 
   return {
-    solds: solds.list.byId,
+    solds: soldListToServerFormat(solds.list),
     nextId: solds.nextId,
   };
 };

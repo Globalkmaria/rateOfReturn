@@ -20,16 +20,20 @@ import { EditButton, MoreButton } from '@/components/IconButton';
 import useModal from '../../hooks/useModal';
 import { CheckboxCell } from '../components';
 import { DeleteStockModal } from '../DeleteStockModal';
-import { checkNoChange, getChangedStockData } from '../utils';
+import {
+  checkNoChange,
+  getChangedStockData,
+  getEditUserStockData,
+} from '../utils';
 import { useStockSummaryInputChange } from './hooks/useStockSummaryInputChange';
 import SummaryContent from './SummaryContent';
 import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
-import { getSoldInfoFromPurchasedInfo } from '@/features/solds/utils';
-import { addNewSold } from '@/features/solds';
+import { generateSoldListWithStockInfo } from '@/features/solds/utils';
+import { addNewSoldList } from '@/features/solds';
 import getDateAndTime from '@/utils/getDateAndTime';
-import { NewSold } from '@/repository/userSolds';
 import userSoldsService from '@/service/userSolds/service';
 import { DropboxItem } from '@/components/Dropbox/DropboxItem';
+import { generateSoldItems } from './utils';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -69,13 +73,9 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
     if (isLoggedIn) {
       const result = await userStocksService.editUserStock({
         stockId,
-        data: {
-          stockName: mainInfo.stockName,
-          currentPrice: mainInfo.currentPrice,
-          tag: mainInfo.tag,
-          ...changedInputs,
-        },
+        data: getEditUserStockData(changedInputs, mainInfo),
       });
+
       if (!result.success) return alert(result.message);
     }
 
@@ -92,13 +92,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const onStockSold = async () => {
     if (isLoggedIn) {
       const { date, time } = getDateAndTime();
-      const soldItem = purchasedItems.allIds.map<NewSold>(purchasedId => ({
-        ...purchasedItems.byId[purchasedId],
-        stockId: mainInfo.stockId,
-        stockName: mainInfo.stockName,
-        soldPrice: mainInfo.currentPrice,
-        tag: mainInfo.tag,
-      }));
+      const soldItem = generateSoldItems(mainInfo, purchasedItems);
       const result = await userSoldsService.addNewSolds({
         date,
         time,
@@ -111,13 +105,8 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       }
     }
 
-    for (const purchasedItem of purchasedItems.allIds) {
-      const soldInfo = getSoldInfoFromPurchasedInfo(
-        mainInfo,
-        purchasedItems.byId[purchasedItem],
-      );
-      dispatch(addNewSold({ soldInfo, stockId: mainInfo.stockId }));
-    }
+    const soldList = generateSoldListWithStockInfo(mainInfo, purchasedItems);
+    dispatch(addNewSoldList({ soldList, stockId: mainInfo.stockId }));
   };
 
   useEffect(() => {

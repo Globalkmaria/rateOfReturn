@@ -4,7 +4,7 @@ import {
   getTotalSummary,
 } from '../../../features/groups/filters';
 import { Context } from 'chartjs-plugin-datalabels';
-import { getFixedLocaleString } from '@/utils/number';
+import { getFixedLocaleString, getPercentage } from '@/utils/number';
 import { PercentageAndTotalPrice } from '../type';
 
 interface TagsTotal {
@@ -161,17 +161,17 @@ export const getTagsInfo = (stockInfo: StockListState['stocks']): TagsInfo => {
 
   for (const tag of tags) {
     buyPrice[tag] = {
-      percent: (
-        (tagsTotal.buyPrice[tag] / summary.groupSummary.totalPurchasePrice) *
-        100
+      percent: getPercentage(
+        tagsTotal.buyPrice[tag],
+        summary.groupSummary.totalPurchasePrice,
       ).toFixed(2),
       totalPrice: getFixedLocaleString(tagsTotal.buyPrice[tag]),
     };
 
     currentPrice[tag] = {
-      percent: (
-        (tagsTotal.currentPrice[tag] / summary.groupSummary.totalCurrentValue) *
-        100
+      percent: getPercentage(
+        tagsTotal.currentPrice[tag],
+        summary.groupSummary.totalCurrentValue,
       ).toFixed(2),
       totalPrice: getFixedLocaleString(tagsTotal.currentPrice[tag]),
     };
