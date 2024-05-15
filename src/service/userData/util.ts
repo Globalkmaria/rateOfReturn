@@ -16,7 +16,7 @@ import {
   UserStocks,
 } from '../../repository/userData/type';
 import { UserDataServiceRes } from './type';
-import { getDateFromIOSString } from '@/utils';
+import { getDateFromIOSString, getFixedLocaleString } from '@/utils';
 
 const getMainInfo = (
   stockId: string,
@@ -24,7 +24,7 @@ const getMainInfo = (
 ): StockList['mainInfo'] => ({
   stockId,
   stockName: stock.name,
-  currentPrice: stock.currentPrice.toLocaleString(),
+  currentPrice: getFixedLocaleString(stock.currentPrice),
   tag: stock.tag,
 });
 
@@ -56,8 +56,8 @@ const getPurchasedInfo = (purchasedId: string, item: Item) => ({
   purchasedId,
   purchasedDate: getDateFromIOSString(item.buyDate),
   purchasedTime: item.buyTime,
-  purchasedQuantity: item.quantity,
-  purchasedPrice: item.buyPrice,
+  purchasedQuantity: item.quantity.toLocaleString(),
+  purchasedPrice: getFixedLocaleString(item.buyPrice),
 });
 
 const getPurchasedItems = (
