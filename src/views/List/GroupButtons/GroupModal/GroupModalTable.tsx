@@ -3,13 +3,16 @@ import { selectCheckedPurchasedItems } from '../../../../features/checkedItems/s
 import GroupModalTableHead from './GroupModalTableHeader';
 import { Table, TableBody } from '../../../../components/Table';
 import GroupModalTableRow from './GroupModalTableRow';
+import styled from 'styled-components';
 
 const GroupModalTable = () => {
   return (
-    <Table>
-      <GroupModalTableHead />
-      <GroupModalTableBody />
-    </Table>
+    <StyledContainer>
+      <Table>
+        <GroupModalTableHead />
+        <GroupModalTableBody />
+      </Table>
+    </StyledContainer>
   );
 };
 
@@ -30,3 +33,10 @@ const GroupModalTableBody = () => {
     </TableBody>
   );
 };
+
+const StyledContainer = styled.div`
+  max-width: 1000px;
+  width: 70vw;
+  max-height: 500px;
+  overflow: auto;
+`;

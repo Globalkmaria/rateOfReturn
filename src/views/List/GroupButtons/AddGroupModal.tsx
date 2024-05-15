@@ -58,11 +58,6 @@ const AddGroupModal = ({ onClose }: Props) => {
 export default AddGroupModal;
 
 const StyledAddGroupModal = styled('div')`
-  max-width: 1000px;
-  width: 70vw;
-  max-height: 500px;
-  overflow: auto;
-
   @media ${({ theme }) => theme.devices.tablet} {
     width: 70vw;
   }
