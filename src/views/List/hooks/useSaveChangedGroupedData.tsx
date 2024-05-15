@@ -11,7 +11,7 @@ const useSaveChangedGroupsData = (firstLoad: boolean) => {
   useEffect(() => {
     if (isLoggedIn) return;
     if (!firstLoad) setLocalStorageItem('groups', groups);
-  }, [groups.groups, isLoggedIn]);
+  }, [groups, isLoggedIn]);
 };
 
 export default useSaveChangedGroupsData;
