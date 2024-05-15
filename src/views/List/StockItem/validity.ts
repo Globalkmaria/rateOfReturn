@@ -10,7 +10,7 @@ type FieldType = keyof typeof schema;
 
 const stockNameSchema = z
   .string()
-  .max(30, { message: 'Stock name must be at most 30 characters long' });
+  .max(40, { message: 'Stock name must be at most 40 characters long' });
 
 const stockPriceSchema = z
   .number()
