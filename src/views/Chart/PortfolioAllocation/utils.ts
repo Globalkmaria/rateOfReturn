@@ -1,7 +1,7 @@
 import { StockListState } from '@/features/stockList/type';
 import { getTotalSummary } from '../../../features/groups/filters';
 import { Context } from 'chartjs-plugin-datalabels';
-import { getFixedLocaleString } from '@/utils/number';
+import { getFixedLocaleString, getPercentage } from '@/utils/number';
 import { PercentageAndTotalPrice } from '../type';
 
 const BASE_BACKGROUND_COLORS = [
@@ -137,19 +137,17 @@ export const getStockAllocationInfo = (stockInfo: StockListState['stocks']) => {
     const stockSummary = summary.stocksSummary[stockId];
 
     buyPrice[stockId] = {
-      percent: (
-        (stockSummary.totalPurchasePrice /
-          summary.groupSummary.totalPurchasePrice) *
-        100
+      percent: getPercentage(
+        stockSummary.totalPurchasePrice,
+        summary.groupSummary.totalPurchasePrice,
       ).toFixed(2),
       totalPrice: getFixedLocaleString(stockSummary.totalPurchasePrice),
     };
 
     currentPrice[stockId] = {
-      percent: (
-        (stockSummary.totalCurrentValue /
-          summary.groupSummary.totalCurrentValue) *
-        100
+      percent: getPercentage(
+        stockSummary.totalCurrentValue,
+        summary.groupSummary.totalCurrentValue,
       ).toFixed(2),
       totalPrice: getFixedLocaleString(stockSummary.totalCurrentValue),
     };
