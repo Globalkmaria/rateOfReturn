@@ -1,3 +1,4 @@
+import { getFixedLocaleString } from '@/utils';
 import { STOCKS_DATA } from '../../../__test__/mock/stocks';
 import { getGroupPurchasedData, getStockSummaryInfo } from './utils';
 
@@ -26,36 +27,40 @@ describe('getStockSummaryInfo should return correct data', () => {
 
 describe('getGroupPurchasedData should return correct data', () => {
   test('when all data is chosen', () => {
-    expect(getGroupPurchasedData(STOCKS_DATA.byId['1'].purchasedItems, ['1', '2'])).toEqual({
+    expect(
+      getGroupPurchasedData(STOCKS_DATA.byId['1'].purchasedItems, ['1', '2']),
+    ).toEqual({
       allIds: ['1', '2'],
       byId: {
         '1': {
           purchasedId: '1',
           purchasedDate: '2023-01-01',
-          purchasedQuantity: 2,
-          purchasedPrice: 1800,
+          purchasedQuantity: (2).toLocaleString(),
+          purchasedPrice: getFixedLocaleString(1800),
           purchasedTime: '09:57',
         },
         '2': {
           purchasedId: '2',
           purchasedDate: '2023-06-05',
           purchasedTime: '14:13',
-          purchasedQuantity: 2,
-          purchasedPrice: 2000,
+          purchasedQuantity: (2).toLocaleString(),
+          purchasedPrice: getFixedLocaleString(2000),
         },
       },
     });
   });
 
   test('when 1 item is chosen', () => {
-    expect(getGroupPurchasedData(STOCKS_DATA.byId['1'].purchasedItems, ['1'])).toEqual({
+    expect(
+      getGroupPurchasedData(STOCKS_DATA.byId['1'].purchasedItems, ['1']),
+    ).toEqual({
       allIds: ['1'],
       byId: {
         '1': {
           purchasedId: '1',
           purchasedDate: '2023-01-01',
-          purchasedQuantity: 2,
-          purchasedPrice: 1800,
+          purchasedQuantity: (2).toLocaleString(),
+          purchasedPrice: getFixedLocaleString(1800),
           purchasedTime: '09:57',
         },
       },
