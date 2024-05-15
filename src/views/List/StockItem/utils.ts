@@ -37,8 +37,12 @@ const getQuantitySumAndTotalPrice = (
 ): { purchaseQuantitySum: number; totalPurchasePrice: number } =>
   purchasedItems.allIds.reduce(
     (acc, id) => {
-      const { purchasedQuantity = 0, purchasedPrice = 0 } =
-        purchasedItems?.byId?.[id] || {};
+      const purchasedItem = purchasedItems?.byId?.[id] || {};
+
+      const purchasedPrice = localStringToNumber(purchasedItem?.purchasedPrice);
+      const purchasedQuantity = localStringToNumber(
+        purchasedItem?.purchasedQuantity,
+      );
 
       acc.purchaseQuantitySum += purchasedQuantity;
       acc.totalPurchasePrice += purchasedQuantity * purchasedPrice;

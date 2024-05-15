@@ -13,7 +13,7 @@ export type EditUserStockServiceReq = {
 };
 
 export type EditUserItemServiceData = Partial<
-  Omit<PurchasedItemInfo, 'purchasedId'>
+  Omit<PurchasedItemInfo, 'purchasedId' | 'needInit'>
 >;
 
 export type EditUserItemServiceReq = {

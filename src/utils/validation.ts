@@ -1,3 +1,4 @@
+import { ValidityResult } from '@/views/List/StockItem/validity';
 import { z } from 'zod';
 
 export const getDecimalPlacesSchema = (places: number) =>
@@ -7,3 +8,8 @@ export const getDecimalPlacesSchema = (places: number) =>
     },
     { message: `Max precision is ${places} decimal places` },
   );
+
+export const alertAndReturnValue = (result: ValidityResult) => {
+  if (!result.isValid) alert(result.message);
+  return result.isValid;
+};

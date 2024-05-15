@@ -21,8 +21,8 @@ export const getNewPurchasedItemInfo = (
   return {
     purchasedId: newPurchasedId,
     purchasedDate: date,
-    purchasedQuantity: 0,
-    purchasedPrice: 0,
+    purchasedQuantity: '0.0000',
+    purchasedPrice: '0.0000',
     purchasedTime: time,
     needInit: true,
   };

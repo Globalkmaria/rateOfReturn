@@ -12,7 +12,7 @@ import UserStocksRepository, {
 } from '../../repository/userStocks/userStocks';
 import { Result } from '../type';
 import { EditUserItemServiceReq, EditUserStockServiceReq } from './type';
-import { renameItemKeysForServer, renameStockKeysForServer } from './utils';
+import { getEditUserItemRepData, renameStockKeysForServer } from './utils';
 
 class UserStocksService {
   repo: UserStocksRepository;
@@ -95,7 +95,7 @@ class UserStocksService {
 
   async editUserItem(params: EditUserItemServiceReq): Promise<Result> {
     try {
-      const data = renameItemKeysForServer(params.data);
+      const data = getEditUserItemRepData(params.data);
       const result = await this.repo.editUserItem({
         ...params,
         data,

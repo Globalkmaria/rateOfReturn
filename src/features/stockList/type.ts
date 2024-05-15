@@ -26,8 +26,8 @@ export interface PurchasedItemInfo {
   purchasedId: string;
   purchasedDate: string;
   purchasedTime: string;
-  purchasedQuantity: number;
-  purchasedPrice: number;
+  purchasedQuantity: string;
+  purchasedPrice: string;
   needInit?: boolean;
 }
 

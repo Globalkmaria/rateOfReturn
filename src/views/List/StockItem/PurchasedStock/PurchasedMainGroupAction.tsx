@@ -14,7 +14,7 @@ import { NewSold } from '@/repository/userSolds';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 import { selectPurchasedItemsById } from '@/features/stockList/selectors';
 import { addNewSold, getSoldInfoFromPurchasedInfo } from '@/features/solds';
-import { localStringToNumber } from '@/utils';
+import { generateSoldItem } from '../SummaryInfo/utils';
 
 interface Props {
   stockId: string;
@@ -41,13 +41,7 @@ function PurchasedMainGroupAction({
   const onItemSold = async () => {
     if (isLoggedIn) {
       const { date, time } = getDateAndTime();
-      const soldItem: NewSold = {
-        ...purchasedItem,
-        stockId: mainInfo.stockId,
-        stockName: mainInfo.stockName,
-        soldPrice: localStringToNumber(mainInfo.currentPrice),
-        tag: mainInfo.tag,
-      };
+      const soldItem: NewSold = generateSoldItem(mainInfo, purchasedItem);
       const result = await userSoldsService.addNewSolds({
         date,
         time,

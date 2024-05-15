@@ -31,10 +31,9 @@ import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
 import { getSoldInfoFromPurchasedInfo } from '@/features/solds/utils';
 import { addNewSold } from '@/features/solds';
 import getDateAndTime from '@/utils/getDateAndTime';
-import { NewSold } from '@/repository/userSolds';
 import userSoldsService from '@/service/userSolds/service';
 import { DropboxItem } from '@/components/Dropbox/DropboxItem';
-import { localStringToNumber } from '@/utils';
+import { generateSoldItems } from './utils';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -93,13 +92,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const onStockSold = async () => {
     if (isLoggedIn) {
       const { date, time } = getDateAndTime();
-      const soldItem = purchasedItems.allIds.map<NewSold>(purchasedId => ({
-        ...purchasedItems.byId[purchasedId],
-        stockId: mainInfo.stockId,
-        stockName: mainInfo.stockName,
-        soldPrice: localStringToNumber(mainInfo.currentPrice),
-        tag: mainInfo.tag,
-      }));
+      const soldItem = generateSoldItems(mainInfo, purchasedItems);
       const result = await userSoldsService.addNewSolds({
         date,
         time,

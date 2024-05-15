@@ -27,5 +27,8 @@ export const getFixedLocaleString = (
   return `${Number(integer).toLocaleString()}.${fixedDecimal}`;
 };
 
-export const localStringToNumber = (localString: string): number =>
-  Number(localString.replace(/,/g, ''));
+export const localStringToNumber = (localString?: string): number => {
+  if (typeof localString === 'number') return localString;
+
+  return localString ? Number(localString.replace(/,/g, '')) : 0;
+};

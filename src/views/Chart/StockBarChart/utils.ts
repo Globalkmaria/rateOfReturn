@@ -32,8 +32,10 @@ const getAverageReturn = (stock: StockList) => {
       const { purchasedPrice, purchasedQuantity } =
         stock.purchasedItems.byId[itemId];
 
-      acc.totalQuantity += purchasedQuantity;
-      acc.totalBuyCost += purchasedQuantity * purchasedPrice;
+      acc.totalQuantity += localStringToNumber(purchasedQuantity);
+      acc.totalBuyCost +=
+        localStringToNumber(purchasedQuantity) *
+        localStringToNumber(purchasedPrice);
 
       return acc;
     },
@@ -131,15 +133,14 @@ export const getStockBarChartInfos = (stock: StockList) => {
 
   for (const id of stock.purchasedItems.allIds) {
     const purchasedItem = stock.purchasedItems.byId[id];
+    const currentPrice = localStringToNumber(stock.mainInfo.currentPrice);
+    const purchasedPrice = localStringToNumber(purchasedItem.purchasedPrice);
+    const quantity = localStringToNumber(purchasedItem.purchasedQuantity);
+
     const profit = getFixedLocaleString(
-      (localStringToNumber(stock.mainInfo.currentPrice) -
-        purchasedItem.purchasedPrice) *
-        purchasedItem.purchasedQuantity,
+      (currentPrice - purchasedPrice) * quantity,
     );
-    const ratio = getReturnOfRation(
-      localStringToNumber(stock.mainInfo.currentPrice),
-      purchasedItem.purchasedPrice,
-    );
+    const ratio = getReturnOfRation(currentPrice, purchasedPrice);
 
     const label = getItemLabel(purchasedItem);
 

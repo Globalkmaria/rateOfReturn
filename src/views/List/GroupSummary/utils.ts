@@ -42,12 +42,14 @@ export const calculateGroupSummary = ({
 
     for (const purchasedId of purchasedIds) {
       const purchasedItem = stock.purchasedItems.byId[purchasedId];
+      const currentPrice = localStringToNumber(stock.mainInfo.currentPrice);
+      const purchasedPrice = localStringToNumber(purchasedItem.purchasedPrice);
+      const purchasedQuantity = localStringToNumber(
+        purchasedItem.purchasedQuantity,
+      );
 
-      totalPurchasedPrice +=
-        purchasedItem.purchasedPrice * purchasedItem.purchasedQuantity;
-      totalCurrentValue +=
-        localStringToNumber(stock.mainInfo.currentPrice) *
-        purchasedItem.purchasedQuantity;
+      totalPurchasedPrice += purchasedPrice * purchasedQuantity;
+      totalCurrentValue += currentPrice * purchasedQuantity;
     }
   }
 
