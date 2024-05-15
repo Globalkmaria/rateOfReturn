@@ -69,6 +69,7 @@ function EditCurrentPriceModal({ onClose }: Props) {
     }, {} as { [key: string]: string });
 
     dispatch(updateStocksCurrentPrice(data));
+    setChanges({});
     onClose();
   };
 
