@@ -23,7 +23,9 @@ const removeInvalidedEdgeChars = (value: string) => {
 
   let validStart = 0;
   for (let i = 0; i < value.length; i++) {
-    if (!isNaN(Number(value[i]))) {
+    const num = Number(value[i]);
+    if (num === 0) continue;
+    if (!isNaN(num)) {
       validStart = i;
       break;
     }
@@ -31,7 +33,8 @@ const removeInvalidedEdgeChars = (value: string) => {
 
   let validEnd = value.length - 1;
   for (let i = value.length - 1; i >= 0; i--) {
-    if (!isNaN(Number(value[i]))) {
+    const num = Number(value[i]);
+    if (!isNaN(num)) {
       validEnd = i;
       break;
     }
