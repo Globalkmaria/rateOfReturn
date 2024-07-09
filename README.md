@@ -94,7 +94,7 @@ This project allows you to:
 
 - Sold page
 
-  <img src="https://velog.velcdn.com/images/tjdgus0528/post/13b99a57-ddfa-4970-897e-c8faf28368a6/image.png" alt="image" width="700" height="400">
+  <img src="https://velog.velcdn.com/images/tjdgus0528/post/52202578-680e-4b3a-922d-e68d5fbcf666/image.png" alt="image" width="700" height="400">
 
 - Login page
 

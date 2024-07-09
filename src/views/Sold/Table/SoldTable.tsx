@@ -1,21 +1,32 @@
-import styled from 'styled-components';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 
 import { Table, TableBody } from '@/components/Table';
+import { selectSoldList } from '@/features/solds';
 import SoldTableHeader from './SoldTableHeader';
 import SoldItem from './SoldItem';
-import { selectSoldList } from '@/features/solds';
+import { SOLD_SORT_OPTIONS_FUNCTIONS, SoldSortOptions } from './const';
 
 interface Props {}
 
 function SoldTable({}: Props) {
   const soldList = useSelector(selectSoldList);
+  const [selectedSort, setSelectedSort] = useState<SoldSortOptions>('');
+  const sortedList = SOLD_SORT_OPTIONS_FUNCTIONS[selectedSort](soldList);
+
+  const handleSortChange = (option: SoldSortOptions) => {
+    setSelectedSort(option);
+  };
 
   return (
     <StyledSoldTable>
-      <SoldTableHeader />
+      <SoldTableHeader
+        currentOption={selectedSort}
+        onChangeSort={handleSortChange}
+      />
       <TableBody>
-        {soldList.allIds.map(id => (
+        {sortedList.map(id => (
           <SoldItem id={id} key={id} />
         ))}
       </TableBody>
@@ -30,6 +41,12 @@ const StyledSoldTable = styled(Table)`
     position: sticky;
     z-index: 2;
     top: 0;
+  }
+
+  th button {
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
   }
 
   thead tr > :first-child,
@@ -62,6 +79,7 @@ const StyledSoldTable = styled(Table)`
   @media ${({ theme }) => theme.devices.mobile} {
     thead th,
     tbody td,
+    th button,
     input {
       font-size: 0.8rem;
     }
