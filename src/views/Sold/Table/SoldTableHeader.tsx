@@ -13,7 +13,11 @@ function SoldTableHeader(props: Props) {
     <TableHeader>
       <TableRow>
         {SOLD_HEADER_LIST.map(item => (
-          <HeaderItem {...props} {...item} key={item.id} />
+          <HeaderItem
+            {...(item.Component ? props : {})}
+            {...item}
+            key={item.id}
+          />
         ))}
       </TableRow>
     </TableHeader>
