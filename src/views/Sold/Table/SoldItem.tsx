@@ -11,7 +11,7 @@ import {
   NumberCell,
   StyledTextWrapper,
 } from '@/views/List/StockItem/components';
-import { checkSoldPrice } from './util';
+import { checkSoldPrice } from './utils';
 import useModal from '@/views/List/hooks/useModal';
 import DeleteSoldModal from './DeleteSoldModal';
 import { getLocalDateTime } from '@/utils';
