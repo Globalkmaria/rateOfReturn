@@ -5,24 +5,35 @@ import CheckAllCheckbox from './CheckAllCheckbox';
 
 type HeaderListComponent = typeof CheckAllCheckbox;
 
-export type HeaderItemProps =
-  | {
-      id: string;
-      label: string;
-    } & Pick<TableHeadProps, 'fixedWidth' | 'minWidth'> &
-      (
-        | {
-            Component: HeaderListComponent;
-            notTableHead: true;
-          }
-        | {
-            notTableHead?: false;
-            Component?: IStyledComponent<'web', DefaultTheme | TableHeadProps | never>;
-          }
-      );
+type BaseHeaderItemProps = {
+  id: string;
+  label: string;
+} & Pick<TableHeadProps, 'fixedWidth' | 'minWidth'>;
 
-function HeaderItem({ id, label, Component, notTableHead, ...restProps }: HeaderItemProps) {
-  if (notTableHead && Component) return <Component key={id} id={id} {...restProps} />;
+type NotTableHeadProps = {
+  Component: HeaderListComponent;
+  notTableHead: true;
+};
+
+type TableHeadPropsVariant = {
+  notTableHead?: false;
+  Component?:
+    | IStyledComponent<'web', DefaultTheme | TableHeadProps | never>
+    | ((props: any) => React.ReactElement);
+};
+export type HeaderItemProps = BaseHeaderItemProps &
+  (NotTableHeadProps | TableHeadPropsVariant);
+
+function HeaderItem({
+  id,
+  label,
+  Component,
+  notTableHead,
+  ...restProps
+}: HeaderItemProps) {
+  if (notTableHead && Component)
+    return <Component key={id} id={id} {...restProps} />;
+
   if (Component)
     return (
       <Component key={id} {...restProps}>
