@@ -75,6 +75,15 @@ function EditCurrentPriceModal({ onClose }: Props) {
 
   return (
     <PortalModal title='Edit current prices' onClose={onClose}>
+      <StyledLinkBox>
+        <StyledLink
+          rel='noreferrer'
+          href='https://www.investing.com/'
+          target='_blank'
+        >
+          investing.com
+        </StyledLink>
+      </StyledLinkBox>
       <StyledModal>
         <StyledTableWrapper>
           <Table>
@@ -142,6 +151,16 @@ const StyledTableWrapper = styled('div')`
   @media ${({ theme }) => theme.devices.mobile} {
     padding: 0;
   }
+`;
+
+const StyledLinkBox = styled('div')`
+  display: flex;
+  justify-content: end;
+`;
+
+const StyledLink = styled('a')`
+  text-decoration: underline;
+  color: ${({ theme }) => theme.colors.grey600};
 `;
 
 interface ItemProps {
