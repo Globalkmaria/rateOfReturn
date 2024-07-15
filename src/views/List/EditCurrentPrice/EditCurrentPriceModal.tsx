@@ -1,4 +1,8 @@
-import { ContainedButton } from '@/components/Button';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+
+import { BorderButton, ContainedButton } from '@/components/Button';
 import PortalModal from '@/components/Modal/PortalModal';
 import {
   Table,
@@ -8,15 +12,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/Table';
-import styled from 'styled-components';
 import { HeaderItemProps } from '../Header/HeaderItem';
 import {
   selectStockInfoById,
   selectStocks,
 } from '@/features/stockList/selectors';
-import { useDispatch, useSelector } from 'react-redux';
 import { InputCell } from '../StockItem/components';
-import { useState } from 'react';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 import { updateStocksCurrentPrice } from '@/features/stockList/stockListSlice';
 import userStocksService from '@/service/userStocks/userStocks';
@@ -24,6 +25,8 @@ import { PurchasedInputChangeProps } from '../StockItem/PurchasedStock/Purchased
 import { getFixedLocaleString } from '@/utils';
 import { checkCurrentPrice } from '../StockItem/validity';
 import { StockMainInfo } from '@/features/stockList/type';
+import { StyledModalContainer, StyledModalMessage } from '@/components/Modal';
+import Flex from '@/components/Flex';
 
 export interface CurrentPriceChanges {
   [key: string]: StockMainInfo['currentPrice'];
@@ -36,6 +39,7 @@ interface Props {
 function EditCurrentPriceModal({ onClose }: Props) {
   const dispatch = useDispatch();
   const [changes, setChanges] = useState<CurrentPriceChanges>({});
+  const [isSubModalOpen, setIsSubModalOpen] = useState(false);
   const stocks = useSelector(selectStocks);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
@@ -73,37 +77,77 @@ function EditCurrentPriceModal({ onClose }: Props) {
     onClose();
   };
 
+  const onCloseMainModal = () => {
+    if (!Object.keys(changes).length) {
+      onClose();
+      return;
+    }
+
+    setIsSubModalOpen(true);
+  };
+
+  const onCloseSubModal = () => setIsSubModalOpen(false);
+
+  const onConfirmSubModal = () => {
+    onCloseSubModal();
+    onClose();
+  };
+
   return (
-    <PortalModal title='Edit current prices' onClose={onClose}>
-      <StyledModal>
-        <StyledTableWrapper>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                {HEADER_LIST.map(({ id, label, ...restProps }) => (
-                  <TableHead key={id} id={id} {...restProps}>
-                    {label}
-                  </TableHead>
+    <>
+      <PortalModal title='Edit current prices' onClose={onCloseMainModal}>
+        <StyledLinkBox>
+          <StyledLink
+            rel='noreferrer'
+            href='https://www.investing.com/'
+            target='_blank'
+          >
+            investing.com
+          </StyledLink>
+        </StyledLinkBox>
+        <StyledModal>
+          <StyledTableWrapper>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  {HEADER_LIST.map(({ id, label, ...restProps }) => (
+                    <TableHead key={id} id={id} {...restProps}>
+                      {label}
+                    </TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {stocks.allIds.map(stockId => (
+                  <Item
+                    key={stockId}
+                    stockId={stockId}
+                    changes={changes}
+                    onChange={onInputChange}
+                  />
                 ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {stocks.allIds.map(stockId => (
-                <Item
-                  key={stockId}
-                  stockId={stockId}
-                  changes={changes}
-                  onChange={onInputChange}
-                />
-              ))}
-            </TableBody>
-          </Table>
-        </StyledTableWrapper>
-        <ContainedButton onClick={onUpdate} width={150} size='m'>
-          Update
-        </ContainedButton>
-      </StyledModal>
-    </PortalModal>
+              </TableBody>
+            </Table>
+          </StyledTableWrapper>
+          <ContainedButton onClick={onUpdate} width={150} size='m'>
+            Update
+          </ContainedButton>
+        </StyledModal>
+      </PortalModal>
+      {isSubModalOpen && (
+        <PortalModal onClose={onCloseSubModal} showCloseButton={false}>
+          <StyledModalContainer>
+            <StyledModalMessage>
+              Unsaved changes will be lost. <br /> Close anyway?
+            </StyledModalMessage>
+            <StyledButtonContainer justifyContent='center' gap={10}>
+              <ContainedButton onClick={onUpdate}>Update</ContainedButton>
+              <BorderButton onClick={onConfirmSubModal}>Close</BorderButton>
+            </StyledButtonContainer>
+          </StyledModalContainer>
+        </PortalModal>
+      )}
+    </>
   );
 }
 
@@ -142,6 +186,20 @@ const StyledTableWrapper = styled('div')`
   @media ${({ theme }) => theme.devices.mobile} {
     padding: 0;
   }
+`;
+
+const StyledLinkBox = styled('div')`
+  display: flex;
+  justify-content: end;
+`;
+
+const StyledLink = styled('a')`
+  text-decoration: underline;
+  color: ${({ theme }) => theme.colors.grey600};
+`;
+
+const StyledButtonContainer = styled(Flex)`
+  margin-top: 20px;
 `;
 
 interface ItemProps {

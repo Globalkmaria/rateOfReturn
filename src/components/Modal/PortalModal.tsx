@@ -15,7 +15,7 @@ type Props = {
   children: ReactNode;
   wrapperId?: string;
   isOpen?: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   showCloseButton?: boolean;
   title?: string;
 };
@@ -24,7 +24,7 @@ function PortalModal({
   children,
   wrapperId,
   isOpen = true,
-  onClose,
+  onClose = () => {},
   title = '',
   showCloseButton = true,
 }: Props) {
