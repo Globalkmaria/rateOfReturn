@@ -52,3 +52,19 @@ export const StyledCloseButton = styled(IconButton)`
   align-self: flex-end;
   border: none;
 `;
+
+export const StyledModalMessage = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.7;
+  flex: 1;
+`;
+
+export const StyledModalContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+  width: 340px;
+  text-align: center;
+  font-weight: 700;
+`;
