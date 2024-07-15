@@ -1,3 +1,7 @@
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+
 import { BorderButton, ContainedButton } from '@/components/Button';
 import PortalModal from '@/components/Modal/PortalModal';
 import {
@@ -8,15 +12,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/Table';
-import styled from 'styled-components';
 import { HeaderItemProps } from '../Header/HeaderItem';
 import {
   selectStockInfoById,
   selectStocks,
 } from '@/features/stockList/selectors';
-import { useDispatch, useSelector } from 'react-redux';
 import { InputCell } from '../StockItem/components';
-import { useState } from 'react';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 import { updateStocksCurrentPrice } from '@/features/stockList/stockListSlice';
 import userStocksService from '@/service/userStocks/userStocks';
@@ -24,10 +25,8 @@ import { PurchasedInputChangeProps } from '../StockItem/PurchasedStock/Purchased
 import { getFixedLocaleString } from '@/utils';
 import { checkCurrentPrice } from '../StockItem/validity';
 import { StockMainInfo } from '@/features/stockList/type';
-import {
-  StyledModalContainer,
-  StyledModalMessage,
-} from '@/components/Modal/Modal.style';
+import { StyledModalContainer, StyledModalMessage } from '@/components/Modal';
+import Flex from '@/components/Flex';
 
 export interface CurrentPriceChanges {
   [key: string]: StockMainInfo['currentPrice'];
@@ -141,7 +140,7 @@ function EditCurrentPriceModal({ onClose }: Props) {
             <StyledModalMessage>
               Unsaved changes will be lost. <br /> Close anyway?
             </StyledModalMessage>
-            <StyledButtonContainer>
+            <StyledButtonContainer justifyContent='center' gap={10}>
               <ContainedButton onClick={onUpdate}>Update</ContainedButton>
               <BorderButton onClick={onConfirmSubModal}>Close</BorderButton>
             </StyledButtonContainer>
@@ -199,11 +198,8 @@ const StyledLink = styled('a')`
   color: ${({ theme }) => theme.colors.grey600};
 `;
 
-const StyledButtonContainer = styled('div')`
-  display: flex;
+const StyledButtonContainer = styled(Flex)`
   margin-top: 20px;
-  justify-content: center;
-  gap: 10px;
 `;
 
 interface ItemProps {
