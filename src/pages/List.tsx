@@ -4,9 +4,15 @@ import StockList from '../views/List/StockList';
 
 const List = () => {
   return (
-    <StyledList>
-      <StockList />
-    </StyledList>
+    <>
+      <title>
+        Investment Portfolio Tracker | Manage Your Stocks and Bonds Efficiently
+        | ROR
+      </title>
+      <StyledList>
+        <StockList />
+      </StyledList>
+    </>
   );
 };
 

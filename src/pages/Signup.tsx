@@ -3,9 +3,12 @@ import SignupComponent from '../views/Signup/Signup';
 
 const Signup = () => {
   return (
-    <StyledSignup>
-      <SignupComponent />
-    </StyledSignup>
+    <>
+      <title>Sign up | ROR</title>
+      <StyledSignup>
+        <SignupComponent />
+      </StyledSignup>
+    </>
   );
 };
 
