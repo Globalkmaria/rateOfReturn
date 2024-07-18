@@ -1,4 +1,4 @@
-import { ChangeEvent, InputHTMLAttributes } from 'react';
+import { ChangeEvent, InputHTMLAttributes, RefObject } from 'react';
 import styled from 'styled-components';
 
 export type OnInputChangeType = (
@@ -36,6 +36,7 @@ export interface InputProps
   onChange?: OnInputChangeType;
   onBlur?: OnInputChangeType;
   validation?: InputValidation;
+  ref?: RefObject<HTMLInputElement>;
 }
 
 export const BaseInput = styled('input').withConfig({

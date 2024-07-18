@@ -13,7 +13,7 @@ type Props = {
 };
 
 const AddGroupModal = ({ onClose }: Props) => {
-  const nameInputRef = useRef<HTMLElement>();
+  const nameInputRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState('');
   const handleAddGroup = useAddGroup();
 

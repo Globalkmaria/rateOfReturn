@@ -1,4 +1,4 @@
-import { ForwardedRef, forwardRef, useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import TagOption from './TagOption';
@@ -19,23 +19,22 @@ interface TagDropboxProps {
   onDeleteOption: (option: string) => void;
   width: number;
   tagContainerRef: React.RefObject<HTMLDivElement>;
+  ref?: RefObject<HTMLDivElement>;
 }
 
-const TagDropbox = forwardRef(function TagDropbox(
-  {
-    options,
-    selectedOption,
-    onOptionSelect,
-    onCreateNewOption,
-    onDeleteOption,
-    width,
-    onCloseModal,
-    tagContainerRef,
-    height,
-  }: TagDropboxProps & TagDropboxSettings,
-  ref: ForwardedRef<HTMLDivElement>,
-) {
-  const containerRef = useRef<HTMLDivElement>(null);
+function TagDropbox({
+  options,
+  selectedOption,
+  onOptionSelect,
+  onCreateNewOption,
+  onDeleteOption,
+  width,
+  onCloseModal,
+  tagContainerRef,
+  height,
+  ref,
+}: TagDropboxProps & TagDropboxSettings) {
+  const containerRef = ref ?? useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>('');
 
@@ -146,7 +145,7 @@ const TagDropbox = forwardRef(function TagDropbox(
       </StyledOptions>
     </StyledDropbox>
   );
-});
+}
 
 export default TagDropbox;
 
