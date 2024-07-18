@@ -5,11 +5,13 @@ import ChartMenu from '../views/Chart/ChartMenu';
 
 const Chart = () => {
   return (
-    <StyledChart>
-      <ChartMenu />
-
-      <Outlet />
-    </StyledChart>
+    <>
+      <title>Insightful Charts to Understand Your Stocks Better | ROR</title>
+      <StyledChart>
+        <ChartMenu />
+        <Outlet />
+      </StyledChart>
+    </>
   );
 };
 

@@ -13,9 +13,12 @@ function SoldPage() {
   }, []);
 
   return (
-    <StyledContainer>
-      <SoldTableContainer />
-    </StyledContainer>
+    <>
+      <title>Check Out the Stocks You Sold | ROR</title>
+      <StyledContainer>
+        <SoldTableContainer />
+      </StyledContainer>
+    </>
   );
 }
 
