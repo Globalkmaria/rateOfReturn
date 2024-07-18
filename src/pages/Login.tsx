@@ -3,9 +3,12 @@ import LoginComponent from '../views/Login/Login';
 
 const Login = () => {
   return (
-    <StyledLogin>
-      <LoginComponent />
-    </StyledLogin>
+    <>
+      <title>Log in | ROR</title>
+      <StyledLogin>
+        <LoginComponent />
+      </StyledLogin>
+    </>
   );
 };
 

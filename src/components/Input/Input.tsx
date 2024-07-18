@@ -1,24 +1,22 @@
-import { ChangeEvent, forwardRef, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { BaseInput, InputProps, InputType } from './BaseInput';
 import { getTransformedValue } from './utils';
 
-export const Input = forwardRef(function Input(
-  {
-    type = 'text',
-    onChange,
-    onBlur,
-    className,
-    value = '',
-    validation = () => true,
-    ...restProps
-  }: InputProps,
+export function Input({
+  type = 'text',
+  onChange,
+  onBlur,
+  className,
+  value = '',
+  validation = () => true,
   ref,
-) {
+  ...restProps
+}: InputProps) {
   const isNumberType = NUMBER_TYPE.includes(type);
   const inputType = isNumberType ? 'text' : type;
   const align = type === 'number' ? 'right' : 'left';
 
-  const inputRef = useRef<null | HTMLInputElement>(null);
+  const inputRef = ref ?? useRef<HTMLInputElement>(null);
   const [selection, setSelection] = useState<number | null>(null);
 
   useEffect(() => {
@@ -26,16 +24,6 @@ export const Input = forwardRef(function Input(
       inputRef.current?.setSelectionRange(selection, selection);
     }
   });
-
-  const setRef = (element: HTMLInputElement) => {
-    inputRef.current = element;
-
-    if (typeof ref === 'function') {
-      ref(element);
-    } else if (ref) {
-      ref.current = element;
-    }
-  };
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const transformedValue = getTransformedValue(e, validation, type);
@@ -55,7 +43,7 @@ export const Input = forwardRef(function Input(
   return (
     <BaseInput
       className={className}
-      ref={setRef}
+      ref={inputRef}
       onChange={onChangeHandler}
       type={inputType}
       value={value}
@@ -63,6 +51,6 @@ export const Input = forwardRef(function Input(
       {...restProps}
     />
   );
-});
+}
 
 const NUMBER_TYPE: InputType[] = ['decimal', 'number'];
