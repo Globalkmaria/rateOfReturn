@@ -30,4 +30,8 @@ export default EditCurrentPrice;
 const StyledText = styled.span`
   margin-left: 5px;
   color: inherit;
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    display: none;
+  }
 `;
