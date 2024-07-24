@@ -6,7 +6,12 @@ import { handleGetDataFile } from '../../../utils/file';
 const SaveAsFile = () => {
   return (
     <StyledSaveAsFile>
-      <ContainedButton onClick={handleGetDataFile} title='Save File Button' fullWidth>
+      <ContainedButton
+        size='m'
+        onClick={handleGetDataFile}
+        title='Save File Button'
+        fullWidth
+      >
         Get Backup File
       </ContainedButton>
     </StyledSaveAsFile>
