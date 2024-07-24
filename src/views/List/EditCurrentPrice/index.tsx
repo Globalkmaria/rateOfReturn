@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { selectStockIds } from '@/features/selectors';
 import { BorderButton } from '@/components/Button';
 import EditCurrentPriceModal from './EditCurrentPriceModal';
+import Icon from '@/components/Icon';
+import styled from 'styled-components';
 
 function EditCurrentPrice() {
   const isMainGroup = useSelector(selectIsMainGroupSelected);
@@ -15,7 +17,8 @@ function EditCurrentPrice() {
   return (
     <>
       <BorderButton size='m' onClick={onToggleModal} disabled={noUserStockData}>
-        Edit Current Prices
+        <Icon icon='priceChange' disabled={noUserStockData} />
+        <StyledText>Edit current prices</StyledText>
       </BorderButton>
       {showModal && <EditCurrentPriceModal onClose={onCloseModal} />}
     </>
@@ -23,3 +26,8 @@ function EditCurrentPrice() {
 }
 
 export default EditCurrentPrice;
+
+const StyledText = styled.span`
+  margin-left: 5px;
+  color: inherit;
+`;

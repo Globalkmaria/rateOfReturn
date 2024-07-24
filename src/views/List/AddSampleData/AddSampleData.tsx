@@ -5,6 +5,8 @@ import { selectIsLoggedIn } from '../../../features/user/selectors';
 import userDataService from '../../../service/userData/userData';
 import { addStockSampleData } from '@/features';
 import { useShowAddSampleBtn } from './useShowAddSampleBtn';
+import Icon from '@/components/Icon';
+import styled from 'styled-components';
 
 const AddSampleData = () => {
   const dispatch = useDispatch();
@@ -23,9 +25,14 @@ const AddSampleData = () => {
 
   return (
     <BorderButton onClick={onClick} size='m'>
-      Add Sample Data
+      <Icon icon='sampleData' />
+      <StyledText>Add sample data</StyledText>
     </BorderButton>
   );
 };
 
 export default AddSampleData;
+
+const StyledText = styled('span')`
+  margin-left: 5px;
+`;
