@@ -2,7 +2,12 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ColorsTypes } from '@/styles/theme';
-import { BUTTON_COLORS, BorderButton, ContainedButton } from './Button';
+import {
+  BUTTON_COLORS,
+  BackgroundButton,
+  BorderButton,
+  ContainedButton,
+} from './Button';
 
 type AnchorProps = {
   disabled?: boolean;
@@ -51,4 +56,22 @@ export const ContainedAnchor = styled(ContainedButton).attrs({
             ]
       }`
     : '',
+}));
+
+export const BackgroundAnchor = styled(BackgroundButton).attrs({
+  as: BaseAnchor,
+})(({ selected, theme, color = 'primary' }) => ({
+  '&&:hover': {
+    background:
+      selected === true
+        ? 'none'
+        : `${
+            theme.colors[(BUTTON_COLORS[color] + '100') as keyof ColorsTypes]
+          }`,
+
+    color: theme.colors.grey900,
+  },
+
+  color: selected === false ? theme.colors.grey600 : theme.colors.grey900,
+  fontWeight: selected === false ? 300 : 500,
 }));
