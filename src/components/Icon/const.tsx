@@ -1,4 +1,4 @@
-import { FaSave, FaLock, FaLockOpen, FaPlus, FaMinus } from 'react-icons/fa';
+import { FaLock, FaLockOpen, FaPlus, FaMinus, FaRegSave } from 'react-icons/fa';
 import { FiFolderPlus, FiFolderMinus, FiSettings } from 'react-icons/fi';
 import {
   MdDeleteOutline,
@@ -32,7 +32,7 @@ export const ICONS: {
   [key in IconButtonType]: JSX.Element;
 } = {
   edit: <MdOutlineEdit />,
-  save: <FaSave />,
+  save: <FaRegSave />,
   lock: <FaLock />,
   unlock: <FaLockOpen />,
   delete: <MdDeleteOutline />,
