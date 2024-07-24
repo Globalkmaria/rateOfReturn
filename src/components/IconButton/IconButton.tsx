@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { BUTTON_HEIGHTS, BorderButton, BorderButtonProps } from '../Button';
+import { BUTTON_HEIGHTS, BackgroundButton, BorderButtonProps } from '../Button';
 import { ICON_TITLES, IconButtonType } from '../Icon/const';
 import Icon from '../Icon';
 
@@ -31,7 +31,7 @@ function IconButton({
 
 export default IconButton;
 
-const StyledContainer = styled(BorderButton)(
+const StyledContainer = styled(BackgroundButton)(
   ({ height, disabled, theme, size = 's' }) => ({
     width: height ? `${height}px` : BUTTON_HEIGHTS[size],
 
