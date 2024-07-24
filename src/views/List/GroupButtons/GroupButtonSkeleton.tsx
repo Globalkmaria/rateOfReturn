@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import Select from '../../../components/Select';
-import { BorderButton } from '../../../components/Button';
+import IconButton from '@/components/IconButton';
 
 function GroupButtonSkeleton() {
   return (
@@ -15,12 +15,18 @@ function GroupButtonSkeleton() {
           disabled
         />
         <Buttons>
-          <BorderButton width={133} size='m' disabled title='Delete group'>
-            Delete Group
-          </BorderButton>
-          <BorderButton width={113} size='m' disabled title='Add new group'>
-            Add Group
-          </BorderButton>
+          <IconButton
+            title='Delete group'
+            size='m'
+            disabled
+            icon='folderDelete'
+          />
+          <IconButton
+            icon='folderAdd'
+            disabled
+            title='Add new group'
+            size='m'
+          />
         </Buttons>
       </StyledGroupButtons>
     </>
@@ -37,5 +43,4 @@ const StyledGroupButtons = styled('div')`
 
 const Buttons = styled('div')`
   display: flex;
-  gap: 10px;
 `;
