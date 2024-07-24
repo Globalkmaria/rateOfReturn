@@ -1,14 +1,13 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { FaTrash } from 'react-icons/fa';
 
 import { Group } from '../../../features/groups/type';
 import { selectGroups } from '../../../features/groups/selectors';
-import { BorderButton } from '../../../components/Button';
 import PortalModal from '../../../components/Modal/PortalModal';
 
 import useModal from '../hooks/useModal';
 import DeleteGroupWarning from './DeleteGroupWarning';
+import IconButton from '@/components/IconButton';
 
 const NO_GROUP_MESSAGE = 'There is no group.';
 
@@ -41,9 +40,7 @@ const GroupItem = ({ groupInfo }: { groupInfo: Group }) => {
   return (
     <StyledGroupItem>
       <StyledGroupName>{groupName}</StyledGroupName>
-      <BorderButton onClick={onOpenModal} showLine={false}>
-        <FaTrash />
-      </BorderButton>
+      <DeleteButton icon='delete' onClick={onOpenModal} />
       {showModal && (
         <DeleteGroupWarning groupId={groupId} onClose={onCloseModal} />
       )}
@@ -63,7 +60,8 @@ const StyledGroupItem = styled('div')`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px;
+  padding: 10px;
+  font-size: 0.9rem;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.grey100};
@@ -73,4 +71,10 @@ const StyledGroupItem = styled('div')`
 
 const StyledGroupName = styled('h1')`
   font-weight: 600;
+`;
+
+const DeleteButton = styled(IconButton)`
+  &&:hover {
+    background: ${({ theme }) => theme.colors.grey300};
+  }
 `;
