@@ -1,13 +1,10 @@
-import {
-  FaEdit,
-  FaSave,
-  FaLock,
-  FaLockOpen,
-  FaPlus,
-  FaMinus,
-} from 'react-icons/fa';
+import { FaSave, FaLock, FaLockOpen, FaPlus, FaMinus } from 'react-icons/fa';
 import { FiFolderPlus, FiFolderMinus, FiSettings } from 'react-icons/fi';
-import { MdDeleteOutline, MdOutlinePriceChange } from 'react-icons/md';
+import {
+  MdDeleteOutline,
+  MdOutlinePriceChange,
+  MdOutlineEdit,
+} from 'react-icons/md';
 import { CgClose } from 'react-icons/cg';
 import { IoEllipsisVertical } from 'react-icons/io5';
 import { BsDatabaseAdd } from 'react-icons/bs';
@@ -34,7 +31,7 @@ export type IconButtonType = (typeof ICON_NAMES)[number];
 export const ICONS: {
   [key in IconButtonType]: JSX.Element;
 } = {
-  edit: <FaEdit />,
+  edit: <MdOutlineEdit />,
   save: <FaSave />,
   lock: <FaLock />,
   unlock: <FaLockOpen />,
