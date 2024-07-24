@@ -36,6 +36,7 @@ const StyledContainer = styled(BackgroundButton)(
     width: height ? `${height}px` : BUTTON_HEIGHTS[size],
 
     svg: {
+      fontSize: FONT_SIZES[size],
       color: disabled ? theme.colors.grey500 : '',
       fill: disabled ? theme.colors.grey500 : '',
 
@@ -45,3 +46,12 @@ const StyledContainer = styled(BackgroundButton)(
     },
   }),
 );
+
+const SIZES = ['s', 'm', 'l'] as const;
+type Sizes = { [key in (typeof SIZES)[number]]: string };
+
+const FONT_SIZES: Sizes = {
+  s: '1rem',
+  m: '1.2rem',
+  l: '1.4rem',
+};
