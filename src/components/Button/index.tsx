@@ -30,14 +30,14 @@ export interface ContainedButtonProps extends BaseButtonProps {
 }
 
 const FONT_SIZES: Sizes = {
-  s: '1rem',
-  m: '1.2rem',
-  l: '1.4rem',
+  s: '0.75rem',
+  m: '0.9rem',
+  l: '1rem',
 };
 const PADDING_SIZES: Sizes = {
-  s: '0.4rem',
-  m: '0.4rem 0.625rem',
-  l: '0.6rem',
+  s: '0.625rem',
+  m: '0.8rem',
+  l: '1rem',
 };
 
 export const BUTTON_COLORS: Colors = {
@@ -49,8 +49,8 @@ export const BUTTON_COLORS: Colors = {
 };
 
 export const BUTTON_HEIGHTS: Sizes = {
-  s: '32px',
-  m: '40px',
+  s: '40px',
+  m: '42px',
   l: '48px',
 };
 
@@ -74,16 +74,16 @@ const BaseButton = styled('button')
     alignItems: 'center',
     justifyContent: 'center',
 
-    padding: PADDING_SIZES[size],
+    padding: `0px ${PADDING_SIZES[size]}`,
     height: height ? `${height}px` : BUTTON_HEIGHTS[size],
     width: width ? `${width}px` : fullWidth ? '100%' : 'auto',
-    transition: '200ms',
+    transition: '100ms',
 
-    background: theme.colors.white,
-    borderRadius: '5px',
+    borderRadius: '12px',
 
     fontSize: `min(${FONT_SIZES[size]}, 5vw)`,
     whiteSpace: 'nowrap',
+    fontWeight: 500,
 
     '&:disabled': {
       color: theme.colors.grey500,
@@ -115,11 +115,28 @@ export const BackgroundButton = styled(BaseButton).withConfig({
 export const BorderButton = styled(BaseButton).withConfig({
   shouldForwardProp: props => !['showLine'].includes(props),
 })<BorderButtonProps>(({ theme, color = 'primary', showLine = true }) => ({
-  background: theme.colors.white,
   border: `1px solid ${
     theme.colors[(BUTTON_COLORS[color] + '300') as keyof ColorsTypes]
   }`,
-  borderWidth: showLine ? '1px' : '0',
+  borderColor: showLine
+    ? theme.colors[(BUTTON_COLORS[color] + '300') as keyof ColorsTypes]
+    : '',
+
+  '&:not([disabled]):hover': {
+    background: theme.colors.grey100,
+    border: `1px solid ${
+      theme.colors[(BUTTON_COLORS[color] + '900') as keyof ColorsTypes]
+    }`,
+  },
+  boxSizing: 'border-box',
+}));
+
+export const BorderWithHoverShadowButton = styled(BaseButton).withConfig({
+  shouldForwardProp: props => !['showLine'].includes(props),
+})<BorderButtonProps>(({ theme, color = 'primary' }) => ({
+  border: `1px solid ${
+    theme.colors[(BUTTON_COLORS[color] + '300') as keyof ColorsTypes]
+  }`,
 
   '&:not([disabled]):hover': {
     boxShadow: `rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px`,
