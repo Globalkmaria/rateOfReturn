@@ -13,7 +13,6 @@ import {
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
 
-import { BorderButton } from '../../../../components/Button';
 import { TableCell, TableRow } from '../../../../components/Table';
 import { EditButton, MoreButton } from '@/components/IconButton';
 
@@ -34,6 +33,7 @@ import getDateAndTime from '@/utils/getDateAndTime';
 import userSoldsService from '@/service/userSolds/service';
 import { DropboxItem } from '@/components/Dropbox/DropboxItem';
 import { generateSoldItems } from './utils';
+import { StyledIconButton } from '@/components/IconButton/IconButton';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -176,9 +176,7 @@ export const StyledSummaryRow = styled(TableRow)`
   background: ${({ theme }) => theme.colors.grey100};
   height: 46px;
 
-  ${BorderButton} {
-    border: ${({ theme }) => `1px solid ${theme.colors.grey400}`};
-
+  ${StyledIconButton} {
     &:not([disabled]):hover {
       background: ${({ theme }) => theme.colors.grey300};
     }

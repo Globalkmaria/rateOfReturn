@@ -10,20 +10,20 @@ type IconButtonProps = {
 
 function IconButton({ icon, color, ...resProps }: IconButtonProps) {
   return (
-    <StyledContainer
+    <StyledIconButton
       aria-label={ICON_TITLES[icon]}
       title={ICON_TITLES[icon]}
       color={color}
       {...resProps}
     >
       <Icon icon={icon} {...resProps} />
-    </StyledContainer>
+    </StyledIconButton>
   );
 }
 
 export default IconButton;
 
-const StyledContainer = styled(BackgroundButton)(
+export const StyledIconButton = styled(BackgroundButton)(
   ({ height, size = 's', disabled }) => ({
     width: height ? `${height}px` : BUTTON_HEIGHTS[size],
     cursor: disabled ? 'not-allowed' : 'pointer',

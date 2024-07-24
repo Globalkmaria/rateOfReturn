@@ -25,6 +25,7 @@ import {
 } from '@/utils/number';
 import userSoldsService from '@/service/userSolds/service';
 import { StyledChip, StyledChipText } from '@/components/Tag';
+import { StyledIconButton } from '@/components/IconButton/IconButton';
 
 export type SoldItemInputs = Partial<
   Pick<Sold, 'soldTime' | 'soldDate' | 'soldPrice'>
@@ -220,6 +221,12 @@ const StyledDateTime = styled.div`
 const StyledButtonGroup = styled.div`
   display: flex;
   justify-content: space-between;
+
+  ${StyledIconButton} {
+    &:not([disabled]):hover {
+      background: ${({ theme }) => theme.colors.grey300};
+    }
+  }
 `;
 
 const StyledSoldRor = styled(TableCell)`
