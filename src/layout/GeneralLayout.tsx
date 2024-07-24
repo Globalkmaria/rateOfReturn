@@ -39,5 +39,4 @@ const StyledGeneralLayout = styled('div')`
 
 const StyledMainLayout = styled('main')`
   flex: 1 0 fit-content;
-  background: ${({ theme }) => theme.colors.greyBackground};
 `;
