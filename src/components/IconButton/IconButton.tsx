@@ -8,17 +8,9 @@ type IconButtonProps = {
   icon: IconButtonType;
 } & BorderButtonProps;
 
-function IconButton({
-  icon,
-  disabled,
-  width = 40,
-  color,
-  ...resProps
-}: IconButtonProps) {
+function IconButton({ icon, color, ...resProps }: IconButtonProps) {
   return (
     <StyledContainer
-      disabled={disabled}
-      width={width}
       aria-label={ICON_TITLES[icon]}
       title={ICON_TITLES[icon]}
       color={color}
@@ -32,17 +24,12 @@ function IconButton({
 export default IconButton;
 
 const StyledContainer = styled(BackgroundButton)(
-  ({ height, disabled, theme, size = 's' }) => ({
+  ({ height, size = 's', disabled }) => ({
     width: height ? `${height}px` : BUTTON_HEIGHTS[size],
+    cursor: disabled ? 'not-allowed' : 'pointer',
 
     svg: {
       fontSize: FONT_SIZES[size],
-      color: disabled ? theme.colors.grey500 : '',
-      fill: disabled ? theme.colors.grey500 : '',
-
-      path: {
-        color: disabled ? theme.colors.grey500 : '',
-      },
     },
   }),
 );
