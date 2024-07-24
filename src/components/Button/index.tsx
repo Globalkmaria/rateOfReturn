@@ -103,15 +103,26 @@ const BaseButton = styled('button')
   }),
 );
 
+export const BackgroundButton = styled(BaseButton).withConfig({
+  shouldForwardProp: props => !['showLine'].includes(props),
+})<BorderButtonProps>(({ theme, color = 'primary' }) => ({
+  '&:not([disabled]):hover': {
+    background:
+      theme.colors[(BUTTON_COLORS[color] + '100') as keyof ColorsTypes],
+  },
+}));
+
 export const BorderButton = styled(BaseButton).withConfig({
   shouldForwardProp: props => !['showLine'].includes(props),
 })<BorderButtonProps>(({ theme, color = 'primary', showLine = true }) => ({
-  boxShadow: `rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px`,
+  background: theme.colors.white,
+  border: `1px solid ${
+    theme.colors[(BUTTON_COLORS[color] + '300') as keyof ColorsTypes]
+  }`,
+  borderWidth: showLine ? '1px' : '0',
 
   '&:not([disabled]):hover': {
-    background: `${
-      theme.colors[(BUTTON_COLORS[color] + '100') as keyof ColorsTypes]
-    }`,
+    boxShadow: `rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px`,
   },
 }));
 
