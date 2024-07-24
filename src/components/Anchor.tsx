@@ -61,6 +61,9 @@ export const ContainedAnchor = styled(ContainedButton).attrs({
 export const BackgroundAnchor = styled(BackgroundButton).attrs({
   as: BaseAnchor,
 })(({ selected, theme, color = 'primary' }) => ({
+  color: selected === false ? theme.colors.grey600 : theme.colors.black,
+  fontWeight: selected === false ? 300 : 500,
+
   '&&:hover': {
     background:
       selected === true
@@ -69,9 +72,35 @@ export const BackgroundAnchor = styled(BackgroundButton).attrs({
             theme.colors[(BUTTON_COLORS[color] + '100') as keyof ColorsTypes]
           }`,
 
-    color: theme.colors.grey900,
+    color: theme.colors.black,
+  },
+}));
+
+export const UnderlineAnchor = styled(BaseAnchor)(({ selected, theme }) => ({
+  span: {
+    position: 'relative',
+    color: selected ? theme.colors.black : theme.colors.grey600,
+    fontWeight: 500,
   },
 
-  color: selected === false ? theme.colors.grey600 : theme.colors.grey900,
-  fontWeight: selected === false ? 300 : 500,
+  '& span::after': {
+    content: '""',
+    position: 'absolute',
+    width: '100%',
+    height: '2px',
+    top: 'calc(100% + 0.8rem)',
+    left: 0,
+    backgroundColor: selected ? theme.colors.black : theme.colors.grey400,
+    opacity: selected ? 1 : 0,
+  },
+
+  '&&:hover': {
+    span: {
+      color: theme.colors.black,
+    },
+
+    'span::after': {
+      opacity: 1,
+    },
+  },
 }));

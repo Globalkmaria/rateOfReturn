@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { useRouter } from '../../hooks/useRouter';
 import { chartRouterData } from '../../router/routerData';
-import { BorderAnchor } from '@/components/Anchor';
+import { UnderlineAnchor } from '@/components/Anchor';
 
 type MenuProps = { selected: boolean; disabled?: boolean };
 
@@ -22,7 +22,7 @@ const ChartMenu = ({}: ChartMenuProps) => {
                 selected={currentLevelPath === element.path}
                 disabled={element.disabled}
               >
-                {element.label}
+                <span>{element.label}</span>
               </StyledMenu>
             </li>
           );
@@ -36,17 +36,17 @@ export default ChartMenu;
 
 const StyledChartMenu = styled('nav')`
   height: fit-content;
-  padding: 10px;
+  padding: 0 10px 10px 10px;
 `;
 
 const StyledMenuList = styled('ul')`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px 20px;
+  gap: 1rem;
 `;
 
-const StyledMenu = styled(BorderAnchor)<MenuProps>`
-  padding: 20px;
-  font-weight: 500;
+const StyledMenu = styled(UnderlineAnchor)<MenuProps>`
+  padding: 1rem;
+  font-size: 0.8rem;
 `;
