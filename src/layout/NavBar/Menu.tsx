@@ -47,5 +47,5 @@ const StyledMenuItemWrapper = styled('li')`
 const StyledMenuItem = styled(ContainedAnchor)<MenuProps>`
   padding: 20px;
   font-weight: 500;
-  font-size: min(1.2rem, 5vw);
+  font-size: min(1rem, 5vw);
 `;
