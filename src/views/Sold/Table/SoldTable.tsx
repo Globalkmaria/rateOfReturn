@@ -39,7 +39,7 @@ export default SoldTable;
 const StyledSoldTable = styled(Table)`
   th,
   td {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 
   thead th {
@@ -49,7 +49,7 @@ const StyledSoldTable = styled(Table)`
   }
 
   th button {
-    font-weight: 600;
+    font-weight: 500;
     white-space: nowrap;
   }
 
