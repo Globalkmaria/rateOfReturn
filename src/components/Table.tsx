@@ -71,7 +71,7 @@ export const TableCell = styled('td').withConfig({
     minWidth: fixedWidth + 'px',
   }),
 
-  borderTop: `1px solid ${theme.colors.grey400}`,
+  borderBottom: `1px solid ${theme.colors.grey400}`,
   ...(minWidth && { minWidth: minWidth + 'px' }),
 
   textAlign: align,
