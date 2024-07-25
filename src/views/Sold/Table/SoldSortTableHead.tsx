@@ -53,6 +53,7 @@ export const StyledButton = styled.button.attrs({ type: 'button' })`
   align-items: center;
   justify-content: center;
   gap: 2px;
+  font-size: inherit;
 
   &:hover {
     text-decoration: underline;

@@ -40,7 +40,7 @@ export const StyledModalHeader = styled('div').withConfig({
 `;
 
 export const StyledModalTitle = styled.h1`
-  font-weight: 700;
+  font-weight: 500;
   font-size: 1.4rem;
 
   @media ${({ theme }) => theme.devices.mobile} {

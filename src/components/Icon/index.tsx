@@ -15,15 +15,16 @@ const FONT_SIZES: Sizes = {
 interface IconStyleProps {
   size?: keyof Sizes;
   color?: keyof DefaultTheme['colors'];
+  disabled?: boolean;
 }
 
 interface IconProps extends IconStyleProps {
   icon: IconButtonType;
 }
 
-function Icon({ size = 's', icon, color }: IconProps) {
+function Icon({ size = 's', icon, color, disabled }: IconProps) {
   return (
-    <Container color={color} size={size}>
+    <Container color={color} size={size} disabled={disabled}>
       {ICONS[icon]}
     </Container>
   );
@@ -32,21 +33,36 @@ function Icon({ size = 's', icon, color }: IconProps) {
 export default Icon;
 
 const Container = styled('div')<IconStyleProps>(
-  ({ theme, color, size = 's' }) => ({
+  ({ theme, color, size = 's', disabled }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     minWidth: FONT_SIZES[size],
     height: FONT_SIZES[size],
     fontSize: FONT_SIZES[size],
+    color: getColor(theme, color, disabled),
 
     svg: {
-      color: color ? theme.colors[color] : theme.colors.grey800,
-      fill: color ? theme.colors[color] : theme.colors.grey800,
+      color: getColor(theme, color, disabled),
 
       path: {
-        color: color ? theme.colors[color] : theme.colors.grey800,
+        color: getColor(theme, color, disabled),
+      },
+
+      line: {
+        color: getColor(theme, color, disabled),
       },
     },
   }),
 );
+
+const getColor = (
+  theme: DefaultTheme,
+  color?: keyof DefaultTheme['colors'],
+  disabled?: boolean,
+) => {
+  if (disabled) {
+    return theme.colors.grey500;
+  }
+  return color ? theme.colors[color] : theme.colors.black;
+};

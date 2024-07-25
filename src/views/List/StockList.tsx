@@ -61,11 +61,6 @@ const StyledStockList = styled('div')`
 const StyledControlBar = styled('div')`
   display: flex;
   justify-content: space-between;
-
-  @media ${({ theme }) => theme.devices.tablet} {
-    flex-direction: column;
-    gap: 10px;
-  }
 `;
 
 const StyledControlBarRight = styled('div')`

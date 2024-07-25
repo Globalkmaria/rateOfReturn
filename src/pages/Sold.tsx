@@ -26,5 +26,4 @@ export default SoldPage;
 
 const StyledContainer = styled('div')`
   padding: 20px;
-  background: ${({ theme }) => theme.colors.greyBackground};
 `;

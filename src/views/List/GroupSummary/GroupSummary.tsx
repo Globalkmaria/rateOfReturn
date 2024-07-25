@@ -1,4 +1,4 @@
-import { DetailedHTMLProps, HTMLAttributes } from 'react';
+import { DetailedHTMLProps, HTMLAttributes, useCallback, useMemo } from 'react';
 import { FastOmit } from 'styled-components/dist/types';
 import styled, { IStyledComponent } from 'styled-components';
 import { useSelector } from 'react-redux';
@@ -23,7 +23,7 @@ type Contents = {
   >;
 }[];
 
-const GroupSummary = () => {
+function GroupSummary() {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const groupInfo = useSelector(selectSelectedGroupInfo);
   const stocks = useSelector(selectStocks);
@@ -32,17 +32,33 @@ const GroupSummary = () => {
     groupData: isMainGroupSelected ? null : groupInfo,
   });
 
+  const getContents = useCallback(
+    ({ key, title, format, Component }: Contents[0]) => (
+      <Component title={`${key}`} key={key}>
+        <StyledTitle>{title}</StyledTitle>
+        <StyledText>{format(summary[key])}</StyledText>
+      </Component>
+    ),
+    [summary],
+  );
+
+  const firstRow = useMemo(
+    () => SUMMARY_CONTENTS.slice(0, 2).map(getContents),
+    [getContents],
+  );
+
+  const secondRow = useMemo(
+    () => SUMMARY_CONTENTS.slice(2).map(getContents),
+    [getContents],
+  );
+
   return (
     <StyledGroupSummary>
-      {SUMMARY_CONTENTS.map(({ key, title, format, Component }) => (
-        <Component title={`${key}`} key={key}>
-          <StyledTitle>{title}</StyledTitle>
-          <StyledText>{format(summary[key])}</StyledText>
-        </Component>
-      ))}
+      <StyledWrapper>{firstRow}</StyledWrapper>
+      <StyledWrapper>{secondRow}</StyledWrapper>
     </StyledGroupSummary>
   );
-};
+}
 
 export default GroupSummary;
 
@@ -51,15 +67,19 @@ const StyledGroupSummary = styled.div`
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  margin: 20px auto;
+  margin: 0px auto 10px;
   padding: 10px;
-  gap: 30px;
+  gap: 10px;
 
   @media ${({ theme }) => theme.devices.mobile} {
-    margin: 0px;
-    margin-bottom: 20px;
+    margin: 10px auto 10px;
     gap: 10px;
   }
+`;
+
+const StyledWrapper = styled.div`
+  display: flex;
+  gap: 10px;
 `;
 
 export const StyledContent = styled.div`
@@ -70,13 +90,12 @@ export const StyledContent = styled.div`
   min-width: fit-content;
   width: 170px;
   background: ${({ theme }) => theme.colors.white};
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px 2px;
+  border: 1px solid ${({ theme }) => theme.colors.grey200};
+  border-radius: 5px;
 
   @media ${({ theme }) => theme.devices.mobile} {
     flex-direction: column;
     gap: 10px;
-    border-width: 2px;
     padding: 5px 10px;
     min-width: fit-content;
     width: 37vw;
@@ -86,9 +105,9 @@ export const StyledContent = styled.div`
 
 const StyledTitle = styled.h1`
   margin-right: 15px;
-  font-weight: 500;
-  font-size: 0.8rem;
-  color: ${({ theme }) => theme.colors.grey600};
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.colors.black};
 
   @media ${({ theme }) => theme.devices.mobile} {
     font-size: min(0.8rem, 3vw);
@@ -120,7 +139,7 @@ export const SUMMARY_CONTENTS: Contents = [
   },
   {
     key: 'totalCurrentValue',
-    title: 'Total Current Value',
+    title: 'Market Value',
     format: (value: number) => value.toLocaleString(),
     Component: StyledContent,
   },
@@ -132,7 +151,7 @@ export const SUMMARY_CONTENTS: Contents = [
   },
   {
     key: 'returnOfInvestmentRatio',
-    title: 'Return of Ration',
+    title: 'Rate of Return',
     format: (value: number) => {
       if (Number.isNaN(value)) return '0 %';
       return `${value.toLocaleString()} %`;

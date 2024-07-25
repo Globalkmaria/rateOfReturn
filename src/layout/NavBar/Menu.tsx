@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { SidebarContent } from '../../router/router';
 import { useRouter } from '../../hooks/useRouter';
-import { ContainedAnchor } from '@/components/Anchor';
+import { BackgroundAnchor } from '@/components/Anchor';
 
 type MenuProps = { selected: boolean; disabled?: boolean };
 
@@ -13,8 +13,7 @@ const Menu = () => {
         return (
           <StyledMenuItemWrapper key={element.path}>
             <StyledMenuItem
-              mode={'light'}
-              color='primary2'
+              color='primary'
               selected={currentLevelPath === element.path.split('/')[1]}
               disabled={element.disabled}
               to={element.path}
@@ -44,8 +43,7 @@ const StyledMenuItemWrapper = styled('li')`
   width: min(100px, 20vw);
 `;
 
-const StyledMenuItem = styled(ContainedAnchor)<MenuProps>`
+const StyledMenuItem = styled(BackgroundAnchor)<MenuProps>`
   padding: 20px;
-  font-weight: 500;
-  font-size: min(1.2rem, 5vw);
+  font-size: min(1rem, 5vw);
 `;

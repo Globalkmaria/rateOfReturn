@@ -64,5 +64,6 @@ const StyledAuthBtns = styled('div')`
 
   ${ContainedAnchor} {
     font-weight: 500;
+    font-size: 0.8rem;
   }
 `;

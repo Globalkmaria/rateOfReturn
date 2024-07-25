@@ -45,7 +45,7 @@ const SetBackup = () => {
         accept='.json'
         onChange={handleFileChange}
       />
-      <ContainedButton color='warning' fullWidth onClick={onClick}>
+      <ContainedButton size='m' color='warning' fullWidth onClick={onClick}>
         Restore from Backup
       </ContainedButton>
       {showModal && <BackupWarningModal onClose={onCloseModal} data={data} />}

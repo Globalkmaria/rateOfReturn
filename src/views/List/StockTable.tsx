@@ -35,8 +35,13 @@ export default StockTable;
 const StyledStockTableBase = styled('div')`
   width: 100%;
   height: fit-content;
-  max-height: calc(100vh - 376px);
+  max-height: calc(100vh - 332px);
   overflow: auto;
+
+  th,
+  td {
+    font-size: 0.9rem;
+  }
 
   thead tr > th {
     position: sticky;
