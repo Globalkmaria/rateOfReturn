@@ -8,6 +8,7 @@ import StockListHeader from './Header/StockListHeader';
 import AddNewStock from './AddNewStock/AddNewStock';
 import { selectStockIds } from '../../features/selectors';
 import { StyledIconButton } from '@/components/IconButton/IconButton';
+import { StyledSummaryRow } from './StockItem/SummaryInfo/SummaryInfo';
 
 const StockTable = () => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
@@ -55,18 +56,26 @@ const StyledStockTableBase = styled('div')`
     margin-bottom: 50px;
   }
 
-  tbody tr {
-    background-color: ${({ theme }) => theme.colors.white};
+  tbody tr td {
+    background: ${({ theme }) => theme.colors.white};
   }
 
-  tbody tr:hover {
-    background: ${({ theme }) => theme.colors.grey000};
+  tbody tr:hover td {
+    background: ${({ theme }) => theme.colors.grey100};
   }
 
   ${StyledIconButton} {
     &:not([disabled]):hover {
       background: ${({ theme }) => theme.colors.grey300};
     }
+  }
+
+  ${StyledSummaryRow} td {
+    border-top: 2px solid ${({ theme }) => theme.colors.grey500};
+  }
+
+  ${StyledSummaryRow}:first-child td {
+    border-top: none;
   }
 
   @media ${({ theme }) => theme.devices.mobile} {

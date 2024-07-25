@@ -66,7 +66,7 @@ const SummaryContent = ({
       />
       <NumberCell value={summaryData.purchaseQuantitySum} />
       <NumberCell withFixed value={summaryData.purchasePriceAverage} />
-      <StyledTotalPurchase withFixed value={summaryData.totalPurchasePrice} />
+      <NumberCell withFixed value={summaryData.totalPurchasePrice} />
       <InputCell
         withFixed
         fullWidth
@@ -91,12 +91,6 @@ export default memo(SummaryContent);
 
 const StyledStockName = styled(Input)`
   font-weight: 500;
-`;
-
-const StyledTotalPurchase = styled(NumberCell)`
-  && {
-    border-right: ${({ theme }) => `4px double ${theme.colors.grey600}`};
-  }
 `;
 
 const StyledProfitRate = styled(TableCell)`

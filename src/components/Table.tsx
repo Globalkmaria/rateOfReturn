@@ -59,9 +59,7 @@ export const TableHead = styled('th').withConfig({
   },
 }));
 
-export const TableRow = styled('tr')<TableRowProps>(({ theme }) => ({
-  borderBottom: `1px solid ${theme.colors.grey400}`,
-}));
+export const TableRow = styled('tr')<TableRowProps>(({}) => ({}));
 
 export const TableCell = styled('td').withConfig({
   shouldForwardProp: prop =>
@@ -73,7 +71,7 @@ export const TableCell = styled('td').withConfig({
     minWidth: fixedWidth + 'px',
   }),
 
-  borderBottom: `1px solid ${theme.colors.grey400}`,
+  borderTop: `1px solid ${theme.colors.grey400}`,
   ...(minWidth && { minWidth: minWidth + 'px' }),
 
   textAlign: align,
