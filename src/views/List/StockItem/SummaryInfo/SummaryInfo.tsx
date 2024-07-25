@@ -173,14 +173,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
 export default memo(SummaryInfo);
 
 export const StyledSummaryRow = styled(TableRow)`
-  background: ${({ theme }) => theme.colors.grey100};
   height: 46px;
-
-  ${StyledIconButton} {
-    &:not([disabled]):hover {
-      background: ${({ theme }) => theme.colors.grey300};
-    }
-  }
 `;
 
 export const StyledButtonGroup = styled.div`

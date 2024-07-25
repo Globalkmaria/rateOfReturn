@@ -90,7 +90,7 @@ const SummaryContent = ({
 export default memo(SummaryContent);
 
 const StyledStockName = styled(Input)`
-  font-weight: 700;
+  font-weight: 500;
 `;
 
 const StyledTotalPurchase = styled(NumberCell)`

@@ -143,16 +143,5 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
 export default memo(PurchasedStock);
 
 const StyledPurchasedStock = styled(TableRow)`
-  background: ${({ theme }) => theme.colors.white};
   height: 46px;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.indigo000};
-  }
-
-  ${StyledIconButton} {
-    &:not([disabled]):hover {
-      background: ${({ theme }) => theme.colors.grey400};
-    }
-  }
 `;
