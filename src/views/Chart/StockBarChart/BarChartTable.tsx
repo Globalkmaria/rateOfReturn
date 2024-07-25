@@ -57,6 +57,10 @@ const StyledTable = styled(Table)`
   background-color: ${({ theme }) => theme.colors.white};
   text-wrap: nowrap;
 
+  td {
+    padding: 0.4rem;
+  }
+
   tbody tr > :first-child {
     background: ${({ theme }) => theme.colors.grey100};
   }
