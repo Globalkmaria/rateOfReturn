@@ -71,7 +71,7 @@ const StyledStockTableBase = styled('div')`
   }
 
   ${StyledSummaryRow} td {
-    border-top: 2px solid ${({ theme }) => theme.colors.grey500};
+    border-top: 2px solid ${({ theme }) => theme.colors.grey400};
   }
 
   ${StyledSummaryRow}:first-child td {
