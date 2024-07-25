@@ -7,11 +7,16 @@ export interface TableWithProps {
 }
 
 interface TableProps extends TableHTMLAttributes<HTMLTableElement> {}
-interface TableHeaderProps extends TableHTMLAttributes<HTMLTableSectionElement> {}
+interface TableHeaderProps
+  extends TableHTMLAttributes<HTMLTableSectionElement> {}
 interface TableBodyProps extends TableHTMLAttributes<HTMLTableSectionElement> {}
-export interface TableHeadProps extends TableHTMLAttributes<HTMLTableCellElement>, TableWithProps {}
+export interface TableHeadProps
+  extends TableHTMLAttributes<HTMLTableCellElement>,
+    TableWithProps {}
 interface TableRowProps extends TableHTMLAttributes<HTMLTableRowElement> {}
-export interface TableCellProps extends TableHTMLAttributes<HTMLTableCellElement>, TableWithProps {
+export interface TableCellProps
+  extends TableHTMLAttributes<HTMLTableCellElement>,
+    TableWithProps {
   align?: 'left' | 'center' | 'right';
 }
 
@@ -43,7 +48,7 @@ export const TableHead = styled('th').withConfig({
     minWidth: fixedWidth + 'px',
   }),
   ...(minWidth && { minWidth: minWidth + 'px' }),
-  background: theme.colors.white,
+  background: theme.colors.grey100,
 
   '&:nth-child(n+1)': {
     borderRight: `1px solid ${theme.colors.grey400}`,
@@ -52,10 +57,6 @@ export const TableHead = styled('th').withConfig({
   '&:last-child': {
     borderRight: 'none',
   },
-
-  '&:nth-child(odd)': {
-    background: theme.colors.grey300,
-  },
 }));
 
 export const TableRow = styled('tr')<TableRowProps>(({ theme }) => ({
@@ -63,9 +64,10 @@ export const TableRow = styled('tr')<TableRowProps>(({ theme }) => ({
 }));
 
 export const TableCell = styled('td').withConfig({
-  shouldForwardProp: prop => !['fixedWidth', 'minWidth', 'align'].includes(prop),
+  shouldForwardProp: prop =>
+    !['fixedWidth', 'minWidth', 'align'].includes(prop),
 })<TableCellProps>(({ theme, fixedWidth, minWidth, align = 'left' }) => ({
-  padding: '0.4rem',
+  padding: '0px 0.4rem',
   ...(fixedWidth && {
     width: fixedWidth + 'px',
     minWidth: fixedWidth + 'px',
