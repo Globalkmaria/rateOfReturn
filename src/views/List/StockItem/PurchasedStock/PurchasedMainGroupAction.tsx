@@ -18,6 +18,7 @@ import {
   generateSoldInfoFromPurchasedInfo,
 } from '@/features/solds';
 import { generateSoldItem } from '../SummaryInfo/utils';
+import Icon from '@/components/Icon';
 
 interface Props {
   stockId: string;
@@ -75,15 +76,18 @@ function PurchasedMainGroupAction({
               disabled={!isLock}
               title='To sold list'
             >
+              <Icon icon='sold' />
               Sold
             </DropboxItem>
             <DropboxItem onClick={groupModal.onOpenModal} title='Group actions'>
+              <Icon icon='folder' />
               Group
             </DropboxItem>
             <DropboxItem
               onClick={deleteModal.onOpenModal}
               title='Delete this item'
             >
+              <Icon icon='delete' />
               Delete
             </DropboxItem>
           </MoreButton>

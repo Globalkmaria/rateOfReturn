@@ -34,6 +34,7 @@ import userSoldsService from '@/service/userSolds/service';
 import { DropboxItem } from '@/components/Dropbox/DropboxItem';
 import { generateSoldItems } from './utils';
 import { useAddItem } from '../hooks/useAddItem';
+import Icon from '@/components/Icon';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -150,10 +151,14 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
               />
               <MoreButton width={100} vertical='bottom' horizontal='right'>
                 <DropboxItem onClick={onStockSold} disabled={!isLock}>
-                  Sold
+                  <Icon icon='sold' /> Sold
                 </DropboxItem>
-                <DropboxItem onClick={onOpenModal}>Delete</DropboxItem>
+                <DropboxItem onClick={onOpenModal}>
+                  <Icon icon='delete' />
+                  Delete
+                </DropboxItem>
                 <DropboxItem onClick={onAddItem} title='Add same stock'>
+                  <Icon icon='add' />
                   Add same stock
                 </DropboxItem>
               </MoreButton>
