@@ -47,7 +47,7 @@ export const BaseInput = styled('input').withConfig({
     border: 'none',
     borderRadius: '5px',
     textAlign: align,
-    fontSize: '1rem',
+    fontSize: 'inherit',
     width: width ? `${width}px` : fullWidth ? '100%' : 'auto',
 
     '&:focus': {
