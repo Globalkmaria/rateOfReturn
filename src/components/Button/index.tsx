@@ -30,14 +30,14 @@ export interface ContainedButtonProps extends BaseButtonProps {
 }
 
 const FONT_SIZES: Sizes = {
-  s: '1rem',
-  m: '1.2rem',
-  l: '1.4rem',
+  s: '0.75rem',
+  m: '0.9rem',
+  l: '1rem',
 };
 const PADDING_SIZES: Sizes = {
-  s: '0.4rem',
-  m: '0.4rem 0.625rem',
-  l: '0.6rem',
+  s: '0.625rem',
+  m: '0.8rem',
+  l: '1rem',
 };
 
 export const BUTTON_COLORS: Colors = {
@@ -49,8 +49,8 @@ export const BUTTON_COLORS: Colors = {
 };
 
 export const BUTTON_HEIGHTS: Sizes = {
-  s: '32px',
-  m: '40px',
+  s: '40px',
+  m: '42px',
   l: '48px',
 };
 
@@ -68,50 +68,69 @@ const BaseButton = styled('button')
   })
   .attrs(props => ({
     type: props.type || 'button',
-  }))<BaseButtonProps>(
-  ({ theme, height, width, fullWidth, disabled, size = 's' }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  }))<BaseButtonProps>(({ theme, height, width, fullWidth, size = 's' }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 
-    padding: PADDING_SIZES[size],
-    height: height ? `${height}px` : BUTTON_HEIGHTS[size],
-    width: width ? `${width}px` : fullWidth ? '100%' : 'auto',
-    transition: '200ms',
+  padding: `0px ${PADDING_SIZES[size]}`,
+  height: height ? `${height}px` : BUTTON_HEIGHTS[size],
+  width: width ? `${width}px` : fullWidth ? '100%' : 'auto',
+  transition: '100ms',
 
-    background: theme.colors.white,
-    borderRadius: '5px',
+  borderRadius: '12px',
 
-    fontSize: `min(${FONT_SIZES[size]}, 5vw)`,
-    whiteSpace: 'nowrap',
+  fontSize: `min(${FONT_SIZES[size]}, 5vw)`,
+  whiteSpace: 'nowrap',
+  fontWeight: 500,
 
-    '&:disabled': {
-      color: theme.colors.grey500,
-      cursor: 'default',
-    },
+  '&:disabled': {
+    color: theme.colors.grey500,
+    cursor: 'not-allowed',
+  },
 
-    svg: {
-      color: disabled ? theme.colors.grey500 : 'inherit',
-      path: {
-        color: disabled ? theme.colors.grey500 : 'inherit',
-      },
-    },
+  [`@media ${theme.devices.mobile}`]: {
+    fontSize: 'min(0.8rem, 5vw)',
+  },
+}));
 
-    [`@media ${theme.devices.mobile}`]: {
-      fontSize: 'min(0.8rem, 5vw)',
-    },
-  }),
-);
+export const BackgroundButton = styled(BaseButton).withConfig({
+  shouldForwardProp: props => !['showLine'].includes(props),
+})<BorderButtonProps>(({ theme, color = 'primary' }) => ({
+  '&:not([disabled]):hover': {
+    background:
+      theme.colors[(BUTTON_COLORS[color] + '100') as keyof ColorsTypes],
+  },
+}));
 
 export const BorderButton = styled(BaseButton).withConfig({
   shouldForwardProp: props => !['showLine'].includes(props),
 })<BorderButtonProps>(({ theme, color = 'primary', showLine = true }) => ({
-  boxShadow: `rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px`,
+  border: `1px solid ${
+    theme.colors[(BUTTON_COLORS[color] + '300') as keyof ColorsTypes]
+  }`,
+
+  borderColor: showLine
+    ? theme.colors[(BUTTON_COLORS[color] + '300') as keyof ColorsTypes]
+    : '',
 
   '&:not([disabled]):hover': {
-    background: `${
-      theme.colors[(BUTTON_COLORS[color] + '100') as keyof ColorsTypes]
+    background: theme.colors.grey100,
+    border: `1px solid ${
+      theme.colors[(BUTTON_COLORS[color] + '900') as keyof ColorsTypes]
     }`,
+  },
+}));
+
+export const BorderWithHoverShadowButton = styled(BaseButton).withConfig({
+  shouldForwardProp: props => !['showLine'].includes(props),
+})<BorderButtonProps>(({ theme, color = 'primary' }) => ({
+  border: `1px solid ${
+    theme.colors[(BUTTON_COLORS[color] + '300') as keyof ColorsTypes]
+  }`,
+
+  '&:not([disabled]):hover': {
+    boxShadow: `rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px`,
   },
 }));
 

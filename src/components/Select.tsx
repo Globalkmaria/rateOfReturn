@@ -15,25 +15,35 @@ interface SelectProps extends SelectComponentProps {
   initialValue?: string;
 }
 
-const SelectComponent = styled('select')<SelectComponentProps>(({ theme, width = 100, height = 40 }) => ({
-  padding: '0.4rem',
-  width: `${width}px`,
-  height: `${height}px`,
-  border: `2px solid ${theme.colors.grey700}`,
-  borderRadius: '5px',
-  outline: 'none',
+const SelectBase = styled('select')<SelectComponentProps>(
+  ({ theme, width = 100, height = 40 }) => ({
+    padding: '2px 0px 2px 4px',
+    width: `${width}px`,
+    height: `${height}px`,
+    border: 'none',
+    background: 'transparent',
 
-  '&:focus': {
     outline: 'none',
-  },
 
-  '&:disabled': {
-    color: theme.colors.grey600,
-    borderColor: theme.colors.grey500,
-  },
-}));
+    '&:focus': {
+      outline: 'none',
+    },
 
-const Select = ({ initialValue, options, onChange, ...restProps }: SelectProps) => {
+    '&:disabled': {
+      color: theme.colors.grey600,
+      cursor: 'not-allowed',
+    },
+  }),
+);
+
+const Select = ({
+  initialValue,
+  options,
+  onChange,
+  disabled,
+  className,
+  ...restProps
+}: SelectProps) => {
   const [value, setValue] = useState(initialValue || '');
   const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const onChangeResult = onChange && onChange(e);
@@ -42,14 +52,29 @@ const Select = ({ initialValue, options, onChange, ...restProps }: SelectProps) 
   };
 
   return (
-    <SelectComponent value={value} {...restProps} onChange={onChangeHandler}>
-      {options.map(option => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </SelectComponent>
+    <StyledWrapper disabled={disabled} className={className}>
+      <SelectBase
+        value={value}
+        disabled={disabled}
+        onChange={onChangeHandler}
+        {...restProps}
+      >
+        {options.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </SelectBase>
+    </StyledWrapper>
   );
 };
 
 export default Select;
+
+const StyledWrapper = styled.div<{ disabled?: boolean }>`
+  width: fit-content;
+  padding-right: 4px;
+  border: ${({ theme, disabled }) =>
+    `1px solid ${disabled ? theme.colors.grey500 : theme.colors.black}`};
+  border-radius: 13px;
+`;

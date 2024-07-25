@@ -13,7 +13,7 @@ import {
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 
 import { TableRow } from '../../../../components/Table';
-import { BorderButton } from '../../../../components/Button';
+
 import { TransformedValue } from '../../../../components/Input/BaseInput';
 import userStocksService from '../../../../service/userStocks/userStocks';
 import { CheckboxCell } from '../components';
@@ -23,6 +23,7 @@ import { checkNoChange } from '../utils';
 import PurchasedMainGroupAction from './PurchasedMainGroupAction';
 import PurchasedOtherGroupAction from './PurchasedOtherGroupAction';
 import { EditUserItemServiceData } from '@/service/userStocks/type';
+import { StyledIconButton } from '@/components/IconButton/IconButton';
 
 export type SetChangedInputByFieldName = <
   T extends keyof EditUserItemServiceData,
@@ -149,7 +150,7 @@ const StyledPurchasedStock = styled(TableRow)`
     background: ${({ theme }) => theme.colors.indigo000};
   }
 
-  ${BorderButton} {
+  ${StyledIconButton} {
     &:not([disabled]):hover {
       background: ${({ theme }) => theme.colors.grey400};
     }

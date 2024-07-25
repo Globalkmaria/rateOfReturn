@@ -14,11 +14,7 @@ function Setting() {
 
   return (
     <Dropbox.Wrapper ref={containerRef}>
-      <IconButton
-        icon='setting'
-        size='m'
-        onClick={settingControl.onToggleModal}
-      />
+      <IconButton icon='setting' onClick={settingControl.onToggleModal} />
       {settingControl.showModal && (
         <Dropbox.Container
           containerRef={containerRef}

@@ -9,7 +9,7 @@ const Reset = () => {
 
   return (
     <StyledReset>
-      <ContainedButton onClick={onOpenModal} color='warning' fullWidth>
+      <ContainedButton size='m' onClick={onOpenModal} color='warning' fullWidth>
         Reset
       </ContainedButton>
       {showModal && <ResetDataWarning onClose={onCloseModal} />}

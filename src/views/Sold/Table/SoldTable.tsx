@@ -37,6 +37,11 @@ function SoldTable({}: Props) {
 export default SoldTable;
 
 const StyledSoldTable = styled(Table)`
+  th,
+  td {
+    font-size: 0.9rem;
+  }
+
   thead th {
     position: sticky;
     z-index: 2;
@@ -44,7 +49,6 @@ const StyledSoldTable = styled(Table)`
   }
 
   th button {
-    font-size: 1rem;
     font-weight: 600;
     white-space: nowrap;
   }

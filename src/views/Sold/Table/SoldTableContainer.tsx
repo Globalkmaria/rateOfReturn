@@ -7,6 +7,7 @@ import { selectIsLoggedIn } from '@/features/user/selectors';
 import userSolds from '@/service/userSolds';
 import { BorderButton } from '@/components/Button';
 import { getSoldServerSampleData } from '@/service/userSolds/utils';
+import Icon from '@/components/Icon';
 
 const SoldTable = lazy(() => import('./SoldTable'));
 
@@ -35,7 +36,8 @@ function SoldTableContainer() {
       <StyledControl>
         {noItem && (
           <BorderButton onClick={onClick} size='m'>
-            Add Sample Data
+            <Icon icon='sampleData' />
+            <StyledText>Add sample data</StyledText>
           </BorderButton>
         )}
       </StyledControl>
@@ -56,7 +58,6 @@ const StyledControl = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
-  min-height: 40px;
 `;
 
 const StyledTableContainer = styled.div`
@@ -65,4 +66,8 @@ const StyledTableContainer = styled.div`
   max-height: calc(100vh - 240px);
   min-height: calc(100vh - 240px);
   background-color: ${({ theme }) => theme.colors.white};
+`;
+
+const StyledText = styled('span')`
+  margin-left: 5px;
 `;
