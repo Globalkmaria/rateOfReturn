@@ -43,7 +43,7 @@ const Container = styled.div.withConfig({
     !['width', 'vertical', 'horizontal'].includes(props),
 })<DropboxStyleProps>(({ vertical, horizontal, theme, width }) => ({
   position: 'absolute',
-  zIndex: 100,
+  zIndex: 1,
   ...(vertical === 'bottom' && {
     top: '100%',
     marginTop: '5px',
