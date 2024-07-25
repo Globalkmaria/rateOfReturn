@@ -80,7 +80,10 @@ function PurchasedMainGroupAction({
             <DropboxItem onClick={groupModal.onOpenModal} title='Group actions'>
               Group
             </DropboxItem>
-            <DropboxItem onClick={deleteModal.onOpenModal} title='Delete item'>
+            <DropboxItem
+              onClick={deleteModal.onOpenModal}
+              title='Delete this item'
+            >
               Delete
             </DropboxItem>
           </MoreButton>

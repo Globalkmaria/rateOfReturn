@@ -33,7 +33,7 @@ import getDateAndTime from '@/utils/getDateAndTime';
 import userSoldsService from '@/service/userSolds/service';
 import { DropboxItem } from '@/components/Dropbox/DropboxItem';
 import { generateSoldItems } from './utils';
-import { StyledIconButton } from '@/components/IconButton/IconButton';
+import { useAddItem } from '../hooks/useAddItem';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;
@@ -109,6 +109,8 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
     dispatch(addNewSoldList({ soldList, stockId: mainInfo.stockId }));
   };
 
+  const onAddItem = useAddItem(stockId);
+
   useEffect(() => {
     if (isMainGroupSelected && mainInfo.needInit) setIsLock(!mainInfo.needInit);
     else setIsLock(true);
@@ -151,6 +153,9 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
                   Sold
                 </DropboxItem>
                 <DropboxItem onClick={onOpenModal}>Delete</DropboxItem>
+                <DropboxItem onClick={onAddItem} title='Add same stock'>
+                  Add same stock
+                </DropboxItem>
               </MoreButton>
             </StyledButtonGroup>
           </TableCell>
