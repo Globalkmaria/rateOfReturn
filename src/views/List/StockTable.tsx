@@ -38,6 +38,11 @@ const StyledStockTableBase = styled('div')`
   max-height: calc(100vh - 332px);
   overflow: auto;
 
+  th,
+  td {
+    font-size: 0.9rem;
+  }
+
   thead tr > th {
     position: sticky;
     z-index: 2;

@@ -44,7 +44,7 @@ const PurchasedInput = ({
     <>
       <TableCell>
         <StyledDateTime>
-          <StyledDate
+          <Input
             name='purchasedDate'
             onChange={onInputChange}
             disabled={isLock}
@@ -54,7 +54,7 @@ const PurchasedInput = ({
             aria-label='purchased date'
             ref={focusedInput}
           />
-          <StyledDate
+          <Input
             name='purchasedTime'
             onChange={onInputChange}
             disabled={isLock}
@@ -94,8 +94,4 @@ export default memo(PurchasedInput);
 const StyledDateTime = styled.div`
   display: flex;
   gap: 5px;
-`;
-
-const StyledDate = styled(Input)`
-  font-size: 0.8rem;
 `;
