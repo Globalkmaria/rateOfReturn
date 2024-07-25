@@ -200,8 +200,8 @@ export const MOCK_DATA: StockListState['stocks'] = {
   allIds: ['2', '4', '14', '15', '22', '23', '29'],
 };
 
-export const MOCK_DATA_NEXT_STOCK_ID = 35;
-export const MOCK_DATA_PURCHASED_ID = 20;
+export const MOCK_DATA_NEXT_STOCK_ID = 30;
+export const MOCK_DATA_PURCHASED_ID = 33;
 export const MOCK_DATA_TAGS = ['bond', 'stock', 'stock etf'];
 
 export const STOCK_STATE_SAMPLE: StockListState = {
