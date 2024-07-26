@@ -35,10 +35,7 @@ const StockTable = () => {
 export default StockTable;
 
 const StyledStockTableBase = styled('div')`
-  width: 100%;
-  height: fit-content;
-  max-height: calc(100vh - 332px);
-  overflow: auto;
+  overflow-x: overlay;
 
   th,
   td {
@@ -50,10 +47,6 @@ const StyledStockTableBase = styled('div')`
     position: sticky;
     z-index: 2;
     top: 0;
-  }
-
-  ${Table} {
-    margin-bottom: 50px;
   }
 
   tbody tr td {
