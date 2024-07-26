@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import styled from 'styled-components';
 
 import IconButton from './IconButton';
 import { BaseButtonProps } from '../Button';
@@ -40,8 +39,3 @@ function MoreButton({
 }
 
 export { MoreButton };
-
-const Container = styled.div`
-  position: relative;
-  height: fit-content;
-`;
