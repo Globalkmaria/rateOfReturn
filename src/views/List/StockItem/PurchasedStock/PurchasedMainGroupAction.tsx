@@ -18,11 +18,13 @@ import {
   generateSoldInfoFromPurchasedInfo,
 } from '@/features/solds';
 import { generateSoldItem } from '../SummaryInfo/utils';
+import Icon from '@/components/Icon';
 
 interface Props {
   stockId: string;
   purchasedId: string;
   isLock: boolean;
+  isLastIdx: boolean;
   onToggleLock: () => void;
 }
 function PurchasedMainGroupAction({
@@ -30,6 +32,7 @@ function PurchasedMainGroupAction({
   purchasedId,
   isLock,
   onToggleLock,
+  isLastIdx,
 }: Props) {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -40,6 +43,8 @@ function PurchasedMainGroupAction({
 
   const deleteModal = useModal();
   const groupModal = useModal();
+
+  const moreDropdownDirection = isLastIdx ? 'top' : 'bottom';
 
   const onItemSold = async () => {
     if (isLoggedIn) {
@@ -69,18 +74,28 @@ function PurchasedMainGroupAction({
             onClick={onToggleLock}
             disabled={!isMainGroupSelected}
           />
-          <MoreButton width={80} vertical='bottom' horizontal='right'>
+          <MoreButton
+            width={80}
+            vertical={moreDropdownDirection}
+            horizontal='right'
+          >
             <DropboxItem
               onClick={onItemSold}
               disabled={!isLock}
               title='To sold list'
             >
+              <Icon icon='sold' />
               Sold
             </DropboxItem>
             <DropboxItem onClick={groupModal.onOpenModal} title='Group actions'>
+              <Icon icon='folder' />
               Group
             </DropboxItem>
-            <DropboxItem onClick={deleteModal.onOpenModal} title='Delete item'>
+            <DropboxItem
+              onClick={deleteModal.onOpenModal}
+              title='Delete this item'
+            >
+              <Icon icon='delete' />
               Delete
             </DropboxItem>
           </MoreButton>
@@ -110,4 +125,8 @@ export default PurchasedMainGroupAction;
 const StyledButtonGroup = styled.div`
   display: flex;
   justify-content: space-between;
+
+  .drop-container {
+    z-index: 9;
+  }
 `;

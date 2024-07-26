@@ -61,10 +61,6 @@ const StyledControl = styled.div`
 `;
 
 const StyledTableContainer = styled.div`
-  width: 100%;
-  overflow: auto;
-  max-height: calc(100vh - 240px);
-  min-height: calc(100vh - 240px);
   background-color: ${({ theme }) => theme.colors.white};
 `;
 

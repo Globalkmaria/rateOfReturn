@@ -20,26 +20,32 @@ function SoldTable({}: Props) {
   };
 
   return (
-    <StyledSoldTable>
-      <SoldTableHeader
-        currentOption={selectedSort}
-        onChangeSort={handleSortChange}
-      />
-      <TableBody>
-        {sortedList.map(id => (
-          <SoldItem id={id} key={id} />
-        ))}
-      </TableBody>
-    </StyledSoldTable>
+    <StyleSoldTableWrapper>
+      <StyledSoldTable>
+        <SoldTableHeader
+          currentOption={selectedSort}
+          onChangeSort={handleSortChange}
+        />
+        <TableBody>
+          {sortedList.map(id => (
+            <SoldItem id={id} key={id} />
+          ))}
+        </TableBody>
+      </StyledSoldTable>
+    </StyleSoldTableWrapper>
   );
 }
 
 export default SoldTable;
 
+const StyleSoldTableWrapper = styled.div`
+  overflow-x: overlay;
+`;
+
 const StyledSoldTable = styled(Table)`
   th,
   td {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 
   thead th {
@@ -49,7 +55,7 @@ const StyledSoldTable = styled(Table)`
   }
 
   th button {
-    font-weight: 600;
+    font-weight: 500;
     white-space: nowrap;
   }
 
@@ -62,6 +68,10 @@ const StyledSoldTable = styled(Table)`
 
   thead tr > :nth-child(2) {
     left: 50px;
+  }
+
+  tbody tr {
+    height: 46px;
   }
 
   tbody tr > :first-child,

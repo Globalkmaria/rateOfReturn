@@ -69,4 +69,8 @@ const StyledTableRow = styled(TableRow)`
   &:hover {
     background: ${({ theme }) => theme.colors.grey100};
   }
+
+  td {
+    padding: 0.4rem;
+  }
 `;

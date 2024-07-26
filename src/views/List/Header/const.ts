@@ -1,10 +1,6 @@
+import { TableHead } from '@/components/Table';
 import CheckAllCheckbox from './CheckAllCheckbox';
-import {
-  HeaderItemProps,
-  StyledBuyId,
-  StyledStockName,
-  StyledTotalPurchase,
-} from './HeaderItem';
+import { HeaderItemProps, StyledBuyId, StyledStockName } from './HeaderItem';
 
 export const HEADER_LIST: HeaderItemProps[] = [
   {
@@ -35,7 +31,7 @@ export const HEADER_LIST: HeaderItemProps[] = [
     id: '7',
     label: 'Total Buy Cost',
     minWidth: 120,
-    Component: StyledTotalPurchase,
+    Component: TableHead,
     notTableHead: false,
   },
   { id: '8', label: 'Current Unit Price', minWidth: 120 },

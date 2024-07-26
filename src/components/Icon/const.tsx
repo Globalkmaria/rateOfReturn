@@ -1,4 +1,4 @@
-import { FaLock, FaLockOpen, FaPlus, FaMinus, FaRegSave } from 'react-icons/fa';
+import { FaLock, FaLockOpen, FaRegSave, FaRegFolder } from 'react-icons/fa';
 import { FiFolderPlus, FiFolderMinus, FiSettings } from 'react-icons/fi';
 import {
   MdDeleteOutline,
@@ -8,6 +8,9 @@ import {
 import { CgClose } from 'react-icons/cg';
 import { IoEllipsisVertical } from 'react-icons/io5';
 import { BsDatabaseAdd } from 'react-icons/bs';
+import { MdOutlineOutput } from 'react-icons/md';
+import { IoMdAdd } from 'react-icons/io';
+import { IoMdRemove } from 'react-icons/io';
 
 const ICON_NAMES = [
   'edit',
@@ -24,6 +27,8 @@ const ICON_NAMES = [
   'folderDelete',
   'priceChange',
   'sampleData',
+  'sold',
+  'folder',
 ] as const;
 
 export type IconButtonType = (typeof ICON_NAMES)[number];
@@ -39,12 +44,14 @@ export const ICONS: {
   setting: <FiSettings />,
   close: <CgClose />,
   more: <IoEllipsisVertical />,
-  add: <FaPlus />,
-  remove: <FaMinus />,
+  add: <IoMdAdd />,
+  remove: <IoMdRemove />,
   folderAdd: <FiFolderPlus />,
   folderDelete: <FiFolderMinus />,
   priceChange: <MdOutlinePriceChange />,
   sampleData: <BsDatabaseAdd />,
+  sold: <MdOutlineOutput />,
+  folder: <FaRegFolder />,
 };
 
 export const ICON_TITLES: { [key in IconButtonType]: string } = {
@@ -62,4 +69,6 @@ export const ICON_TITLES: { [key in IconButtonType]: string } = {
   folderDelete: 'Delete folder',
   priceChange: 'Change price',
   sampleData: 'Import sample data',
+  sold: 'Sold',
+  folder: 'Folder',
 };

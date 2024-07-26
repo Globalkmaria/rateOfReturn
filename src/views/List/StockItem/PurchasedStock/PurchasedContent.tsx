@@ -40,7 +40,7 @@ const PurchasedContent = ({
         purchasedItem={purchasedItem}
         isLock={isLock}
       />
-      <StyledTotalPurchase withFixed value={purchasedData.totalPurchasePrice} />
+      <NumberCell withFixed value={purchasedData.totalPurchasePrice} />
       <NumberCell withFixed value={mainInfo.currentPrice} />
       <NumberCell withFixed value={purchasedData.evaluationPrice} />
       <NumberCell withFixed value={purchasedData.formattedEvaluationProfit} />
@@ -57,12 +57,6 @@ export default memo(PurchasedContent);
 
 const StyledStockName = styled(TableCell)`
   color: ${({ theme }) => theme.colors.subtitle};
-`;
-
-const StyledTotalPurchase = styled(NumberCell)`
-  && {
-    border-right: ${({ theme }) => `4px double ${theme.colors.grey600}`};
-  }
 `;
 
 const StyledProfitRate = styled(TableCell)`
