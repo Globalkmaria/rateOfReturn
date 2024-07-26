@@ -85,7 +85,6 @@ export const StyledContent = styled.div`
   gap: 8px;
   padding: 15px;
   min-width: fit-content;
-  width: 170px;
   border-right: 1px solid ${({ theme }) => theme.colors.grey300};
 
   @media ${({ theme }) => theme.devices.tablet} {
