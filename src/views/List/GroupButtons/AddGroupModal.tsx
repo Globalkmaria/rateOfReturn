@@ -30,7 +30,7 @@ const AddGroupModal = ({ onClose }: Props) => {
   }, []);
 
   return (
-    <PortalModal title='Add Group' onClose={onClose}>
+    <PortalModal title='Add new group' onClose={onClose}>
       <StyledAddGroupModal>
         <StyledGroupName>
           <StyledGroupLabel htmlFor='group-name'>

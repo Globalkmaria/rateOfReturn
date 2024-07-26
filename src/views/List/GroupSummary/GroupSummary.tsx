@@ -64,22 +64,19 @@ export default GroupSummary;
 
 const StyledGroupSummary = styled.div`
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  margin: 0px auto 10px;
+  margin: 13px auto 13px;
   padding: 10px;
-  gap: 10px;
 
-  @media ${({ theme }) => theme.devices.mobile} {
+  border-top: 1px solid ${({ theme }) => theme.colors.grey300};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grey300};
+  row-gap: 10px;
+
+  @media ${({ theme }) => theme.devices.tablet} {
+    flex-wrap: wrap;
     margin: 10px auto 10px;
-    gap: 10px;
   }
-`;
-
-const StyledWrapper = styled.div`
-  display: flex;
-  gap: 10px;
 `;
 
 export const StyledContent = styled.div`
@@ -88,18 +85,27 @@ export const StyledContent = styled.div`
   gap: 8px;
   padding: 15px;
   min-width: fit-content;
-  width: 170px;
-  background: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.grey200};
-  border-radius: 5px;
+  border-right: 1px solid ${({ theme }) => theme.colors.grey300};
 
-  @media ${({ theme }) => theme.devices.mobile} {
+  @media ${({ theme }) => theme.devices.tablet} {
     flex-direction: column;
     gap: 10px;
     padding: 5px 10px;
     min-width: fit-content;
     width: 37vw;
     min-width: 120px;
+
+    &:nth-child(2) {
+      border-right: none;
+    }
+  }
+`;
+
+const StyledWrapper = styled.div`
+  display: flex;
+
+  &:nth-child(2) ${StyledContent}:nth-child(2) {
+    border-right: none;
   }
 `;
 
@@ -109,7 +115,7 @@ const StyledTitle = styled.h1`
   font-size: 0.75rem;
   color: ${({ theme }) => theme.colors.black};
 
-  @media ${({ theme }) => theme.devices.mobile} {
+  @media ${({ theme }) => theme.devices.tablet} {
     font-size: min(0.8rem, 3vw);
     margin-right: 0px;
   }
@@ -119,7 +125,7 @@ const StyledText = styled.span`
   font-weight: 600;
   font-size: min(1.2rem, 5vw);
 
-  @media ${({ theme }) => theme.devices.mobile} {
+  @media ${({ theme }) => theme.devices.tablet} {
     font-size: min(0.8rem, 3vw);
   }
 `;

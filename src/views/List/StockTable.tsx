@@ -7,6 +7,8 @@ import StockItem from './StockItem/StockItem';
 import StockListHeader from './Header/StockListHeader';
 import AddNewStock from './AddNewStock/AddNewStock';
 import { selectStockIds } from '../../features/selectors';
+import { StyledIconButton } from '@/components/IconButton/IconButton';
+import { StyledSummaryRow } from './StockItem/SummaryInfo/SummaryInfo';
 
 const StockTable = () => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
@@ -33,24 +35,40 @@ const StockTable = () => {
 export default StockTable;
 
 const StyledStockTableBase = styled('div')`
-  width: 100%;
-  height: fit-content;
-  max-height: calc(100vh - 332px);
-  overflow: auto;
+  overflow-x: overlay;
 
   th,
   td {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 
   thead tr > th {
+    font-weight: 500;
     position: sticky;
     z-index: 2;
     top: 0;
   }
 
-  ${Table} {
-    margin-bottom: 50px;
+  tbody tr td {
+    background: ${({ theme }) => theme.colors.white};
+  }
+
+  tbody tr:hover td {
+    background: ${({ theme }) => theme.colors.grey100};
+  }
+
+  ${StyledIconButton} {
+    &:not([disabled]):hover {
+      background: ${({ theme }) => theme.colors.grey300};
+    }
+  }
+
+  ${StyledSummaryRow} td {
+    border-top: 2px solid ${({ theme }) => theme.colors.grey400};
+  }
+
+  ${StyledSummaryRow}:first-child td {
+    border-top: none;
   }
 
   @media ${({ theme }) => theme.devices.mobile} {
@@ -92,7 +110,6 @@ const StyledMainStockTable = styled(StyledStockTableBase)`
   tbody tr > :first-child,
   tbody tr > :nth-child(2),
   tbody tr > td:nth-child(3) {
-    background: ${({ theme }) => theme.colors.grey100};
     position: sticky;
     z-index: 1;
     left: 0;
@@ -147,7 +164,6 @@ const StyledSubStockTable = styled(StyledStockTableBase)`
 
   tbody tr > :first-child,
   tbody tr > td:nth-child(2) {
-    background: ${({ theme }) => theme.colors.grey100};
     position: sticky;
     z-index: 1;
     left: 0px;

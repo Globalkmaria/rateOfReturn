@@ -62,6 +62,10 @@ const StyledTable = styled(Table)`
   background-color: ${({ theme }) => theme.colors.white};
   text-wrap: nowrap;
 
+  td {
+    padding: 0.4rem;
+  }
+
   th:first-child {
     @media ${({ theme }) => theme.devices.mobile} {
       width: 100px;

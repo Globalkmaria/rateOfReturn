@@ -9,8 +9,14 @@ const AddNewStock = () => {
   return (
     <StyledTableRow>
       <TableCell colSpan={13}>
-        <ContainedButton mode='light' onClick={onAddNewStock} color='secondary2' fullWidth title='Add new stock'>
-          Add Stock
+        <ContainedButton
+          mode='light'
+          onClick={onAddNewStock}
+          color='secondary2'
+          fullWidth
+          title='Add new stock'
+        >
+          Add new stock
         </ContainedButton>
       </TableCell>
     </StyledTableRow>

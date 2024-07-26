@@ -59,6 +59,3 @@ export const StyledBuyId = styled(TableHead)`
     min-width: 40px;
   }
 `;
-export const StyledTotalPurchase = styled(TableHead)`
-  border-right: ${({ theme }) => `4px double ${theme.colors.grey600}`};
-`;

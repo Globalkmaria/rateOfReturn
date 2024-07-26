@@ -40,9 +40,14 @@ export type PurchasedInputChangeProps = (
 interface PurchasedStockProps {
   stockId: string;
   purchasedId: string;
+  isLastIdx: boolean;
 }
 
-const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
+const PurchasedStock = ({
+  stockId,
+  purchasedId,
+  isLastIdx,
+}: PurchasedStockProps) => {
   const dispatch = useDispatch();
 
   const { purchasedItem } = useSelector(
@@ -128,6 +133,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
           purchasedId={purchasedId}
           isLock={isLock}
           onToggleLock={onToggleLock}
+          isLastIdx={isLastIdx}
         />
       ) : (
         <PurchasedOtherGroupAction
@@ -143,16 +149,5 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
 export default memo(PurchasedStock);
 
 const StyledPurchasedStock = styled(TableRow)`
-  background: ${({ theme }) => theme.colors.white};
   height: 46px;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.indigo000};
-  }
-
-  ${StyledIconButton} {
-    &:not([disabled]):hover {
-      background: ${({ theme }) => theme.colors.grey400};
-    }
-  }
 `;

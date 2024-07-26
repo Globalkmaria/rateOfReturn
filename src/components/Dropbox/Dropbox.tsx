@@ -33,7 +33,11 @@ function Dropbox({
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
-  return <Container {...props}>{children}</Container>;
+  return (
+    <Container className='drop-container' {...props}>
+      {children}
+    </Container>
+  );
 }
 
 export default Dropbox;
@@ -43,7 +47,7 @@ const Container = styled.div.withConfig({
     !['width', 'vertical', 'horizontal'].includes(props),
 })<DropboxStyleProps>(({ vertical, horizontal, theme, width }) => ({
   position: 'absolute',
-  zIndex: 100,
+  zIndex: 1,
   ...(vertical === 'bottom' && {
     top: '100%',
     marginTop: '5px',
