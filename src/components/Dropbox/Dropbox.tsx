@@ -33,7 +33,11 @@ function Dropbox({
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
-  return <Container {...props}>{children}</Container>;
+  return (
+    <Container className='drop-container' {...props}>
+      {children}
+    </Container>
+  );
 }
 
 export default Dropbox;

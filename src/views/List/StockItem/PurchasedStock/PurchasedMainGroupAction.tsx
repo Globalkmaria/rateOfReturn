@@ -24,6 +24,7 @@ interface Props {
   stockId: string;
   purchasedId: string;
   isLock: boolean;
+  isLastIdx: boolean;
   onToggleLock: () => void;
 }
 function PurchasedMainGroupAction({
@@ -31,6 +32,7 @@ function PurchasedMainGroupAction({
   purchasedId,
   isLock,
   onToggleLock,
+  isLastIdx,
 }: Props) {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -41,6 +43,8 @@ function PurchasedMainGroupAction({
 
   const deleteModal = useModal();
   const groupModal = useModal();
+
+  const moreDropdownDirection = isLastIdx ? 'top' : 'bottom';
 
   const onItemSold = async () => {
     if (isLoggedIn) {
@@ -70,7 +74,11 @@ function PurchasedMainGroupAction({
             onClick={onToggleLock}
             disabled={!isMainGroupSelected}
           />
-          <MoreButton width={80} vertical='bottom' horizontal='right'>
+          <MoreButton
+            width={80}
+            vertical={moreDropdownDirection}
+            horizontal='right'
+          >
             <DropboxItem
               onClick={onItemSold}
               disabled={!isLock}
@@ -117,4 +125,8 @@ export default PurchasedMainGroupAction;
 const StyledButtonGroup = styled.div`
   display: flex;
   justify-content: space-between;
+
+  .drop-container {
+    z-index: 9;
+  }
 `;

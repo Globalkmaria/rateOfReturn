@@ -40,9 +40,14 @@ export type PurchasedInputChangeProps = (
 interface PurchasedStockProps {
   stockId: string;
   purchasedId: string;
+  isLastIdx: boolean;
 }
 
-const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
+const PurchasedStock = ({
+  stockId,
+  purchasedId,
+  isLastIdx,
+}: PurchasedStockProps) => {
   const dispatch = useDispatch();
 
   const { purchasedItem } = useSelector(
@@ -128,6 +133,7 @@ const PurchasedStock = ({ stockId, purchasedId }: PurchasedStockProps) => {
           purchasedId={purchasedId}
           isLock={isLock}
           onToggleLock={onToggleLock}
+          isLastIdx={isLastIdx}
         />
       ) : (
         <PurchasedOtherGroupAction
