@@ -183,6 +183,10 @@ const StyledTableWrapper = styled('div')`
   overflow: auto;
   padding: 0 50px;
 
+  td {
+    padding: 0.4rem;
+  }
+
   @media ${({ theme }) => theme.devices.mobile} {
     padding: 0;
   }
