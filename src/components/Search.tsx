@@ -7,9 +7,16 @@ type Heights = 's' | 'm' | 'l';
 
 export interface SearchProps extends InputHTMLAttributes<HTMLInputElement> {
   height?: Heights;
+  width?: string;
 }
 
-function Search({ size, height = 's', disabled, ...restProps }: SearchProps) {
+function Search({
+  size,
+  height = 's',
+  width = '200px',
+  disabled,
+  ...restProps
+}: SearchProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onIconClick = () => {
@@ -17,7 +24,7 @@ function Search({ size, height = 's', disabled, ...restProps }: SearchProps) {
   };
 
   return (
-    <StyledSearch className='search' height={height}>
+    <StyledSearch className='search' width={width} height={height}>
       <StyledIconButton onClick={onIconClick} disabled={disabled}>
         <Icon icon='search' color={'grey600'} />
       </StyledIconButton>
@@ -40,11 +47,13 @@ const HEIGHTS: Record<Heights, string> = {
   l: '48px',
 };
 
-const StyledSearch = styled('div')<Required<Pick<SearchProps, 'height'>>>`
+const StyledSearch = styled('div')<
+  Required<Pick<SearchProps, 'height' | 'width'>>
+>`
   align-self: end;
   display: flex;
   align-items: center;
-  width: 200px;
+  width: ${({ width }) => width};
   height: ${({ height }) => HEIGHTS[height]};
   padding: 0 10px;
   border-radius: 13px;

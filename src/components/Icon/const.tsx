@@ -6,11 +6,11 @@ import {
   MdOutlineEdit,
 } from 'react-icons/md';
 import { CgClose } from 'react-icons/cg';
-import { IoEllipsisVertical } from 'react-icons/io5';
+import { IoEllipsisVertical, IoSearch } from 'react-icons/io5';
 import { BsDatabaseAdd } from 'react-icons/bs';
 import { MdOutlineOutput } from 'react-icons/md';
 import { IoMdAdd } from 'react-icons/io';
-import { IoMdRemove, IoIosSearch } from 'react-icons/io';
+import { IoMdRemove } from 'react-icons/io';
 
 const ICON_NAMES = [
   'edit',
@@ -53,7 +53,7 @@ export const ICONS: {
   sampleData: <BsDatabaseAdd />,
   sold: <MdOutlineOutput />,
   folder: <FaRegFolder />,
-  search: <IoIosSearch />,
+  search: <IoSearch />,
 };
 
 export const ICON_TITLES: { [key in IconButtonType]: string } = {
