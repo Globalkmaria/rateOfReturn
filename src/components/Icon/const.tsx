@@ -10,7 +10,7 @@ import { IoEllipsisVertical } from 'react-icons/io5';
 import { BsDatabaseAdd } from 'react-icons/bs';
 import { MdOutlineOutput } from 'react-icons/md';
 import { IoMdAdd } from 'react-icons/io';
-import { IoMdRemove } from 'react-icons/io';
+import { IoMdRemove, IoIosSearch } from 'react-icons/io';
 
 const ICON_NAMES = [
   'edit',
@@ -29,6 +29,7 @@ const ICON_NAMES = [
   'sampleData',
   'sold',
   'folder',
+  'search',
 ] as const;
 
 export type IconButtonType = (typeof ICON_NAMES)[number];
@@ -52,6 +53,7 @@ export const ICONS: {
   sampleData: <BsDatabaseAdd />,
   sold: <MdOutlineOutput />,
   folder: <FaRegFolder />,
+  search: <IoIosSearch />,
 };
 
 export const ICON_TITLES: { [key in IconButtonType]: string } = {
@@ -71,4 +73,5 @@ export const ICON_TITLES: { [key in IconButtonType]: string } = {
   sampleData: 'Import sample data',
   sold: 'Sold',
   folder: 'Folder',
+  search: 'Search',
 };
