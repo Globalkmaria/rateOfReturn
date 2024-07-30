@@ -66,31 +66,28 @@ const StyledGroupSummary = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 13px auto 13px;
-  padding: 10px;
 
-  border-top: 1px solid ${({ theme }) => theme.colors.grey300};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.grey300};
-  row-gap: 10px;
+  border-top: 1px solid ${({ theme }) => theme.colors.grey400};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grey400};
 
-  @media ${({ theme }) => theme.devices.tablet} {
+  @media ${({ theme }) => theme.devices.laptop} {
     flex-wrap: wrap;
-    margin: 10px auto 10px;
   }
 `;
 
 export const StyledContent = styled.div`
   display: flex;
-  flex-direction: column;
   gap: 8px;
-  padding: 15px;
+  margin: 15px 0;
+  padding: 0 15px;
   min-width: fit-content;
   border-right: 1px solid ${({ theme }) => theme.colors.grey300};
 
-  @media ${({ theme }) => theme.devices.tablet} {
+  @media ${({ theme }) => theme.devices.laptop} {
     flex-direction: column;
     gap: 10px;
-    padding: 5px 10px;
+    padding: 0px 10px;
+    margin: 10px;
     min-width: fit-content;
     width: 37vw;
     min-width: 120px;
@@ -115,7 +112,7 @@ const StyledTitle = styled.h1`
   font-size: 0.75rem;
   color: ${({ theme }) => theme.colors.black};
 
-  @media ${({ theme }) => theme.devices.tablet} {
+  @media ${({ theme }) => theme.devices.laptop} {
     font-size: min(0.8rem, 3vw);
     margin-right: 0px;
   }
@@ -125,7 +122,7 @@ const StyledText = styled.span`
   font-weight: 600;
   font-size: min(1.2rem, 5vw);
 
-  @media ${({ theme }) => theme.devices.tablet} {
+  @media ${({ theme }) => theme.devices.laptop} {
     font-size: min(0.8rem, 3vw);
   }
 `;

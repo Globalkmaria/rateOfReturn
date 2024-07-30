@@ -26,11 +26,9 @@ const StockList = () => {
     <Suspense fallback={<StockListSkeleton />}>
       <StyledStockList>
         <StyledControlBar>
-          <div>
-            <GroupButtons />
-          </div>
+          <GroupSummary />
+          <GroupButtons />
         </StyledControlBar>
-        <GroupSummary />
         <StockListContent />
         <div className='container'></div>
       </StyledStockList>
@@ -55,4 +53,10 @@ const StyledStockList = styled('div')`
 const StyledControlBar = styled('div')`
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap-reverse;
+  row-gap: 10px;
+  padding: 20px 0 10px 0;
+
+  @media ${({ theme }) => theme.devices.laptop} {
+  }
 `;

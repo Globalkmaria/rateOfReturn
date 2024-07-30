@@ -24,7 +24,7 @@ export default StockTableMenu;
 
 const StyledStockTableMenu = styled('div')`
   display: flex;
-  padding-bottom: 1rem;
+  padding-bottom: 10px;
   justify-content: flex-end;
 `;
 

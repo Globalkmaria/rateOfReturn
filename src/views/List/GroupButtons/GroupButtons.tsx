@@ -47,21 +47,13 @@ const GroupButtons = () => {
         <Select
           onChange={onGroupChange}
           width={140}
-          height={42}
+          height={40}
           initialValue='1'
           options={options}
           value={groups.selectedGroupId}
           title='Choose group to show'
         />
         <Buttons>
-          <IconButton
-            title='Delete group'
-            size='m'
-            onClick={onOpenDelete}
-            disabled={noGroups}
-            icon='folderDelete'
-          />
-          {showDelete && <DeleteGroupModal onClose={onCloseDelete} />}
           {isMainGroupSelected && (
             <IconButton
               icon='folderAdd'
@@ -72,6 +64,14 @@ const GroupButtons = () => {
             />
           )}
           {showAdd && <AddGroupModal onClose={onCloseAdd} />}
+          <IconButton
+            title='Delete group'
+            size='m'
+            onClick={onOpenDelete}
+            disabled={noGroups}
+            icon='folderDelete'
+          />
+          {showDelete && <DeleteGroupModal onClose={onCloseDelete} />}
         </Buttons>
       </StyledGroupButtons>
     </>
@@ -82,7 +82,6 @@ export default memo(GroupButtons);
 
 const StyledGroupButtons = styled('div')`
   display: flex;
-  flex-wrap: wrap;
   gap: 10px;
 `;
 
