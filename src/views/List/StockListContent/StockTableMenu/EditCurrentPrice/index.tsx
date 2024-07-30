@@ -1,12 +1,13 @@
-import { selectIsMainGroupSelected } from '@/features/groups/selectors';
-import useModal from '../hooks/useModal';
 import { useSelector } from 'react-redux';
-import { selectStockIds } from '@/features/selectors';
-import { BorderButton } from '@/components/Button';
-import EditCurrentPriceModal from './EditCurrentPriceModal';
-import Icon from '@/components/Icon';
 import styled from 'styled-components';
 import { memo } from 'react';
+
+import { selectIsMainGroupSelected } from '@/features/groups/selectors';
+import { selectStockIds } from '@/features/selectors';
+import { BorderButton } from '@/components/Button';
+import Icon from '@/components/Icon';
+import useModal from '@/views/List/hooks/useModal';
+import EditCurrentPriceModal from './EditCurrentPriceModal';
 
 function EditCurrentPrice() {
   const isMainGroup = useSelector(selectIsMainGroupSelected);

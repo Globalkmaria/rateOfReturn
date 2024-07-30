@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Search from '../../../../components/Search';
-import AddSampleData from '../../AddSampleData/AddSampleData';
-import EditCurrentPrice from '../../EditCurrentPrice';
+import AddSampleData from './AddSampleData';
+import EditCurrentPrice from './EditCurrentPrice';
 
 type Props = {
   searchQuery: string;
