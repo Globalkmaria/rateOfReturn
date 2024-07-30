@@ -15,6 +15,7 @@ type IconButtonProps = {
 function IconButton({ icon, color, ...resProps }: IconButtonProps) {
   return (
     <StyledIconButton
+      className='icon-button'
       aria-label={ICON_TITLES[icon]}
       title={ICON_TITLES[icon]}
       color={color}
