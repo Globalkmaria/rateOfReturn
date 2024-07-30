@@ -189,4 +189,8 @@ export const StyledSummaryRow = styled(TableRow)`
 export const StyledButtonGroup = styled.div`
   display: flex;
   justify-content: space-between;
+
+  .drop-container {
+    z-index: 9;
+  }
 `;
