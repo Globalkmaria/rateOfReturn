@@ -6,13 +6,15 @@ import { Table, TableBody } from '../../components/Table';
 import StockItem from './StockItem/StockItem';
 import StockListHeader from './Header/StockListHeader';
 import AddNewStock from './AddNewStock/AddNewStock';
-import { selectStockIds } from '../../features/selectors';
 import { StyledIconButton } from '@/components/IconButton/IconButton';
 import { StyledSummaryRow } from './StockItem/SummaryInfo/SummaryInfo';
 
-const StockTable = () => {
+type Props = {
+  stockIds: string[];
+};
+
+const StockTable = ({ stockIds }: Props) => {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
-  const stockIds = useSelector(selectStockIds);
   const StyledTable = isMainGroupSelected
     ? StyledMainStockTable
     : StyledSubStockTable;
