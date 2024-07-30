@@ -3,16 +3,13 @@ import styled from 'styled-components';
 
 import { BaseInput } from '../../components/Input/BaseInput';
 import GroupSummary from './GroupSummary/GroupSummary';
-import AddSampleData from './AddSampleData/AddSampleData';
 import useSaveChangedStocksData from './hooks/useSaveChangedStocksData';
 import useSaveChangedGroupsData from './hooks/useSaveChangedGroupedData';
 import StockListSkeleton from './StockListSkeleton';
 import useSaveChangedSoldsData from './hooks/useSaveChangedSoldData';
-import EditCurrentPrice from './EditCurrentPrice';
 import StockListContent from './StockListContent';
 
 const GroupButtons = lazy(() => import('./GroupButtons/GroupButtons'));
-const StockTable = lazy(() => import('./StockTable'));
 
 const StockList = () => {
   const [firstLoad, setFirstLoad] = useState(true);
@@ -32,10 +29,6 @@ const StockList = () => {
           <div>
             <GroupButtons />
           </div>
-          <StyledControlBarRight>
-            <AddSampleData />
-            <EditCurrentPrice />
-          </StyledControlBarRight>
         </StyledControlBar>
         <GroupSummary />
         <StockListContent />
@@ -62,9 +55,4 @@ const StyledStockList = styled('div')`
 const StyledControlBar = styled('div')`
   display: flex;
   justify-content: space-between;
-`;
-
-const StyledControlBarRight = styled('div')`
-  display: flex;
-  gap: 10px;
 `;

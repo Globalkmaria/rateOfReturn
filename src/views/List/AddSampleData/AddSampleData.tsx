@@ -7,6 +7,7 @@ import { addStockSampleData } from '@/features';
 import { useShowAddSampleBtn } from './useShowAddSampleBtn';
 import Icon from '@/components/Icon';
 import styled from 'styled-components';
+import { memo } from 'react';
 
 const AddSampleData = () => {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const AddSampleData = () => {
   );
 };
 
-export default AddSampleData;
+export default memo(AddSampleData);
 
 const StyledText = styled('span')`
   margin-left: 5px;

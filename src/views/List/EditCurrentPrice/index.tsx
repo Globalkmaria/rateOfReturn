@@ -6,6 +6,7 @@ import { BorderButton } from '@/components/Button';
 import EditCurrentPriceModal from './EditCurrentPriceModal';
 import Icon from '@/components/Icon';
 import styled from 'styled-components';
+import { memo } from 'react';
 
 function EditCurrentPrice() {
   const isMainGroup = useSelector(selectIsMainGroupSelected);
@@ -25,7 +26,7 @@ function EditCurrentPrice() {
   );
 }
 
-export default EditCurrentPrice;
+export default memo(EditCurrentPrice);
 
 const StyledText = styled.span`
   margin-left: 5px;

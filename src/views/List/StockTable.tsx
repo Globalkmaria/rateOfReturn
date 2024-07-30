@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -13,7 +14,7 @@ type Props = {
   stockIds: string[];
 };
 
-const StockTable = ({ stockIds }: Props) => {
+function StockTable({ stockIds }: Props) {
   const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
   const StyledTable = isMainGroupSelected
     ? StyledMainStockTable
@@ -32,9 +33,9 @@ const StockTable = ({ stockIds }: Props) => {
       </Table>
     </StyledTable>
   );
-};
+}
 
-export default StockTable;
+export default memo(StockTable);
 
 const StyledStockTableBase = styled('div')`
   overflow-x: overlay;

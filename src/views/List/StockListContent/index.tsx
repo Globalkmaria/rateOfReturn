@@ -1,4 +1,4 @@
-import { useDeferredValue, useState } from 'react';
+import { lazy, useDeferredValue, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -6,7 +6,7 @@ import { selectIsMainGroupSelected } from '@/features/groups/selectors';
 import { selectStockIds } from '@/features/selectors';
 import { selectStocks } from '@/features/stockList/selectors';
 
-import StockTable from '../StockTable';
+const StockTable = lazy(() => import('../StockTable'));
 import StockTableMenu from './StockTableMenu';
 import { filterStockByName } from './helper';
 
