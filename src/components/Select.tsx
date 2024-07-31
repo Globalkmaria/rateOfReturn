@@ -73,6 +73,7 @@ export default Select;
 
 const StyledWrapper = styled.div<{ disabled?: boolean }>`
   width: fit-content;
+  height: fit-content;
   padding-right: 4px;
   border: ${({ theme, disabled }) =>
     `1px solid ${disabled ? theme.colors.grey500 : theme.colors.black}`};

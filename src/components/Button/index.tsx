@@ -2,6 +2,7 @@ import { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 import { ColorsTypes } from '@/styles/theme';
+import { HoverDarker, getHoverColor } from './helper';
 
 const SIZES = ['s', 'm', 'l'] as const;
 type Sizes = { [key in (typeof SIZES)[number]]: string };
@@ -25,6 +26,11 @@ export interface BaseButtonProps
 export interface BorderButtonProps extends BaseButtonProps {
   showLine?: boolean;
 }
+
+export interface BackgroundButtonProps extends BaseButtonProps {
+  hoverDarker?: HoverDarker;
+}
+
 export interface ContainedButtonProps extends BaseButtonProps {
   mode?: 'light' | 'dark';
 }
@@ -95,11 +101,13 @@ const BaseButton = styled('button')
 }));
 
 export const BackgroundButton = styled(BaseButton).withConfig({
-  shouldForwardProp: props => !['showLine'].includes(props),
-})<BorderButtonProps>(({ theme, color = 'primary' }) => ({
+  shouldForwardProp: props => !['hoverDarker'].includes(props),
+})<BackgroundButtonProps>(({ theme, color = 'primary', hoverDarker = 0 }) => ({
   '&:not([disabled]):hover': {
     background:
-      theme.colors[(BUTTON_COLORS[color] + '100') as keyof ColorsTypes],
+      theme.colors[
+        (BUTTON_COLORS[color] + getHoverColor(hoverDarker)) as keyof ColorsTypes
+      ],
   },
 }));
 

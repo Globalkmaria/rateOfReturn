@@ -1,12 +1,13 @@
-import { BorderButton } from '../../../components/Button';
+import { memo } from 'react';
+import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectIsLoggedIn } from '../../../features/user/selectors';
-import userDataService from '../../../service/userData/userData';
 import { addStockSampleData } from '@/features';
 import { useShowAddSampleBtn } from './useShowAddSampleBtn';
 import Icon from '@/components/Icon';
-import styled from 'styled-components';
+import { BorderButton } from '@/components/Button';
+import userDataService from '@/service/userData/userData';
+import { selectIsLoggedIn } from '@/features/user/selectors';
 
 const AddSampleData = () => {
   const dispatch = useDispatch();
@@ -31,8 +32,12 @@ const AddSampleData = () => {
   );
 };
 
-export default AddSampleData;
+export default memo(AddSampleData);
 
 const StyledText = styled('span')`
   margin-left: 5px;
+
+  @media ${({ theme }) => theme.devices.laptop} {
+    display: none;
+  }
 `;

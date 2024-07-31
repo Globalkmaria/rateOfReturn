@@ -1,6 +1,6 @@
+import { selectIsMainGroupSelected } from '@/features/groups/selectors';
+import { selectStockIds } from '@/features/selectors';
 import { useSelector } from 'react-redux';
-import { selectIsMainGroupSelected } from '../../../features/groups/selectors';
-import { selectStockIds } from '../../../features/selectors';
 
 export function useShowAddSampleBtn() {
   const isMainGroup = useSelector(selectIsMainGroupSelected);

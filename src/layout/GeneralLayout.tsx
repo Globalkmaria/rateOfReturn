@@ -35,6 +35,8 @@ const StyledGeneralLayout = styled('div')`
   flex-direction: column;
   min-height: 100vh;
   min-width: 350px;
+  max-width: 1800px;
+  margin: auto;
 `;
 
 const StyledMainLayout = styled('main')`

@@ -1,16 +1,21 @@
 import styled from 'styled-components';
 
-import { BUTTON_HEIGHTS, BackgroundButton, BorderButtonProps } from '../Button';
+import {
+  BUTTON_HEIGHTS,
+  BackgroundButton,
+  BackgroundButtonProps,
+} from '../Button';
 import { ICON_TITLES, IconButtonType } from '../Icon/const';
 import Icon from '../Icon';
 
 type IconButtonProps = {
   icon: IconButtonType;
-} & BorderButtonProps;
+} & BackgroundButtonProps;
 
 function IconButton({ icon, color, ...resProps }: IconButtonProps) {
   return (
     <StyledIconButton
+      className='icon-button'
       aria-label={ICON_TITLES[icon]}
       title={ICON_TITLES[icon]}
       color={color}
