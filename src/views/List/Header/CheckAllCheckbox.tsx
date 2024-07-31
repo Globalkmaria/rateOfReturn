@@ -4,13 +4,14 @@ import styled from 'styled-components';
 import { TableHeadProps } from '../../../components/Table';
 import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
 import { selectIsAllChecked } from '../../../features/checkedItems/selectors';
-import { selectIsMainGroupSelected } from '../../../features/groups/selectors';
 import { CheckboxCell } from '../StockItem/components';
+import useIsMainGroup from '../hooks/useIsMainGroup';
 
 function CheckAllCheckbox({ id, ...restProps }: TableHeadProps) {
   const dispatch = useDispatch();
   const isAllChecked = useSelector(selectIsAllChecked);
-  const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
+  const isMainGroup = useIsMainGroup();
+
   const onChangeCheckbox = (value: boolean) => {
     dispatch(
       updateCheckedItems({
@@ -27,7 +28,7 @@ function CheckAllCheckbox({ id, ...restProps }: TableHeadProps) {
       {...restProps}
       onClick={onChangeCheckbox}
       value={isAllChecked}
-      disabled={!isMainGroupSelected}
+      disabled={!isMainGroup}
     />
   );
 }

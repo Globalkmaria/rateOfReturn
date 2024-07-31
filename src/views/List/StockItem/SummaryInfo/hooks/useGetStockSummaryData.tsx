@@ -1,13 +1,13 @@
-import { useSelector } from 'react-redux';
-
-import {
-  selectIsMainGroupSelected,
-  selectSelectedGroupInfo,
-} from '../../../../../features/groups/selectors';
-import { selectStockInfoById } from '../../../../../features/stockList/selectors';
-import { getStockSummaryInfo } from '../../utils';
 import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
 import { fixedAsNumber } from '@/utils/number';
+import useIsMainGroup from '@/views/List/hooks/useIsMainGroup';
+import { MAIN_GROUP_ID } from '@/features/groups/mockData';
+import { selectStockInfoById } from '@/features/stockList/selectors';
+import { selectGroupInfo } from '@/features/groups/selectors';
+import { getStockSummaryInfo } from '../../utils';
 
 export type SummaryData = {
   evaluationProfit: string;
@@ -19,9 +19,10 @@ export type SummaryData = {
 };
 
 export const useGetStockSummaryData = (stockId: string): SummaryData => {
-  const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
+  const { groupId = MAIN_GROUP_ID } = useParams();
+  const isMainGroupSelected = useIsMainGroup();
   const stockInfo = useSelector(selectStockInfoById(stockId));
-  const groupInfo = useSelector(selectSelectedGroupInfo);
+  const groupInfo = useSelector(selectGroupInfo(groupId));
 
   const summaryData = useMemo(
     () =>

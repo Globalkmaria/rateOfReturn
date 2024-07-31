@@ -1,9 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { deleteGroup } from '../../../features/groups/groupsSlice';
+import userGroupsService from '@/service/userGroups/userGroups';
+import { deleteGroup } from '@/features/groups/groupsSlice';
+import { selectIsLoggedIn } from '@/features/user/selectors';
+
 import DeleteWarningModal from '../../../components/DeleteWarningModal';
-import { selectIsLoggedIn } from '../../../features/user/selectors';
-import userGroupsService from '../../../service/userGroups/userGroups';
 
 type Props = {
   onClose: () => void;
@@ -12,6 +14,7 @@ type Props = {
 
 const DeleteGroupWarning = ({ onClose, groupId }: Props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isLogin = useSelector(selectIsLoggedIn);
 
   const onDelete = async () => {
@@ -21,6 +24,7 @@ const DeleteGroupWarning = ({ onClose, groupId }: Props) => {
     }
 
     dispatch(deleteGroup(groupId));
+    navigate('/portfolio');
     onClose();
   };
 

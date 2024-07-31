@@ -1,10 +1,11 @@
 import IconButton from '@/components/IconButton';
 import { TableCell } from '@/components/Table';
 import { removePurchasedItemFromGroup } from '@/features/groups/groupsSlice';
-import { selectSelectedGroupId } from '@/features/groups/selectors';
+import { MAIN_GROUP_ID } from '@/features/groups/mockData';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 import userGroupsService from '@/service/userGroups/userGroups';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface Props {
@@ -13,10 +14,10 @@ interface Props {
   isLock: boolean;
 }
 
-function PurchasedOtherGroupAction({ stockId, purchasedId, isLock }: Props) {
+function PurchasedOtherGroupAction({ stockId, purchasedId }: Props) {
   const dispatch = useDispatch();
+  const { groupId = MAIN_GROUP_ID } = useParams();
 
-  const selectedGroupId = useSelector(selectSelectedGroupId);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const onRemoveItemFromGroup = async () => {
@@ -24,14 +25,14 @@ function PurchasedOtherGroupAction({ stockId, purchasedId, isLock }: Props) {
       const result = await userGroupsService.deletePurchasedItemFromUserGroup({
         stockId,
         purchasedId,
-        groupId: selectedGroupId,
+        groupId,
       });
 
       if (!result.success) return;
     }
     dispatch(
       removePurchasedItemFromGroup({
-        groupId: selectedGroupId,
+        groupId,
         stockId,
         purchasedId,
       }),

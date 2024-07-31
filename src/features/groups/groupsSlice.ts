@@ -63,9 +63,6 @@ export const groupsSlice = createSlice({
       const selectedGroupIndex = state.groups.allIds.indexOf(groupId);
       delete state.groups.byId[groupId];
       state.groups.allIds.splice(selectedGroupIndex, 1);
-
-      if (state.selectedGroupId === groupId)
-        state.selectedGroupId = MAIN_GROUP_ID;
     },
     addPurchasedItemToGroup: (
       state,

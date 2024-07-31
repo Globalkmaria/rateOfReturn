@@ -9,12 +9,12 @@ import { FastOmit } from 'styled-components/dist/types';
 import styled, { IStyledComponent } from 'styled-components';
 import { useSelector } from 'react-redux';
 
-import {
-  selectIsMainGroupSelected,
-  selectSelectedGroupInfo,
-} from '../../../features/groups/selectors';
+import { selectGroupInfo } from '../../../features/groups/selectors';
 import { selectStocks } from '../../../features/stockList/selectors';
 import { CalculateStockSummaryResult, calculateGroupSummary } from './utils';
+import { useParams } from 'react-router-dom';
+import { MAIN_GROUP_ID } from '@/features/groups/mockData';
+import { checkIfMainGroup } from '@/utils/group';
 
 type Contents = {
   key: keyof CalculateStockSummaryResult;
@@ -30,8 +30,10 @@ type Contents = {
 }[];
 
 function GroupSummary() {
-  const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
-  const groupInfo = useSelector(selectSelectedGroupInfo);
+  const { groupId = MAIN_GROUP_ID } = useParams();
+  const isMainGroupSelected = checkIfMainGroup(groupId);
+
+  const groupInfo = useSelector(selectGroupInfo(groupId));
   const stocks = useSelector(selectStocks);
   const summary = calculateGroupSummary({
     stocksData: stocks,
