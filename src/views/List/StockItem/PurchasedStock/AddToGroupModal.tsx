@@ -74,7 +74,7 @@ function AddToGroupModal({
   };
 
   return (
-    <PortalModal onClose={onClose} title={`Add #${purchasedId} to group`}>
+    <PortalModal onClose={onClose} title={`Manage groups for #${purchasedId}`}>
       <StyledModalContainer>
         {groups.allIds.map(id => (
           <Item
@@ -101,7 +101,12 @@ function Item({ groupInfo, isAdded, onRemove, onAdd }: ItemProps) {
     <StyledItem>
       <div>{groupInfo.groupName}</div>
       {isAdded ? (
-        <IconButton width={32} icon='remove' onClick={onRemove} />
+        <IconButton
+          hoverDarker={2}
+          width={32}
+          icon='remove'
+          onClick={onRemove}
+        />
       ) : (
         <IconButton width={32} icon='add' onClick={onAdd} />
       )}

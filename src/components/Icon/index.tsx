@@ -24,7 +24,7 @@ interface IconProps extends IconStyleProps {
 
 function Icon({ size = 's', icon, color, disabled }: IconProps) {
   return (
-    <Container color={color} size={size} disabled={disabled}>
+    <Container className='icon' color={color} size={size} disabled={disabled}>
       {ICONS[icon]}
     </Container>
   );

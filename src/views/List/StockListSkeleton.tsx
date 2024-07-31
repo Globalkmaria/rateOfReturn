@@ -3,16 +3,22 @@ import styled from 'styled-components';
 import ListTableSkeleton from './ListTableSkeleton';
 import GroupButtonSkeleton from './GroupButtons/GroupButtonSkeleton';
 import GroupSummarySkeleton from './GroupSummary/GroupSummarySkeleton';
+import EditCurrentPriceSkeleton from './StockListContent/StockTableMenu/EditCurrentPrice/EditCurrentPriceSkeleton';
+import Search from '@/components/Search';
 
 const StockListSkeleton = () => {
   return (
     <div>
-      <StyledControlBar>
-        <div>
+      <StyledMenuWrapper>
+        <StyledControlBar>
           <GroupButtonSkeleton />
-        </div>
-      </StyledControlBar>
-      <GroupSummarySkeleton />
+          <StyledStockTableMenu>
+            <EditCurrentPriceSkeleton />
+            <Search disabled value={''} height='m' onChange={() => {}} />
+          </StyledStockTableMenu>
+        </StyledControlBar>
+        <GroupSummarySkeleton />
+      </StyledMenuWrapper>
       <ListTableSkeleton />
       <div className='container'></div>
     </div>
@@ -20,6 +26,10 @@ const StockListSkeleton = () => {
 };
 
 export default StockListSkeleton;
+
+const StyledMenuWrapper = styled('div')`
+  padding: 20px 0 20px 0;
+`;
 
 const StyledControlBar = styled('div')`
   display: flex;
@@ -31,7 +41,9 @@ const StyledControlBar = styled('div')`
   }
 `;
 
-const StyledControlBarRight = styled('div')`
+const StyledStockTableMenu = styled('div')`
+  margin-bottom: 1rem;
   display: flex;
-  gap: 10px;
+  justify-content: flex-end;
+  column-gap: 10px;
 `;

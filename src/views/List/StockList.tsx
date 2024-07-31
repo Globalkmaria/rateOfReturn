@@ -1,17 +1,12 @@
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { BaseInput } from '../../components/Input/BaseInput';
-import GroupSummary from './GroupSummary/GroupSummary';
-import AddSampleData from './AddSampleData/AddSampleData';
 import useSaveChangedStocksData from './hooks/useSaveChangedStocksData';
 import useSaveChangedGroupsData from './hooks/useSaveChangedGroupedData';
 import StockListSkeleton from './StockListSkeleton';
 import useSaveChangedSoldsData from './hooks/useSaveChangedSoldData';
-import EditCurrentPrice from './EditCurrentPrice';
-
-const GroupButtons = lazy(() => import('./GroupButtons/GroupButtons'));
-const StockTable = lazy(() => import('./StockTable'));
+import StockListContent from './StockListContent';
 
 const StockList = () => {
   const [firstLoad, setFirstLoad] = useState(true);
@@ -27,17 +22,7 @@ const StockList = () => {
   return (
     <Suspense fallback={<StockListSkeleton />}>
       <StyledStockList>
-        <StyledControlBar>
-          <div>
-            <GroupButtons />
-          </div>
-          <StyledControlBarRight>
-            <AddSampleData />
-            <EditCurrentPrice />
-          </StyledControlBarRight>
-        </StyledControlBar>
-        <GroupSummary />
-        <StockTable />
+        <StockListContent />
         <div className='container'></div>
       </StyledStockList>
     </Suspense>
@@ -56,14 +41,4 @@ const StyledStockList = styled('div')`
       opacity: 1;
     }
   }
-`;
-
-const StyledControlBar = styled('div')`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const StyledControlBarRight = styled('div')`
-  display: flex;
-  gap: 10px;
 `;

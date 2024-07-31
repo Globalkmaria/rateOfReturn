@@ -101,6 +101,8 @@ const devices = {
   mobile: `(max-width: 576px)`,
   tablet: `(max-width: 768px)`,
   laptop: `(max-width: 992px)`,
+  laptopL: `(max-width: 1128px)`,
+  screen: `(max-width: 1640px)`,
 };
 
 export type ColorsTypes = typeof colors;
