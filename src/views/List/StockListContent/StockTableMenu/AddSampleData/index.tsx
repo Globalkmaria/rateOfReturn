@@ -37,7 +37,7 @@ export default memo(AddSampleData);
 const StyledText = styled('span')`
   margin-left: 5px;
 
-  @media ${({ theme }) => theme.devices.mobile} {
+  @media ${({ theme }) => theme.devices.laptop} {
     display: none;
   }
 `;

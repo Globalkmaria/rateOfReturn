@@ -6,9 +6,12 @@ import { selectIsMainGroupSelected } from '@/features/groups/selectors';
 import { selectStockIds } from '@/features/selectors';
 import { selectStocks } from '@/features/stockList/selectors';
 
-const StockTable = lazy(() => import('../StockTable'));
 import StockTableMenu from './StockTableMenu';
 import { filterStockByName } from './helper';
+import GroupSummary from '../GroupSummary/GroupSummary';
+
+const StockTable = lazy(() => import('../StockTable'));
+const GroupButtons = lazy(() => import('../GroupButtons/GroupButtons'));
 
 function StockListContent() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -26,18 +29,32 @@ function StockListContent() {
     setSearchQuery(e.target.value);
 
   return (
-    <StyledStockListContent>
-      {isMainGroupSelected && (
-        <StockTableMenu
-          searchQuery={searchQuery}
-          onSearchQueryChange={onSearchQueryChange}
-        />
-      )}
+    <>
+      <StyledControlBar>
+        <StyledTopMenu>
+          <GroupButtons />
+          {isMainGroupSelected && (
+            <StockTableMenu
+              searchQuery={searchQuery}
+              onSearchQueryChange={onSearchQueryChange}
+            />
+          )}
+        </StyledTopMenu>
+        <GroupSummary />
+      </StyledControlBar>
       <StockTable stockIds={filteredStockIds} />
-    </StyledStockListContent>
+    </>
   );
 }
 
 export default StockListContent;
 
-const StyledStockListContent = styled('div')``;
+const StyledControlBar = styled('div')`
+  padding: 20px 0 20px 0;
+`;
+
+const StyledTopMenu = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+`;

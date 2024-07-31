@@ -1,4 +1,10 @@
-import { DetailedHTMLProps, HTMLAttributes, useCallback, useMemo } from 'react';
+import {
+  DetailedHTMLProps,
+  HTMLAttributes,
+  memo,
+  useCallback,
+  useMemo,
+} from 'react';
 import { FastOmit } from 'styled-components/dist/types';
 import styled, { IStyledComponent } from 'styled-components';
 import { useSelector } from 'react-redux';
@@ -54,13 +60,13 @@ function GroupSummary() {
 
   return (
     <StyledGroupSummary>
-      <StyledWrapper>{firstRow}</StyledWrapper>
-      <StyledWrapper>{secondRow}</StyledWrapper>
+      <StyledGroupRowWrapper>{firstRow}</StyledGroupRowWrapper>
+      <StyledGroupRowWrapper>{secondRow}</StyledGroupRowWrapper>
     </StyledGroupSummary>
   );
 }
 
-export default GroupSummary;
+export default memo(GroupSummary);
 
 const StyledGroupSummary = styled.div`
   display: flex;
@@ -78,8 +84,8 @@ const StyledGroupSummary = styled.div`
 export const StyledContent = styled.div`
   display: flex;
   gap: 8px;
-  margin: 15px 0;
-  padding: 0 15px;
+  margin: 1.2rem 0;
+  padding: 0 1rem;
   min-width: fit-content;
   border-right: 1px solid ${({ theme }) => theme.colors.grey300};
 
@@ -98,7 +104,7 @@ export const StyledContent = styled.div`
   }
 `;
 
-const StyledWrapper = styled.div`
+const StyledGroupRowWrapper = styled.div`
   display: flex;
 
   &:nth-child(2) ${StyledContent}:nth-child(2) {

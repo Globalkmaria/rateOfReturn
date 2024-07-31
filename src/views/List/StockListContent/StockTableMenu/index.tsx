@@ -11,11 +11,9 @@ type Props = {
 function StockTableMenu({ searchQuery, onSearchQueryChange }: Props) {
   return (
     <StyledStockTableMenu>
-      <StyledContent>
-        <AddSampleData />
-        <EditCurrentPrice />
-        <Search value={searchQuery} height='m' onChange={onSearchQueryChange} />
-      </StyledContent>
+      <AddSampleData />
+      <EditCurrentPrice />
+      <Search value={searchQuery} height='m' onChange={onSearchQueryChange} />
     </StyledStockTableMenu>
   );
 }
@@ -24,11 +22,6 @@ export default StockTableMenu;
 
 const StyledStockTableMenu = styled('div')`
   display: flex;
-  padding-bottom: 10px;
   justify-content: flex-end;
-`;
-
-const StyledContent = styled('div')`
-  display: flex;
-  gap: 5px;
+  column-gap: 10px;
 `;

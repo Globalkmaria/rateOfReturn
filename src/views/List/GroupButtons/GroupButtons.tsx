@@ -42,39 +42,37 @@ const GroupButtons = () => {
   };
 
   return (
-    <>
-      <StyledGroupButtons>
-        <Select
-          onChange={onGroupChange}
-          width={140}
-          height={40}
-          initialValue='1'
-          options={options}
-          value={groups.selectedGroupId}
-          title='Choose group to show'
+    <StyledGroupButtons>
+      <Select
+        onChange={onGroupChange}
+        width={140}
+        height={40}
+        initialValue='1'
+        options={options}
+        value={groups.selectedGroupId}
+        title='Choose group to show'
+      />
+      <Buttons>
+        {showAdd && <AddGroupModal onClose={onCloseAdd} />}
+        <IconButton
+          title='Delete group'
+          size='m'
+          onClick={onOpenDelete}
+          disabled={noGroups}
+          icon='folderDelete'
         />
-        <Buttons>
-          {isMainGroupSelected && (
-            <IconButton
-              icon='folderAdd'
-              onClick={onOpenAdd}
-              disabled={!showAddGroup}
-              title='Add new group'
-              size='m'
-            />
-          )}
-          {showAdd && <AddGroupModal onClose={onCloseAdd} />}
+        {isMainGroupSelected && (
           <IconButton
-            title='Delete group'
+            icon='folderAdd'
+            onClick={onOpenAdd}
+            disabled={!showAddGroup}
+            title='Add new group'
             size='m'
-            onClick={onOpenDelete}
-            disabled={noGroups}
-            icon='folderDelete'
           />
-          {showDelete && <DeleteGroupModal onClose={onCloseDelete} />}
-        </Buttons>
-      </StyledGroupButtons>
-    </>
+        )}
+        {showDelete && <DeleteGroupModal onClose={onCloseDelete} />}
+      </Buttons>
+    </StyledGroupButtons>
   );
 };
 
