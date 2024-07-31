@@ -50,7 +50,6 @@ const HEIGHTS: Record<Heights, string> = {
 const StyledSearch = styled('div')<
   Required<Pick<SearchProps, 'height' | 'width'>>
 >`
-  align-self: end;
   display: flex;
   align-items: center;
   width: ${({ width }) => width};
