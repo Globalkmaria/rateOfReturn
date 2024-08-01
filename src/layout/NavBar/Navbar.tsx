@@ -1,17 +1,16 @@
 import { memo } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import AuthBtns from './AuthBtns';
 import Menu from './Menu';
-import { Link } from 'react-router-dom';
+import { RouterElement } from '@/router/router';
 import Setting from './Setting';
 
-export interface NavbarElement {
-  id: number;
-  label: string;
-  path: string;
-  disabled?: boolean;
-}
+export type NavbarElement = Pick<
+  RouterElement,
+  'id' | 'label' | 'path' | 'disabled'
+>;
 
 const Navbar = () => {
   return (
