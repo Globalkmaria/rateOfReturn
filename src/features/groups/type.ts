@@ -10,7 +10,6 @@ export type Groups = Collections<Group>;
 
 export interface GroupsState {
   groups: Groups;
-  selectedGroupId: string;
   nextGroupId: number;
 }
 

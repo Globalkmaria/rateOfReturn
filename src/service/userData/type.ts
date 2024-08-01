@@ -6,6 +6,6 @@ import { StockListState } from '../../features/stockList/type';
 export type UserDataServiceRes = {
   stocks: StockListState;
   checkedItems: CheckedItemsState;
-  groups: Omit<GroupsState, 'selectedGroupId'>;
+  groups: GroupsState;
   solds: SoldsState;
 };

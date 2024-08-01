@@ -23,7 +23,6 @@ export const GROUP_INITIAL_STATE: GroupsState = {
     byId: {},
     allIds: [],
   },
-  selectedGroupId: MAIN_GROUP_ID,
   nextGroupId: 2,
 };
 
@@ -31,18 +30,10 @@ export const groupsSlice = createSlice({
   name: 'groups',
   initialState: GROUP_STATE_SAMPLE,
   reducers: {
-    initGroups: (
-      state,
-      action: PayloadAction<Omit<GroupsState, 'selectedGroupId'>>,
-    ) => {
+    initGroups: (state, action: PayloadAction<GroupsState>) => {
       initGroupsWithData(state, {
-        selectedGroupId: MAIN_GROUP_ID,
         ...action.payload,
       });
-    },
-
-    updateSelectedGroupId: (state, action: PayloadAction<string>) => {
-      state.selectedGroupId = action.payload;
     },
 
     updateMainGroup: (state, action: PayloadAction<UpdateMainGroupPayload>) => {
@@ -132,7 +123,6 @@ export const groupsSlice = createSlice({
     builder.addCase(initUserData, (state, action) => {
       initGroupsWithData(state, {
         ...GROUP_INITIAL_STATE,
-        selectedGroupId: MAIN_GROUP_ID,
         ...action.payload.groups,
       });
     });
@@ -146,7 +136,6 @@ export const groupsSlice = createSlice({
       state.groups.byId[groupInfo.groupId] = groupInfo;
       state.groups.allIds.push(groupInfo.groupId);
 
-      state.selectedGroupId = groupInfo.groupId;
       state.nextGroupId += 1;
     });
     builder.addCase(addStockSampleData, () => GROUP_STATE_SAMPLE);
@@ -177,7 +166,6 @@ export const groupsSlice = createSlice({
 });
 
 export const {
-  updateSelectedGroupId,
   deleteGroup,
   initGroups,
   updateMainGroup,

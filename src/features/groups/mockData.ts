@@ -26,6 +26,5 @@ export const GROUPS_MOCK_DATA_NEXT_GROUP_ID = 4;
 
 export const GROUP_STATE_SAMPLE: GroupsState = {
   groups: GROUPS_MOCK_DATA,
-  selectedGroupId: MAIN_GROUP_ID,
   nextGroupId: GROUPS_MOCK_DATA_NEXT_GROUP_ID,
 };

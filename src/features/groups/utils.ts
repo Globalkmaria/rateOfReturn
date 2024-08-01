@@ -44,6 +44,5 @@ export const deleteStockFromGroup = (group: Group, stockId: string) => {
 
 export const initGroupsWithData = (state: GroupsState, data: GroupsState) => {
   state.groups = data.groups;
-  state.selectedGroupId = data.selectedGroupId;
   state.nextGroupId = data.nextGroupId;
 };
