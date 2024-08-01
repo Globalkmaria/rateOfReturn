@@ -1,23 +1,25 @@
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
+import { MAIN_GROUP_ID } from '@/features/groups/mockData';
+import { selectStockInfoById } from '@/features/stockList/selectors';
+import { selectGroupInfo } from '@/features/groups/selectors';
 import SummaryInfo from './SummaryInfo/SummaryInfo';
 import PurchasedStock from './PurchasedStock/PurchasedStock';
-import {
-  selectIsMainGroupSelected,
-  selectSelectedGroupInfo,
-} from '../../../features/groups/selectors';
-import { selectStockInfoById } from '../../../features/stockList/selectors';
+import useIsMainGroup from '../hooks/useIsMainGroup';
 
 export interface StockItemProps {
   stockId: string;
 }
 
 const StockItem = ({ stockId }: StockItemProps) => {
-  const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
+  const { groupId = MAIN_GROUP_ID } = useParams();
+  const isMainGroup = useIsMainGroup();
+
   const stockInfo = useSelector(selectStockInfoById(stockId));
-  const groupInfo = useSelector(selectSelectedGroupInfo);
-  const purchasedItems = isMainGroupSelected
+  const groupInfo = useSelector(selectGroupInfo(groupId));
+  const purchasedItems = isMainGroup
     ? stockInfo.purchasedItems.allIds
     : groupInfo.stocks.byId[stockId];
 

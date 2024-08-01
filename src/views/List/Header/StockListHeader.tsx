@@ -1,14 +1,13 @@
 import { memo } from 'react';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { TableHeader, TableRow } from '../../../components/Table';
-import { selectIsMainGroupSelected } from '../../../features/groups/selectors';
 import HeaderItem from './HeaderItem';
 import { HEADER_LIST, SUB_GROUP_HEADER_LIST } from './const';
+import useIsMainGroup from '../hooks/useIsMainGroup';
 
 const StockListHeader = () => {
-  const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
+  const isMainGroupSelected = useIsMainGroup();
   const header = isMainGroupSelected ? HEADER_LIST : SUB_GROUP_HEADER_LIST;
   return (
     <StyledHeader>

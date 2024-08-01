@@ -7,7 +7,6 @@ import { EditButton, MoreButton } from '@/components/IconButton';
 import { DropboxItem } from '@/components/Dropbox/DropboxItem';
 import AddToGroupModal from './AddToGroupModal';
 import { DeleteStockModal } from '../DeleteStockModal';
-import { selectIsMainGroupSelected } from '@/features/groups/selectors';
 import userSoldsService from '@/service/userSolds/service';
 import getDateAndTime from '@/utils/getDateAndTime';
 import { NewSold } from '@/repository/userSolds';
@@ -19,6 +18,7 @@ import {
 } from '@/features/solds';
 import { generateSoldItem } from '../SummaryInfo/utils';
 import Icon from '@/components/Icon';
+import useIsMainGroup from '../../hooks/useIsMainGroup';
 
 interface Props {
   stockId: string;
@@ -36,7 +36,7 @@ function PurchasedMainGroupAction({
 }: Props) {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
+  const isMainGroupSelected = useIsMainGroup();
   const { mainInfo, purchasedItem } = useSelector(
     selectPurchasedItemsById(stockId, purchasedId),
   );
