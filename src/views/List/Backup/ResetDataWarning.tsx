@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { resetUserData } from '@/features';
 import WarningModal from '@/components/WarningModal';
@@ -15,6 +16,7 @@ type Props = {
 const ResetDataWarning = ({ onClose }: Props) => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const navigate = useNavigate();
 
   const onReset = async () => {
     if (isLoggedIn) {
@@ -23,6 +25,7 @@ const ResetDataWarning = ({ onClose }: Props) => {
           stocks: {},
           nextStockId: STOCK_INITIAL_STATE.nextStockId,
           nextItemId: STOCK_INITIAL_STATE.nextPurchasedId,
+          tags: [],
         },
         groups: {
           groups: {},
@@ -42,6 +45,7 @@ const ResetDataWarning = ({ onClose }: Props) => {
 
     dispatch(resetUserData());
     onClose();
+    navigate('/portfolio');
   };
 
   return (

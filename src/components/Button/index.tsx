@@ -101,7 +101,7 @@ const BaseButton = styled('button')
 }));
 
 export const BackgroundButton = styled(BaseButton).withConfig({
-  shouldForwardProp: props => !['hoverDarker'].includes(props),
+  shouldForwardProp: props => !['hoverDarker', 'showLine'].includes(props),
 })<BackgroundButtonProps>(({ theme, color = 'primary', hoverDarker = 0 }) => ({
   '&:not([disabled]):hover': {
     background:
@@ -142,7 +142,9 @@ export const BorderWithHoverShadowButton = styled(BaseButton).withConfig({
   },
 }));
 
-export const ContainedButton = styled(BaseButton)<ContainedButtonProps>(
+export const ContainedButton = styled(BaseButton).withConfig({
+  shouldForwardProp: props => !['showLine'].includes(props),
+})<ContainedButtonProps>(
   ({ theme, color = 'primary', mode = 'dark', disabled }) => ({
     background: `${
       disabled

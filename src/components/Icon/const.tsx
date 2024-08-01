@@ -11,6 +11,7 @@ import { BsDatabaseAdd } from 'react-icons/bs';
 import { MdOutlineOutput } from 'react-icons/md';
 import { IoMdAdd } from 'react-icons/io';
 import { IoMdRemove } from 'react-icons/io';
+import { BiError } from 'react-icons/bi';
 
 const ICON_NAMES = [
   'edit',
@@ -30,6 +31,7 @@ const ICON_NAMES = [
   'sold',
   'folder',
   'search',
+  'error',
 ] as const;
 
 export type IconButtonType = (typeof ICON_NAMES)[number];
@@ -54,6 +56,7 @@ export const ICONS: {
   sold: <MdOutlineOutput />,
   folder: <FaRegFolder />,
   search: <IoSearch />,
+  error: <BiError />,
 };
 
 export const ICON_TITLES: { [key in IconButtonType]: string } = {
@@ -74,4 +77,5 @@ export const ICON_TITLES: { [key in IconButtonType]: string } = {
   sold: 'Sold',
   folder: 'Folder',
   search: 'Search',
+  error: 'Error',
 };

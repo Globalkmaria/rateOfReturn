@@ -58,6 +58,14 @@ export const rootRouterData: RouterElement[] = [
     path: '/portfolio',
     label: 'Current',
     element: <List />,
+    children: [
+      {
+        id: 0,
+        path: 'groups/:groupId',
+        element: <List />,
+        label: 'Group Detail',
+      },
+    ],
   },
   {
     id: 4,

@@ -1,24 +1,22 @@
 import { memo } from 'react';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { selectIsMainGroupSelected } from '../../features/groups/selectors';
 import { Table, TableBody } from '../../components/Table';
 import StockItem from './StockItem/StockItem';
 import StockListHeader from './Header/StockListHeader';
 import AddNewStock from './AddNewStock/AddNewStock';
 import { StyledIconButton } from '@/components/IconButton/IconButton';
 import { StyledSummaryRow } from './StockItem/SummaryInfo/SummaryInfo';
+import useIsMainGroup from './hooks/useIsMainGroup';
 
 type Props = {
   stockIds: string[];
 };
 
 function StockTable({ stockIds }: Props) {
-  const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
-  const StyledTable = isMainGroupSelected
-    ? StyledMainStockTable
-    : StyledSubStockTable;
+  const isMainGroup = useIsMainGroup();
+
+  const StyledTable = isMainGroup ? StyledMainStockTable : StyledSubStockTable;
 
   return (
     <StyledTable>
@@ -28,7 +26,7 @@ function StockTable({ stockIds }: Props) {
           {stockIds.map(stockId => (
             <StockItem stockId={stockId} key={stockId} />
           ))}
-          {isMainGroupSelected && <AddNewStock />}
+          {isMainGroup && <AddNewStock />}
         </TableBody>
       </Table>
     </StyledTable>

@@ -7,6 +7,7 @@ import { formatSoldAsServerFormat } from '@/utils/formatSoldsAsServerFormat';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 import { setBackupData } from '@/features';
 import { getInitialCheckedItemsInfo } from '@/features/checkedItems/utils';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   onClose: () => void;
@@ -16,6 +17,7 @@ type Props = {
 const BackupWarningModal = ({ onClose, data }: Props) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const backupData = async () => {
     if (data === null || data === undefined) return;
@@ -64,6 +66,7 @@ const BackupWarningModal = ({ onClose, data }: Props) => {
     );
 
     onClose();
+    navigate('/portfolio');
   };
 
   return (

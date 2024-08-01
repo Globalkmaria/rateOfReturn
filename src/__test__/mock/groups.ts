@@ -21,6 +21,5 @@ export const GROUPS_DATA: Groups = {
 
 export const GROUPS_INFO: GroupsState = {
   groups: GROUPS_DATA,
-  selectedGroupId: '1',
   nextGroupId: 3,
 };

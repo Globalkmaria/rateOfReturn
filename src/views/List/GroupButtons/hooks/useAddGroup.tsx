@@ -9,9 +9,11 @@ import userGroupsService from '../../../../service/userGroups/userGroups';
 import { selectStocks } from '../../../../features/stockList/selectors';
 import { changeCheckInfoToGroupFormat } from '../utils';
 import { addGroup } from '@/features';
+import { useNavigate } from 'react-router-dom';
 
 export function useAddGroup() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const stocks = useSelector(selectStocks);
   const checkedItems = useSelector(selectCheckedPurchasedItems);
   const isLogin = useSelector(selectIsLoggedIn);
@@ -48,8 +50,11 @@ export function useAddGroup() {
       value: true,
     });
 
-    dispatch(addGroup({ groupInfo: newGroupInfo, checkedItems: initCheckedItemsInfo }));
+    dispatch(
+      addGroup({ groupInfo: newGroupInfo, checkedItems: initCheckedItemsInfo }),
+    );
 
+    navigate(`groups/${nextGroupId}`);
     return true;
   };
 

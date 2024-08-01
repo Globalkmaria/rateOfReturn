@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { updateCheckedItems } from '../../../../features/checkedItems/checkedItemsSlice';
 import { selectIsPurchasedItemChecked } from '../../../../features/checkedItems/selectors';
-import { selectIsMainGroupSelected } from '../../../../features/groups/selectors';
 import { selectPurchasedItemsById } from '../../../../features/stockList/selectors';
 import {
   updatePurchaseItem,
@@ -23,7 +22,7 @@ import { checkNoChange } from '../utils';
 import PurchasedMainGroupAction from './PurchasedMainGroupAction';
 import PurchasedOtherGroupAction from './PurchasedOtherGroupAction';
 import { EditUserItemServiceData } from '@/service/userStocks/type';
-import { StyledIconButton } from '@/components/IconButton/IconButton';
+import useIsMainGroup from '../../hooks/useIsMainGroup';
 
 export type SetChangedInputByFieldName = <
   T extends keyof EditUserItemServiceData,
@@ -56,7 +55,7 @@ const PurchasedStock = ({
   const isPurchasedItemChecked = useSelector(
     selectIsPurchasedItemChecked(stockId, purchasedId),
   );
-  const isMainGroupSelected = useSelector(selectIsMainGroupSelected);
+  const isMainGroupSelected = useIsMainGroup();
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const [isLock, setIsLock] = useState(!purchasedItem.needInit);
