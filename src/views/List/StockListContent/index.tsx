@@ -3,7 +3,10 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { selectGroupStockInfo } from '@/features/groups/selectors';
+import {
+  selectGroupStockInfo,
+  selectGroups,
+} from '@/features/groups/selectors';
 import { selectStocks } from '@/features/stockList/selectors';
 import { MAIN_GROUP_ID } from '@/features/groups/mockData';
 
@@ -11,6 +14,7 @@ import StockTableMenu from './StockTableMenu';
 import { filterStockByName } from './helper';
 import GroupSummary from '../GroupSummary/GroupSummary';
 import useIsMainGroup from '../hooks/useIsMainGroup';
+import ListErrorPage from '../ListErrorPage';
 
 const StockTable = lazy(() => import('../StockTable'));
 const GroupButtons = lazy(() => import('../GroupButtons/GroupButtons'));
@@ -19,12 +23,16 @@ function StockListContent() {
   const [searchQuery, setSearchQuery] = useState('');
   const deferredQuery = useDeferredValue(searchQuery);
 
-  // TODO : Show 404 not found page(no id or invalid id)
   const { groupId = MAIN_GROUP_ID } = useParams();
   const isMainGroupSelected = useIsMainGroup();
 
   const stockList = useSelector(selectStocks);
   const stockIds = useSelector(selectGroupStockInfo(groupId)).allIds;
+
+  const groupIds = useSelector(selectGroups).groups.allIds;
+  const isValidGroupId =
+    groupId === MAIN_GROUP_ID || groupIds.includes(groupId);
+  if (!isValidGroupId) return <ListErrorPage />;
 
   const filteredStockIds = isMainGroupSelected
     ? filterStockByName(deferredQuery, stockList)
