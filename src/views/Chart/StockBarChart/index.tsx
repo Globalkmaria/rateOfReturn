@@ -2,34 +2,55 @@ import { Suspense, lazy, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import Select from '@/components/Select';
 import { selectStocks } from '@/features/stockList/selectors';
-import { getStockBarChartInfos, getStockOptions } from './utils';
+import Select from '@/components/Select';
 import { Skeleton } from '@/components/Skeleton';
-import { BorderAnchor } from '@/components/Anchor';
+
+import { getStockBarChartInfos, getStockOptions } from './utils';
 import NoStockMessage from '../NoStockMessage';
 import BarChartTable from './BarChartTable';
+import { useNavigate, useParams } from 'react-router-dom';
+import ChartErrorPage from '../PortfolioAllocation/ChartErrorPage';
 
 const BarChart = lazy(() => import('./BarChart'));
 
 function StockBarChart() {
+  const navigate = useNavigate();
   const stockList = useSelector(selectStocks);
-  const [selectedStock, setSelectedStock] = useState(stockList.allIds[0]);
+  const stockIds = stockList.allIds;
+
+  const firstStockId = stockIds[0];
+  const { stockId = firstStockId } = useParams();
   const stockOptions = getStockOptions(stockList);
 
-  const stock = stockList.byId[selectedStock];
+  const isValidStockId = stockId === firstStockId || stockIds.includes(stockId);
+
+  if (!isValidStockId)
+    return (
+      <ChartErrorPage
+        defaultUrl={'/chart/individual-stock-bar'}
+        title='stock id'
+        id={stockId}
+        buttonName='Go to first stock'
+      />
+    );
+
+  const stock = stockList.byId[stockId];
 
   const stockBarChartInfos = getStockBarChartInfos(stock);
+
+  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    navigate(`stocks/${e.target.value}`);
 
   return (
     <StyledContainer>
       <StyledSelect
-        onChange={e => setSelectedStock(e.target.value)}
+        onChange={onChange}
         width={140}
-        initialValue='1'
+        initialValue={stockId}
         options={stockOptions}
-        value={selectedStock}
-        title='Choose group to show'
+        value={stockId}
+        title='Choose a stock to show'
       />
       <p>
         Each bar represents the rate of return for the individually purchased
