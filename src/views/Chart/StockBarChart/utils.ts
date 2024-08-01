@@ -120,8 +120,9 @@ export type StockBarChartInfo = {
 
 export type StockBarChartInfos = Map<string, StockBarChartInfo>;
 
-export const getStockBarChartInfos = (stock: StockList) => {
+export const getStockBarChartInfos = (stock?: StockList) => {
   const result: StockBarChartInfos = new Map();
+  if (!stock) return result;
 
   const averageReturn = getAverageReturn(stock);
 

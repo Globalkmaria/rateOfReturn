@@ -5,6 +5,8 @@ import { selectStocks } from '../stockList/selectors';
 import { getGroupStockInfo } from './filters';
 
 export const selectGroups = (state: { groups: GroupsState }) => state.groups;
+export const selectGroupsIds = (state: { groups: GroupsState }) =>
+  state.groups.groups.allIds;
 
 export const selectNextGroupId = (state: { groups: GroupsState }) =>
   state.groups.nextGroupId + '';

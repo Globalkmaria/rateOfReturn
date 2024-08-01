@@ -18,33 +18,6 @@ import {
   getBuyTime,
 } from './utils';
 
-export type SoldSortOptions =
-  | ''
-  | 'id asc'
-  | 'id desc'
-  | 'stockName asc'
-  | 'stockName desc'
-  | 'tag asc'
-  | 'tag desc'
-  | 'buyQuantity asc'
-  | 'buyQuantity desc'
-  | 'buyDate asc'
-  | 'buyDate desc'
-  | 'buyUnitPrice asc'
-  | 'buyUnitPrice desc'
-  | 'buyTotalCost asc'
-  | 'buyTotalCost desc'
-  | 'soldDate asc'
-  | 'soldDate desc'
-  | 'soldUnitPrice asc'
-  | 'soldUnitPrice desc'
-  | 'soldTotalValue asc'
-  | 'soldTotalValue desc'
-  | 'return asc'
-  | 'return desc'
-  | 'rateOfReturn asc'
-  | 'rateOfReturn desc';
-
 type SoldHeaderItemsProps =
   | HeaderItemProps
   | (HeaderItemProps & SoldSortTableHeadProps<SoldSortOptions>);
@@ -52,6 +25,36 @@ type SoldHeaderItemsProps =
 export type SortFunction = (
   list: SoldsState['list'],
 ) => SoldsState['list']['allIds'];
+
+export const SORT_OPTIONS = [
+  '',
+  'id asc',
+  'id desc',
+  'stockName asc',
+  'stockName desc',
+  'tag asc',
+  'tag desc',
+  'buyQuantity asc',
+  'buyQuantity desc',
+  'buyDate asc',
+  'buyDate desc',
+  'buyUnitPrice asc',
+  'buyUnitPrice desc',
+  'buyTotalCost asc',
+  'buyTotalCost desc',
+  'soldDate asc',
+  'soldDate desc',
+  'soldUnitPrice asc',
+  'soldUnitPrice desc',
+  'soldTotalValue asc',
+  'soldTotalValue desc',
+  'return asc',
+  'return desc',
+  'rateOfReturn asc',
+  'rateOfReturn desc',
+] as const;
+
+export type SoldSortOptions = (typeof SORT_OPTIONS)[number];
 
 export const SOLD_SORT_OPTIONS_FUNCTIONS: Record<
   SoldSortOptions,

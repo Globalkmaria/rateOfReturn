@@ -33,14 +33,14 @@ function SoldTableContainer() {
 
   return (
     <StyledContainer>
-      <StyledControl>
-        {noItem && (
+      {noItem && (
+        <StyledControl>
           <BorderButton onClick={onClick} size='m'>
             <Icon icon='sampleData' />
             <StyledText>Add sample data</StyledText>
           </BorderButton>
-        )}
-      </StyledControl>
+        </StyledControl>
+      )}
       <Suspense fallback={<SoldTableSkeleton />}>
         <StyledTableContainer>
           <SoldTable />

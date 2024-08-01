@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import {
   selectGroupStockInfo,
-  selectGroups,
+  selectGroupsIds,
 } from '@/features/groups/selectors';
 import { selectStocks } from '@/features/stockList/selectors';
 import { MAIN_GROUP_ID } from '@/features/groups/mockData';
@@ -15,6 +15,7 @@ import { filterStockByName } from './helper';
 import GroupSummary from '../GroupSummary/GroupSummary';
 import useIsMainGroup from '../hooks/useIsMainGroup';
 import ListErrorPage from '../ListErrorPage';
+import { validateGroupId } from '@/utils/group';
 
 const StockTable = lazy(() => import('../StockTable'));
 const GroupButtons = lazy(() => import('../GroupButtons/GroupButtons'));
@@ -29,9 +30,8 @@ function StockListContent() {
   const stockList = useSelector(selectStocks);
   const stockIds = useSelector(selectGroupStockInfo(groupId)).allIds;
 
-  const groupIds = useSelector(selectGroups).groups.allIds;
-  const isValidGroupId =
-    groupId === MAIN_GROUP_ID || groupIds.includes(groupId);
+  const groupIds = useSelector(selectGroupsIds);
+  const isValidGroupId = validateGroupId(groupId, groupIds);
   if (!isValidGroupId) return <ListErrorPage />;
 
   const filteredStockIds = isMainGroupSelected
