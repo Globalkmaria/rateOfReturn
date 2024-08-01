@@ -34,9 +34,9 @@ export const chartRouterData: RouterElement[] = [
     children: [
       {
         id: '0',
-        path: 'tags/:tag',
+        path: 'groups/:groupId',
         element: <TagAllocation />,
-        label: 'Tag Chart',
+        label: 'Group Tag Chart',
       },
     ],
   },
