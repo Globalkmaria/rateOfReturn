@@ -1,36 +1,58 @@
-import { Suspense, lazy, useState } from 'react';
+import { Suspense, lazy } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import Select from '../../../components/Select';
+import Select from '@/components/Select';
 import {
   selectGroupStockInfo,
   selectGroups,
-} from '../../../features/groups/selectors';
+  selectGroupsIds,
+} from '@/features/groups/selectors';
+import { MAIN_GROUP_ID } from '@/features/groups/mockData';
+import { validateGroupId } from '@/utils/group';
 import { getOptions } from '../../List/GroupButtons/utils';
 import Description from './TagAllocationDescription';
 import { DoughnutSkeleton } from '../ChartSkeleton';
 import NoStockMessage from '../NoStockMessage';
 import TagTable from './TagTable';
 import { getTagsInfo } from './utils';
+import ChartErrorPage from '../PortfolioAllocation/ChartErrorPage';
 
 const Chart = lazy(() => import('./TagAllocationChart'));
 
 const TagAllocation = () => {
-  const [groupId, setGroupId] = useState<string>('1');
+  const navigate = useNavigate();
+  const { groupId = MAIN_GROUP_ID } = useParams();
+
   const stockInfo = useSelector(selectGroupStockInfo(groupId));
   const groups = useSelector(selectGroups);
   const options = getOptions(groups);
 
+  const groupIds = useSelector(selectGroupsIds);
+  const isValidGroupId = validateGroupId(groupId, groupIds);
+  if (!isValidGroupId)
+    return (
+      <ChartErrorPage
+        defaultUrl={'/chart/tag-allocation'}
+        title='group id'
+        id={groupId}
+        buttonName='Go to main group'
+      />
+    );
+
   const tagsInfo = getTagsInfo(stockInfo);
   const noData = stockInfo.allIds.length === 0;
+
+  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    navigate(`groups/${e.target.value}`);
 
   return (
     <StyledTagAllocation>
       <StyledSelect
-        onChange={e => setGroupId(e.target.value)}
+        onChange={onChange}
         width={140}
-        initialValue='1'
+        initialValue={groupId}
         options={options}
         value={groupId}
         title='Choose group to show'
