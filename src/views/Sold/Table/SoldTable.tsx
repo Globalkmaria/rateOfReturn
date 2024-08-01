@@ -1,29 +1,32 @@
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useSearchParams } from 'react-router-dom';
 
 import { Table, TableBody } from '@/components/Table';
 import { selectSoldList } from '@/features/solds';
 import SoldTableHeader from './SoldTableHeader';
 import SoldItem from './SoldItem';
 import { SOLD_SORT_OPTIONS_FUNCTIONS, SoldSortOptions } from './const';
+import { validateSoldQuery } from './helper';
 
 interface Props {}
 
 function SoldTable({}: Props) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const sortBy = searchParams.get('sortBy') ?? '';
   const soldList = useSelector(selectSoldList);
-  const [selectedSort, setSelectedSort] = useState<SoldSortOptions>('');
-  const sortedList = SOLD_SORT_OPTIONS_FUNCTIONS[selectedSort](soldList);
 
-  const handleSortChange = (option: SoldSortOptions) => {
-    setSelectedSort(option);
-  };
+  if (!validateSoldQuery(sortBy)) return null;
+
+  const sortedList = SOLD_SORT_OPTIONS_FUNCTIONS[sortBy](soldList);
+  const handleSortChange = (sortBy: SoldSortOptions) =>
+    setSearchParams({ sortBy });
 
   return (
     <StyleSoldTableWrapper>
       <StyledSoldTable>
         <SoldTableHeader
-          currentOption={selectedSort}
+          currentOption={sortBy}
           onChangeSort={handleSortChange}
         />
         <TableBody>
@@ -37,7 +40,6 @@ function SoldTable({}: Props) {
 }
 
 export default SoldTable;
-
 const StyleSoldTableWrapper = styled.div`
   overflow-x: overlay;
 `;
