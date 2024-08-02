@@ -58,7 +58,6 @@ const StyledContainer = styled.div`
 const StyledTable = styled(Table)`
   margin-top: 20px;
   max-width: 1200px;
-  border-collapse: collapse;
   background-color: ${({ theme }) => theme.colors.white};
   text-wrap: nowrap;
 
@@ -72,6 +71,17 @@ const StyledTable = styled(Table)`
       min-width: 100px;
     }
   }
+
+  thead {
+    tr:first-child th:nth-child(n + 1) {
+      border-bottom: none;
+    }
+
+    tr:nth-child(2) th:first-child {
+      border-left: none;
+    }
+  }
+
   tbody tr > :first-child {
     background: ${({ theme }) => theme.colors.grey100};
   }

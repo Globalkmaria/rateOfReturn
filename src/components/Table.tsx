@@ -31,17 +31,31 @@ export const TableHeader = styled('thead')<TableHeaderProps>(({ theme }) => ({
   height: '40px',
   borderTop: `1px solid ${theme.colors.grey400}`,
   borderBottom: `1px solid ${theme.colors.grey400}`,
+
+  '& tr:first-child th:first-child': {
+    borderTopLeftRadius: '5px',
+  },
+
+  '& tr:first-child th:last-child': {
+    borderTopRightRadius: '5px',
+  },
 }));
 
 export const TableBody = styled('tbody')<TableBodyProps>(({ theme }) => ({
   fontSize: '1rem',
+
+  '& tr:last-child td:nth-child(1)': {
+    borderBottomLeftRadius: '5px',
+  },
+
+  '& tr:last-child td:last-child': {
+    borderBottomRightRadius: '5px',
+  },
 }));
 
 export const TableHead = styled('th').withConfig({
   shouldForwardProp: prop => !['fixedWidth', 'minWidth'].includes(prop),
 })<TableHeadProps>(({ theme, fixedWidth, minWidth }) => ({
-  borderTop: `1px solid ${theme.colors.grey400}`,
-  borderBottom: `1px solid ${theme.colors.grey400}`,
   padding: '0.4rem',
   ...(fixedWidth && {
     width: fixedWidth + 'px',
@@ -49,13 +63,12 @@ export const TableHead = styled('th').withConfig({
   }),
   ...(minWidth && { minWidth: minWidth + 'px' }),
   background: theme.colors.grey100,
+  borderTop: `1px solid ${theme.colors.grey400}`,
+  borderRight: `1px solid ${theme.colors.grey400}`,
+  borderBottom: `1px solid ${theme.colors.grey400}`,
 
-  '&:nth-child(n+1)': {
-    borderRight: `1px solid ${theme.colors.grey400}`,
-  },
-
-  '&:last-child': {
-    borderRight: 'none',
+  '&:nth-child(1)': {
+    borderLeft: `1px solid ${theme.colors.grey400}`,
   },
 }));
 
@@ -71,15 +84,13 @@ export const TableCell = styled('td').withConfig({
     minWidth: fixedWidth + 'px',
   }),
 
+  borderRight: `1px solid ${theme.colors.grey400}`,
   borderBottom: `1px solid ${theme.colors.grey400}`,
   ...(minWidth && { minWidth: minWidth + 'px' }),
 
   textAlign: align,
 
-  '&:nth-child(n+1)': {
-    borderRight: `1px solid ${theme.colors.grey400}`,
-  },
-  '&:last-child': {
-    borderRight: 'none',
+  '&:nth-child(1)': {
+    borderLeft: `1px solid ${theme.colors.grey400}`,
   },
 }));

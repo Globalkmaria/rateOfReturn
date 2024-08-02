@@ -10,7 +10,6 @@ import {
 } from '@/features/groups/selectors';
 import { getOptions } from '../../List/GroupButtons/utils';
 import Description from './PortfolioAllocationDescription';
-import { BorderAnchor } from '@/components/Anchor';
 import { DoughnutSkeleton } from '../ChartSkeleton';
 import NoStockMessage from '../NoStockMessage';
 import PortfolioAllocationTable from './PortfolioAllocationTable';
@@ -84,14 +83,4 @@ const StyledPortfolioAllocation = styled('div')`
 
 const StyledSelect = styled(Select)`
   margin-bottom: 10px;
-`;
-
-const StyledNoStock = styled('p')`
-  display: flex;
-  align-items: center;
-  margin: auto;
-
-  ${BorderAnchor} {
-    margin: 0 10px;
-  }
 `;
