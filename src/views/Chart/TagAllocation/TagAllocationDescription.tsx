@@ -31,6 +31,7 @@ const TagAllocationDescription = () => {
 export default TagAllocationDescription;
 
 const StyledContainer = styled('div')`
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;

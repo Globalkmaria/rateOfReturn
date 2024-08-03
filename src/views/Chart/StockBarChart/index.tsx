@@ -1,9 +1,8 @@
-import { Suspense, lazy, useState } from 'react';
+import { Suspense, lazy } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { selectStocks } from '@/features/stockList/selectors';
-import Select from '@/components/Select';
 import { Skeleton } from '@/components/Skeleton';
 
 import { getStockBarChartInfos, getStockOptions } from './utils';
@@ -11,6 +10,7 @@ import NoStockMessage from '../NoStockMessage';
 import BarChartTable from './BarChartTable';
 import { useNavigate, useParams } from 'react-router-dom';
 import ChartErrorPage from '../PortfolioAllocation/ChartErrorPage';
+import RadioSelect from '@/components/RadioSelect';
 
 const BarChart = lazy(() => import('./BarChart'));
 
@@ -39,23 +39,21 @@ function StockBarChart() {
 
   const stockBarChartInfos = getStockBarChartInfos(stock);
 
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    navigate(`stocks/${e.target.value}`);
+  const onClick = (value: string) => navigate(`stocks/${value}`);
 
   return (
     <StyledContainer>
-      <StyledSelect
-        onChange={onChange}
-        width={140}
-        initialValue={stockId}
+      <RadioSelect
+        onClick={onClick}
         options={stockOptions}
         value={stockId}
-        title='Choose a stock to show'
+        title='Switch stocks'
+        size='m'
       />
-      <p>
+      <StyledDescription>
         Each bar represents the rate of return for the individually purchased
         stock.
-      </p>
+      </StyledDescription>
       <StyledSubText>
         Formula: ((current price - buy price) / buy price) * 100
       </StyledSubText>
@@ -83,17 +81,17 @@ const StyledContainer = styled('div')`
   flex-direction: column;
 `;
 
-const StyledSelect = styled(Select)`
-  margin-bottom: 10px;
+const StyledDescription = styled('p')`
+  margin-top: 10px;
+`;
+
+const StyledSubText = styled('p')`
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.grey600};
 `;
 
 const StyledSkeleton = styled(Skeleton)`
   flex: 1;
   margin: 60px 30px;
   border-radius: 10px;
-`;
-
-const StyledSubText = styled('p')`
-  font-size: 14px;
-  color: ${({ theme }) => theme.colors.grey600};
 `;

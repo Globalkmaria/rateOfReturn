@@ -38,8 +38,9 @@ export interface ContainedButtonProps extends BaseButtonProps {
 const FONT_SIZES: Sizes = {
   s: '0.75rem',
   m: '0.9rem',
-  l: '1rem',
+  l: '0.9rem',
 };
+
 const PADDING_SIZES: Sizes = {
   s: '0.625rem',
   m: '0.8rem',

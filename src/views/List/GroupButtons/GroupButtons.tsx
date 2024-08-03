@@ -1,8 +1,7 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Select from '../../../components/Select';
 import { selectGroups } from '../../../features/groups/selectors';
 import { selectCheckedPurchasedItems } from '../../../features/checkedItems/selectors';
 import { getOptions } from './utils';
@@ -14,6 +13,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { MAIN_GROUP_ID } from '@/features/groups/mockData';
 import { updateCheckedItems } from '@/features/checkedItems/checkedItemsSlice';
 import { checkIfMainGroup } from '@/utils/group';
+import RadioSelect from '@/components/RadioSelect';
 
 const GroupButtons = () => {
   const dispatch = useDispatch();
@@ -38,21 +38,19 @@ const GroupButtons = () => {
   const showAddGroup = !!checkedItems.length;
   const noGroups = !groups.groups.allIds.length;
 
-  const onGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const onSelectClick = (value: string) => {
     dispatch(updateCheckedItems({ type: 'all', checked: true }));
-    navigate(`groups/${e.target.value}`);
+    navigate(`groups/${value}`);
   };
 
   return (
     <StyledGroupButtons>
-      <Select
-        onChange={onGroupChange}
-        width={140}
-        height={40}
-        initialValue={groupId}
-        options={options}
+      <RadioSelect
+        size='m'
+        title='Switch groups'
         value={groupId}
-        title='Choose group to show'
+        options={options}
+        onClick={onSelectClick}
       />
       <Buttons>
         {showAdd && <AddGroupModal onClose={onCloseAdd} />}

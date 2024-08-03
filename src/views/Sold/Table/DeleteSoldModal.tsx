@@ -38,7 +38,7 @@ export const StyledDeleteModal = styled('div')`
 
 const StyledMessage = styled('div')`
   padding: 20px 0 40px;
-  font-size: 1.4em;
+  font-size: 1.2em;
   font-weight: 700;
 
   @media ${({ theme }) => theme.devices.tablet} {

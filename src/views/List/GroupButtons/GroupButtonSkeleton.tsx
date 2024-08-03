@@ -1,15 +1,16 @@
 import styled from 'styled-components';
 
-import Select from '../../../components/Select';
 import IconButton from '@/components/IconButton';
+import RadioSelect from '@/components/RadioSelect';
 
 function GroupButtonSkeleton() {
   return (
     <>
       <StyledGroupButtons>
-        <Select
+        <RadioSelect
+          onClick={() => {}}
+          value={'1'}
           width={140}
-          initialValue='1'
           options={[{ value: '1', label: 'Main Group' }]}
           title='Choose group to show'
           disabled

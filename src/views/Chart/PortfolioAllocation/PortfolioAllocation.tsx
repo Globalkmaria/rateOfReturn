@@ -1,8 +1,8 @@
 import { Suspense, lazy } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import Select from '../../../components/Select';
 import {
   selectGroupStockInfo,
   selectGroups,
@@ -10,15 +10,14 @@ import {
 } from '@/features/groups/selectors';
 import { getOptions } from '../../List/GroupButtons/utils';
 import Description from './PortfolioAllocationDescription';
-import { BorderAnchor } from '@/components/Anchor';
 import { DoughnutSkeleton } from '../ChartSkeleton';
 import NoStockMessage from '../NoStockMessage';
 import PortfolioAllocationTable from './PortfolioAllocationTable';
 import { getStockAllocationInfo } from './utils';
-import { useNavigate, useParams } from 'react-router-dom';
 import { MAIN_GROUP_ID } from '@/features/groups/mockData';
 import { validateGroupId } from '@/utils/group';
 import ChartErrorPage from './ChartErrorPage';
+import RadioSelect from '@/components/RadioSelect';
 
 const PortfolioAllocationChart = lazy(
   () => import('./PortfolioAllocationChart'),
@@ -47,19 +46,16 @@ const PortfolioAllocation = () => {
   const noData = stockInfo.allIds.length === 0;
   const stockAllocationInfo = getStockAllocationInfo(stockInfo);
 
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    navigate(`groups/${e.target.value}`);
-  };
+  const onClick = (value: string) => navigate(`groups/${value}`);
 
   return (
     <StyledPortfolioAllocation>
-      <StyledSelect
-        onChange={onChange}
-        width={140}
-        initialValue={groupId}
+      <RadioSelect
+        onClick={onClick}
         options={options}
         value={groupId}
-        title='Choose group to show'
+        size='m'
+        title='Switch groups'
       />
       <Description />
       {noData ? (
@@ -80,18 +76,4 @@ const StyledPortfolioAllocation = styled('div')`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-`;
-
-const StyledSelect = styled(Select)`
-  margin-bottom: 10px;
-`;
-
-const StyledNoStock = styled('p')`
-  display: flex;
-  align-items: center;
-  margin: auto;
-
-  ${BorderAnchor} {
-    margin: 0 10px;
-  }
 `;

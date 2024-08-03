@@ -53,7 +53,6 @@ const StyledContainer = styled.div`
 const StyledTable = styled(Table)`
   margin-top: 20px;
   max-width: 1200px;
-  border-collapse: collapse;
   background-color: ${({ theme }) => theme.colors.white};
   text-wrap: nowrap;
 
