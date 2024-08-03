@@ -61,8 +61,9 @@ const StyledContainer = styled('div')`
 `;
 
 const StyledTitle = styled('h1')`
+  margin-top: 10px;
   margin-bottom: 20px;
-  font-size: 25px;
+  font-size: 1.2rem;
   font-weight: 600;
   text-align: center;
 `;

@@ -7,17 +7,19 @@ export interface DropboxStyleProps {
   width?: number;
 }
 
-interface DropboxProps extends DropboxStyleProps, React.PropsWithChildren {
-  containerRef: React.RefObject<HTMLDivElement>;
+interface DropboxProps<T extends HTMLElement>
+  extends DropboxStyleProps,
+    React.PropsWithChildren {
+  containerRef: React.RefObject<T>;
   onCloseModal: () => void;
 }
 
-function Dropbox({
+function Dropbox<T extends HTMLElement>({
   children,
   containerRef,
   onCloseModal,
   ...props
-}: DropboxProps) {
+}: DropboxProps<T>) {
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if ((e.target as Element).closest('div[role="dialog"]')) return;

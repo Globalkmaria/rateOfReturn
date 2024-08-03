@@ -12,7 +12,12 @@ export type DeleteModalProps = {
   purchasedId: string;
 };
 
-export const DeleteStockModal = ({ onClose, type, stockId, purchasedId }: DeleteModalProps) => {
+export const DeleteStockModal = ({
+  onClose,
+  type,
+  stockId,
+  purchasedId,
+}: DeleteModalProps) => {
   const onDeleteStock = useDeleteStock({ onClose, stockId });
   const onDeletePurchased = useDeletePurchased({
     onClose,
@@ -52,7 +57,7 @@ export const StyledDeleteModal = styled('div')`
 
 const StyledMessage = styled('div')`
   padding: 20px 0 40px;
-  font-size: 1.4em;
+  font-size: 1.2em;
   font-weight: 700;
 
   @media ${({ theme }) => theme.devices.tablet} {

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import Select from '@/components/Select';
 import {
   selectGroupStockInfo,
   selectGroups,
@@ -18,6 +17,7 @@ import NoStockMessage from '../NoStockMessage';
 import TagTable from './TagTable';
 import { getTagsInfo } from './utils';
 import ChartErrorPage from '../PortfolioAllocation/ChartErrorPage';
+import RadioSelect from '@/components/RadioSelect';
 
 const Chart = lazy(() => import('./TagAllocationChart'));
 
@@ -44,17 +44,15 @@ const TagAllocation = () => {
   const tagsInfo = getTagsInfo(stockInfo);
   const noData = stockInfo.allIds.length === 0;
 
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    navigate(`groups/${e.target.value}`);
+  const onClick = (value: string) => navigate(`groups/${value}`);
 
   return (
     <StyledTagAllocation>
-      <StyledSelect
-        onChange={onChange}
-        width={140}
-        initialValue={groupId}
+      <RadioSelect
+        onClick={onClick}
         options={options}
         value={groupId}
+        size='m'
         title='Choose group to show'
       />
       <Description />
@@ -76,8 +74,4 @@ const StyledTagAllocation = styled('div')`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-`;
-
-const StyledSelect = styled(Select)`
-  margin-bottom: 10px;
 `;
