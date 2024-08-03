@@ -41,10 +41,10 @@ export const StyledModalHeader = styled('div').withConfig({
 
 export const StyledModalTitle = styled.h1`
   font-weight: 500;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 
   @media ${({ theme }) => theme.devices.mobile} {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 `;
 
