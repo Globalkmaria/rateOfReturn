@@ -48,10 +48,11 @@ const TagAllocation = () => {
 
   return (
     <StyledTagAllocation>
-      <StyledSelect
+      <RadioSelect
         onClick={onClick}
         options={options}
         value={groupId}
+        size='m'
         title='Choose group to show'
       />
       <Description />
@@ -73,8 +74,4 @@ const StyledTagAllocation = styled('div')`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-`;
-
-const StyledSelect = styled(RadioSelect)`
-  margin-bottom: 10px;
 `;

@@ -43,16 +43,17 @@ function StockBarChart() {
 
   return (
     <StyledContainer>
-      <StyledSelect
+      <RadioSelect
         onClick={onClick}
         options={stockOptions}
         value={stockId}
         title='Switch stocks'
+        size='m'
       />
-      <p>
+      <StyledDescription>
         Each bar represents the rate of return for the individually purchased
         stock.
-      </p>
+      </StyledDescription>
       <StyledSubText>
         Formula: ((current price - buy price) / buy price) * 100
       </StyledSubText>
@@ -80,17 +81,17 @@ const StyledContainer = styled('div')`
   flex-direction: column;
 `;
 
-const StyledSelect = styled(RadioSelect)`
-  margin-bottom: 10px;
+const StyledDescription = styled('p')`
+  margin-top: 10px;
+`;
+
+const StyledSubText = styled('p')`
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.grey600};
 `;
 
 const StyledSkeleton = styled(Skeleton)`
   flex: 1;
   margin: 60px 30px;
   border-radius: 10px;
-`;
-
-const StyledSubText = styled('p')`
-  font-size: 14px;
-  color: ${({ theme }) => theme.colors.grey600};
 `;

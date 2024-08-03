@@ -50,10 +50,11 @@ const PortfolioAllocation = () => {
 
   return (
     <StyledPortfolioAllocation>
-      <StyledSelect
+      <RadioSelect
         onClick={onClick}
         options={options}
         value={groupId}
+        size='m'
         title='Switch groups'
       />
       <Description />
@@ -75,8 +76,4 @@ const StyledPortfolioAllocation = styled('div')`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-`;
-
-const StyledSelect = styled(RadioSelect)`
-  margin-bottom: 10px;
 `;

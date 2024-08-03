@@ -46,6 +46,7 @@ const GroupButtons = () => {
   return (
     <StyledGroupButtons>
       <RadioSelect
+        size='m'
         title='Switch groups'
         value={groupId}
         options={options}
