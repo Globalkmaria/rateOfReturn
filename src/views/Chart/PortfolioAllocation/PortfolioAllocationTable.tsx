@@ -78,7 +78,7 @@ const StyledTable = styled(Table)`
   }
 
   thead {
-    tr:first-child th:nth-child(n + 1) {
+    tr:first-child th:nth-child(n + 2) {
       border-bottom: none;
     }
 
