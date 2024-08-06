@@ -106,6 +106,7 @@ const devices = {
 };
 
 export type ColorsTypes = typeof colors;
+export type ColorsKeys = keyof ColorsTypes;
 export type DevicesTypes = typeof devices;
 
 export const theme: DefaultTheme = {
