@@ -65,7 +65,11 @@ const StyledNoteItem = styled.div`
   border-radius: 13px;
   box-shadow: rgba(50, 50, 50, 0.3) 0px 8px 20px;
   font-size: 0.8rem;
-  width: 300px;
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: translateY(-10px);
+  }
 `;
 
 const StyledHeader = styled(Flex)`
@@ -85,7 +89,6 @@ const StyledText = styled.p`
   margin-bottom: 12px;
   color: ${({ theme }) => theme.colors.grey600};
   line-height: 1.2;
-  height: 50px;
 `;
 
 const StyledDate = styled.span`
