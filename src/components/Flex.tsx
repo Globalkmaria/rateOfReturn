@@ -35,7 +35,7 @@ const Flex = styled.div.withConfig({
     ].includes(prop),
 })<StyledProps>`
   display: flex;
-  gap: ${props => props.gap}px;
+  gap: ${props => props.gap ?? 0}px;
   flex-direction: ${props => props.direction};
   justify-content: ${props => props.justifyContent};
   align-items: ${props => props.alignItems};
