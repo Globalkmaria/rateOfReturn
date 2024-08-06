@@ -11,11 +11,11 @@ import {
   MdOutlineEdit,
   MdArrowDropDown,
 } from 'react-icons/md';
-import { CgClose } from 'react-icons/cg';
+import { CgClose, CgMoreAlt } from 'react-icons/cg';
 import { IoMdAdd, IoMdRemove } from 'react-icons/io';
 import { IoEllipsisVertical, IoSearch } from 'react-icons/io5';
 import { BsDatabaseAdd } from 'react-icons/bs';
-import { MdOutlineOutput } from 'react-icons/md';
+import { MdOutlineOutput, MdOutlineDateRange } from 'react-icons/md';
 import { BiError } from 'react-icons/bi';
 
 const ICON_NAMES = [
@@ -39,6 +39,8 @@ const ICON_NAMES = [
   'error',
   'arrowDown',
   'check',
+  'moreHorizontal',
+  'calendar',
 ] as const;
 
 export type IconButtonType = (typeof ICON_NAMES)[number];
@@ -66,6 +68,8 @@ export const ICONS: {
   error: <BiError />,
   arrowDown: <MdArrowDropDown />,
   check: <FiCheck />,
+  moreHorizontal: <CgMoreAlt />,
+  calendar: <MdOutlineDateRange />,
 };
 
 export const ICON_TITLES: { [key in IconButtonType]: string } = {
@@ -89,4 +93,6 @@ export const ICON_TITLES: { [key in IconButtonType]: string } = {
   error: 'Error',
   arrowDown: 'Open',
   check: 'Check',
+  moreHorizontal: 'More',
+  calendar: 'date',
 };
