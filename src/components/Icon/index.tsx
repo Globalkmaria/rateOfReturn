@@ -18,13 +18,19 @@ interface IconStyleProps {
   disabled?: boolean;
 }
 
-interface IconProps extends IconStyleProps {
+export interface IconProps extends IconStyleProps {
   icon: IconButtonType;
+  className?: string;
 }
 
-function Icon({ size = 's', icon, color, disabled }: IconProps) {
+function Icon({ size = 's', icon, color, disabled, className }: IconProps) {
   return (
-    <Container className='icon' color={color} size={size} disabled={disabled}>
+    <Container
+      className={`icon ${className}`}
+      color={color}
+      size={size}
+      disabled={disabled}
+    >
       {ICONS[icon]}
     </Container>
   );
