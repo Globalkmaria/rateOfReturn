@@ -9,6 +9,7 @@ import { selectStocks } from '@/features/stockList/selectors';
 import { useState } from 'react';
 import { TagOption } from '@/components/Tag2/Tag2Option';
 import SelectSoldId from './SelectSoldId';
+import Textarea from '@/components/Textarea';
 
 interface AddNoteProps {
   onCloseModal: () => void;
@@ -39,7 +40,11 @@ function AddNote({ onCloseModal }: AddNoteProps) {
           <SelectPurchasedId stockId={stockNameOption?.value ?? null} />
           <SelectSoldId />
           <SelectTag />
-          <textarea name='' id='' />
+          <StyledTextarea
+            name='text'
+            rows={5}
+            placeholder='Add your note here...'
+          />
         </StyledForm>
       </StyledAddNote>
     </PortalModal>
@@ -47,6 +52,10 @@ function AddNote({ onCloseModal }: AddNoteProps) {
 }
 
 export default AddNote;
+
+const StyledTextarea = styled(Textarea)`
+  margin-top: 20px;
+`;
 
 const StyledAddNote = styled.div`
   width: 500px;
