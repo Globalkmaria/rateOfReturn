@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import PortalModal from '@/components/Modal/PortalModal';
 import { selectStocks } from '@/features/stockList/selectors';
 import Textarea from '@/components/Textarea';
 import { ContainedButton } from '@/components/Button';
+import { addNewNote } from '@/features/note';
 
 import SelectStockName from './SelectStockName';
 import SelectPurchasedId from './SelectPurchasedId';
@@ -48,6 +49,7 @@ const TITLE_PLACEHOLDER = 'Untitled';
 const TEXTAREA_PLACEHOLDER = 'Add your note here...';
 
 function AddNote({ onCloseModal }: AddNoteProps) {
+  const dispatch = useDispatch();
   const [formState, setFormState] = useState<NoteFormState>(INITIAL_STATE);
   const stocks = useSelector(selectStocks);
   const stockNameOptionList = stocks.allIds.map(id => ({
@@ -71,6 +73,15 @@ function AddNote({ onCloseModal }: AddNoteProps) {
     onChange('text', e.target.value);
 
   const onSubmit = () => {
+    dispatch(
+      addNewNote({
+        ...formState,
+        stockId: formState.stockName?.value,
+        stockName: formState.stockName?.label,
+        title: formState.title ?? 'Untitled',
+      }),
+    );
+
     onCloseModal();
   };
 

@@ -5,21 +5,30 @@ import Flex from '@/components/Flex';
 import Icon, { IconProps } from '@/components/Icon';
 
 import { shortenText } from '@/utils/text';
+import { useSelector } from 'react-redux';
+import { selectNoteItem } from '@/features/note';
+import { checkNullish } from '@/utils/validation';
 
-function NoteItem() {
-  const stockName = 'SPDR S&P 500';
-  const title =
-    'Something about collapses Something about collapses Something about collapses Something about col';
-  const text =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec turpis in velit gravida congue. Vestibulum nec ipsum non mi facilisis rutrum. Vestibulum sit amet neque id';
-  const purchasedId = '12345';
-  const soldId = '67890';
-  const tag = 'tag';
-  const createdAt = '23-06-15';
-  const updatedAt = '23-06-16';
+interface NoteItemProps {
+  id: string;
+}
+
+function NoteItem({ id }: NoteItemProps) {
+  const {
+    title,
+    text,
+    createdAt,
+    updatedAt,
+    purchasedId,
+    soldId,
+    tag,
+    stockName,
+  } = useSelector(selectNoteItem(id));
+
+  // TODO format date
 
   const shortedTitle = shortenText(title, 30);
-  const shortenedText = shortenText(text, 100);
+  const shortenedText = shortenText(text ?? '', 100);
 
   return (
     <StyledNoteItem>
@@ -30,21 +39,28 @@ function NoteItem() {
         </StyledIconButton>
       </StyledHeader>
       <StyledText>{shortenedText}</StyledText>
-
-      <Flex gap={5}>
-        <Chip color='red100'>
-          <ChipText color='red700'>{stockName}</ChipText>
-        </Chip>
-        <Chip color='blue100'>
-          <ChipText color='blue700'>{`#${purchasedId}`}</ChipText>
-        </Chip>
-        <Chip color='indigo100'>
-          <ChipText color='indigo700'>{`#${soldId}`}</ChipText>
-        </Chip>
-        <Chip color='brown100'>
-          <ChipText color='brown700'>{`${tag}`}</ChipText>
-        </Chip>
-      </Flex>
+      <StyledChipContainer gap={5}>
+        {!checkNullish(stockName) && (
+          <Chip color='red100'>
+            <ChipText color='red700'>{stockName}</ChipText>
+          </Chip>
+        )}
+        {!checkNullish(purchasedId) && (
+          <Chip color='blue100'>
+            <ChipText color='blue700'>{`#${purchasedId}`}</ChipText>
+          </Chip>
+        )}
+        {!checkNullish(soldId) && (
+          <Chip color='indigo100'>
+            <ChipText color='indigo700'>{`#${soldId}`}</ChipText>
+          </Chip>
+        )}
+        {!checkNullish(tag) && (
+          <Chip color='brown100'>
+            <ChipText color='brown700'>{`${tag}`}</ChipText>
+          </Chip>
+        )}
+      </StyledChipContainer>
 
       <StyledDateContainer gap={5} justifyContent='space-between'>
         <StyledDate>
@@ -93,16 +109,7 @@ const StyledText = styled.p`
   margin-bottom: 12px;
   color: ${({ theme }) => theme.colors.grey600};
   line-height: 1.2;
-`;
-
-const StyledDate = styled.span`
-  display: flex;
-  gap: 5px;
-  color: ${({ theme }) => theme.colors.grey700};
-`;
-
-const StyledDateContainer = styled(Flex)`
-  margin-top: 12px;
+  height: 48px;
 `;
 
 const StyledIconButton = styled.button.attrs({ type: 'button' })`
@@ -113,6 +120,20 @@ const StyledIconButton = styled.button.attrs({ type: 'button' })`
   &:hover path {
     color: ${({ theme }) => theme.colors.grey900};
   }
+`;
+
+const StyledChipContainer = styled(Flex)`
+  min-height: 25px;
+`;
+
+const StyledDate = styled.span`
+  display: flex;
+  gap: 5px;
+  color: ${({ theme }) => theme.colors.grey700};
+`;
+
+const StyledDateContainer = styled(Flex)`
+  margin-top: 12px;
 `;
 
 const StyledDateIcon = styled(Icon).attrs<Partial<IconProps>>({
