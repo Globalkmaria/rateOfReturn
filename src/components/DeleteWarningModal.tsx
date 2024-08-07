@@ -7,15 +7,17 @@ interface DeleteWarningModalProps {
   message: string;
   onDelete: () => void;
   onClose: () => void;
+  modalId?: string;
 }
 
 const DeleteWarningModal = ({
   onClose,
   onDelete,
   message,
+  modalId,
 }: DeleteWarningModalProps) => {
   return (
-    <PortalModal onClose={onClose}>
+    <PortalModal onClose={onClose} id={modalId}>
       <StyledDeleteWarningModal>
         <StyledMessage>{message}</StyledMessage>
         <ContainedButton size='m' color='warning' onClick={onDelete}>
