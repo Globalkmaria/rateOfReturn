@@ -1,29 +1,41 @@
 import styled from 'styled-components';
 
 import PortalModal from '@/components/Modal/PortalModal';
-import Tag2 from '@/components/Tag2';
-import { TagDropbox2Settings } from '@/components/Tag2/Tag2Dropbox';
-import { TagOption } from '@/components/Tag2/Tag2Option';
-import {
-  selectStockInfoById,
-  selectStockTags,
-  selectStocks,
-} from '@/features/stockList/selectors';
-import { useState } from 'react';
+import { SelectStockName } from './SelectStockName';
+import { SelectPurchasedId } from './SelectPurchasedId';
+import { SelectTag } from './SelectTag';
 import { useSelector } from 'react-redux';
+import { selectStocks } from '@/features/stockList/selectors';
+import { useState } from 'react';
+import { TagOption } from '@/components/Tag2/Tag2Option';
 
 interface AddNoteProps {
   onCloseModal: () => void;
 }
 
 function AddNote({ onCloseModal }: AddNoteProps) {
+  const stocks = useSelector(selectStocks);
+  const stockNameOptionList = stocks.allIds.map(id => ({
+    value: stocks.byId[id].mainInfo.stockId,
+    label: stocks.byId[id].mainInfo.stockName,
+  }));
+  const [stockNameOption, setStockNameOption] = useState<null | TagOption>(
+    null,
+  );
+  const onStockNameSelect = (newOption: TagOption | null) =>
+    setStockNameOption(newOption);
+
   return (
     <PortalModal onClose={onCloseModal}>
       <StyledAddNote>
         <StyledForm action=''>
           <StyledTitle name='title' placeholder='Untitled' />
-          <SelectStockName />
-          <SelectPurchasedId stockId='1' />
+          <SelectStockName
+            stockNameOptionList={stockNameOptionList}
+            stockNameOption={stockNameOption}
+            onStockNameSelect={onStockNameSelect}
+          />
+          <SelectPurchasedId stockId={stockNameOption?.value ?? null} />
           <SelectTag />
           <textarea name='' id='' />
         </StyledForm>
@@ -33,79 +45,6 @@ function AddNote({ onCloseModal }: AddNoteProps) {
 }
 
 export default AddNote;
-
-function SelectStockName() {
-  const stocks = useSelector(selectStocks);
-  const options = stocks.allIds.map(id => ({
-    value: stocks.byId[id].mainInfo.stockId,
-    label: stocks.byId[id].mainInfo.stockName,
-  }));
-  const [option, setOption] = useState<null | TagOption>(null);
-  const onOptionSelect = (newOption: TagOption | null) => setOption(newOption);
-  const dropboxSettings: TagDropbox2Settings<(typeof options)[number]> = {
-    options,
-    onOptionSelect,
-  };
-  return (
-    <StyledField>
-      <StyledName>Stock name</StyledName>
-      <Tag2
-        height={40}
-        selectedOption={option}
-        showCreateNewOption={false}
-        subtitle='Select a stock'
-        dropboxSettings={dropboxSettings}
-      />
-    </StyledField>
-  );
-}
-
-function SelectPurchasedId({ stockId }: { stockId: string }) {
-  const options = useSelector(selectStockInfoById(stockId)).purchasedItems
-    .allIds;
-
-  const [option, setOption] = useState<null | string>(null);
-  const onOptionSelect = (newOption: string | null) => setOption(newOption);
-  const dropboxSettings: TagDropbox2Settings<(typeof options)[number]> = {
-    options,
-    onOptionSelect,
-  };
-  return (
-    <StyledField>
-      <StyledName>Stock id</StyledName>
-      <Tag2
-        height={40}
-        selectedOption={option}
-        dropboxSettings={dropboxSettings}
-        showCreateNewOption={false}
-        subtitle='Select a stock id'
-      />
-    </StyledField>
-  );
-}
-
-function SelectTag() {
-  const options = useSelector(selectStockTags);
-  const [option, setOption] = useState<null | string>(null);
-  const onOptionSelect = (newOption: string | null) => setOption(newOption);
-  const onDeleteOption = (option: string) => {};
-  const dropboxSettings: TagDropbox2Settings<(typeof options)[number]> = {
-    options,
-    onOptionSelect,
-    onDeleteOption,
-    showDeleteItem: true,
-  };
-  return (
-    <StyledField>
-      <StyledName>Tag</StyledName>
-      <Tag2
-        height={40}
-        dropboxSettings={dropboxSettings}
-        selectedOption={option}
-      />
-    </StyledField>
-  );
-}
 
 const StyledAddNote = styled.div`
   width: 500px;
@@ -130,24 +69,4 @@ const StyledTitle = styled.input.attrs({
   &::placeholder {
     color: ${({ theme }) => theme.colors.grey400};
   }
-`;
-
-const StyledField = styled.div`
-  display: flex;
-  align-items: center;
-
-  .radio-select__button {
-    border: none;
-
-    &:hover {
-      border: none;
-    }
-  }
-`;
-
-const StyledName = styled.span`
-  width: 150px;
-  font-size: 1rem;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.grey600};
 `;

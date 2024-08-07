@@ -14,6 +14,7 @@ function NoteItem() {
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec turpis in velit gravida congue. Vestibulum nec ipsum non mi facilisis rutrum. Vestibulum sit amet neque id';
   const purchasedId = '12345';
   const soldId = '67890';
+  const tag = 'tag';
   const createdAt = '23-06-15';
   const updatedAt = '23-06-16';
 
@@ -39,6 +40,9 @@ function NoteItem() {
         </Chip>
         <Chip color='indigo100'>
           <ChipText color='indigo700'>{`#${soldId}`}</ChipText>
+        </Chip>
+        <Chip color='brown100'>
+          <ChipText color='brown700'>{`${tag}`}</ChipText>
         </Chip>
       </Flex>
 
