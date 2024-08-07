@@ -8,6 +8,7 @@ import { shortenText } from '@/utils/text';
 import { useSelector } from 'react-redux';
 import { selectNoteItem } from '@/features/note';
 import { checkNullish } from '@/utils/validation';
+import { formatNoteDate } from './helper';
 
 interface NoteItemProps {
   id: string;
@@ -25,7 +26,8 @@ function NoteItem({ id }: NoteItemProps) {
     stockName,
   } = useSelector(selectNoteItem(id));
 
-  // TODO format date
+  const formattedCreatedAt = formatNoteDate(createdAt);
+  const formattedUpdatedAt = formatNoteDate(updatedAt);
 
   const shortedTitle = shortenText(title, 30);
   const shortenedText = shortenText(text ?? '', 100);
@@ -39,7 +41,7 @@ function NoteItem({ id }: NoteItemProps) {
         </StyledIconButton>
       </StyledHeader>
       <StyledText>{shortenedText}</StyledText>
-      <StyledChipContainer gap={5}>
+      <StyledChipContainer gap={5} flexWrap='wrap'>
         {!checkNullish(stockName) && (
           <Chip color='red100'>
             <ChipText color='red700'>{stockName}</ChipText>
@@ -65,11 +67,11 @@ function NoteItem({ id }: NoteItemProps) {
       <StyledDateContainer gap={5} justifyContent='space-between'>
         <StyledDate>
           <StyledDateIcon />
-          {createdAt}
+          {formattedCreatedAt}
         </StyledDate>
         <StyledDate>
           <StyledDateIcon />
-          {updatedAt}
+          {formattedUpdatedAt}
         </StyledDate>
       </StyledDateContainer>
     </StyledNoteItem>
@@ -107,9 +109,10 @@ const StyledTitle = styled.span`
 
 const StyledText = styled.p`
   margin-bottom: 12px;
+  height: 48px;
   color: ${({ theme }) => theme.colors.grey600};
   line-height: 1.2;
-  height: 48px;
+  word-break: break-word;
 `;
 
 const StyledIconButton = styled.button.attrs({ type: 'button' })`
@@ -123,7 +126,11 @@ const StyledIconButton = styled.button.attrs({ type: 'button' })`
 `;
 
 const StyledChipContainer = styled(Flex)`
-  min-height: 25px;
+  flex: 1;
+
+  ${Chip} {
+    height: 25px;
+  }
 `;
 
 const StyledDate = styled.span`
