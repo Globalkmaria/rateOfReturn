@@ -1,4 +1,3 @@
-import { getFixedLocaleString } from '@/utils';
 import { SoldsState } from './type';
 
 export const SOLD_MOCK_DATA: SoldsState = {

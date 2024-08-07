@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { selectStocks } from '@/features/stockList/selectors';
 import { useState } from 'react';
 import { TagOption } from '@/components/Tag2/Tag2Option';
+import SelectSoldId from './SelectSoldId';
 
 interface AddNoteProps {
   onCloseModal: () => void;
@@ -36,6 +37,7 @@ function AddNote({ onCloseModal }: AddNoteProps) {
             onStockNameSelect={onStockNameSelect}
           />
           <SelectPurchasedId stockId={stockNameOption?.value ?? null} />
+          <SelectSoldId />
           <SelectTag />
           <textarea name='' id='' />
         </StyledForm>
