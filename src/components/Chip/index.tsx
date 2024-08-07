@@ -1,7 +1,7 @@
 import { ColorsKeys } from '@/styles/theme';
 import styled from 'styled-components';
 
-interface ChipProps {
+export interface ChipProps {
   color?: ColorsKeys;
   width?: number;
 }

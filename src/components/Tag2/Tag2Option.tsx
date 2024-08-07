@@ -4,6 +4,7 @@ import useModal from '@/views/List/hooks/useModal';
 import DeleteWarningModal from '../DeleteWarningModal';
 import Icon from '../Icon';
 import { Chip, ChipText } from '../Chip';
+import { ColorsKeys } from '@/styles/theme';
 
 export type TagOption = {
   label: string;
@@ -17,6 +18,8 @@ export interface Tag2OptionProps<T extends Tag2OptionType> {
   option: T;
   width: number;
   showDeleteItem?: boolean;
+  chipColor: ColorsKeys;
+  chipTextColor: ColorsKeys;
 }
 
 function Tag2Option<T extends Tag2OptionType>({
@@ -25,6 +28,8 @@ function Tag2Option<T extends Tag2OptionType>({
   onOptionClick,
   onDeleteOption,
   showDeleteItem = false,
+  chipColor,
+  chipTextColor,
 }: Tag2OptionProps<T>) {
   const { onOpenModal, onCloseModal, showModal } = useModal();
 
@@ -42,13 +47,15 @@ function Tag2Option<T extends Tag2OptionType>({
             onOptionClick(option);
           }}
         >
-          <Chip>
-            <ChipText width={width - 60}>{label}</ChipText>
+          <Chip color={chipColor}>
+            <ChipText color={chipTextColor} width={width - 60}>
+              {label}
+            </ChipText>
           </Chip>
         </StyledOptionButton>
         {showDeleteItem && (
           <StyledDeleteButton onClick={onOpenModal}>
-            <Icon icon='delete' size='xs' color='grey600' />
+            <Icon icon='delete' size='xs' color={chipTextColor} />
           </StyledDeleteButton>
         )}
       </StyledOption>

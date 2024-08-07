@@ -3,8 +3,9 @@ import styled from 'styled-components';
 
 import useModal from '@/views/List/hooks/useModal';
 import TagDropbox, { TagDropbox2Settings } from './Tag2Dropbox';
-import { Chip, ChipText } from '../Chip';
+import { Chip, ChipProps, ChipText } from '../Chip';
 import { Tag2OptionType } from './Tag2Option';
+import { ColorsKeys } from '@/styles/theme';
 
 type Props<T extends Tag2OptionType> = {
   width?: number;
@@ -13,7 +14,8 @@ type Props<T extends Tag2OptionType> = {
   disabled?: boolean;
   dropboxSettings: TagDropbox2Settings<T>;
   showCreateNewOption?: boolean;
-  subtitle?: string;
+  chipColor: ColorsKeys;
+  chipTextColor: ColorsKeys;
 };
 
 function Tag2<T extends Tag2OptionType>({
@@ -22,6 +24,8 @@ function Tag2<T extends Tag2OptionType>({
   selectedOption,
   disabled,
   dropboxSettings,
+  chipColor,
+  chipTextColor,
 }: Props<T>) {
   const label = selectedOption
     ? typeof selectedOption === 'string'
@@ -39,8 +43,10 @@ function Tag2<T extends Tag2OptionType>({
         disabled={disabled}
       >
         {selectedOption ? (
-          <Chip>
-            <ChipText width={width - 20}>{label}</ChipText>
+          <Chip color={chipColor}>
+            <ChipText color={chipTextColor} width={width - 20}>
+              {label}
+            </ChipText>
           </Chip>
         ) : (
           <StyledEmptyText>Empty</StyledEmptyText>
@@ -53,6 +59,8 @@ function Tag2<T extends Tag2OptionType>({
           selectedOption={selectedOption}
           onCloseModal={onCloseModal}
           {...dropboxSettings}
+          chipColor={chipColor}
+          chipTextColor={chipTextColor}
         />
       )}
     </StyledContainer>

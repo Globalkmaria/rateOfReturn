@@ -5,6 +5,7 @@ import { BaseInput } from '../Input/BaseInput';
 import Icon from '../Icon';
 import { Chip, ChipText } from '../Chip';
 import Tag2Option, { Tag2OptionProps, Tag2OptionType } from './Tag2Option';
+import { ColorsKeys } from '@/styles/theme';
 
 export type TagDropbox2Settings<T extends Tag2OptionType> = {
   height?: number;
@@ -13,6 +14,7 @@ export type TagDropbox2Settings<T extends Tag2OptionType> = {
   showCreateNewOption?: boolean;
   subtitle?: string;
   onCreateNewOption?: (option: string) => void;
+  placeholder?: string;
 } & Pick<Tag2OptionProps<T>, 'onDeleteOption' | 'showDeleteItem'>;
 
 type TagDropbox2Props<T extends Tag2OptionType> = {
@@ -21,6 +23,8 @@ type TagDropbox2Props<T extends Tag2OptionType> = {
   width: number;
   tagContainerRef: React.RefObject<HTMLDivElement>;
   ref?: RefObject<HTMLDivElement>;
+  chipColor: ColorsKeys;
+  chipTextColor: ColorsKeys;
 } & TagDropbox2Settings<T>;
 
 function TagDropbox2<T extends Tag2OptionType>({
@@ -36,8 +40,12 @@ function TagDropbox2<T extends Tag2OptionType>({
   ref,
   showDeleteItem,
   showCreateNewOption = true,
-  subtitle = 'Select a tag',
+  subtitle = 'Select an option',
+  placeholder = 'Search for an option...',
+  chipColor,
+  chipTextColor,
 }: TagDropbox2Props<T>) {
+  placeholder = selectedOption ? '' : placeholder;
   const containerRef = ref ?? useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>('');
@@ -57,7 +65,6 @@ function TagDropbox2<T extends Tag2OptionType>({
 
   const showCreateNewOptionButton =
     showCreateNewOption && !isInputValueInOptions && inputValue.length > 0;
-  const placeholder = selectedOption ? '' : 'Select a tag...';
 
   const onInputChange: React.ChangeEventHandler<HTMLInputElement> = e => {
     if (e.target.value.length > 20) {
@@ -121,10 +128,12 @@ function TagDropbox2<T extends Tag2OptionType>({
     <StyledDropbox ref={containerRef} className='tag-modal'>
       <StyledFirstLine wrap={wrap}>
         {selectedOption && (
-          <Chip>
-            <ChipText width={width}>{label}</ChipText>
+          <Chip color={chipColor}>
+            <ChipText color={chipTextColor} width={width}>
+              {label}
+            </ChipText>
             <button type='button' onClick={onDeleteSelectedOption}>
-              <Icon icon='close' size='xs' color='grey600' />
+              <Icon icon='close' size='xs' color={chipTextColor} />
             </button>
           </Chip>
         )}
@@ -148,13 +157,17 @@ function TagDropbox2<T extends Tag2OptionType>({
               onOptionClick={onOptionClick}
               width={width}
               showDeleteItem={showDeleteItem}
+              chipColor={chipColor}
+              chipTextColor={chipTextColor}
             />
           ))}
         {showCreateNewOptionButton && (
           <StyledCreateButton key={inputValue} onClick={onClickNewOption}>
             {`Create `}
-            <Chip>
-              <ChipText width={width - 80}>{inputValue}</ChipText>
+            <Chip color={chipColor}>
+              <ChipText color={chipTextColor} width={width - 80}>
+                {inputValue}
+              </ChipText>
             </Chip>
           </StyledCreateButton>
         )}
