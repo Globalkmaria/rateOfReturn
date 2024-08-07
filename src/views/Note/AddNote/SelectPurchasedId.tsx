@@ -10,7 +10,7 @@ type SelectPurchasedIdProps = {
   stockId: string | null;
 };
 
-export function SelectPurchasedId({ stockId }: SelectPurchasedIdProps) {
+function SelectPurchasedId({ stockId }: SelectPurchasedIdProps) {
   const [option, setOption] = useState<null | string>(null);
   const onOptionSelect = (newOption: string | null) => setOption(newOption);
 
@@ -36,3 +36,5 @@ export function SelectPurchasedId({ stockId }: SelectPurchasedIdProps) {
     </StyledField>
   );
 }
+
+export default SelectPurchasedId;

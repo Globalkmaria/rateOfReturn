@@ -9,7 +9,7 @@ type SelectStockNameProps = {
   onStockNameSelect: (option: TagOption | null) => void;
 };
 
-export function SelectStockName({
+function SelectStockName({
   stockNameOptionList,
   stockNameOption,
   onStockNameSelect,
@@ -36,3 +36,5 @@ export function SelectStockName({
     </StyledField>
   );
 }
+
+export default SelectStockName;

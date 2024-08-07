@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 import PortalModal from '@/components/Modal/PortalModal';
-import { SelectStockName } from './SelectStockName';
-import { SelectPurchasedId } from './SelectPurchasedId';
-import { SelectTag } from './SelectTag';
+import SelectStockName from './SelectStockName';
+import SelectPurchasedId from './SelectPurchasedId';
+import SelectTag from './SelectTag';
 import { useSelector } from 'react-redux';
 import { selectStocks } from '@/features/stockList/selectors';
 import { useState } from 'react';

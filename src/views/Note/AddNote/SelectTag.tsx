@@ -10,7 +10,7 @@ import {
   deleteStockTag,
 } from '@/features/stockList/stockListSlice';
 
-export function SelectTag() {
+function SelectTag() {
   const dispatch = useDispatch();
   const options = useSelector(selectStockTags);
   const [option, setOption] = useState<null | string>(null);
@@ -49,3 +49,5 @@ export function SelectTag() {
     </StyledField>
   );
 }
+
+export default SelectTag;
