@@ -109,7 +109,6 @@ function AddNote({ onCloseModal }: AddNoteProps) {
           <StyledTextarea
             onChange={onTextareaChange}
             value={text}
-            rows={5}
             placeholder={TEXTAREA_PLACEHOLDER}
           />
           <ContainedButton onClick={onSubmit}>Add Note</ContainedButton>
@@ -121,13 +120,19 @@ function AddNote({ onCloseModal }: AddNoteProps) {
 
 export default AddNote;
 
-const StyledTextarea = styled(Textarea)`
-  margin-top: 20px;
-`;
-
 const StyledAddNote = styled.div`
-  width: 500px;
+  width: 700px;
   padding: 20px 60px;
+
+  @media ${({ theme }) => theme.devices.laptop} {
+    padding: 20px 40px;
+    width: 500px;
+  }
+
+  @media ${({ theme }) => theme.devices.tablet} {
+    padding: 20px 20px;
+    width: 300px;
+  }
 `;
 
 const StyledForm = styled.form`
@@ -151,5 +156,18 @@ const StyledTitle = styled.input.attrs({
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.grey400};
+  }
+`;
+
+const StyledTextarea = styled(Textarea)`
+  margin-top: 10px;
+  height: 300px;
+
+  @media ${({ theme }) => theme.devices.laptop} {
+    height: 200px;
+  }
+
+  @media ${({ theme }) => theme.devices.tablet} {
+    height: 100px;
   }
 `;
