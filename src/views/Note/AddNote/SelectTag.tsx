@@ -1,29 +1,37 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Tag2 from '@/components/Tag2';
 import { TagDropbox2Settings } from '@/components/Tag2/Tag2Dropbox';
 import { selectStockTags } from '@/features/stockList/selectors';
-import { StyledField, StyledName } from './components';
 import {
   addStockTag,
   deleteStockTag,
 } from '@/features/stockList/stockListSlice';
 
-function SelectTag() {
+import { StyledField, StyledName } from './components';
+import { NoteFormOnChange } from '.';
+
+interface SelectTagProps {
+  tag: string | null;
+  onChange: NoteFormOnChange;
+}
+
+function SelectTag({ tag, onChange }: SelectTagProps) {
   const dispatch = useDispatch();
   const options = useSelector(selectStockTags);
-  const [option, setOption] = useState<null | string>(null);
 
-  const onOptionSelect = (newOption: string | null) => setOption(newOption);
+  const onOptionSelect = (newOption: string | null) =>
+    onChange('tag', newOption);
+
   const onDeleteOption = (option: string) => {
     dispatch(deleteStockTag(option));
 
-    if (option === option) setOption(null);
+    if (option === option) onOptionSelect(null);
   };
+
   const onCreateNewOption = async (newOption: string) => {
     dispatch(addStockTag(newOption));
-    setOption(newOption);
+    onOptionSelect(newOption);
   };
 
   const dropboxSettings: TagDropbox2Settings<(typeof options)[number]> = {
@@ -44,7 +52,7 @@ function SelectTag() {
         chipTextColor='brown700'
         height={40}
         dropboxSettings={dropboxSettings}
-        selectedOption={option}
+        selectedOption={tag}
       />
     </StyledField>
   );

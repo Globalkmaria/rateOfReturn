@@ -1,26 +1,33 @@
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import Tag2 from '@/components/Tag2';
 import { TagDropbox2Settings } from '@/components/Tag2/Tag2Dropbox';
 import { selectStockPurchasedIds } from '@/features/stockList/selectors';
 import { StyledField, StyledName } from './components';
+import { NoteFormOnChange } from '.';
 
-type SelectPurchasedIdProps = {
+interface SelectPurchasedIdProps {
   stockId: string | null;
-};
+  purchasedId: string | null;
+  onChange: NoteFormOnChange;
+}
 
-function SelectPurchasedId({ stockId }: SelectPurchasedIdProps) {
-  const [option, setOption] = useState<null | string>(null);
-  const onOptionSelect = (newOption: string | null) => setOption(newOption);
-
+function SelectPurchasedId({
+  stockId,
+  purchasedId,
+  onChange,
+}: SelectPurchasedIdProps) {
   const options = useSelector(selectStockPurchasedIds(stockId));
+  const onOptionSelect = (newOption: string | null) =>
+    onChange('purchasedId', newOption);
+
   const dropboxSettings: TagDropbox2Settings<string> = {
     options,
     onOptionSelect,
     subtitle: 'Select a stock id',
     placeholder: 'Search for a stock id...',
     height: 200,
+    showCreateNewOption: false,
   };
   return (
     <StyledField>
@@ -29,7 +36,7 @@ function SelectPurchasedId({ stockId }: SelectPurchasedIdProps) {
         chipColor='blue100'
         chipTextColor='blue700'
         height={40}
-        selectedOption={option}
+        selectedOption={purchasedId}
         dropboxSettings={dropboxSettings}
         showCreateNewOption={false}
       />

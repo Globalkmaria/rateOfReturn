@@ -6,10 +6,10 @@ import Icon from '../Icon';
 import { Chip, ChipText } from '../Chip';
 import { ColorsKeys } from '@/styles/theme';
 
-export type TagOption = {
+export interface TagOption {
   label: string;
   value: string;
-};
+}
 export type Tag2OptionType = string | TagOption;
 
 export interface Tag2OptionProps<T extends Tag2OptionType> {

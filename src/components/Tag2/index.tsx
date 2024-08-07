@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 import useModal from '@/views/List/hooks/useModal';
 import TagDropbox, { TagDropbox2Settings } from './Tag2Dropbox';
-import { Chip, ChipProps, ChipText } from '../Chip';
+import { Chip, ChipText } from '../Chip';
 import { Tag2OptionType } from './Tag2Option';
 import { ColorsKeys } from '@/styles/theme';
 
-type Props<T extends Tag2OptionType> = {
+interface Props<T extends Tag2OptionType> {
   width?: number;
   height?: number;
   selectedOption?: T | null;
@@ -16,7 +16,7 @@ type Props<T extends Tag2OptionType> = {
   showCreateNewOption?: boolean;
   chipColor: ColorsKeys;
   chipTextColor: ColorsKeys;
-};
+}
 
 function Tag2<T extends Tag2OptionType>({
   width = 200,

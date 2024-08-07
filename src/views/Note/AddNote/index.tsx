@@ -1,50 +1,107 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import PortalModal from '@/components/Modal/PortalModal';
+import { selectStocks } from '@/features/stockList/selectors';
+import Textarea from '@/components/Textarea';
+import { ContainedButton } from '@/components/Button';
+
 import SelectStockName from './SelectStockName';
 import SelectPurchasedId from './SelectPurchasedId';
-import SelectTag from './SelectTag';
-import { useSelector } from 'react-redux';
-import { selectStocks } from '@/features/stockList/selectors';
-import { useState } from 'react';
-import { TagOption } from '@/components/Tag2/Tag2Option';
 import SelectSoldId from './SelectSoldId';
-import Textarea from '@/components/Textarea';
+import SelectTag from './SelectTag';
 
 interface AddNoteProps {
   onCloseModal: () => void;
 }
 
+export interface NoteFormState {
+  title: string | null;
+  text: string | null;
+  purchasedId: string | null;
+  soldId: string | null;
+  tag: string | null;
+  stockName: {
+    value: string;
+    label: string;
+  } | null;
+}
+
+export type NoteFormKeys = keyof NoteFormState;
+
+export type NoteFormOnChange = <K extends NoteFormKeys>(
+  fieldName: K,
+  value: NoteFormState[K],
+) => void;
+
+const INITIAL_STATE: NoteFormState = {
+  title: null,
+  text: null,
+  purchasedId: null,
+  soldId: null,
+  tag: null,
+  stockName: null,
+};
+
+const TITLE_PLACEHOLDER = 'Untitled';
+const TEXTAREA_PLACEHOLDER = 'Add your note here...';
+
 function AddNote({ onCloseModal }: AddNoteProps) {
+  const [formState, setFormState] = useState<NoteFormState>(INITIAL_STATE);
   const stocks = useSelector(selectStocks);
   const stockNameOptionList = stocks.allIds.map(id => ({
     value: stocks.byId[id].mainInfo.stockId,
     label: stocks.byId[id].mainInfo.stockName,
   }));
-  const [stockNameOption, setStockNameOption] = useState<null | TagOption>(
-    null,
-  );
-  const onStockNameSelect = (newOption: TagOption | null) =>
-    setStockNameOption(newOption);
+
+  const title = formState.title ?? '';
+  const stockIdForSelectPurchasedId = formState.stockName?.value ?? null;
+  const text = formState.text ?? '';
+
+  const onChange = <K extends NoteFormKeys>(
+    fieldName: K,
+    value: NoteFormState[K],
+  ) => setFormState(prev => ({ ...prev, [fieldName]: value }));
+
+  const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    onChange('title', e.target.value);
+
+  const onTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+    onChange('text', e.target.value);
+
+  const onSubmit = () => {
+    onCloseModal();
+  };
 
   return (
     <PortalModal onClose={onCloseModal}>
       <StyledAddNote>
-        <StyledForm action=''>
-          <StyledTitle name='title' placeholder='Untitled' />
+        <StyledForm>
+          <StyledTitle
+            onChange={onTitleChange}
+            value={title}
+            placeholder={TITLE_PLACEHOLDER}
+          />
           <SelectStockName
             stockNameOptionList={stockNameOptionList}
-            stockNameOption={stockNameOption}
-            onStockNameSelect={onStockNameSelect}
+            stockName={formState.stockName}
+            onChange={onChange}
           />
-          <SelectPurchasedId stockId={stockNameOption?.value ?? null} />
-          <SelectSoldId />
-          <SelectTag />
+          <SelectPurchasedId
+            purchasedId={formState.purchasedId}
+            stockId={stockIdForSelectPurchasedId}
+            onChange={onChange}
+          />
+          <SelectSoldId soldId={formState.soldId} onChange={onChange} />
+          <SelectTag tag={formState.tag} onChange={onChange} />
           <StyledTextarea
-            name='text'
+            onChange={onTextareaChange}
+            value={text}
             rows={5}
-            placeholder='Add your note here...'
+            placeholder={TEXTAREA_PLACEHOLDER}
           />
+          <ContainedButton onClick={onSubmit}>Add Note</ContainedButton>
         </StyledForm>
       </StyledAddNote>
     </PortalModal>
@@ -59,13 +116,17 @@ const StyledTextarea = styled(Textarea)`
 
 const StyledAddNote = styled.div`
   width: 500px;
-  padding: 20px;
+  padding: 20px 60px;
 `;
 
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  ${ContainedButton} {
+    margin-top: 10px;
+  }
 `;
 
 const StyledTitle = styled.input.attrs({
