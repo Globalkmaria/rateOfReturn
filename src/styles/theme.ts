@@ -94,6 +94,17 @@ const colors = {
   red200: '#ffc9c9',
   red100: '#ffe3e3',
   red000: '#fff5f5',
+
+  brown900: '#4e342e',
+  brown800: '#634337',
+  brown700: '#7d5b53',
+  brown600: '#967565',
+  brown500: '#b39b88',
+  brown400: '#d0c0aa',
+  brown300: '#e8d7c9',
+  brown200: '#f5e3e0',
+  brown100: '#f9e9e6',
+  brown000: '#fce5e2',
 };
 
 const devices = {
