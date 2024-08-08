@@ -2,13 +2,14 @@ import styled from 'styled-components';
 
 import { Chip, ChipText } from '@/components/Chip';
 import Flex from '@/components/Flex';
-import Icon, { IconProps } from '@/components/Icon';
+import Icon from '@/components/Icon';
 
 import { shortenText } from '@/utils/text';
 import { useSelector } from 'react-redux';
 import { selectNoteItem } from '@/features/notes';
 import { checkNullish } from '@/utils/validation';
 import { formatNoteDate } from './helper';
+import { StyledDate, StyledDateIcon } from './components';
 
 interface NoteItemProps {
   id: string;
@@ -134,17 +135,6 @@ const StyledChipContainer = styled(Flex)`
   }
 `;
 
-const StyledDate = styled.span`
-  display: flex;
-  gap: 5px;
-  color: ${({ theme }) => theme.colors.grey700};
-`;
-
 const StyledDateContainer = styled(Flex)`
   margin-top: 12px;
 `;
-
-const StyledDateIcon = styled(Icon).attrs<Partial<IconProps>>({
-  icon: 'calendar',
-  color: 'grey700',
-})``;

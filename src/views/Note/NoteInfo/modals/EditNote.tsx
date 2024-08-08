@@ -7,6 +7,10 @@ import PortalModal from '@/components/Modal/PortalModal';
 import { StyledForm, StyledNoteModal } from '../components';
 import NotePopupForm from '../NotePopupForm';
 import { ContainedButton } from '@/components/Button';
+import { formatNoteDate } from '../../NoteList/helper';
+import { StyledDate, StyledDateIcon } from '../../NoteList/components';
+import Flex from '@/components/Flex';
+import styled from 'styled-components';
 
 interface NotePopupProps {
   onCloseModal: () => void;
@@ -24,6 +28,9 @@ function EditNote({ onCloseModal, noteId }: NotePopupProps) {
     ...restProps,
     stockName: stockNameOption,
   });
+
+  const formattedCreatedAt = formatNoteDate(createdAt);
+  const formattedUpdatedAt = formatNoteDate(updatedAt);
 
   const onChange = <K extends NoteFormKeys>(
     fieldName: K,
@@ -50,6 +57,19 @@ function EditNote({ onCloseModal, noteId }: NotePopupProps) {
       <StyledNoteModal>
         <StyledForm>
           <NotePopupForm onChange={onChange} formState={formState} />
+          <StyledDateContainer gap={5} justifyContent='space-between'>
+            <StyledDate alignItems='center'>
+              <StyledDateIcon />
+              <StyledTitle>Created at</StyledTitle>
+              {formattedCreatedAt}
+            </StyledDate>
+
+            <StyledDate alignItems='center'>
+              <StyledDateIcon />
+              <StyledTitle>Last update</StyledTitle>
+              {formattedUpdatedAt}
+            </StyledDate>
+          </StyledDateContainer>
           <ContainedButton onClick={onSubmit}>Update</ContainedButton>
         </StyledForm>
       </StyledNoteModal>
@@ -58,3 +78,12 @@ function EditNote({ onCloseModal, noteId }: NotePopupProps) {
 }
 
 export default EditNote;
+
+const StyledDateContainer = styled(Flex)`
+  font-size: 0.8rem;
+`;
+
+const StyledTitle = styled.span`
+  color: inherit;
+  margin-right: 8px;
+`;
