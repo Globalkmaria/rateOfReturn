@@ -6,26 +6,20 @@ import { ContainedButton } from '@/components/Button';
 import { addNewNote } from '@/features/notes';
 
 import NotePopupForm from '../NotePopupForm';
-import { StyledForm, StyledNotePopup } from '../components';
+import { StyledForm, StyledNoteModal } from '../components';
 import { NoteFormKeys, NoteFormState } from '../type';
+import { INITIAL_NOTE_FORM_STATE } from '../const';
 
 interface NotePopupProps {
   onCloseModal: () => void;
 }
 
-const INITIAL_STATE: NoteFormState = {
-  title: null,
-  text: null,
-  purchasedId: null,
-  soldId: null,
-  tag: null,
-  stockName: null,
-};
-
 function AddNote({ onCloseModal }: NotePopupProps) {
   const dispatch = useDispatch();
 
-  const [formState, setFormState] = useState<NoteFormState>(INITIAL_STATE);
+  const [formState, setFormState] = useState<NoteFormState>(
+    INITIAL_NOTE_FORM_STATE,
+  );
 
   const onChange = <K extends NoteFormKeys>(
     fieldName: K,
@@ -47,12 +41,12 @@ function AddNote({ onCloseModal }: NotePopupProps) {
 
   return (
     <PortalModal onClose={onCloseModal}>
-      <StyledNotePopup>
+      <StyledNoteModal>
         <StyledForm>
           <NotePopupForm onChange={onChange} formState={formState} />
-          <ContainedButton onClick={onSubmit}>Add Note</ContainedButton>
+          <ContainedButton onClick={onSubmit}>Add</ContainedButton>
         </StyledForm>
-      </StyledNotePopup>
+      </StyledNoteModal>
     </PortalModal>
   );
 }

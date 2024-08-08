@@ -84,6 +84,7 @@ const StyledNoteItem = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
+  height: 100%;
   border-radius: 13px;
   box-shadow: rgba(50, 50, 50, 0.3) 0px 8px 20px;
   font-size: 0.8rem;

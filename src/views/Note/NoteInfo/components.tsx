@@ -21,7 +21,7 @@ export const StyledName = styled.span`
   color: ${({ theme }) => theme.colors.grey600};
 `;
 
-export const StyledNotePopup = styled.div`
+export const StyledNoteModal = styled.div`
   width: 700px;
   padding: 20px 60px;
 
