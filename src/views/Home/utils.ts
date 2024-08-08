@@ -30,6 +30,13 @@ const getLocalSold = () => {
   return solds;
 };
 
+const getLocalNotes = () => {
+  const localNotes = localStorage.getItem('notes');
+  const notes = localNotes ? JSON.parse(localNotes) : null;
+
+  return notes;
+};
+
 const STOCK_INIT = {
   stocks: {},
   nextStockId: 1,
@@ -44,6 +51,7 @@ export const getLocalState = () => {
     stocks,
     groups: getLocalGroup() || {},
     solds: getLocalSold() || {},
+    notes: getLocalNotes() || {},
   };
 };
 

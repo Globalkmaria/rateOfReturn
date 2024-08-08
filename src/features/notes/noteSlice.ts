@@ -40,9 +40,14 @@ const noteSlice = createSlice({
       };
       state.collection.byId[id] = updatedNote;
     },
+    initNotes: (state, action: PayloadAction<NotesState>) => {
+      state.collection = action.payload.collection;
+      state.nextId = action.payload.nextId;
+    },
   },
 });
 
-export const { addNewNote, deleteNote, updateNote } = noteSlice.actions;
+export const { addNewNote, deleteNote, updateNote, initNotes } =
+  noteSlice.actions;
 
 export const noteReducer = noteSlice.reducer;
