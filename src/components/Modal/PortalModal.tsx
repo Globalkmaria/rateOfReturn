@@ -18,6 +18,7 @@ type Props = {
   onClose?: () => void;
   showCloseButton?: boolean;
   title?: string;
+  id?: string;
 };
 
 function PortalModal({
@@ -27,6 +28,7 @@ function PortalModal({
   onClose = () => {},
   title = '',
   showCloseButton = true,
+  id,
 }: Props) {
   const modalBackground = useRef<HTMLDivElement>(null);
   const modalContent = useRef<HTMLDivElement>(null);
@@ -53,6 +55,7 @@ function PortalModal({
     <PortalWrapper wrapperId={wrapperId}>
       <StyledModal isOpen={isOpen} onClick={onClick} ref={modalBackground}>
         <StyledModalContent
+          id={id}
           ref={modalContent}
           aria-modal='true'
           role='dialog'
@@ -63,7 +66,6 @@ function PortalModal({
             {showCloseButton && (
               <StyledCloseButton
                 size='s'
-                showLine={false}
                 width={32}
                 onClick={onClose}
                 icon='close'

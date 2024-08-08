@@ -11,6 +11,10 @@ export const selectStockTags = (state: RootState) => state.stockList.tags;
 
 export const selectStockInfoById = (stockId: string) =>
   createSelector([selectStocks], stocks => stocks.byId[stockId]);
+export const selectStockPurchasedIds = (stockId: string | null) =>
+  createSelector([selectStocks], stocks =>
+    stockId === null ? [] : stocks.byId[stockId]?.purchasedItems?.allIds ?? [],
+  );
 export const selectPurchasedItemsById = (
   stockId: string,
   purchasedId: string,

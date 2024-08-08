@@ -21,3 +21,6 @@ export const alertAndReturnValueZod = (
 
   return result.success;
 };
+
+export const checkNullish = (value: any) =>
+  value === null || value === undefined;

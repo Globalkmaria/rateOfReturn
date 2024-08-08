@@ -17,6 +17,7 @@ type RadioSelectProps = Omit<BorderButtonProps, 'onClick'> & {
   value: string;
   onClick: (value: string) => void;
   title?: string;
+  label?: string;
 };
 
 function RadioSelect({
@@ -24,6 +25,7 @@ function RadioSelect({
   value,
   onClick,
   title,
+  label,
   ...restProps
 }: RadioSelectProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,35 +36,38 @@ function RadioSelect({
     onCloseModal();
   };
 
-  const currentLabel = options.find(option => option.value === value)?.label;
+  const currentLabel =
+    label ?? options.find(option => option.value === value)?.label;
   return (
-    <>
-      <StyledDropboxWrapper ref={containerRef}>
-        <StyledButton onClick={onToggleModal} {...restProps}>
-          {currentLabel}
-          <Icon icon='arrowDown' />
-        </StyledButton>
+    <StyledDropboxWrapper ref={containerRef}>
+      <StyledButton
+        className='radio-select__button'
+        onClick={onToggleModal}
+        {...restProps}
+      >
+        {currentLabel}
+        <Icon icon='arrowDown' />
+      </StyledButton>
 
-        {showModal && (
-          <StyledDropboxContainer
-            onCloseModal={onCloseModal}
-            containerRef={containerRef}
-          >
-            {title && <StyledTitle>{title}</StyledTitle>}
-            <StyledOptions>
-              {options.map(option => (
-                <Option
-                  key={option.value}
-                  option={option}
-                  currentValue={value}
-                  onClick={onOptionClick}
-                />
-              ))}
-            </StyledOptions>
-          </StyledDropboxContainer>
-        )}
-      </StyledDropboxWrapper>
-    </>
+      {showModal && (
+        <StyledDropboxContainer
+          onCloseModal={onCloseModal}
+          containerRef={containerRef}
+        >
+          {title && <StyledTitle>{title}</StyledTitle>}
+          <StyledOptions>
+            {options.map(option => (
+              <Option
+                key={option.value}
+                option={option}
+                currentValue={value}
+                onClick={onOptionClick}
+              />
+            ))}
+          </StyledOptions>
+        </StyledDropboxContainer>
+      )}
+    </StyledDropboxWrapper>
   );
 }
 
@@ -85,10 +90,11 @@ function Option({ option, currentValue, onClick }: OptionProps) {
 }
 
 const StyledButton = styled(BorderButton)`
+  border: 1px solid ${({ theme }) => theme.colors.grey400};
+
   .icon {
     margin-left: 5px;
   }
-  border: 1px solid ${({ theme }) => theme.colors.grey400};
 `;
 
 const StyledDropboxWrapper = styled(Dropbox.Wrapper)`

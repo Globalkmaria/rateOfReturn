@@ -7,6 +7,7 @@ import { initCheckedItems } from '../../../features/checkedItems/checkedItemsSli
 import { selectStockList } from '../../../features/stockList/selectors';
 import { getLocalStorageItem } from '../../../utils/getLocalStorage';
 import { initSolds } from '@/features/solds';
+import { initNotes } from '@/features/notes';
 
 export const useInitWithLocalData = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,9 @@ export const useInitWithLocalData = () => {
 
     const localSolds = getLocalStorageItem('solds');
     localSolds && dispatch(initSolds(localSolds));
+
+    const localNotes = getLocalStorageItem('notes');
+    localNotes && dispatch(initNotes(localNotes));
 
     const stocks = localStock?.stocks || stockList.stocks;
     const checkedItemsInfo = getInitialCheckedItemsInfo({
