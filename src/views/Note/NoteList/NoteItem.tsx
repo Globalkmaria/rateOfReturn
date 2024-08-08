@@ -1,12 +1,13 @@
+import { MouseEventHandler } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { Chip, ChipText } from '@/components/Chip';
 import Flex from '@/components/Flex';
-import Icon from '@/components/Icon';
 
 import { shortenText } from '@/utils/text';
-import { useSelector } from 'react-redux';
-import { selectNoteItem } from '@/features/notes';
+import { deleteNote, selectNoteItem } from '@/features/notes';
+import IconButton from '@/components/IconButton';
 import { checkNullish } from '@/utils/validation';
 import { formatNoteDate } from './helper';
 import { StyledDate, StyledDateIcon } from './components';
@@ -16,6 +17,7 @@ interface NoteItemProps {
 }
 
 function NoteItem({ id }: NoteItemProps) {
+  const dispatch = useDispatch();
   const {
     title,
     text,
@@ -33,13 +35,16 @@ function NoteItem({ id }: NoteItemProps) {
   const shortedTitle = shortenText(title, 30);
   const shortenedText = shortenText(text ?? '', 100);
 
+  const onDelete: MouseEventHandler<HTMLButtonElement> = e => {
+    e.stopPropagation();
+    dispatch(deleteNote(id));
+  };
+
   return (
     <StyledNoteItem>
       <StyledHeader justifyContent='space-between' alignItems='center'>
         <StyledTitle>{shortedTitle}</StyledTitle>
-        <StyledIconButton>
-          <Icon icon='moreHorizontal' color='grey500' size='l' />
-        </StyledIconButton>
+        <IconButton icon='delete' onClick={onDelete} />
       </StyledHeader>
       <StyledText>{shortenedText}</StyledText>
       <StyledChipContainer gap={5} flexWrap='wrap'>
@@ -91,8 +96,16 @@ const StyledNoteItem = styled.div`
   font-size: 0.8rem;
   transition: transform 0.3s;
 
+  .icon-button path {
+    color: ${({ theme }) => theme.colors.white};
+  }
+
   &:hover {
     transform: translateY(-10px);
+  }
+
+  &:hover .icon-button path {
+    color: ${({ theme }) => theme.colors.grey900};
   }
 `;
 
@@ -115,16 +128,6 @@ const StyledText = styled.p`
   color: ${({ theme }) => theme.colors.grey600};
   line-height: 1.2;
   word-break: break-word;
-`;
-
-const StyledIconButton = styled.button.attrs({ type: 'button' })`
-  .icon {
-    font-size: 1.6rem;
-  }
-
-  &:hover path {
-    color: ${({ theme }) => theme.colors.grey900};
-  }
 `;
 
 const StyledChipContainer = styled(Flex)`
