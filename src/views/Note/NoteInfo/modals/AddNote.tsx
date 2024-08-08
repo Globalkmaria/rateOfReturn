@@ -8,21 +8,19 @@ import { addNewNote } from '@/features/notes';
 import NotePopupForm from '../NotePopupForm';
 import { StyledForm, StyledNoteModal } from '../components';
 import { NoteFormKeys, NoteFormState } from '../type';
-import { INITIAL_NOTE_FORM_STATE } from '../const';
 import CloseWarningModal from '../CloseWarningModal';
 import { checkAddNoteFormHasChanges } from '../helper';
 
 interface NotePopupProps {
   onCloseModal: () => void;
+  initialFormState: NoteFormState;
 }
 
-function AddNote({ onCloseModal }: NotePopupProps) {
+function AddNote({ onCloseModal, initialFormState }: NotePopupProps) {
   const dispatch = useDispatch();
 
   const [showWarning, setShowWarning] = useState(false);
-  const [formState, setFormState] = useState<NoteFormState>(
-    INITIAL_NOTE_FORM_STATE,
-  );
+  const [formState, setFormState] = useState<NoteFormState>(initialFormState);
 
   const onChange = <K extends NoteFormKeys>(
     fieldName: K,
