@@ -13,16 +13,6 @@ function NoteControlBar() {
   return (
     <>
       <StyledNoteControlBar>
-        <RadioSelect
-          size='s'
-          title='Select order'
-          label='Sort'
-          value={'Sort'}
-          options={[]}
-          onClick={() => {}}
-        >
-          Sort
-        </RadioSelect>
         <BorderButton size='s' onClick={onOpenModal}>
           <Icon icon='add' />
           <span>Add New</span>

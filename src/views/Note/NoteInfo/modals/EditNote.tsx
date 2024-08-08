@@ -57,19 +57,20 @@ function EditNote({ onCloseModal, noteId }: NotePopupProps) {
       <StyledNoteModal>
         <StyledForm>
           <NotePopupForm onChange={onChange} formState={formState} />
+
           <StyledDateContainer gap={5} justifyContent='space-between'>
             <StyledDate alignItems='center'>
               <StyledDateIcon />
               <StyledTitle>Created at</StyledTitle>
               {formattedCreatedAt}
             </StyledDate>
-
             <StyledDate alignItems='center'>
               <StyledDateIcon />
               <StyledTitle>Last update</StyledTitle>
               {formattedUpdatedAt}
             </StyledDate>
           </StyledDateContainer>
+
           <ContainedButton onClick={onSubmit}>Update</ContainedButton>
         </StyledForm>
       </StyledNoteModal>
