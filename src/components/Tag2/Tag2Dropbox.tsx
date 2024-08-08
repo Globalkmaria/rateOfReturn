@@ -27,6 +27,8 @@ type TagDropbox2Props<T extends Tag2OptionType> = {
   chipTextColor: ColorsKeys;
 } & TagDropbox2Settings<T>;
 
+const TAG_MAX_LENGTH = 20;
+
 function TagDropbox2<T extends Tag2OptionType>({
   options,
   selectedOption,
@@ -67,8 +69,11 @@ function TagDropbox2<T extends Tag2OptionType>({
     showCreateNewOption && !isInputValueInOptions && inputValue.length > 0;
 
   const onInputChange: React.ChangeEventHandler<HTMLInputElement> = e => {
-    if (e.target.value.length > 20) {
-      alert('The tag name is too long. The maximum length is 20 characters.');
+    if (e.target.value.length > TAG_MAX_LENGTH) {
+      setInputValue(e.target.value.slice(0, TAG_MAX_LENGTH));
+      alert(
+        `The tag name is too long. The maximum length is ${TAG_MAX_LENGTH} characters.`,
+      );
       return;
     }
     setInputValue(e.target.value);

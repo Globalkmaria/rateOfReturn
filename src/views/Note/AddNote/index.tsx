@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -48,6 +48,8 @@ const INITIAL_STATE: NoteFormState = {
 const TITLE_PLACEHOLDER = 'Untitled';
 const TEXTAREA_PLACEHOLDER = 'Add your note here...';
 
+const TITLE_MAX_LENGTH = 50;
+
 function AddNote({ onCloseModal }: AddNoteProps) {
   const dispatch = useDispatch();
   const [formState, setFormState] = useState<NoteFormState>(INITIAL_STATE);
@@ -66,8 +68,16 @@ function AddNote({ onCloseModal }: AddNoteProps) {
     value: NoteFormState[K],
   ) => setFormState(prev => ({ ...prev, [fieldName]: value }));
 
-  const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > TITLE_MAX_LENGTH) {
+      onChange('title', e.target.value.slice(0, TITLE_MAX_LENGTH));
+      alert(
+        `The title name is too long. The maximum length is ${TITLE_MAX_LENGTH} characters.`,
+      );
+      return;
+    }
     onChange('title', e.target.value);
+  };
 
   const onTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     onChange('text', e.target.value);
