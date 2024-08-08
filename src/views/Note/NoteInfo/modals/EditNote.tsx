@@ -1,16 +1,18 @@
-import { selectNoteItem, updateNote } from '@/features/notes';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NoteFormKeys, NoteFormState } from '../type';
-import { INITIAL_NOTE_FORM_STATE } from '../const';
+import styled from 'styled-components';
+
+import { selectNoteItem, updateNote } from '@/features/notes';
 import PortalModal from '@/components/Modal/PortalModal';
-import { StyledForm, StyledNoteModal } from '../components';
-import NotePopupForm from '../NotePopupForm';
 import { ContainedButton } from '@/components/Button';
+import Flex from '@/components/Flex';
+
+import NotePopupForm from '../NotePopupForm';
+import { INITIAL_NOTE_FORM_STATE } from '../const';
+import { NoteFormKeys, NoteFormState } from '../type';
+import { StyledForm, StyledNoteModal } from '../components';
 import { formatNoteDate } from '../../NoteList/helper';
 import { StyledDate, StyledDateIcon } from '../../NoteList/components';
-import Flex from '@/components/Flex';
-import styled from 'styled-components';
 
 interface NotePopupProps {
   onCloseModal: () => void;
@@ -23,6 +25,7 @@ function EditNote({ onCloseModal, noteId }: NotePopupProps) {
     useSelector(selectNoteItem(noteId));
   const stockNameOption =
     stockName && stockId ? { value: stockId, label: stockName } : null;
+
   const [formState, setFormState] = useState<NoteFormState>({
     ...INITIAL_NOTE_FORM_STATE,
     ...restProps,

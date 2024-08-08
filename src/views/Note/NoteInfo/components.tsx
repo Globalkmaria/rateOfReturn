@@ -1,5 +1,6 @@
-import { ContainedButton } from '@/components/Button';
 import styled from 'styled-components';
+
+import { ContainedButton } from '@/components/Button';
 
 export const StyledField = styled.div`
   display: flex;

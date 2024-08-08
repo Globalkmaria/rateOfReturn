@@ -9,7 +9,7 @@ import {
 } from '@/features/stockList/stockListSlice';
 
 import { StyledField, StyledName } from './components';
-import { NoteFormOnChange } from '.';
+import { NoteFormOnChange } from './type';
 
 interface SelectTagProps {
   tag: string | null;
