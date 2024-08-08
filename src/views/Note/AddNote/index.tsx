@@ -6,7 +6,7 @@ import PortalModal from '@/components/Modal/PortalModal';
 import { selectStocks } from '@/features/stockList/selectors';
 import Textarea from '@/components/Textarea';
 import { ContainedButton } from '@/components/Button';
-import { addNewNote } from '@/features/note';
+import { addNewNote } from '@/features/notes';
 
 import SelectStockName from './SelectStockName';
 import SelectPurchasedId from './SelectPurchasedId';

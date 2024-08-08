@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import NoteItem from './NoteItem';
 import { useSelector } from 'react-redux';
-import { selectNoteIds } from '@/features/note';
+import { selectNoteIds } from '@/features/notes';
 
 function NoteList() {
   const noteIds = useSelector(selectNoteIds);

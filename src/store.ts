@@ -13,7 +13,7 @@ import userSliceReducer, {
 
 import { getInitialCheckedItemsInfo } from './features/checkedItems/utils';
 import { SOLD_INITIAL_STATE, soldReducer } from './features/solds';
-import { NOTE_INITIAL_STATE, noteReducer } from './features/note';
+import { NOTE_INITIAL_STATE, noteReducer } from './features/notes';
 
 const rootReducer = combineReducers({
   stockList: stockListReducer,

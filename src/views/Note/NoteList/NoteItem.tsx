@@ -6,7 +6,7 @@ import Icon, { IconProps } from '@/components/Icon';
 
 import { shortenText } from '@/utils/text';
 import { useSelector } from 'react-redux';
-import { selectNoteItem } from '@/features/note';
+import { selectNoteItem } from '@/features/notes';
 import { checkNullish } from '@/utils/validation';
 import { formatNoteDate } from './helper';
 
