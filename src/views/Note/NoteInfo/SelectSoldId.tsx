@@ -4,6 +4,8 @@ import { selectSoldList } from '@/features/solds';
 
 import Tag2 from '@/components/Tag2';
 import { TagDropbox2Settings } from '@/components/Tag2/Tag2Dropbox';
+import Icon from '@/components/Icon';
+
 import { StyledField, StyledName } from './components';
 import { NoteFormOnChange } from './type';
 
@@ -30,7 +32,10 @@ function SelectSoldId({ soldId, onChange }: SelectSoldIdProps) {
 
   return (
     <StyledField>
-      <StyledName>Sold id</StyledName>
+      <StyledName>
+        <Icon icon='tag1' color='grey600' />
+        Sold id
+      </StyledName>
       <Tag2
         chipColor='indigo100'
         chipTextColor='indigo700'
