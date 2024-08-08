@@ -9,6 +9,8 @@ import NotePopupForm from '../NotePopupForm';
 import { StyledForm, StyledNoteModal } from '../components';
 import { NoteFormKeys, NoteFormState } from '../type';
 import { INITIAL_NOTE_FORM_STATE } from '../const';
+import CloseWarningModal from '../CloseWarningModal';
+import { checkAddNoteFormHasChanges } from '../helper';
 
 interface NotePopupProps {
   onCloseModal: () => void;
@@ -17,6 +19,7 @@ interface NotePopupProps {
 function AddNote({ onCloseModal }: NotePopupProps) {
   const dispatch = useDispatch();
 
+  const [showWarning, setShowWarning] = useState(false);
   const [formState, setFormState] = useState<NoteFormState>(
     INITIAL_NOTE_FORM_STATE,
   );
@@ -39,15 +42,40 @@ function AddNote({ onCloseModal }: NotePopupProps) {
     onCloseModal();
   };
 
+  const onCheckChangeAndCloseModal = () => {
+    const changes = checkAddNoteFormHasChanges(formState);
+    if (changes) {
+      setShowWarning(true);
+      return;
+    }
+
+    onCloseModal();
+  };
+
+  const onCloseWarningModal = () => setShowWarning(false);
+
+  const onCloseMainModal = () => {
+    onCloseModal();
+    onCloseWarningModal();
+  };
+
   return (
-    <PortalModal onClose={onCloseModal}>
-      <StyledNoteModal>
-        <StyledForm>
-          <NotePopupForm onChange={onChange} formState={formState} />
-          <ContainedButton onClick={onSubmit}>Add</ContainedButton>
-        </StyledForm>
-      </StyledNoteModal>
-    </PortalModal>
+    <>
+      <PortalModal onClose={onCheckChangeAndCloseModal}>
+        <StyledNoteModal>
+          <StyledForm>
+            <NotePopupForm onChange={onChange} formState={formState} />
+            <ContainedButton onClick={onSubmit}>Add</ContainedButton>
+          </StyledForm>
+        </StyledNoteModal>
+      </PortalModal>
+      {showWarning && (
+        <CloseWarningModal
+          onCloseMainModal={onCloseMainModal}
+          onContinueWriting={onCloseWarningModal}
+        />
+      )}
+    </>
   );
 }
 
