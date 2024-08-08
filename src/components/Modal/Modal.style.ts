@@ -49,7 +49,6 @@ export const StyledModalTitle = styled.h1`
 `;
 
 export const StyledCloseButton = styled(IconButton)`
-  align-self: flex-end;
   border: none;
 `;
 

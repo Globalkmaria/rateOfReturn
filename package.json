@@ -1,6 +1,6 @@
 {
   "name": "ror",
-  "version": "2.18.1",
+  "version": "2.19.0",
   "private": true,
   "type": "module",
   "dependencies": {
@@ -11,6 +11,7 @@
     "axios-retry": "^3.6.0",
     "chart.js": "4.3.0",
     "chartjs-plugin-datalabels": "2.2.0",
+    "dayjs": "^1.11.12",
     "file-saver": "2.0.5",
     "react": "19.0.0-rc-163365a0-20240717",
     "react-chartjs-2": "5.2.0",

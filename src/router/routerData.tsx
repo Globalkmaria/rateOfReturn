@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 
 import { RouterElement } from './router';
+
 import Home from '../pages/Home';
 import List from '../pages/List';
 import Chart from '../pages/Chart';
@@ -8,6 +9,8 @@ import PortfolioAllocation from '../views/Chart/PortfolioAllocation/PortfolioAll
 import TagAllocation from '../views/Chart/TagAllocation';
 import StockBarChart from '@/views/Chart/StockBarChart';
 import Sold from '@/pages/Sold';
+import Note from '@/pages/Note';
+
 const Login = lazy(() => import('../pages/Login'));
 const Signup = lazy(() => import('../pages/Signup'));
 
@@ -104,5 +107,11 @@ export const rootRouterData: RouterElement[] = [
     path: '/sold',
     label: 'Sold',
     element: <Sold />,
+  },
+  {
+    id: '6',
+    path: '/note',
+    label: 'Note',
+    element: <Note />,
   },
 ];

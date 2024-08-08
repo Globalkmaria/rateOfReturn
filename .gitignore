@@ -11,3 +11,5 @@ keep.ts
 
 /dist/*
 stats.html
+
+.DS_Store

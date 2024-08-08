@@ -10,8 +10,10 @@ import groupsReducerReducer, {
 import userSliceReducer, {
   USER_INITIAL_STATE,
 } from './features/user/userSlice';
+
 import { getInitialCheckedItemsInfo } from './features/checkedItems/utils';
 import { SOLD_INITIAL_STATE, soldReducer } from './features/solds';
+import { NOTE_INITIAL_STATE, noteReducer } from './features/notes';
 
 const rootReducer = combineReducers({
   stockList: stockListReducer,
@@ -19,6 +21,7 @@ const rootReducer = combineReducers({
   groups: groupsReducerReducer,
   user: userSliceReducer,
   solds: soldReducer,
+  notes: noteReducer,
 });
 
 export const store = configureStore({
@@ -28,6 +31,7 @@ export const store = configureStore({
     groups: groupsReducerReducer,
     user: userSliceReducer,
     solds: soldReducer,
+    notes: noteReducer,
   },
 });
 
@@ -47,6 +51,7 @@ export const preloadedStoreState: RootState = {
     value: true,
   }),
   solds: SOLD_INITIAL_STATE,
+  notes: NOTE_INITIAL_STATE,
 };
 
 export type RootState = ReturnType<typeof store.getState>;
