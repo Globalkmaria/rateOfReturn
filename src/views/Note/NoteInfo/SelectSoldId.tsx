@@ -5,7 +5,7 @@ import { selectSoldList } from '@/features/solds';
 import Tag2 from '@/components/Tag2';
 import { TagDropbox2Settings } from '@/components/Tag2/Tag2Dropbox';
 import { StyledField, StyledName } from './components';
-import { NoteFormOnChange } from '.';
+import { NoteFormOnChange } from './type';
 
 interface SelectSoldIdProps {
   soldId: string | null;

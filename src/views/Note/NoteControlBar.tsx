@@ -1,12 +1,11 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
 import { BorderButton } from '@/components/Button';
 import Icon from '@/components/Icon';
 import RadioSelect from '@/components/RadioSelect';
 
-import AddNote from './AddNote';
 import useModal from '../List/hooks/useModal';
+import AddNote from './NoteInfo/modals/AddNote';
 
 function NoteControlBar() {
   const { showModal, onOpenModal, onCloseModal, onToggleModal } = useModal();

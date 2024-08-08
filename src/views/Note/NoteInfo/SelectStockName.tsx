@@ -2,7 +2,7 @@ import Tag2 from '@/components/Tag2';
 import { TagDropbox2Settings } from '@/components/Tag2/Tag2Dropbox';
 import { StyledField, StyledName } from './components';
 import { TagOption } from '@/components/Tag2/Tag2Option';
-import { NoteFormOnChange } from '.';
+import { NoteFormOnChange } from './type';
 
 interface SelectStockNameProps {
   stockNameOptionList: TagOption[];

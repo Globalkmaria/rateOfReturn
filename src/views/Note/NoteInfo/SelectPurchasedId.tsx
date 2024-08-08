@@ -4,7 +4,7 @@ import Tag2 from '@/components/Tag2';
 import { TagDropbox2Settings } from '@/components/Tag2/Tag2Dropbox';
 import { selectStockPurchasedIds } from '@/features/stockList/selectors';
 import { StyledField, StyledName } from './components';
-import { NoteFormOnChange } from '.';
+import { NoteFormOnChange } from './type';
 
 interface SelectPurchasedIdProps {
   stockId: string | null;
