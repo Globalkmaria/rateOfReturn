@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { AddNewNotePayload, NotesState, UpdateNotePayload } from './type';
-import { NOTES_MOCK_DATA } from './mockData';
+import { resetUserData } from '../actions';
 
 export const NOTE_INITIAL_STATE: NotesState = {
   collection: {
@@ -12,7 +12,7 @@ export const NOTE_INITIAL_STATE: NotesState = {
 
 const noteSlice = createSlice({
   name: 'notes',
-  initialState: NOTES_MOCK_DATA,
+  initialState: NOTE_INITIAL_STATE,
   reducers: {
     addNewNote: (state, action: PayloadAction<AddNewNotePayload>) => {
       const newNote = {
@@ -44,6 +44,9 @@ const noteSlice = createSlice({
       state.collection = action.payload.collection;
       state.nextId = action.payload.nextId;
     },
+  },
+  extraReducers(builder) {
+    builder.addCase(resetUserData, () => NOTE_INITIAL_STATE);
   },
 });
 
