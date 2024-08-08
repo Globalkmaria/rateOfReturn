@@ -9,11 +9,9 @@ export const NOTES_MOCK_DATA: NotesState = {
         text: 'This is my first note.',
         createdAt: '31 JAN 24',
         updatedAt: '31 JAN 24',
-        stockId: '1',
-        stockName: 'APPLE',
-        purchasedId: '1',
-        soldId: '1',
-        tag: 'stock',
+        stockId: '2',
+        stockName: 'SPDR S&P 500',
+        purchasedId: '2',
       },
       '2': {
         id: '2',
@@ -21,7 +19,7 @@ export const NOTES_MOCK_DATA: NotesState = {
         text: 'This is my second note.',
         createdAt: '31 JAN 24',
         updatedAt: '31 JAN 24',
-        tag: 'nasdaq',
+        tag: 'stock',
       },
       '3': {
         id: '3',
@@ -29,7 +27,7 @@ export const NOTES_MOCK_DATA: NotesState = {
         text: 'lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         createdAt: '31 JAN 24',
         updatedAt: '31 JAN 24',
-        purchasedId: '2',
+        purchasedId: '4',
       },
       '4': {
         id: '4',
@@ -37,8 +35,8 @@ export const NOTES_MOCK_DATA: NotesState = {
         text: 'This is my fourth note.',
         createdAt: '31 JAN 24',
         updatedAt: '31 JAN 24',
-        stockId: '3',
-        stockName: 'GOOGLE',
+        stockId: '4',
+        stockName: 'TLT',
       },
       '5': {
         id: '5',
