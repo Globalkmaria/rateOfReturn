@@ -9,7 +9,7 @@ import Setting from './Setting';
 
 export type NavbarElement = Pick<
   RouterElement,
-  'id' | 'label' | 'path' | 'disabled'
+  'id' | 'label' | 'path' | 'disabled' | 'icon'
 >;
 
 const Navbar = () => {
