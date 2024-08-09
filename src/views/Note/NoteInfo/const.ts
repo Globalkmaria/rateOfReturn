@@ -1,8 +1,8 @@
 import { NoteFormState } from './type';
 
 export const INITIAL_NOTE_FORM_STATE: NoteFormState = {
-  title: null,
-  text: null,
+  title: '',
+  text: '',
   purchasedId: null,
   soldId: null,
   tag: null,
