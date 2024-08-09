@@ -9,7 +9,7 @@ import NotePopupForm from '../NotePopupForm';
 import { StyledForm, StyledNoteModal } from '../components';
 import { NoteFormKeys, NoteFormState } from '../type';
 import CloseWarningModal from '../CloseWarningModal';
-import { checkAddNoteFormHasChanges } from '../helper';
+import { checkEditNoteFormHasChanges } from '../helper';
 
 interface NotePopupProps {
   onCloseModal: () => void;
@@ -41,7 +41,7 @@ function AddNote({ onCloseModal, initialFormState }: NotePopupProps) {
   };
 
   const onCheckChangeAndCloseModal = () => {
-    const changes = checkAddNoteFormHasChanges(formState);
+    const changes = checkEditNoteFormHasChanges(initialFormState, formState);
     if (changes) {
       setShowWarning(true);
       return;
