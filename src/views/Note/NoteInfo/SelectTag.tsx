@@ -7,6 +7,7 @@ import {
   addStockTag,
   deleteStockTag,
 } from '@/features/stockList/stockListSlice';
+import Icon from '@/components/Icon';
 
 import { StyledField, StyledName } from './components';
 import { NoteFormOnChange } from './type';
@@ -46,7 +47,10 @@ function SelectTag({ tag, onChange }: SelectTagProps) {
   };
   return (
     <StyledField>
-      <StyledName>Tag</StyledName>
+      <StyledName>
+        <Icon icon='tag2' color='grey600' />
+        Tag
+      </StyledName>
       <Tag2
         chipColor='brown100'
         chipTextColor='brown700'

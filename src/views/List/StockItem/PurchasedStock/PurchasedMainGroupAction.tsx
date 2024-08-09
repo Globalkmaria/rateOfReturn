@@ -19,6 +19,9 @@ import {
 import { generateSoldItem } from '../SummaryInfo/utils';
 import Icon from '@/components/Icon';
 import useIsMainGroup from '../../hooks/useIsMainGroup';
+import { NoteFormState } from '@/views/Note/NoteInfo/type';
+import AddNote from '@/views/Note/NoteInfo/modals/AddNote';
+import { INITIAL_NOTE_FORM_STATE } from '@/views/Note/NoteInfo/const';
 
 interface Props {
   stockId: string;
@@ -45,6 +48,16 @@ function PurchasedMainGroupAction({
   const groupModal = useModal();
 
   const moreDropdownDirection = isLastIdx ? 'top' : 'bottom';
+
+  const noteModal = useModal();
+  const addNoteInitialFormState: NoteFormState = {
+    ...INITIAL_NOTE_FORM_STATE,
+    stockName: {
+      value: mainInfo.stockId,
+      label: mainInfo.stockName,
+    },
+    purchasedId: purchasedId,
+  };
 
   const onItemSold = async () => {
     if (isLoggedIn) {
@@ -98,6 +111,13 @@ function PurchasedMainGroupAction({
               <Icon icon='delete' />
               Delete
             </DropboxItem>
+            <DropboxItem
+              onClick={noteModal.onOpenModal}
+              title='Write stock note'
+            >
+              <Icon icon='note' />
+              Write stock note
+            </DropboxItem>
           </MoreButton>
         </StyledButtonGroup>
       </TableCell>
@@ -114,6 +134,12 @@ function PurchasedMainGroupAction({
           stockId={stockId}
           purchasedId={purchasedId}
           onClose={deleteModal.onCloseModal}
+        />
+      )}
+      {noteModal.showModal && (
+        <AddNote
+          initialFormState={addNoteInitialFormState}
+          onCloseModal={noteModal.onCloseModal}
         />
       )}
     </>

@@ -5,6 +5,7 @@ import Icon from '@/components/Icon';
 
 import useModal from '../List/hooks/useModal';
 import AddNote from './NoteInfo/modals/AddNote';
+import { INITIAL_NOTE_FORM_STATE } from './NoteInfo/const';
 
 function NoteControlBar() {
   const { showModal, onOpenModal, onCloseModal } = useModal();
@@ -17,7 +18,12 @@ function NoteControlBar() {
           <span>Add New</span>
         </BorderButton>
       </StyledNoteControlBar>
-      {showModal && <AddNote onCloseModal={onCloseModal} />}
+      {showModal && (
+        <AddNote
+          initialFormState={INITIAL_NOTE_FORM_STATE}
+          onCloseModal={onCloseModal}
+        />
+      )}
     </>
   );
 }

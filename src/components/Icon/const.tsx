@@ -1,4 +1,11 @@
-import { FaLock, FaLockOpen, FaRegSave, FaRegFolder } from 'react-icons/fa';
+import {
+  FaLock,
+  FaLockOpen,
+  FaRegSave,
+  FaRegFolder,
+  FaHashtag,
+  FaRegStickyNote,
+} from 'react-icons/fa';
 import {
   FiFolderPlus,
   FiFolderMinus,
@@ -13,8 +20,12 @@ import {
 } from 'react-icons/md';
 import { CgClose, CgMoreAlt } from 'react-icons/cg';
 import { IoMdAdd, IoMdRemove } from 'react-icons/io';
-import { IoEllipsisVertical, IoSearch } from 'react-icons/io5';
-import { BsDatabaseAdd } from 'react-icons/bs';
+import {
+  IoEllipsisVertical,
+  IoSearch,
+  IoPricetagOutline,
+} from 'react-icons/io5';
+import { BsDatabaseAdd, BsAlphabet } from 'react-icons/bs';
 import { MdOutlineOutput, MdOutlineDateRange } from 'react-icons/md';
 import { BiError } from 'react-icons/bi';
 
@@ -41,6 +52,10 @@ const ICON_NAMES = [
   'check',
   'moreHorizontal',
   'calendar',
+  'tag1',
+  'tag2',
+  'abc',
+  'note',
 ] as const;
 
 export type IconButtonType = (typeof ICON_NAMES)[number];
@@ -70,6 +85,10 @@ export const ICONS: {
   check: <FiCheck />,
   moreHorizontal: <CgMoreAlt />,
   calendar: <MdOutlineDateRange />,
+  tag1: <FaHashtag />,
+  tag2: <IoPricetagOutline />,
+  abc: <BsAlphabet />,
+  note: <FaRegStickyNote />,
 };
 
 export const ICON_TITLES: { [key in IconButtonType]: string } = {
@@ -94,5 +113,9 @@ export const ICON_TITLES: { [key in IconButtonType]: string } = {
   arrowDown: 'Open',
   check: 'Check',
   moreHorizontal: 'More',
-  calendar: 'date',
+  calendar: 'Date',
+  tag1: 'Tag',
+  tag2: 'Tag',
+  abc: 'ABC',
+  note: 'Note',
 };

@@ -13,6 +13,8 @@ import { NoteFormKeys, NoteFormState } from '../type';
 import { StyledForm, StyledNoteModal } from '../components';
 import { formatNoteDate } from '../../NoteList/helper';
 import { StyledDate, StyledDateIcon } from '../../NoteList/components';
+import CloseWarningModal from '../CloseWarningModal';
+import { checkEditNoteFormHasChanges } from '../helper';
 
 interface NotePopupProps {
   onCloseModal: () => void;
@@ -21,16 +23,19 @@ interface NotePopupProps {
 
 function EditNote({ onCloseModal, noteId }: NotePopupProps) {
   const dispatch = useDispatch();
+  const [showWarning, setShowWarning] = useState(false);
   const { id, createdAt, updatedAt, stockName, stockId, ...restProps } =
     useSelector(selectNoteItem(noteId));
+
   const stockNameOption =
     stockName && stockId ? { value: stockId, label: stockName } : null;
 
-  const [formState, setFormState] = useState<NoteFormState>({
+  const formInitialState: NoteFormState = {
     ...INITIAL_NOTE_FORM_STATE,
     ...restProps,
     stockName: stockNameOption,
-  });
+  };
+  const [formState, setFormState] = useState<NoteFormState>(formInitialState);
 
   const formattedCreatedAt = formatNoteDate(createdAt);
   const formattedUpdatedAt = formatNoteDate(updatedAt);
@@ -55,29 +60,55 @@ function EditNote({ onCloseModal, noteId }: NotePopupProps) {
 
     onCloseModal();
   };
+
+  const onCheckChangeAndCloseModal = () => {
+    const changes = checkEditNoteFormHasChanges(formInitialState, formState);
+
+    if (changes) {
+      setShowWarning(true);
+      return;
+    }
+
+    onCloseModal();
+  };
+
+  const onCloseWarningModal = () => setShowWarning(false);
+
+  const onCloseMainModal = () => {
+    onCloseModal();
+    onCloseWarningModal();
+  };
   return (
-    <PortalModal onClose={onCloseModal}>
-      <StyledNoteModal>
-        <StyledForm>
-          <NotePopupForm onChange={onChange} formState={formState} />
+    <>
+      <PortalModal onClose={onCheckChangeAndCloseModal}>
+        <StyledNoteModal>
+          <StyledForm>
+            <NotePopupForm onChange={onChange} formState={formState} />
 
-          <StyledDateContainer gap={5} justifyContent='space-between'>
-            <StyledDate alignItems='center'>
-              <StyledDateIcon />
-              <StyledTitle>Created at</StyledTitle>
-              {formattedCreatedAt}
-            </StyledDate>
-            <StyledDate alignItems='center'>
-              <StyledDateIcon />
-              <StyledTitle>Last update</StyledTitle>
-              {formattedUpdatedAt}
-            </StyledDate>
-          </StyledDateContainer>
+            <StyledDateContainer gap={5} justifyContent='space-between'>
+              <StyledDate alignItems='center'>
+                <StyledDateIcon />
+                <StyledTitle>Created at</StyledTitle>
+                {formattedCreatedAt}
+              </StyledDate>
+              <StyledDate alignItems='center'>
+                <StyledDateIcon />
+                <StyledTitle>Last update</StyledTitle>
+                {formattedUpdatedAt}
+              </StyledDate>
+            </StyledDateContainer>
 
-          <ContainedButton onClick={onSubmit}>Update</ContainedButton>
-        </StyledForm>
-      </StyledNoteModal>
-    </PortalModal>
+            <ContainedButton onClick={onSubmit}>Update</ContainedButton>
+          </StyledForm>
+        </StyledNoteModal>
+      </PortalModal>
+      {showWarning && (
+        <CloseWarningModal
+          onCloseMainModal={onCloseMainModal}
+          onContinueWriting={onCloseWarningModal}
+        />
+      )}
+    </>
   );
 }
 

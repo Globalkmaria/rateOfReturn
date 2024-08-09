@@ -1,31 +1,41 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import IconButton, { EditButton } from '@/components/IconButton';
+import userSoldsService from '@/service/userSolds/service';
+
+import { EditButton, MoreButton } from '@/components/IconButton';
 import { TransformedValue } from '@/components/Input/BaseInput';
 import { Input } from '@/components/Input/Input';
 import { TableCell, TableRow } from '@/components/Table';
+import { StyledChip, StyledChipText } from '@/components/Tag';
+import { StyledIconButton } from '@/components/IconButton/IconButton';
+import { DropboxItem } from '@/components/Dropbox/DropboxItem';
+import Icon from '@/components/Icon';
+
 import { Sold } from '@/features/solds/type';
-import {
-  InputCell,
-  NumberCell,
-  StyledTextWrapper,
-} from '@/views/List/StockItem/components';
-import { checkSoldPrice } from './utils';
-import useModal from '@/views/List/hooks/useModal';
-import DeleteSoldModal from './DeleteSoldModal';
-import { getLocalDateTime } from '@/utils';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteSold, selectSoldItem, updateSold } from '@/features/solds';
 import { selectIsLoggedIn } from '@/features/user/selectors';
+import { deleteSold, selectSoldItem, updateSold } from '@/features/solds';
+
+import { getLocalDateTime } from '@/utils';
 import {
   getFixedLocaleString,
   getPercentage,
   localStringToNumber,
 } from '@/utils/number';
-import userSoldsService from '@/service/userSolds/service';
-import { StyledChip, StyledChipText } from '@/components/Tag';
-import { StyledIconButton } from '@/components/IconButton/IconButton';
+
+import {
+  InputCell,
+  NumberCell,
+  StyledTextWrapper,
+} from '@/views/List/StockItem/components';
+import useModal from '@/views/List/hooks/useModal';
+import AddNote from '@/views/Note/NoteInfo/modals/AddNote';
+import { NoteFormState } from '@/views/Note/NoteInfo/type';
+import { INITIAL_NOTE_FORM_STATE } from '@/views/Note/NoteInfo/const';
+
+import DeleteSoldModal from './DeleteSoldModal';
+import { checkSoldPrice } from './utils';
 
 export type SoldItemInputs = Partial<
   Pick<Sold, 'soldTime' | 'soldDate' | 'soldPrice'>
@@ -40,7 +50,13 @@ function SoldItem({ id }: Props) {
   const focusedInput = useRef<HTMLInputElement>(null);
   const [isLock, setIsLock] = useState(true);
   const [changedInputs, setChangedInputs] = useState<SoldItemInputs>({});
-  const { showModal, onOpenModal, onCloseModal } = useModal();
+  const deleteModal = useModal();
+
+  const noteModal = useModal();
+  const addNoteInitialFormState: NoteFormState = {
+    ...INITIAL_NOTE_FORM_STATE,
+    soldId: id,
+  };
 
   const item = useSelector(selectSoldItem(id));
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -107,7 +123,7 @@ function SoldItem({ id }: Props) {
     }
 
     dispatch(deleteSold(item.id));
-    onCloseModal();
+    deleteModal.onCloseModal();
   };
 
   const onSoldPriceChange = (
@@ -189,11 +205,32 @@ function SoldItem({ id }: Props) {
       <TableCell>
         <StyledButtonGroup>
           <EditButton isLock={isLock} onClick={onToggleLock} />
-          <IconButton icon='delete' onClick={onOpenModal} />
+          <MoreButton width={100} vertical='bottom' horizontal='right'>
+            <DropboxItem onClick={deleteModal.onOpenModal}>
+              <Icon icon='delete' />
+              Delete
+            </DropboxItem>
+            <DropboxItem
+              onClick={noteModal.onOpenModal}
+              title='Write stock note'
+            >
+              <Icon icon='note' />
+              Write stock note
+            </DropboxItem>
+          </MoreButton>
         </StyledButtonGroup>
       </TableCell>
-      {showModal && (
-        <DeleteSoldModal onDelete={onDelete} onClose={onCloseModal} />
+      {deleteModal.showModal && (
+        <DeleteSoldModal
+          onDelete={onDelete}
+          onClose={deleteModal.onCloseModal}
+        />
+      )}
+      {noteModal.showModal && (
+        <AddNote
+          initialFormState={addNoteInitialFormState}
+          onCloseModal={noteModal.onCloseModal}
+        />
       )}
     </StyledContainer>
   );

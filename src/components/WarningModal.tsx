@@ -10,12 +10,17 @@ interface WarningModalProps {
   buttonName: string;
 }
 
-const WarningModal = ({ onClose, onConfirm, message, buttonName }: WarningModalProps) => {
+const WarningModal = ({
+  onClose,
+  onConfirm,
+  message,
+  buttonName,
+}: WarningModalProps) => {
   return (
     <PortalModal title='Warning' onClose={onClose}>
       <StyledWarningModal>
         <StyledMessage>{message}</StyledMessage>
-        <StyledWarningModalButton color='warning' onClick={onConfirm}>
+        <StyledWarningModalButton size='m' color='warning' onClick={onConfirm}>
           {buttonName}
         </StyledWarningModalButton>
       </StyledWarningModal>
