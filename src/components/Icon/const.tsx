@@ -4,6 +4,7 @@ import {
   FaRegSave,
   FaRegFolder,
   FaHashtag,
+  FaRegStickyNote,
 } from 'react-icons/fa';
 import {
   FiFolderPlus,
@@ -54,6 +55,7 @@ const ICON_NAMES = [
   'tag1',
   'tag2',
   'abc',
+  'note',
 ] as const;
 
 export type IconButtonType = (typeof ICON_NAMES)[number];
@@ -86,6 +88,7 @@ export const ICONS: {
   tag1: <FaHashtag />,
   tag2: <IoPricetagOutline />,
   abc: <BsAlphabet />,
+  note: <FaRegStickyNote />,
 };
 
 export const ICON_TITLES: { [key in IconButtonType]: string } = {
@@ -114,4 +117,5 @@ export const ICON_TITLES: { [key in IconButtonType]: string } = {
   tag1: 'Tag',
   tag2: 'Tag',
   abc: 'ABC',
+  note: 'Note',
 };
