@@ -20,6 +20,12 @@ import { EditButton, MoreButton } from '@/components/IconButton';
 import { DropboxItem } from '@/components/Dropbox/DropboxItem';
 import Icon from '@/components/Icon';
 
+import getDateAndTime from '@/utils/getDateAndTime';
+
+import AddNote from '@/views/Note/NoteInfo/modals/AddNote';
+import { INITIAL_NOTE_FORM_STATE } from '@/views/Note/NoteInfo/const';
+import { NoteFormState } from '@/views/Note/NoteInfo/type';
+
 import useModal from '../../hooks/useModal';
 import { CheckboxCell } from '../components';
 import { DeleteStockModal } from '../DeleteStockModal';
@@ -31,7 +37,6 @@ import {
 import { useStockSummaryInputChange } from './hooks/useStockSummaryInputChange';
 import SummaryContent from './SummaryContent';
 import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
-import getDateAndTime from '@/utils/getDateAndTime';
 import { generateSoldItems } from './utils';
 import { useAddItem } from '../hooks/useAddItem';
 import useIsMainGroup from '../../hooks/useIsMainGroup';
@@ -62,6 +67,15 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   const { showModal, onOpenModal, onCloseModal } = useModal();
   const { changedInputs, initChangedInputs, onInputChange, onTagChange } =
     useStockSummaryInputChange(stockId);
+
+  const { showModalNote, onCloseModalNote, onOpenModalNote } = useModal('note');
+  const addNoteInitialFormState: NoteFormState = {
+    ...INITIAL_NOTE_FORM_STATE,
+    stockName: {
+      value: mainInfo.stockId,
+      label: mainInfo.stockName,
+    },
+  };
 
   const onChangeCheckbox = useChangeStockCheckbox(stockId);
 
@@ -161,6 +175,10 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
                   <Icon icon='add' />
                   Add same stock
                 </DropboxItem>
+                <DropboxItem onClick={onOpenModalNote} title='Write stock note'>
+                  <Icon icon='note' />
+                  Write stock note
+                </DropboxItem>
               </MoreButton>
             </StyledButtonGroup>
           </TableCell>
@@ -170,6 +188,12 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
               stockId={stockId}
               purchasedId={''}
               onClose={onCloseModal}
+            />
+          )}
+          {showModalNote && (
+            <AddNote
+              initialFormState={addNoteInitialFormState}
+              onCloseModal={onCloseModalNote}
             />
           )}
         </>

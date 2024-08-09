@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import useSaveChangedSoldsData from '@/views/List/hooks/useSaveChangedSoldData';
 import SoldTableContainer from '@/views/Sold/Table/SoldTableContainer';
 import { validateSoldQuery } from '@/views/Sold/Table/helper';
+import useSaveChangedNotesData from '@/views/Note/hooks/useSaveChangedNotesData';
 
 function SoldPage() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ function SoldPage() {
   const sortBy = searchParams.get('sortBy') ?? '';
   const [firstLoad, setFirstLoad] = useState(true);
   useSaveChangedSoldsData(firstLoad);
+  useSaveChangedNotesData(firstLoad);
 
   useEffect(() => {
     setFirstLoad(false);

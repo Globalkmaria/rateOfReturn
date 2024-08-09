@@ -1,6 +1,6 @@
 {
   "name": "ror",
-  "version": "2.19.0",
+  "version": "2.20.0",
   "private": true,
   "type": "module",
   "dependencies": {
@@ -16,7 +16,7 @@
     "react": "19.0.0-rc-163365a0-20240717",
     "react-chartjs-2": "5.2.0",
     "react-dom": "19.0.0-rc-163365a0-20240717",
-    "react-icons": "4.8.0",
+    "react-icons": "^5.2.1",
     "react-redux": "^9.1.2",
     "react-router-dom": "^6.25.1",
     "styled-components": "^6.1.8",

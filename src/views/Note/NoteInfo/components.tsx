@@ -16,6 +16,9 @@ export const StyledField = styled.div`
 `;
 
 export const StyledName = styled.span`
+  display: flex;
+  align-items: center;
+  gap: 5px;
   width: 150px;
   font-size: 1rem;
   font-weight: 500;

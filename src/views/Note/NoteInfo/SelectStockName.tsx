@@ -1,7 +1,9 @@
 import Tag2 from '@/components/Tag2';
 import { TagDropbox2Settings } from '@/components/Tag2/Tag2Dropbox';
-import { StyledField, StyledName } from './components';
 import { TagOption } from '@/components/Tag2/Tag2Option';
+import Icon from '@/components/Icon';
+
+import { StyledField, StyledName } from './components';
 import { NoteFormOnChange } from './type';
 
 interface SelectStockNameProps {
@@ -26,7 +28,10 @@ function SelectStockName({
 
   return (
     <StyledField>
-      <StyledName>Stock name</StyledName>
+      <StyledName>
+        <Icon icon='abc' color='grey600' />
+        Stock name
+      </StyledName>
       <Tag2
         height={40}
         selectedOption={stockName}

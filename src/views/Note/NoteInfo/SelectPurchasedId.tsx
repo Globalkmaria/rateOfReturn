@@ -1,8 +1,11 @@
 import { useSelector } from 'react-redux';
 
+import { selectStockPurchasedIds } from '@/features/stockList/selectors';
+
 import Tag2 from '@/components/Tag2';
 import { TagDropbox2Settings } from '@/components/Tag2/Tag2Dropbox';
-import { selectStockPurchasedIds } from '@/features/stockList/selectors';
+import Icon from '@/components/Icon';
+
 import { StyledField, StyledName } from './components';
 import { NoteFormOnChange } from './type';
 
@@ -31,7 +34,10 @@ function SelectPurchasedId({
   };
   return (
     <StyledField>
-      <StyledName>Stock id</StyledName>
+      <StyledName>
+        <Icon icon='tag1' color='grey600' />
+        Stock id
+      </StyledName>
       <Tag2
         chipColor='blue100'
         chipTextColor='blue700'

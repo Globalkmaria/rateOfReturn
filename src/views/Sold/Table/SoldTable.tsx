@@ -42,6 +42,7 @@ function SoldTable({}: Props) {
 export default SoldTable;
 const StyleSoldTableWrapper = styled.div`
   overflow-x: overlay;
+  padding-bottom: 100px;
 `;
 
 const StyledSoldTable = styled(Table)`
