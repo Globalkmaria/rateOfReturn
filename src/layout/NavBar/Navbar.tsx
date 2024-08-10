@@ -31,7 +31,7 @@ export default memo(Navbar);
 
 const StyledNav = styled('nav')`
   flex: 0 0 fit-content;
-  padding: 10px 30px;
+  padding: 10px 40px;
   display: grid;
   grid-template-columns: 80px 1fr 220px;
   grid-template-rows: 60px;
@@ -46,6 +46,10 @@ const StyledNav = styled('nav')`
     grid-template-areas:
       'site-name auth-btns'
       'menu menu';
+  }
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    padding: 10px 20px;
   }
 `;
 
