@@ -25,6 +25,7 @@ import {
   IoEllipsisVertical,
   IoSearch,
   IoPricetagOutline,
+  IoPersonCircleOutline,
 } from 'react-icons/io5';
 import { BsDatabaseAdd, BsAlphabet, BsTable } from 'react-icons/bs';
 import { MdOutlineOutput, MdOutlineDateRange } from 'react-icons/md';
@@ -62,6 +63,7 @@ const ICON_NAMES = [
   'cabinet',
   'table',
   'project',
+  'person',
 ] as const;
 
 export type IconButtonType = (typeof ICON_NAMES)[number];
@@ -99,6 +101,7 @@ export const ICONS: {
   cabinet: <BiCabinet />,
   table: <BsTable />,
   project: <PiProjectorScreenChartBold />,
+  person: <IoPersonCircleOutline />,
 };
 
 export const ICON_TITLES: { [key in IconButtonType]: string } = {
@@ -132,4 +135,5 @@ export const ICON_TITLES: { [key in IconButtonType]: string } = {
   cabinet: 'Cabinet',
   table: 'Table',
   project: 'Project',
+  person: 'Person',
 };
