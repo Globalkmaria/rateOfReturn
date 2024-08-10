@@ -14,9 +14,14 @@ function Setting() {
 
   return (
     <Dropbox.Wrapper ref={containerRef}>
-      <IconButton icon='setting' onClick={settingControl.onToggleModal} />
+      <IconButton
+        icon='setting'
+        onClick={settingControl.onToggleModal}
+        size='l'
+      />
       {settingControl.showModal && (
         <Dropbox.Container
+          width={140}
           containerRef={containerRef}
           onCloseModal={settingControl.onCloseModal}
           vertical={'bottom'}
@@ -35,5 +40,9 @@ function Setting() {
 export default Setting;
 
 const Item = styled(Dropbox.Item)`
-  font-weight: 500;
+  && {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
 `;

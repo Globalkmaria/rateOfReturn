@@ -1,6 +1,8 @@
 import { RouteObject, createBrowserRouter } from 'react-router-dom';
 import { Router as RemixRouter } from '@remix-run/router/dist/router';
 
+import { IconButtonType } from '@/components/Icon/const';
+
 import GeneralLayout from '../layout/GeneralLayout';
 import { NavbarElement } from '../layout/NavBar/Navbar';
 import { rootRouterData } from './routerData';
@@ -15,6 +17,7 @@ export interface RouterElement {
   disabled?: boolean;
   children?: RouterElement[];
   notNav?: boolean;
+  icon?: IconButtonType;
 }
 
 const getChildrenPath = (route?: RouteObject): RouteObject[] | undefined => {
@@ -58,6 +61,7 @@ export const SidebarContent: NavbarElement[] = rootRouterData.reduce(
         path: router.relocatedPath || router.path,
         label: router.label,
         disabled: router.disabled,
+        icon: router.icon,
       },
     ];
   },

@@ -43,7 +43,7 @@ const StyledNoteList = styled.div`
   grid-template-columns: repeat(5, 1fr);
   justify-content: space-around;
   gap: 25px;
-  padding: 20px;
+  padding: 20px 40px;
 
   @media ${({ theme }) => theme.devices.screen} {
     grid-template-columns: repeat(4, 1fr);
@@ -58,5 +58,9 @@ const StyledNoteList = styled.div`
 
   @media ${({ theme }) => theme.devices.tablet} {
     grid-template-columns: repeat(1, 1fr);
+  }
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    padding: 20px;
   }
 `;

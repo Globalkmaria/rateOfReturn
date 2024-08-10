@@ -11,6 +11,7 @@ import {
   FiFolderMinus,
   FiSettings,
   FiCheck,
+  FiPieChart,
 } from 'react-icons/fi';
 import {
   MdDeleteOutline,
@@ -24,10 +25,12 @@ import {
   IoEllipsisVertical,
   IoSearch,
   IoPricetagOutline,
+  IoPersonCircleOutline,
 } from 'react-icons/io5';
-import { BsDatabaseAdd, BsAlphabet } from 'react-icons/bs';
+import { BsDatabaseAdd, BsAlphabet, BsTable } from 'react-icons/bs';
 import { MdOutlineOutput, MdOutlineDateRange } from 'react-icons/md';
-import { BiError } from 'react-icons/bi';
+import { BiError, BiCabinet } from 'react-icons/bi';
+import { PiProjectorScreenChartBold } from 'react-icons/pi';
 
 const ICON_NAMES = [
   'edit',
@@ -56,6 +59,11 @@ const ICON_NAMES = [
   'tag2',
   'abc',
   'note',
+  'chart',
+  'cabinet',
+  'table',
+  'project',
+  'person',
 ] as const;
 
 export type IconButtonType = (typeof ICON_NAMES)[number];
@@ -89,6 +97,11 @@ export const ICONS: {
   tag2: <IoPricetagOutline />,
   abc: <BsAlphabet />,
   note: <FaRegStickyNote />,
+  chart: <FiPieChart />,
+  cabinet: <BiCabinet />,
+  table: <BsTable />,
+  project: <PiProjectorScreenChartBold />,
+  person: <IoPersonCircleOutline />,
 };
 
 export const ICON_TITLES: { [key in IconButtonType]: string } = {
@@ -118,4 +131,9 @@ export const ICON_TITLES: { [key in IconButtonType]: string } = {
   tag2: 'Tag',
   abc: 'ABC',
   note: 'Note',
+  chart: 'Chart',
+  cabinet: 'Cabinet',
+  table: 'Table',
+  project: 'Project',
+  person: 'Person',
 };

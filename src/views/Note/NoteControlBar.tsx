@@ -31,12 +31,16 @@ function NoteControlBar() {
 export default NoteControlBar;
 
 const StyledNoteControlBar = styled.div`
-  padding: 20px 20px 0;
+  padding: 20px 40px 0;
   display: flex;
   justify-content: flex-end;
   gap: 10px;
 
   & > ${BorderButton} {
     gap: 5px;
+  }
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    padding: 20px 20px 0;
   }
 `;

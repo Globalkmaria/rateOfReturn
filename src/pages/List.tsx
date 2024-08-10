@@ -35,5 +35,9 @@ const List = () => {
 export default List;
 
 const StyledList = styled('div')`
-  padding: 0 20px 20px 20px;
+  padding: 0 40px 20px 40px;
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    padding: 0 20px 20px 20px;
+  }
 `;
