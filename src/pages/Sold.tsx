@@ -36,5 +36,9 @@ function SoldPage() {
 export default SoldPage;
 
 const StyledContainer = styled('div')`
-  padding: 20px;
+  padding: 20px 40px;
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    padding: 20px;
+  }
 `;

@@ -33,4 +33,8 @@ const StyledHome = styled('div')`
   gap: 50px;
   justify-content: space-around;
   flex-wrap: wrap;
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    padding: 20px;
+  }
 `;

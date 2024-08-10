@@ -65,6 +65,7 @@ export const rootRouterData: RouterElement[] = [
     path: '/',
     label: 'Home',
     element: <Home />,
+    icon: 'project',
   },
   {
     id: '1',
@@ -84,6 +85,7 @@ export const rootRouterData: RouterElement[] = [
     id: '3',
     path: '/portfolio',
     label: 'Current',
+    icon: 'table',
     element: <List />,
     children: [
       {
@@ -101,17 +103,20 @@ export const rootRouterData: RouterElement[] = [
     label: 'Chart',
     element: <Chart />,
     children: chartRouterData,
+    icon: 'chart',
   },
   {
     id: '5',
     path: '/sold',
     label: 'Sold',
     element: <Sold />,
+    icon: 'cabinet',
   },
   {
     id: '6',
     path: '/note',
     label: 'Note',
     element: <Note />,
+    icon: 'note',
   },
 ];

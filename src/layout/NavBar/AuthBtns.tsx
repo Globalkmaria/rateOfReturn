@@ -6,9 +6,9 @@ import { ContainedButton } from '../../components/Button';
 import authService from '../../service/auth';
 import { selectIsLoggedIn } from '../../features/user/selectors';
 import { resetUser } from '../../features/user/userSlice';
-import { cacheLoginPage, cacheSignupPage } from './utils';
 import { resetUserData } from '@/features';
 import { ContainedAnchor } from '@/components/Anchor';
+import Personal from './Personal';
 
 const AuthBtns = () => {
   const dispatch = useDispatch();
@@ -30,25 +30,7 @@ const AuthBtns = () => {
           Logout
         </ContainedButton>
       ) : (
-        <>
-          <ContainedAnchor
-            to='/login'
-            onMouseEnter={cacheLoginPage}
-            size='s'
-            mode='light'
-            width={80}
-          >
-            Login
-          </ContainedAnchor>
-          <ContainedAnchor
-            to='/signup'
-            onMouseEnter={cacheSignupPage}
-            size='s'
-            width={80}
-          >
-            Sign up
-          </ContainedAnchor>
-        </>
+        <Personal />
       )}
     </StyledAuthBtns>
   );
@@ -62,7 +44,7 @@ const StyledAuthBtns = styled('div')`
   gap: 10px;
   grid-area: auth-btns;
 
-  ${ContainedAnchor} {
+  & > ${ContainedAnchor} {
     font-weight: 500;
     font-size: 0.8rem;
   }

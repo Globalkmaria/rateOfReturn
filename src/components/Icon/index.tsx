@@ -14,7 +14,7 @@ const FONT_SIZES: Sizes = {
 
 interface IconStyleProps {
   size?: keyof Sizes;
-  color?: keyof DefaultTheme['colors'];
+  color?: keyof DefaultTheme['colors'] | 'inherit';
   disabled?: boolean;
 }
 
@@ -64,11 +64,14 @@ const Container = styled('div')<IconStyleProps>(
 
 const getColor = (
   theme: DefaultTheme,
-  color?: keyof DefaultTheme['colors'],
+  color?: IconStyleProps['color'],
   disabled?: boolean,
 ) => {
   if (disabled) {
     return theme.colors.grey500;
   }
+
+  if (color === 'inherit') return 'inherit';
+
   return color ? theme.colors[color] : theme.colors.black;
 };
