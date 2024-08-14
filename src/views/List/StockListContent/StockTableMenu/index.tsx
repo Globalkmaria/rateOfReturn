@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import Search from '../../../../components/Search';
 import AddSampleData from './AddSampleData';
 import EditCurrentPrice from './EditCurrentPrice';
@@ -13,12 +14,19 @@ function StockTableMenu({ searchQuery, onSearchQueryChange }: Props) {
     <StyledStockTableMenu>
       <AddSampleData />
       <EditCurrentPrice />
-      <Search value={searchQuery} height='m' onChange={onSearchQueryChange} />
+      <Search
+        placeholder={SEARCH_PLACEHOLDER_TEXT}
+        value={searchQuery}
+        height='m'
+        onChange={onSearchQueryChange}
+      />
     </StyledStockTableMenu>
   );
 }
 
 export default StockTableMenu;
+
+const SEARCH_PLACEHOLDER_TEXT = 'Search by stock name...';
 
 const StyledStockTableMenu = styled('div')`
   display: flex;
