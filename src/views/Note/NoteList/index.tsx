@@ -10,7 +10,7 @@ import NoNote from '../NoNote';
 import NoteItem from './NoteItem';
 
 function NoteList() {
-  const { showModal, onOpenModal, onCloseModal, onToggleModal } = useModal();
+  const { showModal, onOpenModal, onCloseModal } = useModal();
   const [selectedNoteId, setSelectedNoteId] = useState<string | null>(null);
   const noteIds = useSelector(selectNoteIds);
   const showNoteModal = showModal && selectedNoteId;
@@ -31,9 +31,7 @@ function NoteList() {
   return (
     <StyledNoteList>
       {noteIds.map(id => (
-        <div onClick={() => onNoteClick(id)} key={id}>
-          <NoteItem id={id} />
-        </div>
+        <NoteItem id={id} key={id} onNoteClick={onNoteClick} />
       ))}
       {showNoteModal && (
         <EditNote onCloseModal={onCloseNoteModal} noteId={selectedNoteId} />
