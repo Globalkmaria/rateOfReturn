@@ -94,7 +94,7 @@ const StyledTitle = styled.input.attrs({
 
 const StyledTextarea = styled(Textarea)`
   margin-top: 10px;
-  height: 300px;
+  height: min(300px, 25vh);
 
   @media ${({ theme }) => theme.devices.laptop} {
     height: 200px;

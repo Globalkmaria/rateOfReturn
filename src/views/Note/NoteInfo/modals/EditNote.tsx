@@ -121,4 +121,8 @@ const StyledDateContainer = styled(Flex)`
 const StyledTitle = styled.span`
   color: inherit;
   margin-right: 8px;
+
+  @media ${({ theme }) => theme.devices.tablet} {
+    margin-right: 0px;
+  }
 `;
