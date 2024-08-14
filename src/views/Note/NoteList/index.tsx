@@ -42,7 +42,7 @@ function NoteList() {
 
 export default NoteList;
 
-const StyledNoteList = styled.div`
+export const StyledNoteList = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   justify-content: space-around;

@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 
-import Note from '@/views/Note';
 import useSaveChangedNotesData from '@/views/Note/hooks/useSaveChangedNotesData';
+import NoteSkeleton from '@/views/Note/NoteSkeleton';
+
+const Note = lazy(() => import('@/views/Note'));
 
 function NotePage() {
   const [firstLoad, setFirstLoad] = useState(true);
@@ -12,9 +14,9 @@ function NotePage() {
   }, []);
 
   return (
-    <>
+    <Suspense fallback={<NoteSkeleton />}>
       <Note />
-    </>
+    </Suspense>
   );
 }
 

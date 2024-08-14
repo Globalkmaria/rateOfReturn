@@ -7,14 +7,18 @@ import useModal from '../List/hooks/useModal';
 import AddNote from './NoteInfo/modals/AddNote';
 import { INITIAL_NOTE_FORM_STATE } from './NoteInfo/const';
 
-function NoteControlBar() {
+interface Props {
+  disabled?: boolean;
+}
+
+function NoteControlBar({ disabled }: Props) {
   const { showModal, onOpenModal, onCloseModal } = useModal();
 
   return (
     <>
       <StyledNoteControlBar>
-        <BorderButton size='s' onClick={onOpenModal}>
-          <Icon icon='add' />
+        <BorderButton size='s' onClick={onOpenModal} disabled={disabled}>
+          <Icon icon='add' disabled={disabled} />
           <span>Add New</span>
         </BorderButton>
       </StyledNoteControlBar>
@@ -38,6 +42,10 @@ const StyledNoteControlBar = styled.div`
 
   & > ${BorderButton} {
     gap: 5px;
+
+    /* span {
+      color: inherit;
+    } */
   }
 
   @media ${({ theme }) => theme.devices.mobile} {
