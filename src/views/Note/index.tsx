@@ -3,10 +3,10 @@ import NoteList from './NoteList';
 
 function Note() {
   return (
-    <div>
+    <>
       <NoteControlBar />
       <NoteList />
-    </div>
+    </>
   );
 }
 
