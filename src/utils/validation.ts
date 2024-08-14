@@ -24,3 +24,5 @@ export const alertAndReturnValueZod = (
 
 export const checkNullish = (value: any) =>
   value === null || value === undefined;
+
+export const isDefined = (value: any) => value !== null && value !== undefined;

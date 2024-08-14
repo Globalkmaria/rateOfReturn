@@ -123,6 +123,10 @@ export const BorderButton = styled(BaseButton).withConfig({
     ? theme.colors[(BUTTON_COLORS[color] + '300') as keyof ColorsTypes]
     : '',
 
+  span: {
+    color: 'inherit',
+  },
+
   '&:not([disabled]):hover': {
     background: theme.colors.grey100,
     border: `1px solid ${
