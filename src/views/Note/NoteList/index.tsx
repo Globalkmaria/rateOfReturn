@@ -1,16 +1,20 @@
-import styled from 'styled-components';
-import NoteItem from './NoteItem';
-import { useSelector } from 'react-redux';
-import { selectNoteIds } from '@/features/notes';
-import useModal from '@/views/List/hooks/useModal';
 import { useState } from 'react';
+import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+
+import { selectNoteIds } from '@/features/notes';
+
+import useModal from '@/views/List/hooks/useModal';
 import EditNote from '../NoteInfo/modals/EditNote';
+import NoNote from '../NoNote';
+import NoteItem from './NoteItem';
 
 function NoteList() {
-  const { showModal, onOpenModal, onCloseModal, onToggleModal } = useModal();
+  const { showModal, onOpenModal, onCloseModal } = useModal();
   const [selectedNoteId, setSelectedNoteId] = useState<string | null>(null);
   const noteIds = useSelector(selectNoteIds);
   const showNoteModal = showModal && selectedNoteId;
+  const noNote = !noteIds.length;
 
   const onNoteClick = (id: string) => {
     setSelectedNoteId(id);
@@ -22,12 +26,12 @@ function NoteList() {
     onCloseModal();
   };
 
+  if (noNote) return <NoNote />;
+
   return (
     <StyledNoteList>
       {noteIds.map(id => (
-        <div onClick={() => onNoteClick(id)} key={id}>
-          <NoteItem id={id} />
-        </div>
+        <NoteItem id={id} key={id} onNoteClick={onNoteClick} />
       ))}
       {showNoteModal && (
         <EditNote onCloseModal={onCloseNoteModal} noteId={selectedNoteId} />
@@ -38,7 +42,7 @@ function NoteList() {
 
 export default NoteList;
 
-const StyledNoteList = styled.div`
+export const StyledNoteList = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   justify-content: space-around;

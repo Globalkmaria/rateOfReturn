@@ -8,3 +8,7 @@ export const Ellipsis = styled.p<{
   overflow: hidden;
   text-overflow: ellipsis;
 `;
+
+export const NoListText = styled.span`
+  font-weight: 500;
+`;

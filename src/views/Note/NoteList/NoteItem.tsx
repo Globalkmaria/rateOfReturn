@@ -4,19 +4,21 @@ import styled from 'styled-components';
 
 import { Chip, ChipText } from '@/components/Chip';
 import Flex from '@/components/Flex';
-
-import { shortenText } from '@/utils/text';
-import { deleteNote, selectNoteItem } from '@/features/notes';
 import IconButton from '@/components/IconButton';
-import { checkNullish } from '@/utils/validation';
+
+import { deleteNote, selectNoteItem } from '@/features/notes';
+import { shortenText } from '@/utils/text';
+import { isDefined } from '@/utils/validation';
+
 import { formatNoteDate } from './helper';
 import { StyledDate, StyledDateIcon } from './components';
 
 interface NoteItemProps {
   id: string;
+  onNoteClick: (id: string) => void;
 }
 
-function NoteItem({ id }: NoteItemProps) {
+function NoteItem({ id, onNoteClick }: NoteItemProps) {
   const dispatch = useDispatch();
   const {
     title,
@@ -41,29 +43,29 @@ function NoteItem({ id }: NoteItemProps) {
   };
 
   return (
-    <StyledNoteItem>
+    <StyledNoteItem onClick={() => onNoteClick(id)}>
       <StyledHeader justifyContent='space-between' alignItems='center'>
         <StyledTitle>{shortedTitle}</StyledTitle>
         <IconButton icon='delete' onClick={onDelete} />
       </StyledHeader>
       <StyledText>{shortenedText}</StyledText>
       <StyledChipContainer gap={5} flexWrap='wrap'>
-        {!checkNullish(stockName) && (
+        {isDefined(stockName) && (
           <Chip color='red100'>
             <ChipText color='red700'>{stockName}</ChipText>
           </Chip>
         )}
-        {!checkNullish(purchasedId) && (
+        {isDefined(purchasedId) && (
           <Chip color='blue100'>
             <ChipText color='blue700'>{`#${purchasedId}`}</ChipText>
           </Chip>
         )}
-        {!checkNullish(soldId) && (
+        {isDefined(soldId) && (
           <Chip color='indigo100'>
             <ChipText color='indigo700'>{`#${soldId}`}</ChipText>
           </Chip>
         )}
-        {!checkNullish(tag) && (
+        {isDefined(tag) && (
           <Chip color='brown100'>
             <ChipText color='brown700'>{`${tag}`}</ChipText>
           </Chip>

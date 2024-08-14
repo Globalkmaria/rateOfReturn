@@ -2,26 +2,23 @@ import styled from 'styled-components';
 
 import { BorderButton } from '@/components/Button';
 import Icon from '@/components/Icon';
+import { NoListText } from '@/components/Text';
 
 import useModal from '../List/hooks/useModal';
 import AddNote from './NoteInfo/modals/AddNote';
 import { INITIAL_NOTE_FORM_STATE } from './NoteInfo/const';
 
-interface Props {
-  disabled?: boolean;
-}
-
-function NoteControlBar({ disabled }: Props) {
+function EmptyNote() {
   const { showModal, onOpenModal, onCloseModal } = useModal();
-
   return (
     <>
-      <StyledNoteControlBar>
-        <BorderButton size='s' onClick={onOpenModal} disabled={disabled}>
-          <Icon icon='add' disabled={disabled} />
-          <span>Add New</span>
+      <EmptyNoteContainer>
+        <NoListText>No notes</NoListText>
+        <BorderButton size='s' onClick={onOpenModal}>
+          <Icon icon='add' />
+          <span>Add new note</span>
         </BorderButton>
-      </StyledNoteControlBar>
+      </EmptyNoteContainer>
       {showModal && (
         <AddNote
           initialFormState={INITIAL_NOTE_FORM_STATE}
@@ -32,23 +29,17 @@ function NoteControlBar({ disabled }: Props) {
   );
 }
 
-export default NoteControlBar;
+export default EmptyNote;
 
-const StyledNoteControlBar = styled.div`
-  padding: 20px 40px 0;
+const EmptyNoteContainer = styled.div`
+  padding: 30px 0;
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
 
   & > ${BorderButton} {
     gap: 5px;
-
-    /* span {
-      color: inherit;
-    } */
-  }
-
-  @media ${({ theme }) => theme.devices.mobile} {
-    padding: 20px 20px 0;
   }
 `;
