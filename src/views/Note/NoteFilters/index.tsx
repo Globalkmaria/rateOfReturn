@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { selectNoteCollection } from '@/features/notes';
 
 import NoteFilter from './NoteFilter';
-import { NOTE_SORT_OPTIONS } from '../const';
+import { NOTE_FILTER_KEYS, NOTE_SORT, NOTE_SORT_OPTIONS } from '../const';
 import { getNoteFilterOptions } from '../helper';
 
 function NoteFilters() {
@@ -17,25 +17,25 @@ function NoteFilters() {
   return (
     <StyledFilters>
       <NoteFilter
-        name='stockName'
+        name={NOTE_FILTER_KEYS.STOCK_NAME}
         label='Stock name'
         title='Filter by stock name'
         options={stockNames}
       />
       <NoteFilter
-        name='purchasedId'
+        name={NOTE_FILTER_KEYS.PURCHASED_ID}
         label='Stock Id'
         title='Filter by stock id'
         options={purchasedIds}
       />
       <NoteFilter
-        name='soldId'
+        name={NOTE_FILTER_KEYS.SOLD_ID}
         label='Sold Id'
         title='Filter by sold id'
         options={soldIds}
       />
       <NoteFilter
-        name='tag'
+        name={NOTE_FILTER_KEYS.TAG}
         label='Tag'
         title='Filter by tag'
         options={tags}
@@ -43,7 +43,7 @@ function NoteFilters() {
       />
       <NoteFilter
         replaceParams={false}
-        name='sort'
+        name={NOTE_SORT}
         label='Sort'
         title='Sort by'
         options={NOTE_SORT_OPTIONS}

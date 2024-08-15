@@ -1,20 +1,30 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 
-import { selectNoteIds } from '@/features/notes';
+import { selectNoteCollection } from '@/features/notes';
 
 import useModal from '@/views/List/hooks/useModal';
+
 import EditNote from '../NoteInfo/modals/EditNote';
+import { getFilteredNoteIds, getSortedNoteIds } from '../helper';
 import NoNote from '../NoNote';
 import NoteItem from './NoteItem';
 
 function NoteList() {
+  const [searchParams] = useSearchParams();
   const { showModal, onOpenModal, onCloseModal } = useModal();
   const [selectedNoteId, setSelectedNoteId] = useState<string | null>(null);
-  const noteIds = useSelector(selectNoteIds);
+  const notes = useSelector(selectNoteCollection);
+
   const showNoteModal = showModal && selectedNoteId;
-  const noNote = !noteIds.length;
+  const noNote = !notes.allIds.length;
+
+  if (noNote) return <NoNote />;
+
+  const filteredNoteIds = getFilteredNoteIds(searchParams, notes);
+  const sortedNoteIds = getSortedNoteIds(searchParams, filteredNoteIds, notes);
 
   const onNoteClick = (id: string) => {
     setSelectedNoteId(id);
@@ -26,11 +36,9 @@ function NoteList() {
     onCloseModal();
   };
 
-  if (noNote) return <NoNote />;
-
   return (
     <StyledNoteList>
-      {noteIds.map(id => (
+      {sortedNoteIds.map(id => (
         <NoteItem id={id} key={id} onNoteClick={onNoteClick} />
       ))}
       {showNoteModal && (

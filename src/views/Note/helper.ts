@@ -1,33 +1,37 @@
 import { RadioSelectProps } from '@/components/RadioSelect';
-import { NotesState } from '@/features/notes';
+
+import { Note, NotesState } from '@/features/notes';
 import { SoldsState } from '@/features/solds';
 import { StocksCollection } from '@/features/stockList/type';
+
+import {
+  NOTE_FILTERS,
+  NOTE_SORT,
+  NOTE_SORT_OPTIONS_FUNCTIONS,
+  NOTE_SORT_OPTIONS_KEYS,
+  NoteSortOptionsKeys,
+} from './const';
 
 const createOptionList = (ids: Set<string>): RadioSelectProps['options'] =>
   [...ids].map(id => ({ value: id, label: id }));
 
 export const getNoteFilterOptions = (notes: NotesState['collection']) => {
-  const stockNames: RadioSelectProps['options'] = [];
-  const stockIds = new Set<string>();
-
+  const stockNames = new Set<string>();
   const purchasedIds = new Set<string>();
   const soldIds = new Set<string>();
   const tags = new Set<string>();
 
   for (const note of notes.allIds) {
-    const { stockId, purchasedId, soldId, tag, stockName } = notes.byId[note];
-    if (stockId && stockName && !stockIds.has(stockId)) {
-      stockIds.add(stockId);
-      stockNames.push({ value: stockId, label: stockName });
-    }
+    const { purchasedId, soldId, tag, stockName } = notes.byId[note];
 
+    stockName && stockNames.add(stockName);
     purchasedId && purchasedIds.add(purchasedId);
     soldId && soldIds.add(soldId);
     tag && tags.add(tag);
   }
 
   return {
-    stockNames,
+    stockNames: createOptionList(stockNames),
     purchasedIds: createOptionList(purchasedIds),
     soldIds: createOptionList(soldIds),
     tags: createOptionList(tags),
@@ -115,4 +119,45 @@ export const getTagOptionList = (
   }
 
   return [...tags];
+};
+
+export const getFilteredNoteIds = (
+  searchParams: URLSearchParams,
+  notes: NotesState['collection'],
+) => {
+  if (!notes.allIds.length) return [];
+
+  const filters = new Set([...searchParams.keys()]);
+
+  filters.delete(NOTE_SORT);
+  if (!filters.size) return notes.allIds;
+
+  const filter = [...filters][0] as keyof Note;
+  if (!NOTE_FILTERS.includes(filter)) return notes.allIds;
+
+  const filterValue = searchParams.get(filter);
+  if (filterValue === null) return notes.allIds;
+
+  const filteredNoteIds = notes.allIds.filter(id => {
+    const note = notes.byId[id];
+    const noteValue = note[filter];
+    if (noteValue && noteValue === filterValue) return true;
+
+    return false;
+  });
+
+  return filteredNoteIds;
+};
+
+export const getSortedNoteIds = (
+  searchParams: URLSearchParams,
+  filteredNoteIds: string[],
+  notes: NotesState['collection'],
+) => {
+  if (!notes.allIds.length) return [];
+  const sort = searchParams.get(NOTE_SORT) as NoteSortOptionsKeys;
+  if (!sort) return filteredNoteIds;
+  if (!NOTE_SORT_OPTIONS_KEYS.includes(sort)) return filteredNoteIds;
+
+  return NOTE_SORT_OPTIONS_FUNCTIONS[sort](notes, filteredNoteIds);
 };
