@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import styled from 'styled-components';
 
 import Icon from './Icon';
-import Dropbox from './Dropbox';
+import Dropbox, { DropboxStyleProps } from './Dropbox';
 import { BorderButton, BorderButtonProps } from './Button';
 import useModal from '@/views/List/hooks/useModal';
 import { DropboxItem } from './Dropbox/DropboxItem';
@@ -12,13 +12,13 @@ type Option = {
   label: string;
 };
 
-type RadioSelectProps = Omit<BorderButtonProps, 'onClick'> & {
+export type RadioSelectProps = Omit<BorderButtonProps, 'onClick'> & {
   options: Option[];
   value: string;
   onClick: (value: string) => void;
   title?: string;
   label?: string;
-};
+} & DropboxStyleProps;
 
 function RadioSelect({
   options,
@@ -26,6 +26,8 @@ function RadioSelect({
   onClick,
   title,
   label,
+  vertical,
+  horizontal,
   ...restProps
 }: RadioSelectProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -51,6 +53,8 @@ function RadioSelect({
 
       {showModal && (
         <StyledDropboxContainer
+          vertical={vertical}
+          horizontal={horizontal}
           onCloseModal={onCloseModal}
           containerRef={containerRef}
         >
