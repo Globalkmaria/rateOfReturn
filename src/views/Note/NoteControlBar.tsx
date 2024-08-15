@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { BorderButton } from '@/components/Button';
 import Icon from '@/components/Icon';
 import Search from '@/components/Search';
-import RadioSelect from '@/components/RadioSelect';
-import { mockFn } from '@/utils/mock';
 
 import useModal from '../List/hooks/useModal';
 import AddNote from './NoteInfo/modals/AddNote';
 import { INITIAL_NOTE_FORM_STATE } from './NoteInfo/const';
+import NoteFilter from './NoteFilter';
+import { NOTE_SORT_OPTIONS } from './const';
 
 interface Props {
   disabled?: boolean;
@@ -28,43 +28,46 @@ function NoteControlBar({ disabled }: Props) {
           onChange={() => {}}
         />
         <StyledFilters>
-          <RadioSelect
+          <NoteFilter
+            name='stockName'
             label='Stock name'
             title='Filter by stock name'
-            value={''}
-            options={[]}
-            onClick={mockFn}
+            options={[
+              { value: 'Apple', label: 'Apple' },
+              { value: 'Google', label: 'Google' },
+              { value: 'Facebook', label: 'Facebook' },
+            ]}
           />
-          <RadioSelect
+          <NoteFilter
+            name='stockId'
             label='Stock Id'
             title='Filter by stock id'
-            value={''}
-            options={[]}
-            onClick={mockFn}
+            options={[
+              { value: '12345', label: '12345' },
+              { value: '67890', label: '67890' },
+              { value: '98765', label: '98765' },
+            ]}
           />
-          <RadioSelect
+          <NoteFilter
+            name='soldId'
             label='Sold Id'
             title='Filter by sold id'
-            value={''}
             options={[]}
-            onClick={mockFn}
           />
-          <RadioSelect
+          <NoteFilter
+            name='tag'
             label='Tag'
             title='Filter by tag'
-            value={''}
             options={[]}
-            onClick={mockFn}
+            horizontal='right'
           />
-          <RadioSelect
+          <NoteFilter
+            replaceParams={false}
+            name='sort'
             label='Sort'
             title='Sort by'
-            value={''}
-            options={[
-              { value: 'createdAt', label: 'created at ascending' },
-              { value: 'updatedAt', label: 'Newest' },
-            ]}
-            onClick={mockFn}
+            options={NOTE_SORT_OPTIONS}
+            horizontal='right'
           />
         </StyledFilters>
         <StyledNewButton size='s' onClick={onOpenModal} disabled={disabled}>
