@@ -3,18 +3,18 @@ import { RadioSelectProps } from '@/components/RadioSelect';
 export const NOTE_SORT_OPTIONS: RadioSelectProps['options'] = [
   {
     value: 'createdDate-asc',
-    label: 'Sort by Created Date (Oldest First)',
+    label: 'Created date (Oldest first)',
   },
   {
     value: 'createdDate-desc',
-    label: 'Sort by Created Date (Newest First)',
+    label: 'Created date (Newest first)',
   },
   {
     value: 'updatedDate-asc',
-    label: 'Sort by Updated Date (Oldest First)',
+    label: 'Updated date (Oldest first)',
   },
   {
     value: 'updatedDate-desc',
-    label: 'Sort by Updated Date (Newest First)',
+    label: 'Updated date (Newest first)',
   },
 ];
