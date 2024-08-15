@@ -11,9 +11,11 @@ import NoteFilters from './NoteFilters';
 
 interface Props {
   disabled?: boolean;
+  searchTitle: string;
+  onSearchTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function NoteControlBar({ disabled }: Props) {
+function NoteControlBar({ disabled, searchTitle, onSearchTitleChange }: Props) {
   const { showModal, onOpenModal, onCloseModal } = useModal();
 
   return (
@@ -21,10 +23,10 @@ function NoteControlBar({ disabled }: Props) {
       <StyledNoteControlBar>
         <StyledSearch
           width='100%'
-          value={''}
+          value={searchTitle}
           placeholder={SEARCH_PLACEHOLDER_TEXT}
           height='s'
-          onChange={() => {}}
+          onChange={onSearchTitleChange}
         />
         <NoteFilters />
         <StyledNewButton size='s' onClick={onOpenModal} disabled={disabled}>

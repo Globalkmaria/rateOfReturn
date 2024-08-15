@@ -121,7 +121,19 @@ export const getTagOptionList = (
   return [...tags];
 };
 
-export const getFilteredNoteIds = (
+export const getFilteredNoteIdsByTitle = (
+  title: string,
+  notes: NotesState['collection'],
+  ids: string[],
+) => {
+  if (title.trim() === '') return ids;
+
+  return ids.filter(id =>
+    notes.byId[id].title.toLowerCase().includes(title.toLowerCase()),
+  );
+};
+
+export const getFilteredNoteIdsBySearchParams = (
   searchParams: URLSearchParams,
   notes: NotesState['collection'],
 ) => {
