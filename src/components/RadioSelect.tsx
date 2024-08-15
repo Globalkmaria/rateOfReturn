@@ -139,6 +139,7 @@ const StyledLabel = styled.label`
 `;
 
 const StyledDropboxItem = styled(DropboxItem)<{ checked: boolean }>`
+  font-weight: ${({ checked }) => (checked ? 500 : 400)};
   .icon {
     opacity: ${({ checked }) => (checked ? 1 : 0)};
   }
