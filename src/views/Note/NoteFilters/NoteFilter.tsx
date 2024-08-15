@@ -2,12 +2,16 @@ import { useSearchParams } from 'react-router-dom';
 
 import RadioSelect, { RadioSelectProps } from '@/components/RadioSelect';
 
-type Props = Omit<RadioSelectProps, 'value' | 'onClick'> & {
+type NoteFilterProps = Omit<RadioSelectProps, 'value' | 'onClick'> & {
   name: string;
   replaceParams?: boolean;
 };
 
-function NoteFilter({ name, replaceParams = true, ...restProps }: Props) {
+function NoteFilter({
+  name,
+  replaceParams = true,
+  ...restProps
+}: NoteFilterProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const value = searchParams.get(name) ?? '';
 
