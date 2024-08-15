@@ -1,5 +1,6 @@
 import { RadioSelectProps } from '@/components/RadioSelect';
 import { NotesState } from '@/features/notes';
+import { SoldsState } from '@/features/solds';
 import { StocksCollection } from '@/features/stockList/type';
 
 const createOptionList = (ids: Set<string>): RadioSelectProps['options'] =>
@@ -64,7 +65,7 @@ export const getStockNameOptionList = (
 export const getPurchasedIdOptionList = (
   stockInfo: StocksCollection,
   notes: NotesState['collection'],
-): RadioSelectProps['options'] => {
+): string[] => {
   let ids = new Set<string>();
 
   for (const stockId of stockInfo.allIds) {
@@ -75,16 +76,16 @@ export const getPurchasedIdOptionList = (
 
   for (const note of notes.allIds) {
     const { purchasedId } = notes.byId[note];
-    if (purchasedId) ids.add(purchasedId);
+    purchasedId && ids.add(purchasedId);
   }
 
-  return [...ids].map(id => ({ value: id, label: id }));
+  return [...ids];
 };
 
 export const getSoldIdOptionList = (
   sold: string[],
   notes: NotesState['collection'],
-): RadioSelectProps['options'] => {
+): string[] => {
   const ids = new Set<string>(sold);
 
   for (const note of notes.allIds) {
@@ -92,19 +93,26 @@ export const getSoldIdOptionList = (
     soldId && ids.add(soldId);
   }
 
-  return [...ids].map(id => ({ value: id, label: id }));
+  return [...ids];
 };
 
 export const getTagOptionList = (
   stockTags: string[],
   notes: NotesState['collection'],
-): RadioSelectProps['options'] => {
+  solds: SoldsState['list'],
+): string[] => {
   const tags = new Set<string>(stockTags);
 
   for (const note of notes.allIds) {
     const { tag } = notes.byId[note];
-    if (tag && !tags.has(tag)) tags.add(note);
+    tag && tags.add(tag);
   }
 
-  return [...tags].map(tag => ({ value: tag, label: tag }));
+  for (const soldId of solds.allIds) {
+    const sold = solds.byId[soldId];
+    const { tag } = sold;
+    tag && tags.add(tag);
+  }
+
+  return [...tags];
 };

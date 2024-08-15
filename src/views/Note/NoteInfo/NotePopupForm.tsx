@@ -1,7 +1,5 @@
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { selectStocks } from '@/features/stockList/selectors';
 import Textarea from '@/components/Textarea';
 
 import SelectStockName from './SelectStockName';
@@ -18,21 +16,10 @@ interface NotePopupFormProps {
   formState: NoteFormState;
 }
 
-const TITLE_PLACEHOLDER = 'Untitled';
-const TEXTAREA_PLACEHOLDER = 'Add your note here...';
-
-const TITLE_MAX_LENGTH = 50;
-
 function NotePopupForm({ onChange, formState }: NotePopupFormProps) {
-  const stocks = useSelector(selectStocks);
-  const stockNameOptionList = stocks.allIds.map(id => ({
-    value: stocks.byId[id].mainInfo.stockId,
-    label: stocks.byId[id].mainInfo.stockName,
-  }));
-
   const title = formState.title ?? '';
-  const stockIdForSelectPurchasedId = formState.stockName?.value ?? null;
   const text = formState.text ?? '';
+  const stockId = formState.stockName?.value ?? null;
 
   const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > TITLE_MAX_LENGTH) {
@@ -55,14 +42,10 @@ function NotePopupForm({ onChange, formState }: NotePopupFormProps) {
         value={title}
         placeholder={TITLE_PLACEHOLDER}
       />
-      <SelectStockName
-        stockNameOptionList={stockNameOptionList}
-        stockName={formState.stockName}
-        onChange={onChange}
-      />
+      <SelectStockName stockName={formState.stockName} onChange={onChange} />
       <SelectPurchasedId
         purchasedId={formState.purchasedId}
-        stockId={stockIdForSelectPurchasedId}
+        stockId={stockId}
         onChange={onChange}
       />
       <SelectSoldId soldId={formState.soldId} onChange={onChange} />
@@ -77,6 +60,11 @@ function NotePopupForm({ onChange, formState }: NotePopupFormProps) {
 }
 
 export default NotePopupForm;
+
+const TITLE_PLACEHOLDER = 'Untitled';
+const TEXTAREA_PLACEHOLDER = 'Add your note here...';
+
+const TITLE_MAX_LENGTH = 50;
 
 const StyledTitle = styled.input.attrs({
   type: 'text',

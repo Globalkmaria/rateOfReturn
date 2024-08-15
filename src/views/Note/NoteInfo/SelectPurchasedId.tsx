@@ -1,6 +1,10 @@
 import { useSelector } from 'react-redux';
 
-import { selectStockPurchasedIds } from '@/features/stockList/selectors';
+import {
+  selectStockPurchasedIds,
+  selectStocks,
+} from '@/features/stockList/selectors';
+import { selectNoteCollection } from '@/features/notes';
 
 import Tag2 from '@/components/Tag2';
 import { TagDropbox2Settings } from '@/components/Tag2/Tag2Dropbox';
@@ -8,6 +12,7 @@ import Icon from '@/components/Icon';
 
 import { StyledField, StyledName } from './components';
 import { NoteFormOnChange } from './type';
+import { getPurchasedIdOptionList } from '../helper';
 
 interface SelectPurchasedIdProps {
   stockId: string | null;
@@ -20,7 +25,14 @@ function SelectPurchasedId({
   purchasedId,
   onChange,
 }: SelectPurchasedIdProps) {
-  const options = useSelector(selectStockPurchasedIds(stockId));
+  const stockInfo = useSelector(selectStocks);
+  const notes = useSelector(selectNoteCollection);
+  const purchasedIds = useSelector(selectStockPurchasedIds(stockId));
+
+  const options = stockId
+    ? purchasedIds
+    : getPurchasedIdOptionList(stockInfo, notes);
+
   const onOptionSelect = (newOption: string | null) =>
     onChange('purchasedId', newOption);
 

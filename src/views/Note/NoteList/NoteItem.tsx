@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -86,7 +86,7 @@ function NoteItem({ id, onNoteClick }: NoteItemProps) {
   );
 }
 
-export default NoteItem;
+export default memo(NoteItem);
 
 const StyledNoteItem = styled.div`
   display: flex;
