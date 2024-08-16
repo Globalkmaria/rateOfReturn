@@ -212,16 +212,16 @@ function SoldItem({ id }: Props) {
         <StyledButtonGroup>
           <EditButton isLock={isLock} onClick={onToggleLock} />
           <MoreButton width={100} vertical='bottom' horizontal='right'>
-            <DropboxItem onClick={deleteModal.onOpenModal}>
-              <Icon icon='delete' />
-              Delete
-            </DropboxItem>
             <DropboxItem
               onClick={noteModal.onOpenModal}
               title='Write stock note'
             >
               <Icon icon='note' />
               Write stock note
+            </DropboxItem>
+            <DropboxItem onClick={deleteModal.onOpenModal}>
+              <Icon icon='delete' />
+              Delete
             </DropboxItem>
           </MoreButton>
         </StyledButtonGroup>
