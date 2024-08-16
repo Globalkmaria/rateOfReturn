@@ -1,4 +1,5 @@
 import { Context } from 'chartjs-plugin-datalabels';
+import dayjs from 'dayjs';
 
 import {
   PurchasedItemInfo,
@@ -23,8 +24,11 @@ export const getStockOptions = (stockList: StocksCollection) => {
 const getReturnOfRation = (currentPrice: number, purchasedPrice: number) =>
   getPercentage(currentPrice - purchasedPrice, purchasedPrice).toFixed(2);
 
-const getItemLabel = (item: PurchasedItemInfo) =>
-  `#${item.purchasedId} ${item.purchasedDate} ${item.purchasedTime}`;
+const getItemLabel = (item: PurchasedItemInfo) => {
+  const date = new Date(`${item.purchasedDate} ${item.purchasedTime}`);
+  const formattedDate = dayjs(date).format('DD MMM YYYY HH:mm');
+  return `#${item.purchasedId} ${formattedDate}`;
+};
 
 const getAverageReturn = (stock: StockList) => {
   const { totalQuantity, totalBuyCost } = stock.purchasedItems.allIds.reduce(
@@ -116,6 +120,8 @@ export type StockBarChartInfo = {
   label: string;
   profit: string;
   ratio: string;
+  date: string;
+  purchasedId: string;
 };
 
 export type StockBarChartInfos = Map<string, StockBarChartInfo>;
@@ -130,6 +136,8 @@ export const getStockBarChartInfos = (stock?: StockList) => {
     label: 'Average',
     profit: averageReturn.profit,
     ratio: averageReturn.ratio,
+    date: '',
+    purchasedId: '',
   });
 
   for (const id of stock.purchasedItems.allIds) {
@@ -145,10 +153,17 @@ export const getStockBarChartInfos = (stock?: StockList) => {
 
     const label = getItemLabel(purchasedItem);
 
+    const date = new Date(
+      `${purchasedItem.purchasedDate} ${purchasedItem.purchasedTime}`,
+    );
+    const formattedDate = dayjs(date).format('DD MMM YYYY HH:mm');
+
     result.set(id, {
       label,
       profit,
       ratio,
+      date: formattedDate,
+      purchasedId: id,
     });
   }
 

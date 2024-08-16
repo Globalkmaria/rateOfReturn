@@ -32,7 +32,6 @@ function Search({
         disabled={disabled}
         ref={inputRef}
         type='text'
-        placeholder='Search by stock name...'
         {...restProps}
       />
     </StyledSearch>

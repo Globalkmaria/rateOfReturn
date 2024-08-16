@@ -8,17 +8,17 @@ import useModal from '../List/hooks/useModal';
 import AddNote from './NoteInfo/modals/AddNote';
 import { INITIAL_NOTE_FORM_STATE } from './NoteInfo/const';
 
-function EmptyNote() {
+function NoNote() {
   const { showModal, onOpenModal, onCloseModal } = useModal();
   return (
     <>
-      <EmptyNoteContainer>
+      <NoNoteContainer>
         <NoListText>No notes</NoListText>
         <BorderButton size='s' onClick={onOpenModal}>
           <Icon icon='add' />
           <span>Add new note</span>
         </BorderButton>
-      </EmptyNoteContainer>
+      </NoNoteContainer>
       {showModal && (
         <AddNote
           initialFormState={INITIAL_NOTE_FORM_STATE}
@@ -29,9 +29,9 @@ function EmptyNote() {
   );
 }
 
-export default EmptyNote;
+export default NoNote;
 
-const EmptyNoteContainer = styled.div`
+const NoNoteContainer = styled.div`
   padding: 30px 0;
   display: flex;
   flex-direction: column;

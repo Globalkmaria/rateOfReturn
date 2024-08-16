@@ -47,8 +47,6 @@ function PurchasedMainGroupAction({
   const deleteModal = useModal();
   const groupModal = useModal();
 
-  const moreDropdownDirection = isLastIdx ? 'top' : 'bottom';
-
   const noteModal = useModal();
   const addNoteInitialFormState: NoteFormState = {
     ...INITIAL_NOTE_FORM_STATE,
@@ -57,6 +55,7 @@ function PurchasedMainGroupAction({
       label: mainInfo.stockName,
     },
     purchasedId: purchasedId,
+    tag: mainInfo.tag ?? null,
   };
 
   const onItemSold = async () => {
@@ -87,11 +86,7 @@ function PurchasedMainGroupAction({
             onClick={onToggleLock}
             disabled={!isMainGroupSelected}
           />
-          <MoreButton
-            width={80}
-            vertical={moreDropdownDirection}
-            horizontal='right'
-          >
+          <MoreButton width={80} vertical={'bottom'} horizontal='right'>
             <DropboxItem
               onClick={onItemSold}
               disabled={!isLock}
@@ -105,18 +100,18 @@ function PurchasedMainGroupAction({
               Group
             </DropboxItem>
             <DropboxItem
-              onClick={deleteModal.onOpenModal}
-              title='Delete this item'
-            >
-              <Icon icon='delete' />
-              Delete
-            </DropboxItem>
-            <DropboxItem
               onClick={noteModal.onOpenModal}
               title='Write stock note'
             >
               <Icon icon='note' />
               Write stock note
+            </DropboxItem>
+            <DropboxItem
+              onClick={deleteModal.onOpenModal}
+              title='Delete this item'
+            >
+              <Icon icon='delete' />
+              Delete
             </DropboxItem>
           </MoreButton>
         </StyledButtonGroup>

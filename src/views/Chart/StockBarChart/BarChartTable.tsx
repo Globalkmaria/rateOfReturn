@@ -16,15 +16,15 @@ interface Props {
 
 function BarChartTable({ stockBarChartInfos }: Props) {
   const data = [...stockBarChartInfos.entries()];
+
   return (
     <StyledWrapper>
       <StyledContainer>
         <StyledTable>
           <TableHeader>
             <TableRow>
-              <TableHead fixedWidth={180} rowSpan={2}>
-                Label
-              </TableHead>
+              <TableHead width={50}>#</TableHead>
+              <TableHead width={160}>Date</TableHead>
               <TableHead width={200}>%</TableHead>
               <TableHead width={240}>Profit & Loss</TableHead>
             </TableRow>
@@ -84,7 +84,8 @@ interface ItemProps {
 function Item({ info }: ItemProps) {
   return (
     <TableRow>
-      <TableCell>{info.label}</TableCell>
+      <TableCell align='center'>{info.purchasedId}</TableCell>
+      <TableCell align='center'>{info.date}</TableCell>
       <TableCell align='right'>{info.ratio} %</TableCell>
       <TableCell align='right'>{info.profit}</TableCell>
     </TableRow>
