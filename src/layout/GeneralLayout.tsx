@@ -1,5 +1,10 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+import useSaveChangedGroupsData from '@/views/List/hooks/useSaveChangedGroupedData';
+import useSaveChangedStocksData from '@/views/List/hooks/useSaveChangedStocksData';
+import useSaveChangedSoldsData from '@/views/List/hooks/useSaveChangedSoldData';
+import useSaveChangedNotesData from '@/views/Note/hooks/useSaveChangedNotesData';
 
 import Navbar from './NavBar/Navbar';
 import Footer from './Footer';
@@ -13,8 +18,18 @@ interface GeneralLayoutProps {
 }
 
 const GeneralLayout = ({ children }: GeneralLayoutProps) => {
+  const [firstLoad, setFirstLoad] = useState(true);
   useCheckMe();
   useSyncUserData();
+
+  useSaveChangedGroupsData(firstLoad);
+  useSaveChangedStocksData(firstLoad);
+  useSaveChangedSoldsData(firstLoad);
+  useSaveChangedNotesData(firstLoad);
+
+  useEffect(() => {
+    setFirstLoad(false);
+  }, []);
 
   return (
     <StyledGeneralLayout>
