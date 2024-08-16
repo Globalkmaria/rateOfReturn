@@ -20,6 +20,7 @@ This project allows you to:
 - **Track Individual Stock Purchases:** Seamlessly monitor your stock purchases, with easy access to purchase details and average information for each stock.
 - **Group Stocks Effortlessly:** Organize your stock purchases in multiple ways to monitor returns and return ratios for each group.
 - **Access Data Anywhere:** Register and access your data from anywhere, ensuring convenient control of your investments.
+- **Manage and Organize Notes:** Create, filter, and sort notes related to your stocks and sales, keeping all your investment-related thoughts and information in one place.
 
 ## Features
 
@@ -56,6 +57,9 @@ This project allows you to:
 7. **Market Cap Analysis**
    - Description: Quickly assess the top-performing stocks by market capitalization.
    - Benefits: Stay informed about the largest players in the market.
+8. **Note Management**
+   - Description: Manage notes related to your stocks with advanced filtering, sorting, and automatic inclusion of relevant information.
+   - Benefits: Keep organized records and efficiently manage your investment-related notes.
 
 ## Skills and Technologies Used
 
@@ -73,35 +77,34 @@ This project allows you to:
 ## Snapshot
 
 - Home page
-
-  <img src="https://velog.velcdn.com/images/tjdgus0528/post/1ee999cd-c5a0-49c2-9bf6-29832bd95200/image.png" alt="image" width="700" height="400">
+<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/74db3c06-9461-458a-a40e-15cdf9999522">
 
 - Current page
-
-  <img src="https://velog.velcdn.com/images/tjdgus0528/post/185152d2-eccd-44bd-9153-b146ab1ab949/image.png" alt="image" width="700" height="400">
+<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/0bc72060-1b76-4981-9290-d28a8852c52b">
+<img width="700" height="400" src="https://github.com/user-attachments/assets/ccdd4014-0d29-453b-9843-6d894d30862b">
+<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/cd5059d2-2655-4445-b677-e28e6f8642b6">
 
 - Add group
-
-  <img src="https://velog.velcdn.com/images/tjdgus0528/post/d279bb52-5715-434c-b862-ce53576a5d6b/image.png" alt="image" width="700" height="400">
-
-- Edit current prices
-
-  <img src="https://velog.velcdn.com/images/tjdgus0528/post/0ce5af52-941c-41e9-a381-f1bef6abd936/image.png" alt="image" width="700" height="400">
+<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/7f07aee1-e1f3-4e51-8771-c2a8ffe9a9f5">
 
 - Chart page
 
-  <img src="https://velog.velcdn.com/images/tjdgus0528/post/01e9bb11-e707-41cb-8e28-f079f81eced5/image.png" alt="image" width="700" height="400">
+<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/797604e3-9437-45cb-8545-e421f7bfcb2f">
+<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/b988be7f-2256-4d8f-a661-4922e4c4011d">
 
 - Sold page
 
-  <img src="https://velog.velcdn.com/images/tjdgus0528/post/52202578-680e-4b3a-922d-e68d5fbcf666/image.png" alt="image" width="700" height="400">
+<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/4a1899f2-9472-4057-bc64-43933599cb1d">
+
+- Note page
+<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/1125f786-0755-4e0f-8fb4-ebf5f1791292">
+<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/849fe467-5138-4fae-811a-0a6eade2a63a">
 
 - Login page
-
-  <img src="https://velog.velcdn.com/images/tjdgus0528/post/2f836849-5571-40b4-b1c8-f65c2e9d4966/image.png" alt="image" width="700" height="400">
-
+<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/8ee4c711-8d86-40fc-9ec3-73b38eda5f6c">
+  
 - Data Sync when there is local data and login
+<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/a090f150-98f4-4fce-895a-032aafe42a8c">
 
-  <img src="https://velog.velcdn.com/images/tjdgus0528/post/6d12a3fc-7a03-4f80-be34-c36459f2cdbc/image.png" alt="image" width="700" height="400">
 
 Licensed under GNU v3.0
