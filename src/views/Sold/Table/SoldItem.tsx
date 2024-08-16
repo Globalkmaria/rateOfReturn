@@ -51,15 +51,21 @@ function SoldItem({ id }: Props) {
   const [isLock, setIsLock] = useState(true);
   const [changedInputs, setChangedInputs] = useState<SoldItemInputs>({});
   const deleteModal = useModal();
-
   const noteModal = useModal();
-  const addNoteInitialFormState: NoteFormState = {
-    ...INITIAL_NOTE_FORM_STATE,
-    soldId: id,
-  };
 
   const item = useSelector(selectSoldItem(id));
   const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  const addNoteInitialFormState: NoteFormState = {
+    ...INITIAL_NOTE_FORM_STATE,
+    soldId: id,
+    stockName: {
+      value: item.stockId,
+      label: item.stockName,
+    },
+    purchasedId: item.purchasedId,
+    tag: item.tag ?? null,
+  };
 
   const buyTotalCost = item.purchasedQuantity * item.purchasedPrice;
   const soldTotalValue =
