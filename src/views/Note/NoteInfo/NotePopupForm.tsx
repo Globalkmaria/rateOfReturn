@@ -32,8 +32,18 @@ function NotePopupForm({ onChange, formState }: NotePopupFormProps) {
     onChange('title', e.target.value);
   };
 
-  const onTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+  const onTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target;
+    if (value.length > TEXTAREA_MAX_LENGTH) {
+      onChange('text', value.slice(0, TEXTAREA_MAX_LENGTH));
+      alert(
+        `The note text is too long. The maximum length is ${TEXTAREA_MAX_LENGTH} characters.`,
+      );
+      return;
+    }
+
     onChange('text', e.target.value);
+  };
 
   return (
     <>
@@ -65,6 +75,7 @@ const TITLE_PLACEHOLDER = 'Untitled';
 const TEXTAREA_PLACEHOLDER = 'Add your note here...';
 
 const TITLE_MAX_LENGTH = 50;
+const TEXTAREA_MAX_LENGTH = 10000;
 
 const StyledTitle = styled.input.attrs({
   type: 'text',
