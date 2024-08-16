@@ -75,6 +75,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
       value: mainInfo.stockId,
       label: mainInfo.stockName,
     },
+    tag: mainInfo.tag ?? null,
   };
 
   const onChangeCheckbox = useChangeStockCheckbox(stockId);

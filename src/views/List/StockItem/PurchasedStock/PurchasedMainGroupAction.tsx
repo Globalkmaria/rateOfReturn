@@ -57,6 +57,7 @@ function PurchasedMainGroupAction({
       label: mainInfo.stockName,
     },
     purchasedId: purchasedId,
+    tag: mainInfo.tag ?? null,
   };
 
   const onItemSold = async () => {
