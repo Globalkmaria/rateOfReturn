@@ -4,10 +4,12 @@ import { useSearchParams } from 'react-router-dom';
 
 import { Table, TableBody } from '@/components/Table';
 import { selectSoldList } from '@/features/solds';
+
 import SoldTableHeader from './SoldTableHeader';
 import SoldItem from './SoldItem';
 import { SOLD_SORT_OPTIONS_FUNCTIONS, SoldSortOptions } from './const';
 import { validateSoldQuery } from './helper';
+import NoSold from './NoSold';
 
 interface Props {}
 
@@ -22,6 +24,8 @@ function SoldTable({}: Props) {
   const handleSortChange = (sortBy: SoldSortOptions) =>
     setSearchParams({ sortBy });
 
+  const noSold = !sortedList.length;
+
   return (
     <StyleSoldTableWrapper>
       <StyledSoldTable>
@@ -35,6 +39,7 @@ function SoldTable({}: Props) {
           ))}
         </TableBody>
       </StyledSoldTable>
+      {noSold && <NoSold />}
     </StyleSoldTableWrapper>
   );
 }
