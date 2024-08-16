@@ -167,10 +167,6 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
                 <DropboxItem onClick={onStockSold} disabled={!isLock}>
                   <Icon icon='sold' /> Sold
                 </DropboxItem>
-                <DropboxItem onClick={onOpenModal}>
-                  <Icon icon='delete' />
-                  Delete
-                </DropboxItem>
                 <DropboxItem onClick={onAddItem} title='Add same stock'>
                   <Icon icon='add' />
                   Add same stock
@@ -178,6 +174,10 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
                 <DropboxItem onClick={onOpenModalNote} title='Write stock note'>
                   <Icon icon='note' />
                   Write stock note
+                </DropboxItem>
+                <DropboxItem onClick={onOpenModal}>
+                  <Icon icon='delete' />
+                  Delete
                 </DropboxItem>
               </MoreButton>
             </StyledButtonGroup>

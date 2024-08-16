@@ -105,18 +105,18 @@ function PurchasedMainGroupAction({
               Group
             </DropboxItem>
             <DropboxItem
-              onClick={deleteModal.onOpenModal}
-              title='Delete this item'
-            >
-              <Icon icon='delete' />
-              Delete
-            </DropboxItem>
-            <DropboxItem
               onClick={noteModal.onOpenModal}
               title='Write stock note'
             >
               <Icon icon='note' />
               Write stock note
+            </DropboxItem>
+            <DropboxItem
+              onClick={deleteModal.onOpenModal}
+              title='Delete this item'
+            >
+              <Icon icon='delete' />
+              Delete
             </DropboxItem>
           </MoreButton>
         </StyledButtonGroup>
