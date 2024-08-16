@@ -13,6 +13,15 @@ export const StyledField = styled.div`
       border: none;
     }
   }
+
+  .tag-modal {
+    width: 220px;
+
+    @media ${({ theme }) => theme.devices.tablet} {
+      font-size: 0.7rem;
+      width: 180px;
+    }
+  }
 `;
 
 export const StyledName = styled.span`
@@ -23,6 +32,10 @@ export const StyledName = styled.span`
   font-size: 1rem;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.grey600};
+
+  @media ${({ theme }) => theme.devices.tablet} {
+    font-size: 0.8rem;
+  }
 `;
 
 export const StyledNoteModal = styled.div`
@@ -34,8 +47,8 @@ export const StyledNoteModal = styled.div`
     width: 500px;
   }
 
-  @media ${({ theme }) => theme.devices.tablet} {
-    padding: 20px 20px;
+  @media ${({ theme }) => theme.devices.mobile} {
+    padding: 20px 10px;
     width: 300px;
   }
 `;
@@ -47,5 +60,9 @@ export const StyledForm = styled.form`
 
   ${ContainedButton} {
     margin-top: 10px;
+  }
+
+  @media ${({ theme }) => theme.devices.tablet} {
+    gap: 5px;
   }
 `;

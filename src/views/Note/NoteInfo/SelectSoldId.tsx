@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import { selectSoldList } from '@/features/solds';
+import { selectNoteCollection } from '@/features/notes';
 
 import Tag2 from '@/components/Tag2';
 import { TagDropbox2Settings } from '@/components/Tag2/Tag2Dropbox';
@@ -8,6 +9,7 @@ import Icon from '@/components/Icon';
 
 import { StyledField, StyledName } from './components';
 import { NoteFormOnChange } from './type';
+import { getSoldIdOptionList } from '../helper';
 
 interface SelectSoldIdProps {
   soldId: string | null;
@@ -15,14 +17,16 @@ interface SelectSoldIdProps {
 }
 
 function SelectSoldId({ soldId, onChange }: SelectSoldIdProps) {
-  const soldList = useSelector(selectSoldList);
-  const soldIds = soldList.allIds;
+  const solds = useSelector(selectSoldList);
+  const notes = useSelector(selectNoteCollection);
+
+  const options = getSoldIdOptionList(solds.allIds, notes);
 
   const onOptionSelect = (newOption: string | null) =>
     onChange('soldId', newOption);
 
-  const dropboxSettings: TagDropbox2Settings<(typeof soldIds)[number]> = {
-    options: soldIds,
+  const dropboxSettings: TagDropbox2Settings<string> = {
+    options,
     onOptionSelect,
     placeholder: 'Search for a sold id...',
     subtitle: 'Select a sold id',

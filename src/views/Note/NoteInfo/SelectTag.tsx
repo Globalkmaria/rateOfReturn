@@ -1,16 +1,15 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Tag2 from '@/components/Tag2';
 import { TagDropbox2Settings } from '@/components/Tag2/Tag2Dropbox';
 import { selectStockTags } from '@/features/stockList/selectors';
-import {
-  addStockTag,
-  deleteStockTag,
-} from '@/features/stockList/stockListSlice';
 import Icon from '@/components/Icon';
 
 import { StyledField, StyledName } from './components';
 import { NoteFormOnChange } from './type';
+import { getTagOptionList } from '../helper';
+import { selectNotes } from '@/features/notes';
+import { selectSoldList } from '@/features/solds';
 
 interface SelectTagProps {
   tag: string | null;
@@ -18,32 +17,22 @@ interface SelectTagProps {
 }
 
 function SelectTag({ tag, onChange }: SelectTagProps) {
-  const dispatch = useDispatch();
-  const options = useSelector(selectStockTags);
+  const tags = useSelector(selectStockTags);
+  const notes = useSelector(selectNotes);
+  const sold = useSelector(selectSoldList);
 
   const onOptionSelect = (newOption: string | null) =>
     onChange('tag', newOption);
 
-  const onDeleteOption = (option: string) => {
-    dispatch(deleteStockTag(option));
+  const options = getTagOptionList(tags, notes.collection, sold);
 
-    if (option === option) onOptionSelect(null);
-  };
-
-  const onCreateNewOption = async (newOption: string) => {
-    dispatch(addStockTag(newOption));
-    onOptionSelect(newOption);
-  };
-
-  const dropboxSettings: TagDropbox2Settings<(typeof options)[number]> = {
+  const dropboxSettings: TagDropbox2Settings<string> = {
     options,
     onOptionSelect,
-    onDeleteOption,
-    showDeleteItem: true,
     placeholder: 'Search for a tag...',
-    subtitle: 'Select a tag or create one',
-    onCreateNewOption,
+    subtitle: 'Select a tag',
     height: 200,
+    showCreateNewOption: false,
   };
   return (
     <StyledField>

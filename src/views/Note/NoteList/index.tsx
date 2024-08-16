@@ -1,36 +1,61 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 
-import { selectNoteIds } from '@/features/notes';
+import { selectNoteCollection } from '@/features/notes';
 
 import useModal from '@/views/List/hooks/useModal';
+
 import EditNote from '../NoteInfo/modals/EditNote';
+import {
+  getFilteredNoteIdsBySearchParams,
+  getFilteredNoteIdsByTitle,
+  getSortedNoteIds,
+} from '../helper';
 import NoNote from '../NoNote';
 import NoteItem from './NoteItem';
 
-function NoteList() {
+interface Props {
+  searchTitle: string;
+}
+
+function NoteList({ searchTitle }: Props) {
+  const [searchParams] = useSearchParams();
   const { showModal, onOpenModal, onCloseModal } = useModal();
   const [selectedNoteId, setSelectedNoteId] = useState<string | null>(null);
-  const noteIds = useSelector(selectNoteIds);
-  const showNoteModal = showModal && selectedNoteId;
-  const noNote = !noteIds.length;
+  const notes = useSelector(selectNoteCollection);
 
-  const onNoteClick = (id: string) => {
+  const showNoteModal = showModal && selectedNoteId;
+  const noNote = !notes.allIds.length;
+
+  if (noNote) return <NoNote />;
+
+  const filteredNoteIds = getFilteredNoteIdsBySearchParams(searchParams, notes);
+  const filteredNotesByTitle = getFilteredNoteIdsByTitle(
+    searchTitle,
+    notes,
+    filteredNoteIds,
+  );
+  const sortedNoteIds = getSortedNoteIds(
+    searchParams,
+    filteredNotesByTitle,
+    notes,
+  );
+
+  const onNoteClick = useCallback((id: string) => {
     setSelectedNoteId(id);
     onOpenModal();
-  };
+  }, []);
 
   const onCloseNoteModal = () => {
     setSelectedNoteId(null);
     onCloseModal();
   };
 
-  if (noNote) return <NoNote />;
-
   return (
     <StyledNoteList>
-      {noteIds.map(id => (
+      {sortedNoteIds.map(id => (
         <NoteItem id={id} key={id} onNoteClick={onNoteClick} />
       ))}
       {showNoteModal && (

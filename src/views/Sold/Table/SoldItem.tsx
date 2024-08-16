@@ -51,15 +51,21 @@ function SoldItem({ id }: Props) {
   const [isLock, setIsLock] = useState(true);
   const [changedInputs, setChangedInputs] = useState<SoldItemInputs>({});
   const deleteModal = useModal();
-
   const noteModal = useModal();
-  const addNoteInitialFormState: NoteFormState = {
-    ...INITIAL_NOTE_FORM_STATE,
-    soldId: id,
-  };
 
   const item = useSelector(selectSoldItem(id));
   const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  const addNoteInitialFormState: NoteFormState = {
+    ...INITIAL_NOTE_FORM_STATE,
+    soldId: id,
+    stockName: {
+      value: item.stockId,
+      label: item.stockName,
+    },
+    purchasedId: item.purchasedId,
+    tag: item.tag ?? null,
+  };
 
   const buyTotalCost = item.purchasedQuantity * item.purchasedPrice;
   const soldTotalValue =
@@ -206,16 +212,16 @@ function SoldItem({ id }: Props) {
         <StyledButtonGroup>
           <EditButton isLock={isLock} onClick={onToggleLock} />
           <MoreButton width={100} vertical='bottom' horizontal='right'>
-            <DropboxItem onClick={deleteModal.onOpenModal}>
-              <Icon icon='delete' />
-              Delete
-            </DropboxItem>
             <DropboxItem
               onClick={noteModal.onOpenModal}
               title='Write stock note'
             >
               <Icon icon='note' />
               Write stock note
+            </DropboxItem>
+            <DropboxItem onClick={deleteModal.onOpenModal}>
+              <Icon icon='delete' />
+              Delete
             </DropboxItem>
           </MoreButton>
         </StyledButtonGroup>

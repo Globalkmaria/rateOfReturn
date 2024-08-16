@@ -1,7 +1,5 @@
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { selectStocks } from '@/features/stockList/selectors';
 import Textarea from '@/components/Textarea';
 
 import SelectStockName from './SelectStockName';
@@ -18,21 +16,10 @@ interface NotePopupFormProps {
   formState: NoteFormState;
 }
 
-const TITLE_PLACEHOLDER = 'Untitled';
-const TEXTAREA_PLACEHOLDER = 'Add your note here...';
-
-const TITLE_MAX_LENGTH = 50;
-
 function NotePopupForm({ onChange, formState }: NotePopupFormProps) {
-  const stocks = useSelector(selectStocks);
-  const stockNameOptionList = stocks.allIds.map(id => ({
-    value: stocks.byId[id].mainInfo.stockId,
-    label: stocks.byId[id].mainInfo.stockName,
-  }));
-
   const title = formState.title ?? '';
-  const stockIdForSelectPurchasedId = formState.stockName?.value ?? null;
   const text = formState.text ?? '';
+  const stockId = formState.stockName?.value ?? null;
 
   const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > TITLE_MAX_LENGTH) {
@@ -45,8 +32,18 @@ function NotePopupForm({ onChange, formState }: NotePopupFormProps) {
     onChange('title', e.target.value);
   };
 
-  const onTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+  const onTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target;
+    if (value.length > TEXTAREA_MAX_LENGTH) {
+      onChange('text', value.slice(0, TEXTAREA_MAX_LENGTH));
+      alert(
+        `The note text is too long. The maximum length is ${TEXTAREA_MAX_LENGTH} characters.`,
+      );
+      return;
+    }
+
     onChange('text', e.target.value);
+  };
 
   return (
     <>
@@ -55,14 +52,10 @@ function NotePopupForm({ onChange, formState }: NotePopupFormProps) {
         value={title}
         placeholder={TITLE_PLACEHOLDER}
       />
-      <SelectStockName
-        stockNameOptionList={stockNameOptionList}
-        stockName={formState.stockName}
-        onChange={onChange}
-      />
+      <SelectStockName stockName={formState.stockName} onChange={onChange} />
       <SelectPurchasedId
         purchasedId={formState.purchasedId}
-        stockId={stockIdForSelectPurchasedId}
+        stockId={stockId}
         onChange={onChange}
       />
       <SelectSoldId soldId={formState.soldId} onChange={onChange} />
@@ -77,6 +70,12 @@ function NotePopupForm({ onChange, formState }: NotePopupFormProps) {
 }
 
 export default NotePopupForm;
+
+const TITLE_PLACEHOLDER = 'Untitled';
+const TEXTAREA_PLACEHOLDER = 'Add your note here...';
+
+const TITLE_MAX_LENGTH = 50;
+const TEXTAREA_MAX_LENGTH = 10000;
 
 const StyledTitle = styled.input.attrs({
   type: 'text',
@@ -94,7 +93,7 @@ const StyledTitle = styled.input.attrs({
 
 const StyledTextarea = styled(Textarea)`
   margin-top: 10px;
-  height: 300px;
+  height: min(300px, 25vh);
 
   @media ${({ theme }) => theme.devices.laptop} {
     height: 200px;
