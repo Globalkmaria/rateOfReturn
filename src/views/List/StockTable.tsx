@@ -37,6 +37,7 @@ export default memo(StockTable);
 
 const StyledStockTableBase = styled('div')`
   overflow-x: overlay;
+  padding-bottom: 100px;
 
   th,
   td {
