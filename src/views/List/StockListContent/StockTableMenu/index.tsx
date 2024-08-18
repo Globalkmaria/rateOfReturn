@@ -32,4 +32,12 @@ const StyledStockTableMenu = styled('div')`
   display: flex;
   justify-content: flex-end;
   column-gap: 10px;
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    width: 100%;
+
+    .search {
+      width: 100%;
+    }
+  }
 `;

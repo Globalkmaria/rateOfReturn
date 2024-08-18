@@ -47,6 +47,7 @@ const StyledMenuList = styled('ul')`
 `;
 
 const StyledMenu = styled(UnderlineAnchor)<MenuProps>`
-  padding: 1rem;
+  display: block;
+  padding: 0 1rem 1rem 1rem;
   font-size: 0.8rem;
 `;
