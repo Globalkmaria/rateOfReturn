@@ -70,4 +70,10 @@ const StyledTopMenu = styled('div')`
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    width: 100%;
+    flex-wrap: wrap;
+    row-gap: 5px;
+  }
 `;
