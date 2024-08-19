@@ -1,15 +1,19 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import userNotesService from '@/service/userNotes/service';
+
+import { addNewNote, NoteContent } from '@/features/notes';
+import { selectIsLoggedIn } from '@/features/user/selectors';
 
 import PortalModal from '@/components/Modal/PortalModal';
 import { ContainedButton } from '@/components/Button';
-import { addNewNote } from '@/features/notes';
 
 import NotePopupForm from '../NotePopupForm';
 import { StyledForm, StyledNoteModal } from '../components';
 import { NoteFormKeys, NoteFormState } from '../type';
 import CloseWarningModal from '../CloseWarningModal';
-import { checkEditNoteFormHasChanges } from '../helper';
+import { checkEditNoteFormHasChanges, isNoteEmpty } from '../helper';
 
 interface NotePopupProps {
   onCloseModal: () => void;
@@ -19,6 +23,7 @@ interface NotePopupProps {
 function AddNote({ onCloseModal, initialFormState }: NotePopupProps) {
   const dispatch = useDispatch();
 
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const [showWarning, setShowWarning] = useState(false);
   const [formState, setFormState] = useState<NoteFormState>(initialFormState);
 
@@ -27,16 +32,32 @@ function AddNote({ onCloseModal, initialFormState }: NotePopupProps) {
     value: NoteFormState[K],
   ) => setFormState(prev => ({ ...prev, [fieldName]: value }));
 
-  const onSubmit = () => {
-    dispatch(
-      addNewNote({
-        ...formState,
-        stockId: formState.stockName?.value,
-        stockName: formState.stockName?.label,
-        title: formState.title ?? 'Untitled',
-      }),
-    );
+  const onSubmit = async () => {
+    if (isNoteEmpty(formState)) {
+      alert('No information was added. Please enter a least one field.');
+      return;
+    }
 
+    const newNote: NoteContent = {
+      ...formState,
+      stockId: formState.stockName?.value,
+      stockName: formState.stockName?.label,
+      title: formState.title ?? 'Untitled',
+    };
+
+    if (!isLoggedIn) {
+      dispatch(addNewNote(newNote));
+      onCloseModal();
+      return;
+    }
+
+    const result = await userNotesService.addNewNote(newNote);
+    if (!result.success) {
+      alert(result.message);
+      return;
+    }
+
+    dispatch(addNewNote({ ...newNote, ...result }));
     onCloseModal();
   };
 

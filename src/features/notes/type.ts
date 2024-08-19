@@ -16,6 +16,8 @@ export interface Note {
   updatedAt: string;
 }
 
+export type NoteContent = Omit<Note, 'id' | 'createdAt' | 'updatedAt'>;
+
 export interface NotesState {
   collection: Collections<Note>;
   nextId: number;

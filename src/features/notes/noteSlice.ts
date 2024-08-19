@@ -17,10 +17,10 @@ const noteSlice = createSlice({
   reducers: {
     addNewNote: (state, action: PayloadAction<AddNewNotePayload>) => {
       const newNote = {
-        id: String(state.nextId),
-        ...action.payload,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        id: String(state.nextId),
+        ...action.payload,
       };
 
       state.collection.byId[newNote.id] = newNote;

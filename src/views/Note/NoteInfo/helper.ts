@@ -38,4 +38,10 @@ export const checkEditNoteFormHasChanges = (
   for (const key of Object.keys(originalForm) as Array<keyof NoteFormState>) {
     if (!isEqual(originalForm[key], currentForm[key])) return true;
   }
+  return false;
+};
+
+export const isNoteEmpty = (note: NoteFormState) => {
+  const keys = Object.keys(note) as Array<keyof NoteFormState>;
+  return keys.every(key => !note[key]);
 };
