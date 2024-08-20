@@ -26,6 +26,12 @@ class UserNotesRepository {
       body: { note },
     });
   }
+
+  async deleteNote(noteId: string): Promise<void | ErrorResponse> {
+    return this.httpClient.fetch(`/${noteId}`, {
+      method: 'DELETE',
+    });
+  }
 }
 
 const USER_NOTES_BASE_URL = `${config.server.url}/user/notes`;

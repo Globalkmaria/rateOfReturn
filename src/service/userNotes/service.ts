@@ -55,6 +55,23 @@ class UserNotesService {
       };
     }
   }
+
+  async deleteNote(noteId: string): Promise<Result> {
+    try {
+      const result = await this.repo.deleteNote(noteId);
+      if (!result) return { success: true };
+
+      throw new Error(
+        result?.data?.message || 'Server error while deleting note',
+      );
+    } catch (error) {
+      console.log(error);
+      return {
+        success: false,
+        message: 'Could not delete note item.',
+      };
+    }
+  }
 }
 
 const userNotesService = new UserNotesService(userNotesRepository);

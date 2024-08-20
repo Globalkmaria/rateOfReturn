@@ -1,12 +1,16 @@
-import { MouseEventHandler, memo } from 'react';
+import { MouseEventHandler, memo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+
+import userNotesService from '@/service/userNotes/service';
 
 import { Chip, ChipText } from '@/components/Chip';
 import Flex from '@/components/Flex';
 import IconButton from '@/components/IconButton';
 
+import { selectIsLoggedIn } from '@/features/user/selectors';
 import { deleteNote, selectNoteItem } from '@/features/notes';
+
 import { shortenText } from '@/utils/text';
 import { isDefined } from '@/utils/validation';
 
@@ -20,6 +24,9 @@ interface NoteItemProps {
 
 function NoteItem({ id, onNoteClick }: NoteItemProps) {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const {
     title,
     text,
@@ -37,8 +44,21 @@ function NoteItem({ id, onNoteClick }: NoteItemProps) {
   const shortedTitle = shortenText(title, 30);
   const shortenedText = shortenText(text ?? '', 100);
 
-  const onDelete: MouseEventHandler<HTMLButtonElement> = e => {
+  const onDelete: MouseEventHandler<HTMLButtonElement> = async e => {
     e.stopPropagation();
+    if (isDeleting) return;
+
+    if (isLoggedIn) {
+      setIsDeleting(true);
+      const result = await userNotesService.deleteNote(id);
+      setIsDeleting(false);
+
+      if (!result.success) {
+        alert(result.message);
+        return;
+      }
+    }
+
     dispatch(deleteNote(id));
   };
 
