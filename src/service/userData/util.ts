@@ -17,6 +17,7 @@ import {
 } from '../../repository/userData/type';
 import { UserDataServiceRes } from './type';
 import { getDateFromIOSString, getFixedLocaleString } from '@/utils';
+import { NotesState } from '@/features/notes';
 
 const getMainInfo = (
   stockId: string,
@@ -172,6 +173,24 @@ const getSolds = (soldData: UserDataRepRes['solds']): SoldsState => {
   };
 };
 
+const getNotes = ({ nextId, notes }: UserDataRepRes['notes']): NotesState => {
+  const init: NotesState['collection'] = {
+    allIds: [],
+    byId: {},
+  };
+
+  const collection = notes.reduce((acc, note) => {
+    acc.byId[note.id] = note;
+    acc.allIds.push(note.id);
+    return acc;
+  }, init);
+
+  return {
+    nextId,
+    collection,
+  };
+};
+
 export const transformUserDataForFrontend = (
   userData: UserDataRepRes,
 ): UserDataServiceRes => {
@@ -179,11 +198,13 @@ export const transformUserDataForFrontend = (
   const checkedItems = generateInitialCheckInfo(userData.stocks.stocks);
   const groups = getGroups(userData.groups);
   const solds = getSolds(userData.solds);
+  const notes = getNotes(userData.notes);
 
   return {
     stocks,
     checkedItems,
     groups,
     solds,
+    notes,
   };
 };

@@ -1,3 +1,4 @@
+import { Note } from '@/features/notes';
 import { Sold } from '@/features/solds';
 
 export type UserGroup = {
@@ -71,6 +72,10 @@ export type UserDataRepRes = {
   solds: {
     solds: UserSolds;
     nextId: number;
+  };
+  notes: {
+    nextId: number;
+    notes: Note[];
   };
 };
 
