@@ -2,7 +2,7 @@ import { config } from '@/config';
 import { NoteContent } from '@/features/notes';
 import HttpClient from '@/network/http';
 import { ErrorResponse } from 'react-router-dom';
-import { AddNewNoteRes } from './type';
+import { AddNewNoteRes, EditNoteRes } from './type';
 
 class UserNotesRepository {
   httpClient: HttpClient;
@@ -13,6 +13,16 @@ class UserNotesRepository {
   async addNewNote(note: NoteContent): Promise<AddNewNoteRes | ErrorResponse> {
     return this.httpClient.fetch('/', {
       method: 'POST',
+      body: { note },
+    });
+  }
+
+  async editNote(
+    noteId: string,
+    note: Partial<NoteContent>,
+  ): Promise<EditNoteRes | ErrorResponse> {
+    return this.httpClient.fetch(`/${noteId}`, {
+      method: 'PUT',
       body: { note },
     });
   }

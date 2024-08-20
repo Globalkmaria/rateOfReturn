@@ -36,8 +36,8 @@ const noteSlice = createSlice({
       const { id, updatedFields } = action.payload;
       const updatedNote = {
         ...state.collection.byId[id],
-        ...updatedFields,
         updatedAt: new Date().toISOString(),
+        ...updatedFields,
       };
       state.collection.byId[id] = updatedNote;
     },

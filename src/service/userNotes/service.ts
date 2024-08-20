@@ -2,9 +2,9 @@ import { NoteContent } from '@/features/notes';
 import UserNotesRepository, {
   userNotesRepository,
 } from '@/repository/userNotes/repository';
-import { AddNewNoteRes } from '@/repository/userNotes/type';
+import { AddNewNoteRes, EditNoteRes } from '@/repository/userNotes/type';
 
-import { ResultWithData } from '../type';
+import { Result, ResultWithData } from '../type';
 
 class UserNotesService {
   repo: UserNotesRepository;
@@ -32,6 +32,26 @@ class UserNotesService {
       return {
         success: false,
         message: 'Could not add new note item.',
+      };
+    }
+  }
+
+  async editNote(
+    noteId: string,
+    note: Partial<NoteContent>,
+  ): Promise<ResultWithData<EditNoteRes>> {
+    try {
+      const result = await this.repo.editNote(noteId, note);
+      if ('updatedAt' in result) return { success: true, data: result };
+
+      throw new Error(
+        result?.data?.message || 'Server error while updating note',
+      );
+    } catch (error) {
+      console.log(error);
+      return {
+        success: false,
+        message: 'Could not update note item.',
       };
     }
   }

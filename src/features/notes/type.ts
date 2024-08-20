@@ -26,5 +26,5 @@ export interface NotesState {
 export type AddNewNotePayload = Omit<Note, 'id' | 'createdAt' | 'updatedAt'>;
 export type UpdateNotePayload = {
   id: string;
-  updatedFields: Partial<Omit<Note, 'id' | 'createdAt' | 'updatedAt'>>;
+  updatedFields: Partial<Omit<Note, 'id' | 'createdAt'>>;
 };
