@@ -1,4 +1,4 @@
-import { Note } from '@/features/notes';
+import { Note, NotesState } from '@/features/notes';
 import { Sold } from '@/features/solds';
 
 export type UserGroup = {
@@ -92,6 +92,10 @@ export type ReplaceUserDataRepReq = {
   };
   solds: {
     solds: UserSolds;
+    nextId: number;
+  };
+  notes: {
+    notes: NotesState['collection']['byId'];
     nextId: number;
   };
 };

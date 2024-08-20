@@ -46,7 +46,7 @@ const SetBackup = () => {
         onChange={handleFileChange}
       />
       <ContainedButton size='m' color='warning' fullWidth onClick={onClick}>
-        Restore from Backup
+        Restore Backup
       </ContainedButton>
       {showModal && <BackupWarningModal onClose={onCloseModal} data={data} />}
     </div>
