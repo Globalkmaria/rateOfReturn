@@ -14,41 +14,19 @@ interface Props {
 
 function NoteFilters({ disabled }: Props) {
   const notes = useSelector(selectNoteCollection);
-
-  const { stockNames, purchasedIds, soldIds, tags } =
-    getNoteFilterOptions(notes);
+  const noteOptions = getNoteFilterOptions(notes);
 
   return (
     <StyledFilters>
-      <NoteFilter
-        disabled={disabled}
-        name={NOTE_FILTER_KEYS.STOCK_NAME}
-        label='Stock name'
-        title='Filter by stock name'
-        options={stockNames}
-      />
-      <NoteFilter
-        disabled={disabled}
-        name={NOTE_FILTER_KEYS.PURCHASED_ID}
-        label='Stock Id'
-        title='Filter by stock id'
-        options={purchasedIds}
-      />
-      <NoteFilter
-        disabled={disabled}
-        name={NOTE_FILTER_KEYS.SOLD_ID}
-        label='Sold Id'
-        title='Filter by sold id'
-        options={soldIds}
-      />
-      <NoteFilter
-        disabled={disabled}
-        name={NOTE_FILTER_KEYS.TAG}
-        label='Tag'
-        title='Filter by tag'
-        options={tags}
-        horizontal='right'
-      />
+      {FILTERS.map(item => (
+        <NoteFilter
+          disabled={disabled}
+          name={item.name}
+          label={item.label}
+          title={item.title}
+          options={noteOptions[item.optionsKey]}
+        />
+      ))}
       <NoteFilter
         disabled={disabled}
         replaceParams={false}
@@ -63,6 +41,40 @@ function NoteFilters({ disabled }: Props) {
 }
 
 export default memo(NoteFilters);
+
+const FILTERS: {
+  name: string;
+  label: string;
+  title: string;
+  optionsKey: keyof ReturnType<typeof getNoteFilterOptions>;
+  horizontal?: 'left' | 'right';
+}[] = [
+  {
+    name: NOTE_FILTER_KEYS.STOCK_NAME,
+    label: 'Stock name',
+    title: 'Filter by stock name',
+    optionsKey: 'stockNames',
+  },
+  {
+    name: NOTE_FILTER_KEYS.PURCHASED_ID,
+    label: 'Stock id',
+    title: 'Filter by stock id',
+    optionsKey: 'purchasedIds',
+  },
+  {
+    name: NOTE_FILTER_KEYS.SOLD_ID,
+    label: 'Sold Id',
+    title: 'Filter by sold id',
+    optionsKey: 'soldIds',
+  },
+  {
+    name: NOTE_FILTER_KEYS.TAG,
+    label: 'Tag',
+    title: 'Filter by tag',
+    optionsKey: 'tags',
+    horizontal: 'right',
+  },
+];
 
 const StyledFilters = styled.div`
   grid-area: filters;
