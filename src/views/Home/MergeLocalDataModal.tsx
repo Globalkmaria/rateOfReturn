@@ -12,9 +12,10 @@ type Props = {
 
 const MergeLocalDataModal = ({ onClose }: Props) => {
   const { getUserData } = useGetUserData();
+  const localState = getLocalState();
 
   const onMerge = async () => {
-    const result = await userDataService.mergeUserData(getLocalState());
+    const result = await userDataService.mergeUserData(localState);
 
     if (!result.success) return;
     getUserData();
