@@ -1,3 +1,4 @@
+import { Note, NotesState } from '@/features/notes';
 import { Sold } from '@/features/solds';
 
 export type UserGroup = {
@@ -72,6 +73,10 @@ export type UserDataRepRes = {
     solds: UserSolds;
     nextId: number;
   };
+  notes: {
+    nextId: number;
+    notes: Note[];
+  };
 };
 
 export type ReplaceUserDataRepReq = {
@@ -87,6 +92,10 @@ export type ReplaceUserDataRepReq = {
   };
   solds: {
     solds: UserSolds;
+    nextId: number;
+  };
+  notes: {
+    notes: NotesState['collection']['byId'];
     nextId: number;
   };
 };

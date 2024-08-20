@@ -1,4 +1,4 @@
-import { CurrentPriceChanges } from '@/views/List/EditCurrentPrice/EditCurrentPriceModal';
+import { CurrentPriceChanges } from '@/views/List/StockListContent/StockTableMenu/EditCurrentPrice/EditCurrentPriceModal';
 import {
   AddNewUserItemRepReq,
   AddNewUserItemRepRes,

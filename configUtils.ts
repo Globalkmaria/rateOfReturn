@@ -1,9 +1,18 @@
+const files = {
+  'react-router-dom': '@react-router',
+  '@remix-run': '@react-router',
+  'react-router': '@react-router',
+  'react-dom': 'react-dom',
+  'chart.js': 'chart',
+  axios: 'axios',
+  'styled-components': 'styled-components',
+  node_modules: 'node_modules',
+};
+
+const filesKeys = Object.keys(files);
+
 export const splitFiles = (id: string) => {
-  if (id.includes('react-router-dom') || id.includes('@remix-run') || id.includes('react-router'))
-    return '@react-router';
-  if (id.includes('react-dom')) return 'react-dom';
-  if (id.includes('chart.js')) return 'chart';
-  if (id.includes('axios')) return 'axios';
-  if (id.includes('styled-components')) return 'styled-components';
-  if (id.includes('node_modules')) return 'node_modules';
+  for (const key of filesKeys) {
+    if (id.includes(key)) return files[key];
+  }
 };

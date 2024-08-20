@@ -28,6 +28,10 @@ export const StyledModalContent = styled('div')`
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const StyledModalHeader = styled('div').withConfig({

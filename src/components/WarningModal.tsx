@@ -8,6 +8,7 @@ interface WarningModalProps {
   onConfirm: () => void;
   onClose: () => void;
   buttonName: string;
+  disabled?: boolean;
 }
 
 const WarningModal = ({
@@ -15,12 +16,18 @@ const WarningModal = ({
   onConfirm,
   message,
   buttonName,
+  disabled,
 }: WarningModalProps) => {
   return (
     <PortalModal title='Warning' onClose={onClose}>
       <StyledWarningModal>
         <StyledMessage>{message}</StyledMessage>
-        <StyledWarningModalButton size='m' color='warning' onClick={onConfirm}>
+        <StyledWarningModalButton
+          disabled={disabled}
+          size='m'
+          color='warning'
+          onClick={onConfirm}
+        >
           {buttonName}
         </StyledWarningModalButton>
       </StyledWarningModal>

@@ -16,6 +16,8 @@ export interface Note {
   updatedAt: string;
 }
 
+export type NoteContent = Omit<Note, 'id' | 'createdAt' | 'updatedAt'>;
+
 export interface NotesState {
   collection: Collections<Note>;
   nextId: number;
@@ -24,5 +26,5 @@ export interface NotesState {
 export type AddNewNotePayload = Omit<Note, 'id' | 'createdAt' | 'updatedAt'>;
 export type UpdateNotePayload = {
   id: string;
-  updatedFields: Partial<Omit<Note, 'id' | 'createdAt' | 'updatedAt'>>;
+  updatedFields: Partial<Omit<Note, 'id' | 'createdAt'>>;
 };

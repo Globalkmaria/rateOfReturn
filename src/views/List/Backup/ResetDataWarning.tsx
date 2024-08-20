@@ -8,6 +8,7 @@ import userDataService from '@/service/userData/userData';
 import { STOCK_INITIAL_STATE } from '@/features/stockList/stockListSlice';
 import { GROUP_INITIAL_STATE } from '@/features/groups/groupsSlice';
 import { SOLD_INITIAL_STATE } from '@/features/solds';
+import { useState } from 'react';
 
 type Props = {
   onClose: () => void;
@@ -15,10 +16,14 @@ type Props = {
 
 const ResetDataWarning = ({ onClose }: Props) => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const navigate = useNavigate();
 
+  const buttonText = loading ? 'Resetting...' : 'Reset';
+
   const onReset = async () => {
+    setLoading(true);
     if (isLoggedIn) {
       const result = await userDataService.replaceUserData({
         stocks: {
@@ -35,25 +40,36 @@ const ResetDataWarning = ({ onClose }: Props) => {
           solds: {},
           nextId: SOLD_INITIAL_STATE.nextId,
         },
+        notes: {
+          nextId: 1,
+          notes: {},
+        },
       });
 
       if (!result.success) {
         alert('Failed to reset remote data.');
+        setLoading(false);
         return;
       }
     }
 
     dispatch(resetUserData());
+    setLoading(false);
     onClose();
     navigate('/portfolio');
   };
 
+  const onModalClose = () => {
+    if (!loading) onClose();
+  };
+
   return (
     <WarningModal
-      onClose={onClose}
+      disabled={loading}
+      onClose={onModalClose}
       onConfirm={onReset}
       message={MESSAGE}
-      buttonName='Reset'
+      buttonName={buttonText}
     />
   );
 };

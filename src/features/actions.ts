@@ -4,6 +4,7 @@ import { PurchasedItemInfo, StockList, StockListState } from './stockList/type';
 import { CheckedItemsInfo, StockCheckInfo } from './checkedItems/type';
 import { Group, GroupsState } from './groups/type';
 import { SoldsState } from './solds';
+import { NotesState } from './notes';
 
 export const initUserData =
   createAction<UserDataServiceRes>('stock/initUserData');
@@ -13,6 +14,7 @@ export const setBackupData = createAction<{
   groups: GroupsState;
   checkedItems: CheckedItemsInfo;
   solds: SoldsState;
+  notes: NotesState;
 }>('stock/setBackupData');
 
 export const addNewStock = createAction<{

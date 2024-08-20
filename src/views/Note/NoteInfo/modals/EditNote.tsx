@@ -15,6 +15,9 @@ import { formatNoteDate } from '../../NoteList/helper';
 import { StyledDate, StyledDateIcon } from '../../NoteList/components';
 import CloseWarningModal from '../CloseWarningModal';
 import { checkEditNoteFormHasChanges } from '../helper';
+import { selectIsLoggedIn } from '@/features/user/selectors';
+import userNotesService from '@/service/userNotes/service';
+import NoteSubmitButton from '../NoteSubmitButton';
 
 interface NotePopupProps {
   onCloseModal: () => void;
@@ -23,6 +26,8 @@ interface NotePopupProps {
 
 function EditNote({ onCloseModal, noteId }: NotePopupProps) {
   const dispatch = useDispatch();
+
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const [showWarning, setShowWarning] = useState(false);
   const { id, createdAt, updatedAt, stockName, stockId, ...restProps } =
     useSelector(selectNoteItem(noteId));
@@ -45,7 +50,33 @@ function EditNote({ onCloseModal, noteId }: NotePopupProps) {
     value: NoteFormState[K],
   ) => setFormState(prev => ({ ...prev, [fieldName]: value }));
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
+    const newNote = {
+      id: noteId,
+      updatedFields: {
+        ...formState,
+        title: formState.title ?? 'Untitled',
+        stockId: formState.stockName?.value,
+        stockName: formState.stockName?.label,
+      },
+    };
+
+    if (!isLoggedIn) {
+      dispatch(updateNote(newNote));
+      onCloseModal();
+      return;
+    }
+
+    const result = await userNotesService.editNote(
+      noteId,
+      newNote.updatedFields,
+    );
+
+    if (!result.data) {
+      alert(result.message);
+      return;
+    }
+
     dispatch(
       updateNote({
         id: noteId,
@@ -54,6 +85,7 @@ function EditNote({ onCloseModal, noteId }: NotePopupProps) {
           title: formState.title ?? 'Untitled',
           stockId: formState.stockName?.value,
           stockName: formState.stockName?.label,
+          updatedAt: result.data.updatedAt,
         },
       }),
     );
@@ -82,7 +114,7 @@ function EditNote({ onCloseModal, noteId }: NotePopupProps) {
     <>
       <PortalModal onClose={onCheckChangeAndCloseModal}>
         <StyledNoteModal>
-          <StyledForm>
+          <StyledForm action={onSubmit}>
             <NotePopupForm onChange={onChange} formState={formState} />
 
             <StyledDateContainer gap={5} justifyContent='space-between'>
@@ -98,7 +130,7 @@ function EditNote({ onCloseModal, noteId }: NotePopupProps) {
               </StyledDate>
             </StyledDateContainer>
 
-            <ContainedButton onClick={onSubmit}>Update</ContainedButton>
+            <NoteSubmitButton />
           </StyledForm>
         </StyledNoteModal>
       </PortalModal>

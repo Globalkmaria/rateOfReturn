@@ -6,10 +6,7 @@ import { useSetUserAndNavigate } from '../../../hooks/useSetUserAndNavigate';
 const useLoginSubmit = (loginInfo: LoginInfoState) => {
   const loginRedirect = useSetUserAndNavigate();
 
-  const onSubmit = async (
-    e: FormEvent<HTMLFormElement | HTMLButtonElement>,
-  ) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     if (loginInfo.username.length < 1) {
       alert('Please enter your email');
       return;

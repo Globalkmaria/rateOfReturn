@@ -4,11 +4,11 @@ import { ContainedButton } from '../Button';
 import FormInput from '../form/Input';
 import Form from '../form/form';
 import { ValidityTextProps } from '../form/ValidityText';
-import { GoogleBtn, OtherOptions } from './components';
+import { AuthSubmitButton, GoogleBtn, OtherOptions } from './components';
 import { loginGoogleURL } from '../../api/auth';
 
 type SignFormProps = {
-  onSubmit: (e: FormEvent<HTMLFormElement | HTMLButtonElement>) => void;
+  onSubmit: () => void;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   title: string;
   titleSubtext: string;
@@ -41,7 +41,7 @@ const SignForm = ({
       <StyledTitle>{title}</StyledTitle>
       <StyledSubText>{titleSubtext}</StyledSubText>
 
-      <StyledForm onSubmit={onSubmit}>
+      <StyledForm action={onSubmit}>
         <FormInput
           labelText='Email'
           id='email'
@@ -64,11 +64,12 @@ const SignForm = ({
         />
         {AdditionalFormInput}
 
-        <StyledButton type='submit' size='m' onClick={onSubmit}>
-          {submitBtnTitle}
-        </StyledButton>
+        <AuthSubmitButton submitBtnTitle={submitBtnTitle} />
       </StyledForm>
-      <GoogleBtn googleBtnTitle={googleBtnTitle} loginGoogleURL={loginGoogleURL} />
+      <GoogleBtn
+        googleBtnTitle={googleBtnTitle}
+        loginGoogleURL={loginGoogleURL}
+      />
       <OtherOptions
         otherOptionSubtext={otherOptionSubtext}
         otherOptionTitle={otherOptionTitle}
@@ -92,10 +93,6 @@ const StyledSignForm = styled('div')`
 
 const StyledForm = styled(Form)`
   margin: 3rem 0 1rem;
-`;
-
-const StyledButton = styled(ContainedButton)`
-  margin-top: 1rem;
 `;
 
 const StyledTitle = styled.h1`
