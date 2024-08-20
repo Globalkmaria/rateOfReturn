@@ -93,13 +93,15 @@ const BackupWarningModal = ({ onClose, data }: Props) => {
     if (!loading) onClose();
   };
 
+  const buttonText = loading ? 'Restoring...' : 'Restore remote from Backup';
+
   return (
     <WarningModal
       disabled={loading}
       onClose={onModalClose}
       onConfirm={backupData}
       message={getMessage(!isLoggedIn)}
-      buttonName='Restore remote from Backup'
+      buttonName={buttonText}
     />
   );
 };
