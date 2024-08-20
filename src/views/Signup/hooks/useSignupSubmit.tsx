@@ -6,10 +6,7 @@ import { SignupInfoState } from '../Signup';
 
 export const useSignupSubmit = (signupInfo: SignupInfoState) => {
   const loginRedirect = useSetUserAndNavigate();
-  const onSubmit = async (
-    e: FormEvent<HTMLFormElement | HTMLButtonElement>,
-  ) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     const validity = checkSignFormValidity(signupInfo);
     if (!validity.isValid) {
       alert(validity.message);

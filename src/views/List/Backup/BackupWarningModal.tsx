@@ -8,6 +8,8 @@ import { selectIsLoggedIn } from '@/features/user/selectors';
 import { setBackupData } from '@/features';
 import { getInitialCheckedItemsInfo } from '@/features/checkedItems/utils';
 import { useNavigate } from 'react-router-dom';
+import { formatNotesAsServerFormat } from '@/utils/formatNotesAsServerFormat';
+import { useState } from 'react';
 
 type Props = {
   onClose: () => void;
@@ -15,42 +17,58 @@ type Props = {
 };
 
 const BackupWarningModal = ({ onClose, data }: Props) => {
+  const [loading, setLoading] = useState(false);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const backupData = async () => {
+    if (loading) return;
     if (data === null || data === undefined) return;
+    setLoading(true);
 
     if (isLoggedIn) {
       if (!data.stockList || !data.groups) {
         alert(WARNING_MESSAGE);
+        setLoading(false);
         return;
       }
 
       const stocks = formatStockAsServerFormat(data.stockList);
       if (!stocks) {
         alert(WARNING_MESSAGE);
+        setLoading(false);
         return;
       }
       const groups = formatGroupAsServerFormat(data.groups);
       if (!groups) {
         alert(WARNING_MESSAGE);
+        setLoading(false);
         return;
       }
       const solds = formatSoldAsServerFormat(data.solds);
       if (!solds) {
         alert(WARNING_MESSAGE);
+        setLoading(false);
         return;
       }
+      const notes = formatNotesAsServerFormat(data.notes);
+      if (!notes) {
+        alert(WARNING_MESSAGE);
+        setLoading(false);
+        return;
+      }
+
       const result = await userDataService.replaceUserData({
         stocks,
         groups,
         solds,
+        notes,
       });
 
       if (!result.success) {
         alert('Failed to store remote data.');
+        setLoading(false);
         return;
       }
     }
@@ -62,19 +80,28 @@ const BackupWarningModal = ({ onClose, data }: Props) => {
         checkedItems:
           data.checkedItems ?? getInitialCheckedItemsInfo(data.stockList),
         solds: data.solds,
+        notes: data.notes,
       }),
     );
 
+    setLoading(false);
     onClose();
     navigate('/portfolio');
   };
 
+  const onModalClose = () => {
+    if (!loading) onClose();
+  };
+
+  const buttonText = loading ? 'Restoring...' : 'Restore remote from Backup';
+
   return (
     <WarningModal
-      onClose={onClose}
+      disabled={loading}
+      onClose={onModalClose}
       onConfirm={backupData}
       message={getMessage(!isLoggedIn)}
-      buttonName='Restore remote from Backup'
+      buttonName={buttonText}
     />
   );
 };

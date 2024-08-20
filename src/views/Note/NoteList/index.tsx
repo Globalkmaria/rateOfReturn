@@ -29,6 +29,16 @@ function NoteList({ searchTitle }: Props) {
   const showNoteModal = showModal && selectedNoteId;
   const noNote = !notes.allIds.length;
 
+  const onNoteClick = useCallback((id: string) => {
+    setSelectedNoteId(id);
+    onOpenModal();
+  }, []);
+
+  const onCloseNoteModal = () => {
+    setSelectedNoteId(null);
+    onCloseModal();
+  };
+
   if (noNote) return <NoNote />;
 
   const filteredNoteIds = getFilteredNoteIdsBySearchParams(searchParams, notes);
@@ -42,16 +52,6 @@ function NoteList({ searchTitle }: Props) {
     filteredNotesByTitle,
     notes,
   );
-
-  const onNoteClick = useCallback((id: string) => {
-    setSelectedNoteId(id);
-    onOpenModal();
-  }, []);
-
-  const onCloseNoteModal = () => {
-    setSelectedNoteId(null);
-    onCloseModal();
-  };
 
   return (
     <StyledNoteList>

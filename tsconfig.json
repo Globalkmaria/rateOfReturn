@@ -23,7 +23,8 @@
       "jest",
       "vite/client",
       "@testing-library/jest-dom",
-      "react/canary"
+      "react/canary",
+      "react-dom/canary"
     ]
   },
   "include": ["src", "styled.d.ts", "custom.d.ts"]
