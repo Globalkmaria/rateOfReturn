@@ -28,7 +28,7 @@ function NoteControlBar({ disabled, searchTitle, onSearchTitleChange }: Props) {
           height='s'
           onChange={onSearchTitleChange}
         />
-        <NoteFilters />
+        <NoteFilters disabled={disabled} />
         <StyledNewButton size='s' onClick={onOpenModal} disabled={disabled}>
           <Icon icon='add' disabled={disabled} />
           <span>New Note</span>

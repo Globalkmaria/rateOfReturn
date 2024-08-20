@@ -28,6 +28,7 @@ function RadioSelect({
   label,
   vertical,
   horizontal,
+  disabled,
   ...restProps
 }: RadioSelectProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -45,10 +46,11 @@ function RadioSelect({
       <StyledButton
         className='radio-select__button'
         onClick={onToggleModal}
+        disabled={disabled}
         {...restProps}
       >
         {currentLabel}
-        <Icon icon='arrowDown' />
+        <Icon icon='arrowDown' disabled={disabled} />
       </StyledButton>
 
       {showModal && (
