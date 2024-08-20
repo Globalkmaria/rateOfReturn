@@ -1,9 +1,10 @@
 import { memo } from 'react';
+import { useFormStatus } from 'react-dom';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
 
-import { BorderButton } from '../Button';
+import { BorderButton, ContainedButton } from '../Button';
 import { StyledSubText } from './SignForm';
 
 type OtherOptionsProps = {
@@ -45,7 +46,10 @@ type GoogleBtnProps = {
   loginGoogleURL: string;
 };
 
-export const GoogleBtn = memo(function GoogleBtn({ loginGoogleURL, googleBtnTitle }: GoogleBtnProps) {
+export const GoogleBtn = memo(function GoogleBtn({
+  loginGoogleURL,
+  googleBtnTitle,
+}: GoogleBtnProps) {
   return (
     <BorderButton size='m' fullWidth>
       <StyledContent>
@@ -71,4 +75,23 @@ const StyledContent = styled.div`
 
 const StyledText = styled.a`
   font-weight: 500;
+`;
+
+interface AuthSubmitButtonProps {
+  submitBtnTitle: string;
+}
+
+export function AuthSubmitButton({ submitBtnTitle }: AuthSubmitButtonProps) {
+  const { pending } = useFormStatus();
+  const text = pending ? 'Loading...' : submitBtnTitle;
+
+  return (
+    <StyledButton type='submit' size='m' disabled={pending}>
+      {text}
+    </StyledButton>
+  );
+}
+
+const StyledButton = styled(ContainedButton)`
+  margin-top: 1rem;
 `;
