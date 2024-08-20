@@ -7,13 +7,13 @@ import { addNewNote, NoteContent } from '@/features/notes';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 
 import PortalModal from '@/components/Modal/PortalModal';
-import { ContainedButton } from '@/components/Button';
 
 import NotePopupForm from '../NotePopupForm';
 import { StyledForm, StyledNoteModal } from '../components';
 import { NoteFormKeys, NoteFormState } from '../type';
 import CloseWarningModal from '../CloseWarningModal';
 import { checkEditNoteFormHasChanges, isNoteEmpty } from '../helper';
+import NoteSubmitButton from '../NoteSubmitButton';
 
 interface NotePopupProps {
   onCloseModal: () => void;
@@ -82,9 +82,9 @@ function AddNote({ onCloseModal, initialFormState }: NotePopupProps) {
     <>
       <PortalModal onClose={onCheckChangeAndCloseModal}>
         <StyledNoteModal>
-          <StyledForm>
+          <StyledForm action={onSubmit}>
             <NotePopupForm onChange={onChange} formState={formState} />
-            <ContainedButton onClick={onSubmit}>Add</ContainedButton>
+            <NoteSubmitButton />
           </StyledForm>
         </StyledNoteModal>
       </PortalModal>
