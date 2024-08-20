@@ -61,10 +61,15 @@ const StyledMenuItem = styled(BackgroundAnchor)<MenuProps>`
   @media ${({ theme }) => theme.devices.laptop} {
     flex-direction: column;
     gap: 5px;
+    padding: 35px 20px;
 
     .icon {
       margin-right: 0px;
     }
+  }
+
+  @media ${({ theme }) => theme.devices.mobile} {
+    padding: 10px;
   }
 `;
 
