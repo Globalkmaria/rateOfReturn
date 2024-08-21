@@ -63,7 +63,7 @@ function NoteItem({ id, onNoteClick }: NoteItemProps) {
   };
 
   return (
-    <StyledNoteItem onClick={() => onNoteClick(id)}>
+    <StyledNoteItem data-testid='note-item' onClick={() => onNoteClick(id)}>
       <StyledHeader justifyContent='space-between' alignItems='center'>
         <StyledTitle>{shortedTitle}</StyledTitle>
         <IconButton icon='delete' onClick={onDelete} />
@@ -71,22 +71,22 @@ function NoteItem({ id, onNoteClick }: NoteItemProps) {
       <StyledText>{shortenedText}</StyledText>
       <StyledChipContainer gap={5} flexWrap='wrap'>
         {isDefined(stockName) && (
-          <Chip color='red100'>
+          <Chip data-testid='stock-name__chip' color='red100'>
             <ChipText color='red700'>{stockName}</ChipText>
           </Chip>
         )}
         {isDefined(purchasedId) && (
-          <Chip color='blue100'>
+          <Chip color='blue100' data-testid='purchased-id__chip'>
             <ChipText color='blue700'>{`#${purchasedId}`}</ChipText>
           </Chip>
         )}
         {isDefined(soldId) && (
-          <Chip color='indigo100'>
+          <Chip data-testid='sold-id__chip' color='indigo100'>
             <ChipText color='indigo700'>{`#${soldId}`}</ChipText>
           </Chip>
         )}
         {isDefined(tag) && (
-          <Chip color='brown100'>
+          <Chip data-testid='tag__chip' color='brown100'>
             <ChipText color='brown700'>{`${tag}`}</ChipText>
           </Chip>
         )}
