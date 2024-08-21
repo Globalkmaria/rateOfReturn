@@ -2,9 +2,10 @@ import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { renderWithProviders } from '@/__test__/renderUI';
-import SoldTable from './SoldTable';
 import { MOCK_STATE } from '@/__test__/mock/mockState';
 import { SOLD_MOCK_DATA } from '@/features/solds';
+
+import SoldTable from './SoldTable';
 
 describe('Sold Table', () => {
   let user: ReturnType<typeof userEvent.setup>;
@@ -83,6 +84,8 @@ describe('Sold Table', () => {
     });
     expect(row).toBeInTheDocument();
 
+    const editBtn = within(row).getByRole('button', { name: /more/i });
+    await user.click(editBtn);
     const deleteBtn = within(row).getByRole('button', { name: /delete/i });
     await user.click(deleteBtn);
 
