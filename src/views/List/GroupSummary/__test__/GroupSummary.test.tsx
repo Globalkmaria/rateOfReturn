@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 
 import { CalculateStockSummaryResult, calculateGroupSummary } from '../utils';
 import { renderWithProviders } from '../../../../__test__/renderUI';
@@ -21,21 +21,41 @@ describe('GroupSummary Component', () => {
 
     renderWithProviders(<GroupSummary />);
 
-    const totalPurchasedPrice = screen.getByTitle(`totalPurchasedPrice`);
-    expect(totalPurchasedPrice).toHaveTextContent('Total Buy Price');
-    expect(totalPurchasedPrice).toHaveTextContent('10,000');
+    const testCases = [
+      {
+        title: 'totalPurchasedPrice',
+        headingName: /total buy price/i,
+        valueText: '10,000',
+      },
+      {
+        title: 'totalCurrentValue',
+        headingName: /market value/i,
+        valueText: '12,000',
+      },
+      {
+        title: 'returnOfInvestment',
+        headingName: /return/i,
+        valueText: '2,000',
+      },
+      {
+        title: 'returnOfInvestmentRatio',
+        headingName: /rate of return/i,
+        valueText: '20.123 %',
+      },
+    ];
 
-    const totalCurrentValue = screen.getByTitle(`totalCurrentValue`);
-    expect(totalCurrentValue).toHaveTextContent('Total Current Value');
-    expect(totalCurrentValue).toHaveTextContent('12,000');
+    for (const { title, headingName, valueText } of testCases) {
+      const section = screen.getByTitle(title, { exact: true });
+      const withinSection = within(section);
 
-    const returnOfInvestment = screen.getByTitle(`returnOfInvestment`);
-    expect(returnOfInvestment).toHaveTextContent('Return');
-    expect(returnOfInvestment).toHaveTextContent('2,000');
+      const heading = withinSection.getByRole('heading', {
+        name: headingName,
+      });
+      expect(heading).toBeInTheDocument();
 
-    const returnOfInvestmentRatio = screen.getByTitle(`returnOfInvestmentRatio`);
-    expect(returnOfInvestmentRatio).toHaveTextContent('Return of Ration');
-    expect(returnOfInvestmentRatio).toHaveTextContent('20.123 %');
+      const value = withinSection.getByText(valueText);
+      expect(value).toBeInTheDocument();
+    }
   });
 
   test('Return of Ration to show 0 % when the value is NaN', async () => {
@@ -51,7 +71,13 @@ describe('GroupSummary Component', () => {
     renderWithProviders(<GroupSummary />);
 
     const titleElement = screen.getByTitle(`returnOfInvestmentRatio`);
-    expect(titleElement).toHaveTextContent('Return of Ration');
-    expect(titleElement).toHaveTextContent('0 %');
+    const withInTitle = within(titleElement);
+
+    const title = withInTitle.getByRole('heading', {
+      name: /rate of return/i,
+    });
+    expect(title).toBeInTheDocument();
+    const text = screen.getByText(/0 %/i);
+    expect(text).toBeInTheDocument();
   });
 });
