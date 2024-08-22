@@ -20,6 +20,7 @@ function NoteFilters({ disabled }: Props) {
     <StyledFilters>
       {FILTERS.map(item => (
         <NoteFilter
+          key={item.name}
           disabled={disabled}
           name={item.name}
           label={item.label}
@@ -63,7 +64,7 @@ const FILTERS: {
   },
   {
     name: NOTE_FILTER_KEYS.SOLD_ID,
-    label: 'Sold Id',
+    label: 'Sold id',
     title: 'Filter by sold id',
     optionsKey: 'soldIds',
   },
