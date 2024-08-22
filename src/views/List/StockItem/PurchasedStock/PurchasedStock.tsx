@@ -110,7 +110,7 @@ const PurchasedStock = ({
   }, []);
 
   return (
-    <StyledPurchasedStock>
+    <StyledPurchasedStock data-testid='current__purchased'>
       {isMainGroupSelected ? (
         <CheckboxCell
           title='Check item'

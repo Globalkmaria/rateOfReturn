@@ -46,36 +46,41 @@ describe('List Component', () => {
       await renderAndWait();
 
       const addStockBtn = screen.getByRole('button', {
-        name: /add stock/i,
+        name: /add new stock/i,
       });
-
-      const preSummaries = screen.queryByRole('textbox', {
-        name: /stock name/i,
-      });
-      expect(preSummaries).not.toBeInTheDocument();
-
       await user.click(addStockBtn);
 
-      const summaries = screen.getAllByRole('textbox', {
-        name: /stock name/i,
-      });
+      const summaries = screen.getAllByTestId('current__stock-summary');
       expect(summaries).toHaveLength(1);
 
-      const purchaseItem = screen.getByRole('textbox', {
-        name: /purchased quantity/i,
-      });
+      const purchaseItem = screen.getByTestId('current__purchased');
       expect(purchaseItem).toBeInTheDocument();
+    });
 
-      const addPurchaseItemBtn = screen.getByRole('button', {
-        name: /add item/i,
+    test('When add same stock is clicked, new purchased item is added', async () => {
+      await renderAndWait(MOCK_STATE);
+
+      const beforePurchasedItems =
+        screen.getAllByTestId('current__purchased').length;
+
+      const summaries = screen.getAllByTestId('current__stock-summary');
+      const firstSummary = summaries[0];
+      const withinFirstSummary = within(firstSummary);
+
+      const moreBtn = withinFirstSummary.getByRole('button', {
+        name: /more/i,
       });
+      await user.click(moreBtn);
 
-      await user.click(addPurchaseItemBtn);
-
-      const purchaseItems = screen.getAllByRole('textbox', {
-        name: /purchased quantity/i,
+      const addSameStockBtn = withinFirstSummary.getByRole('button', {
+        name: /add same stock/i,
       });
-      expect(purchaseItems).toHaveLength(2);
+      await user.click(addSameStockBtn);
+
+      const afterPurchasedItems =
+        screen.getAllByTestId('current__purchased').length;
+
+      expect(afterPurchasedItems).toBe(beforePurchasedItems + 1);
     });
 
     test('When stock is removed, stock and all the items included in stock is removed', async () => {
@@ -153,24 +158,6 @@ describe('List Component', () => {
   });
 
   describe('Purchase item', () => {
-    test('When add item button is clicked new item is added', async () => {
-      await renderAndWait(MOCK_STATE);
-
-      const prePurchaseItems = screen.getAllByRole('textbox', {
-        name: /purchased quantity/i,
-      });
-
-      const addStockBtn = screen.getAllByRole('button', {
-        name: /add item/i,
-      });
-      await user.click(addStockBtn[0]);
-
-      const purchaseItems = screen.getAllByRole('textbox', {
-        name: /purchased quantity/i,
-      });
-      expect(purchaseItems).toHaveLength(prePurchaseItems.length + 1);
-    });
-
     test('Item is removed correctly', async () => {
       await renderAndWait(MOCK_STATE);
 
