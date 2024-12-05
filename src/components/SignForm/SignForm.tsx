@@ -1,11 +1,9 @@
-import { ChangeEvent, FormEvent, ReactElement } from 'react';
+import { ChangeEvent, ReactElement } from 'react';
 import styled from 'styled-components';
-import { ContainedButton } from '../Button';
 import FormInput from '../form/Input';
 import Form from '../form/form';
 import { ValidityTextProps } from '../form/ValidityText';
-import { AuthSubmitButton, GoogleBtn, OtherOptions } from './components';
-import { loginGoogleURL } from '../../api/auth';
+import { AuthSubmitButton, OtherOptions } from './components';
 
 type SignFormProps = {
   onSubmit: () => void;
@@ -28,7 +26,6 @@ const SignForm = ({
   title,
   titleSubtext,
   submitBtnTitle,
-  googleBtnTitle,
   otherOptionSubtext,
   otherOptionTitle,
   otherOptionLink,
@@ -66,10 +63,6 @@ const SignForm = ({
 
         <AuthSubmitButton submitBtnTitle={submitBtnTitle} />
       </StyledForm>
-      <GoogleBtn
-        googleBtnTitle={googleBtnTitle}
-        loginGoogleURL={loginGoogleURL}
-      />
       <OtherOptions
         otherOptionSubtext={otherOptionSubtext}
         otherOptionTitle={otherOptionTitle}

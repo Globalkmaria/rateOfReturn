@@ -139,7 +139,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   }, []);
 
   return (
-    <StyledSummaryRow>
+    <StyledSummaryRow data-testid='current__stock-summary'>
       {isMainGroupSelected ? (
         <CheckboxCell
           disabled={!isMainGroupSelected}

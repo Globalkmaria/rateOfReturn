@@ -75,7 +75,7 @@ export const getPurchasedIdOptionList = (
   for (const stockId of stockInfo.allIds) {
     const { purchasedItems } = stockInfo.byId[stockId];
 
-    ids = ids.union(new Set(purchasedItems.allIds));
+    ids = new Set([...ids, ...new Set(purchasedItems.allIds)]);
   }
 
   for (const note of notes.allIds) {

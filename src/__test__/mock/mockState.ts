@@ -4,6 +4,7 @@ import { USER_INITIAL_STATE } from '@/features/user/userSlice';
 import { GROUPS_INFO } from './groups';
 import { getInitialCheckedItemsInfo } from '@/features/checkedItems/utils';
 import { SOLD_MOCK_DATA } from '@/features/solds';
+import { NOTES_MOCK_DATA } from './notes';
 
 export const MOCK_STATE: RootState = {
   stockList: STOCKS_STATE,
@@ -14,4 +15,5 @@ export const MOCK_STATE: RootState = {
     value: true,
   }),
   solds: SOLD_MOCK_DATA,
+  notes: NOTES_MOCK_DATA,
 };
