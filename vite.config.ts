@@ -15,22 +15,18 @@ export default defineConfig({
   plugins: [
     react({
       babel: {
-        plugins: [['babel-plugin-styled-components', { displayName: true, fileName: false }]],
+        plugins: [
+          [
+            'babel-plugin-styled-components',
+            { displayName: true, fileName: false },
+          ],
+        ],
       },
     }),
     visualizer({
       open: true,
     }),
   ],
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks(id: string) {
-          return splitFiles(id);
-        },
-      },
-    },
-  },
   resolve: {
     alias: {
       '@': '/src',
