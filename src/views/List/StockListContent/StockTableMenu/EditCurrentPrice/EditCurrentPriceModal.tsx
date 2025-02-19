@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -123,7 +123,7 @@ function EditCurrentPriceModal({ onClose }: Props) {
               </TableHeader>
               <TableBody>
                 {stocks.allIds.map(stockId => (
-                  <Item
+                  <StockPriceRow
                     key={stockId}
                     stockId={stockId}
                     changes={changes}
@@ -216,15 +216,19 @@ interface ItemProps {
   onChange: PurchasedInputChangeProps;
 }
 
-function Item({ stockId, onChange, changes }: ItemProps) {
+function StockPriceRow({ stockId, onChange, changes }: ItemProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
   const { mainInfo } = useSelector(selectStockInfoById(stockId));
 
   const value = changes[stockId] ?? mainInfo.currentPrice;
+  const handleFocus = () => inputRef.current?.select();
 
   return (
     <StyledTableRow>
       <TableCell>{mainInfo.stockName}</TableCell>
       <InputCell
+        onFocus={handleFocus}
+        ref={inputRef}
         name={stockId}
         value={value}
         align='right'
