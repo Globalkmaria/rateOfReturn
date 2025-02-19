@@ -1,11 +1,15 @@
 import { RefObject, useEffect } from 'react';
 
-interface Props {
+interface Props<T extends HTMLElement> {
   onClose: () => void;
-  target: RefObject<HTMLElement> | null;
+  target: RefObject<T | null>;
   portalId?: string;
 }
-function useEscapeKey({ onClose, target, portalId = 'portal-container' }: Props) {
+function useEscapeKey<T extends HTMLElement>({
+  onClose,
+  target,
+  portalId = 'portal-container',
+}: Props<T>) {
   useEffect(() => {
     const close = (e: KeyboardEvent) => {
       if (!target) return;

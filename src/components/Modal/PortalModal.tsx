@@ -33,7 +33,11 @@ function PortalModal({
   const modalBackground = useRef<HTMLDivElement>(null);
   const modalContent = useRef<HTMLDivElement>(null);
   const needHeader = !!title.length || showCloseButton;
-  useEscapeKey({ onClose, target: modalBackground, portalId: wrapperId });
+  useEscapeKey<HTMLDivElement>({
+    onClose,
+    target: modalBackground,
+    portalId: wrapperId,
+  });
   useHideScroll({ isOpen });
 
   const onClick = (e: MouseEvent<HTMLDivElement>) => {
