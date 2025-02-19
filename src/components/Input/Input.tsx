@@ -16,14 +16,14 @@ export function Input({
   const inputType = isNumberType ? 'text' : type;
   const align = type === 'number' ? 'right' : 'left';
 
-  const inputRef = ref ?? useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [selection, setSelection] = useState<number | null>(null);
 
   useEffect(() => {
     if (selection !== null) {
       inputRef.current?.setSelectionRange(selection, selection);
     }
-  });
+  }, [selection]);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const transformedValue = getTransformedValue(e, validation, type);
@@ -43,7 +43,7 @@ export function Input({
   return (
     <BaseInput
       className={className}
-      ref={inputRef}
+      ref={ref ?? inputRef}
       onChange={onChangeHandler}
       type={inputType}
       value={value}

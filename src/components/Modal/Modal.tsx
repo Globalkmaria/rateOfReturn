@@ -46,7 +46,6 @@ const Modal = ({
           {showCloseButton && (
             <StyledCloseButton
               size='s'
-              showLine={false}
               width={32}
               onClick={onClose}
               icon='close'

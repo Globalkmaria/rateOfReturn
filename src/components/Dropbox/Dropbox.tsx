@@ -10,7 +10,7 @@ export interface DropboxStyleProps {
 interface DropboxProps<T extends HTMLElement>
   extends DropboxStyleProps,
     React.PropsWithChildren {
-  containerRef: React.RefObject<T>;
+  containerRef: React.RefObject<T | null>;
   onCloseModal: () => void;
 }
 

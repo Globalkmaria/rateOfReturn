@@ -18,8 +18,8 @@ interface TagDropboxProps {
   onCreateNewOption: (option: string) => void;
   onDeleteOption: (option: string) => void;
   width: number;
-  tagContainerRef: React.RefObject<HTMLDivElement>;
-  ref?: RefObject<HTMLDivElement>;
+  tagContainerRef: React.RefObject<HTMLDivElement | null>;
+  ref?: RefObject<HTMLDivElement | null>;
 }
 
 function TagDropbox({
