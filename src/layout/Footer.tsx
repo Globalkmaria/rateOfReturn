@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Footer = () => {
-  return <StyledFooter>© 2024 Maria. All rights reserved.</StyledFooter>;
+  return <StyledFooter>© 2025 Maria. All rights reserved.</StyledFooter>;
 };
 
 export default Footer;

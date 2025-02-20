@@ -77,15 +77,15 @@ This project allows you to:
 ## Snapshot
 
 - Home page
-<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/74db3c06-9461-458a-a40e-15cdf9999522">
+  <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/74db3c06-9461-458a-a40e-15cdf9999522">
 
 - Current page
-<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/0bc72060-1b76-4981-9290-d28a8852c52b">
-<img width="700" height="400" src="https://github.com/user-attachments/assets/ccdd4014-0d29-453b-9843-6d894d30862b">
-<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/cd5059d2-2655-4445-b677-e28e6f8642b6">
+  <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/0bc72060-1b76-4981-9290-d28a8852c52b">
+  <img width="700" height="400" src="https://github.com/user-attachments/assets/ccdd4014-0d29-453b-9843-6d894d30862b">
+  <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/cd5059d2-2655-4445-b677-e28e6f8642b6">
 
 - Add group
-<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/7f07aee1-e1f3-4e51-8771-c2a8ffe9a9f5">
+  <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/7f07aee1-e1f3-4e51-8771-c2a8ffe9a9f5">
 
 - Chart page
 
@@ -97,14 +97,10 @@ This project allows you to:
 <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/4a1899f2-9472-4057-bc64-43933599cb1d">
 
 - Note page
-<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/1125f786-0755-4e0f-8fb4-ebf5f1791292">
-<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/849fe467-5138-4fae-811a-0a6eade2a63a">
+  <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/1125f786-0755-4e0f-8fb4-ebf5f1791292">
+  <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/849fe467-5138-4fae-811a-0a6eade2a63a">
 
 - Login page
-<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/8ee4c711-8d86-40fc-9ec3-73b38eda5f6c">
-  
+  <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/8ee4c711-8d86-40fc-9ec3-73b38eda5f6c">
 - Data Sync when there is local data and login
-<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/a090f150-98f4-4fce-895a-032aafe42a8c">
-
-
-Licensed under GNU v3.0
+  <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/a090f150-98f4-4fce-895a-032aafe42a8c">
