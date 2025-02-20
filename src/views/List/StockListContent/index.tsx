@@ -1,4 +1,4 @@
-import { lazy, useDeferredValue, useState } from 'react';
+import { lazy, useCallback, useDeferredValue, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -38,8 +38,12 @@ function StockListContent() {
     ? filterStockByName(deferredQuery, stockList)
     : stockIds;
 
-  const onSearchQueryChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setSearchQuery(e.target.value);
+  const onSearchQueryChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchQuery(e.target.value);
+    },
+    [],
+  );
 
   return (
     <>

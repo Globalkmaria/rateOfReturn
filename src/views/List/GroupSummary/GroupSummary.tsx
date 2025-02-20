@@ -35,30 +35,21 @@ function GroupSummary() {
 
   const groupInfo = useSelector(selectGroupInfo(groupId));
   const stocks = useSelector(selectStocks);
+
   const summary = calculateGroupSummary({
     stocksData: stocks,
     groupData: isMainGroupSelected ? null : groupInfo,
   });
 
-  const getContents = useCallback(
-    ({ key, title, format, Component }: Contents[0]) => (
-      <Component title={`${key}`} key={key}>
-        <StyledTitle>{title}</StyledTitle>
-        <StyledText>{format(summary[key])}</StyledText>
-      </Component>
-    ),
-    [summary],
+  const getContents = ({ key, title, format, Component }: Contents[0]) => (
+    <Component title={`${key}`} key={key}>
+      <StyledTitle>{title}</StyledTitle>
+      <StyledText>{format(summary[key])}</StyledText>
+    </Component>
   );
 
-  const firstRow = useMemo(
-    () => SUMMARY_CONTENTS.slice(0, 2).map(getContents),
-    [getContents],
-  );
-
-  const secondRow = useMemo(
-    () => SUMMARY_CONTENTS.slice(2).map(getContents),
-    [getContents],
-  );
+  const firstRow = SUMMARY_CONTENTS.slice(0, 2).map(getContents);
+  const secondRow = SUMMARY_CONTENTS.slice(2).map(getContents);
 
   return (
     <StyledGroupSummary>

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import styled from 'styled-components';
 
 import Search from '../../../../components/Search';
@@ -24,7 +25,7 @@ function StockTableMenu({ searchQuery, onSearchQueryChange }: Props) {
   );
 }
 
-export default StockTableMenu;
+export default memo(StockTableMenu);
 
 const SEARCH_PLACEHOLDER_TEXT = 'Search by stock name...';
 
