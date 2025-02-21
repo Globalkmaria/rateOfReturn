@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import { TopStock } from '../../../repository/topStocks/type';
 import { StyledLabel, StyledValue } from './Card';
+import { TopStock } from '../../../repository/topStocks/type';
 
 type RatiosProps = {
   ratios: TopStock['ratios'];

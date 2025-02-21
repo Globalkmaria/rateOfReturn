@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { ICONS, IconButtonType } from './const';
 import { DefaultTheme } from 'styled-components/dist/types';
+
+import { ICONS, IconButtonType } from './const';
 
 const _SIZES = ['xs', 's', 'm', 'l'] as const;
 type Sizes = { [key in (typeof _SIZES)[number]]: string };

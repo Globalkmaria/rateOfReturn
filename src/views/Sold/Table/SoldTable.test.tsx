@@ -1,9 +1,10 @@
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { renderWithProviders } from '@/__test__/renderUI';
-import { MOCK_STATE } from '@/__test__/mock/mockState';
 import { SOLD_MOCK_DATA } from '@/features/solds';
+
+import { MOCK_STATE } from '@/__test__/mock/mockState';
+import { renderWithProviders } from '@/__test__/renderUI';
 
 import SoldTable from './SoldTable';
 

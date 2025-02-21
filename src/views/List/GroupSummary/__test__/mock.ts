@@ -1,4 +1,5 @@
 import { STOCKS_DATA } from '@/__test__/mock/stocks';
+
 import { Group } from '../../../../features/groups/type';
 import { StockListState } from '../../../../features/stockList/type';
 import { CalculateStockSummaryResult } from '../utils';

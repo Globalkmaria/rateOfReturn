@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { ContainedButton } from '../../../components/Button';
-import { Input } from '../../../components/Input/Input';
-import PortalModal from '../../../components/Modal/PortalModal';
+import styled from 'styled-components';
 
 import GroupModalTable from './GroupModal/GroupModalTable';
 import { useAddGroup } from './hooks/useAddGroup';
+import { ContainedButton } from '../../../components/Button';
+import { Input } from '../../../components/Input/Input';
+import PortalModal from '../../../components/Modal/PortalModal';
 
 type Props = {
   onClose: () => void;

@@ -1,5 +1,6 @@
-import { ValidityResult } from '@/views/List/StockItem/validity';
 import { z } from 'zod';
+
+import { ValidityResult } from '@/views/List/StockItem/validity';
 
 export const getDecimalPlacesSchema = (places: number) =>
   z.number().refine(

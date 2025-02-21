@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { EditUserStockServiceData } from '../../../../../service/userStocks/type';
 import { TransformedValue } from '../../../../../components/Input/BaseInput';
+import { EditUserStockServiceData } from '../../../../../service/userStocks/type';
 
 export type ChangedSummaryInputs = Omit<
   EditUserStockServiceData,

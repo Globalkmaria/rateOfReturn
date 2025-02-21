@@ -3,12 +3,14 @@ import {
   waitForElementToBeRemoved,
   within,
 } from '@testing-library/react';
-import List from '../../pages/List';
-import { renderWithProviders } from '../../__test__/renderUI';
-import { TOP_STOCKS } from '../../__test__/mock/topStocks';
-import { createServer } from '@/__test__/server';
 import userEvent from '@testing-library/user-event';
+
 import { MOCK_STATE } from '@/__test__/mock/mockState';
+import { createServer } from '@/__test__/server';
+
+import { TOP_STOCKS } from '../../__test__/mock/topStocks';
+import { renderWithProviders } from '../../__test__/renderUI';
+import List from '../../pages/List';
 
 describe('List Component', () => {
   let user: ReturnType<typeof userEvent.setup>;

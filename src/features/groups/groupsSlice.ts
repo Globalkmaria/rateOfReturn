@@ -1,12 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { GROUP_STATE_SAMPLE, MAIN_GROUP_ID } from './mockData';
-import { GroupsState, UpdateMainGroupPayload } from './type';
-import {
-  deletePurchasedItemFromGroup,
-  deleteStockFromGroup,
-  initGroupsWithData,
-  validCheckGroupDelete,
-} from './utils';
+
 import {
   addGroup,
   addStockSampleData,
@@ -16,6 +9,15 @@ import {
   resetUserData,
   setBackupData,
 } from '@/features';
+
+import { GROUP_STATE_SAMPLE, MAIN_GROUP_ID } from './mockData';
+import { GroupsState, UpdateMainGroupPayload } from './type';
+import {
+  deletePurchasedItemFromGroup,
+  deleteStockFromGroup,
+  initGroupsWithData,
+  validCheckGroupDelete,
+} from './utils';
 import { addNewSold, addNewSoldList } from '../solds';
 
 export const GROUP_INITIAL_STATE: GroupsState = {

@@ -1,5 +1,6 @@
-import { RootState } from '@/store';
 import { createSelector } from '@reduxjs/toolkit';
+
+import { RootState } from '@/store';
 
 export const selectNotes = (state: RootState) => state.notes;
 export const selectNoteCollection = (state: RootState) =>

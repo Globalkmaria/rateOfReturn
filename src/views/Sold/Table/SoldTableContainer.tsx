@@ -1,13 +1,18 @@
 import { Suspense, lazy } from 'react';
-import styled from 'styled-components';
-import SoldTableSkeleton from './SoldTableSkeleton';
 import { useDispatch, useSelector } from 'react-redux';
+
+import styled from 'styled-components';
+
+import userSolds from '@/service/userSolds';
+import { getSoldServerSampleData } from '@/service/userSolds/utils';
+
 import { addSoldSampleData, selectSoldList } from '@/features/solds';
 import { selectIsLoggedIn } from '@/features/user/selectors';
-import userSolds from '@/service/userSolds';
+
 import { BorderButton } from '@/components/Button';
-import { getSoldServerSampleData } from '@/service/userSolds/utils';
 import Icon from '@/components/Icon';
+
+import SoldTableSkeleton from './SoldTableSkeleton';
 
 const SoldTable = lazy(() => import('./SoldTable'));
 

@@ -1,7 +1,10 @@
-import { StockListState } from '@/features/stockList/type';
-import { getTotalSummary } from '../../../features/groups/filters';
 import { Context } from 'chartjs-plugin-datalabels';
+
 import { getFixedLocaleString, getPercentage } from '@/utils/number';
+
+import { StockListState } from '@/features/stockList/type';
+
+import { getTotalSummary } from '../../../features/groups/filters';
 import { PercentageAndTotalPrice } from '../type';
 
 const BASE_BACKGROUND_COLORS = [

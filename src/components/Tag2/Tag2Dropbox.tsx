@@ -1,11 +1,13 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
+
 import styled from 'styled-components';
 
-import { BaseInput } from '../Input/BaseInput';
-import Icon from '../Icon';
-import { Chip, ChipText } from '../Chip';
-import Tag2Option, { Tag2OptionProps, Tag2OptionType } from './Tag2Option';
 import { ColorsKeys } from '@/styles/theme';
+
+import { Chip, ChipText } from '../Chip';
+import Icon from '../Icon';
+import Tag2Option, { Tag2OptionProps, Tag2OptionType } from './Tag2Option';
+import { BaseInput } from '../Input/BaseInput';
 
 export type TagDropbox2Settings<T extends Tag2OptionType> = {
   height?: number;

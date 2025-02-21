@@ -1,6 +1,8 @@
 import { ChangeEvent } from 'react';
-import { InputType, InputValidation, TransformedValue } from './BaseInput';
+
 import { removeComma } from '@/utils';
+
+import { InputType, InputValidation, TransformedValue } from './BaseInput';
 
 const checkValidDots = (value: string) => {
   if (value[0] === '.') return false;

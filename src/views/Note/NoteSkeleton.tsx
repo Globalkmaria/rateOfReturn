@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
-import { Skeleton } from '@/components/Skeleton';
 import { mockFn } from '@/utils/mock';
+
+import { Skeleton } from '@/components/Skeleton';
 
 import NoteControlBar from './NoteControlBar';
 import { StyledNoteList } from './NoteList';

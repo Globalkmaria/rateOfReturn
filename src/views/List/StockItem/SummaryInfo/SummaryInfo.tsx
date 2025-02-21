@@ -1,30 +1,31 @@
 import { memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import styled from 'styled-components';
 
 import userSoldsService from '@/service/userSolds/service';
 import userStocksService from '@/service/userStocks/userStocks';
 
-import { generateSoldListWithStockInfo } from '@/features/solds/utils';
-import { addNewSoldList } from '@/features/solds';
+import getDateAndTime from '@/utils/getDateAndTime';
+
 import { selectStockCheckedInfo } from '@/features/checkedItems/selectors';
+import { addNewSoldList } from '@/features/solds';
+import { generateSoldListWithStockInfo } from '@/features/solds/utils';
+import { selectStockInfoById } from '@/features/stockList/selectors';
 import {
   updateStock,
   updateStockNeedInit,
 } from '@/features/stockList/stockListSlice';
 import { selectIsLoggedIn } from '@/features/user/selectors';
-import { selectStockInfoById } from '@/features/stockList/selectors';
 
-import { TableCell, TableRow } from '@/components/Table';
-import { EditButton, MoreButton } from '@/components/IconButton';
+import { INITIAL_NOTE_FORM_STATE } from '@/views/Note/NoteInfo/const';
+import AddNote from '@/views/Note/NoteInfo/modals/AddNote';
+import { NoteFormState } from '@/views/Note/NoteInfo/type';
+
 import { DropboxItem } from '@/components/Dropbox/DropboxItem';
 import Icon from '@/components/Icon';
-
-import getDateAndTime from '@/utils/getDateAndTime';
-
-import AddNote from '@/views/Note/NoteInfo/modals/AddNote';
-import { INITIAL_NOTE_FORM_STATE } from '@/views/Note/NoteInfo/const';
-import { NoteFormState } from '@/views/Note/NoteInfo/type';
+import { EditButton, MoreButton } from '@/components/IconButton';
+import { TableCell, TableRow } from '@/components/Table';
 
 import useModal from '../../hooks/useModal';
 import { CheckboxCell } from '../components';
@@ -34,12 +35,12 @@ import {
   getChangedStockData,
   getEditUserStockData,
 } from '../utils';
+import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
 import { useStockSummaryInputChange } from './hooks/useStockSummaryInputChange';
 import SummaryContent from './SummaryContent';
-import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
 import { generateSoldItems } from './utils';
-import { useAddItem } from '../hooks/useAddItem';
 import useIsMainGroup from '../../hooks/useIsMainGroup';
+import { useAddItem } from '../hooks/useAddItem';
 
 export type SummaryInfoData = {
   purchaseQuantitySum: number;

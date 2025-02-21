@@ -1,3 +1,4 @@
+import { localStringToNumber } from './number';
 import { StockListState } from '../features/stockList/type';
 import {
   Item,
@@ -5,7 +6,6 @@ import {
   UserStock,
   UserStocks,
 } from '../repository/userData/type';
-import { localStringToNumber } from './number';
 
 const formatStockAsServerFormat = (
   stockList: StockListState,

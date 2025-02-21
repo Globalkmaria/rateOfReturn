@@ -1,10 +1,13 @@
+import { Context } from 'chartjs-plugin-datalabels';
+
+import { getFixedLocaleString, getPercentage } from '@/utils/number';
+
 import { StockListState } from '@/features/stockList/type';
+
 import {
   TotalSummary,
   getTotalSummary,
 } from '../../../features/groups/filters';
-import { Context } from 'chartjs-plugin-datalabels';
-import { getFixedLocaleString, getPercentage } from '@/utils/number';
 import { PercentageAndTotalPrice } from '../type';
 
 interface TagsTotal {

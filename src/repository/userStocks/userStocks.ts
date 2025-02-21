@@ -1,5 +1,3 @@
-import { config } from '../../config';
-import HttpClient, { ErrorResponse } from '../../network/http';
 import {
   AddNewUserItemRepReq,
   AddNewUserItemRepRes,
@@ -10,6 +8,8 @@ import {
   EditUserItemRepReq,
   EditUserStockRepReq,
 } from './type';
+import { config } from '../../config';
+import HttpClient, { ErrorResponse } from '../../network/http';
 
 class UserStocksRepository {
   httpClient: HttpClient;

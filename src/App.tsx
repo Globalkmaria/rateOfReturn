@@ -1,13 +1,13 @@
-import { RouterProvider } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
 import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router-dom';
 
+import { ThemeProvider } from 'styled-components';
+
+import ErrorBoundary from './components/ErrorBoundary';
+import { routers } from './router/router';
+import { store } from './store';
 import GlobalStyles from './styles/GlobalStyles';
 import { theme } from './styles/theme';
-
-import { store } from './store';
-import { routers } from './router/router';
-import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
   return (

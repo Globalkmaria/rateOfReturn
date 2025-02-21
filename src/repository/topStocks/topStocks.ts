@@ -1,6 +1,6 @@
+import { TopStocksRes } from './type';
 import { config } from '../../config';
 import HttpClient, { ErrorResponse } from '../../network/http';
-import { TopStocksRes } from './type';
 
 class TopStocksRepository {
   httpClient: HttpClient;

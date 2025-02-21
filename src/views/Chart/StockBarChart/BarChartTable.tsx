@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+
 import {
   Table,
   TableBody,
@@ -8,7 +10,6 @@ import {
 } from '@/components/Table';
 
 import { StockBarChartInfo, StockBarChartInfos } from './utils';
-import styled from 'styled-components';
 
 interface Props {
   stockBarChartInfos: StockBarChartInfos;

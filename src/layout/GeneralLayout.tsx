@@ -1,17 +1,18 @@
 import { Suspense, useEffect, useState } from 'react';
+
 import styled from 'styled-components';
 
 import useSaveChangedGroupsData from '@/views/List/hooks/useSaveChangedGroupedData';
-import useSaveChangedStocksData from '@/views/List/hooks/useSaveChangedStocksData';
 import useSaveChangedSoldsData from '@/views/List/hooks/useSaveChangedSoldData';
+import useSaveChangedStocksData from '@/views/List/hooks/useSaveChangedStocksData';
 import useSaveChangedNotesData from '@/views/Note/hooks/useSaveChangedNotesData';
 
-import Navbar from './NavBar/Navbar';
 import Footer from './Footer';
+import Loading from './Loading';
+import MainModal from './MainModal';
+import Navbar from './NavBar/Navbar';
 import { useCheckMe } from './useCheckMe';
 import useSyncUserData from './useSyncUserData';
-import MainModal from './MainModal';
-import Loading from './Loading';
 
 interface GeneralLayoutProps {
   children: React.ReactNode;

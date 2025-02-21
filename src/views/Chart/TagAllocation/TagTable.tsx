@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+
 import {
   Table,
   TableBody,
@@ -6,9 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/Table';
-import styled from 'styled-components';
-import { TagsInfo } from './utils';
 import { Ellipsis } from '@/components/Text';
+
+import { TagsInfo } from './utils';
 
 interface Props {
   tagsInfo: TagsInfo;

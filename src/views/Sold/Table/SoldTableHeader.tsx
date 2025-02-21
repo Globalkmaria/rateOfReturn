@@ -1,7 +1,9 @@
-import { TableHeader, TableRow } from '@/components/Table';
 import HeaderItem from '@/views/List/Header/HeaderItem';
-import { SoldSortTableHeadProps } from './SoldSortTableHead';
+
+import { TableHeader, TableRow } from '@/components/Table';
+
 import { SOLD_HEADER_LIST, SoldSortOptions } from './const';
+import { SoldSortTableHeadProps } from './SoldSortTableHead';
 
 type Props = Pick<
   SoldSortTableHeadProps<SoldSortOptions>,

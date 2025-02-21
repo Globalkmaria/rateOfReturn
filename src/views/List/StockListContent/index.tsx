@@ -1,21 +1,23 @@
 import { lazy, useCallback, useDeferredValue, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+
 import styled from 'styled-components';
 
+import { validateGroupId } from '@/utils/group';
+
+import { MAIN_GROUP_ID } from '@/features/groups/mockData';
 import {
   selectGroupStockInfo,
   selectGroupsIds,
 } from '@/features/groups/selectors';
 import { selectStocks } from '@/features/stockList/selectors';
-import { MAIN_GROUP_ID } from '@/features/groups/mockData';
 
-import StockTableMenu from './StockTableMenu';
 import { filterStockByName } from './helper';
+import StockTableMenu from './StockTableMenu';
 import GroupSummary from '../GroupSummary/GroupSummary';
 import useIsMainGroup from '../hooks/useIsMainGroup';
 import ListErrorPage from '../ListErrorPage';
-import { validateGroupId } from '@/utils/group';
 
 const StockTable = lazy(() => import('../StockTable'));
 const GroupButtons = lazy(() => import('../GroupButtons/GroupButtons'));

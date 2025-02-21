@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { initStockList } from '../../../features/stockList/stockListSlice';
-import { initGroups } from '../../../features/groups/groupsSlice';
-import { getInitialCheckedItemsInfo } from '../../../features/checkedItems/utils';
-import { initCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
-import { selectStockList } from '../../../features/stockList/selectors';
-import { getLocalStorageItem } from '../../../utils/getLocalStorage';
-import { initSolds } from '@/features/solds';
 import { initNotes } from '@/features/notes';
+import { initSolds } from '@/features/solds';
+
+import { initCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
+import { getInitialCheckedItemsInfo } from '../../../features/checkedItems/utils';
+import { initGroups } from '../../../features/groups/groupsSlice';
+import { selectStockList } from '../../../features/stockList/selectors';
+import { initStockList } from '../../../features/stockList/stockListSlice';
+import { getLocalStorageItem } from '../../../utils/getLocalStorage';
 
 export const useInitWithLocalData = () => {
   const dispatch = useDispatch();

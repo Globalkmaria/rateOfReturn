@@ -1,5 +1,6 @@
-import { ColorsKeys } from '@/styles/theme';
 import styled from 'styled-components';
+
+import { ColorsKeys } from '@/styles/theme';
 
 export interface ChipProps {
   color?: ColorsKeys;

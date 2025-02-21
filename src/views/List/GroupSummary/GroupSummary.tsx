@@ -1,20 +1,17 @@
-import {
-  DetailedHTMLProps,
-  HTMLAttributes,
-  memo,
-  useCallback,
-  useMemo,
-} from 'react';
-import { FastOmit } from 'styled-components/dist/types';
-import styled, { IStyledComponent } from 'styled-components';
+import { DetailedHTMLProps, HTMLAttributes, memo } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
+import styled, { IStyledComponent } from 'styled-components';
+import { FastOmit } from 'styled-components/dist/types';
+
+import { checkIfMainGroup } from '@/utils/group';
+
+import { MAIN_GROUP_ID } from '@/features/groups/mockData';
+
+import { CalculateStockSummaryResult, calculateGroupSummary } from './utils';
 import { selectGroupInfo } from '../../../features/groups/selectors';
 import { selectStocks } from '../../../features/stockList/selectors';
-import { CalculateStockSummaryResult, calculateGroupSummary } from './utils';
-import { useParams } from 'react-router-dom';
-import { MAIN_GROUP_ID } from '@/features/groups/mockData';
-import { checkIfMainGroup } from '@/utils/group';
 
 type Contents = {
   key: keyof CalculateStockSummaryResult;

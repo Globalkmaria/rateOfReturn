@@ -1,10 +1,11 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
+
 import styled from 'styled-components';
 
-import TagOption from './TagOption';
-import { BaseInput } from '../Input/BaseInput';
 import { StyledChip, StyledChipText } from '.';
+import TagOption from './TagOption';
 import Icon from '../Icon';
+import { BaseInput } from '../Input/BaseInput';
 
 export interface TagDropboxSettings {
   height?: number;

@@ -1,4 +1,5 @@
 import { NoteContent } from '@/features/notes';
+
 import UserNotesRepository, {
   userNotesRepository,
 } from '@/repository/userNotes/repository';

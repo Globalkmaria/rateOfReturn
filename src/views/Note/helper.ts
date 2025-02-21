@@ -1,8 +1,8 @@
-import { RadioSelectProps } from '@/components/RadioSelect';
-
 import { Note, NotesState } from '@/features/notes';
 import { SoldsState } from '@/features/solds';
 import { StocksCollection } from '@/features/stockList/type';
+
+import { RadioSelectProps } from '@/components/RadioSelect';
 
 import {
   NOTE_FILTERS,

@@ -1,6 +1,7 @@
 import { ReactNode, useState } from 'react';
-import styled from 'styled-components';
+
 import { MdExpandLess, MdExpandMore } from 'react-icons/md';
+import styled from 'styled-components';
 
 type StyledExpandCardProps = {
   transition?: number;

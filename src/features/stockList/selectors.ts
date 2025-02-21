@@ -1,4 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
+
 import { RootState } from '../../store';
 
 export const selectStockList = (state: RootState) => state.stockList;

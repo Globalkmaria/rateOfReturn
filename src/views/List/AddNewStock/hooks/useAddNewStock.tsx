@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 
+import { addNewStock } from '@/features';
+
+import { StockCheckInfo } from '../../../../features/checkedItems/type';
 import { selectNextIds } from '../../../../features/stockList/selectors';
 import { getNewStockInfo } from '../../../../features/stockList/utils';
-import { StockCheckInfo } from '../../../../features/checkedItems/type';
-import userStocksService from '../../../../service/userStocks/userStocks';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
+import userStocksService from '../../../../service/userStocks/userStocks';
 import getDateAndTime from '../../../../utils/getDateAndTime';
-import { addNewStock } from '@/features';
 
 export const useAddNewStock = () => {
   const dispatch = useDispatch();

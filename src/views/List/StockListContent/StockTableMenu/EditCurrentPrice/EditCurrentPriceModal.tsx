@@ -1,8 +1,26 @@
 import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import styled from 'styled-components';
 
+import userStocksService from '@/service/userStocks/userStocks';
+
+import {
+  selectStockInfoById,
+  selectStocks,
+} from '@/features/stockList/selectors';
+import { updateStocksCurrentPrice } from '@/features/stockList/stockListSlice';
+import { StockMainInfo } from '@/features/stockList/type';
+import { selectIsLoggedIn } from '@/features/user/selectors';
+
+import { HeaderItemProps } from '@/views/List/Header/HeaderItem';
+import { InputCell } from '@/views/List/StockItem/components';
+import { PurchasedInputChangeProps } from '@/views/List/StockItem/PurchasedStock/PurchasedStock';
+import { checkCurrentPrice } from '@/views/List/StockItem/validity';
+
 import { BorderButton, ContainedButton } from '@/components/Button';
+import Flex from '@/components/Flex';
+import { StyledModalContainer, StyledModalMessage } from '@/components/Modal';
 import PortalModal from '@/components/Modal/PortalModal';
 import {
   Table,
@@ -13,24 +31,7 @@ import {
   TableRow,
 } from '@/components/Table';
 
-import {
-  selectStockInfoById,
-  selectStocks,
-} from '@/features/stockList/selectors';
-
-import { selectIsLoggedIn } from '@/features/user/selectors';
-import { updateStocksCurrentPrice } from '@/features/stockList/stockListSlice';
-import userStocksService from '@/service/userStocks/userStocks';
-
 import { getFixedLocaleString } from '@/utils';
-
-import { StockMainInfo } from '@/features/stockList/type';
-import { StyledModalContainer, StyledModalMessage } from '@/components/Modal';
-import Flex from '@/components/Flex';
-import { PurchasedInputChangeProps } from '@/views/List/StockItem/PurchasedStock/PurchasedStock';
-import { HeaderItemProps } from '@/views/List/Header/HeaderItem';
-import { checkCurrentPrice } from '@/views/List/StockItem/validity';
-import { InputCell } from '@/views/List/StockItem/components';
 
 export interface CurrentPriceChanges {
   [key: string]: StockMainInfo['currentPrice'];

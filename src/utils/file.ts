@@ -1,6 +1,7 @@
+import { saveAs } from 'file-saver';
+
 import { store } from '../store';
 import { getCurrentDateTimeString } from './time';
-import { saveAs } from 'file-saver';
 
 export const handleGetDataFile = () => {
   const data = store.getState();

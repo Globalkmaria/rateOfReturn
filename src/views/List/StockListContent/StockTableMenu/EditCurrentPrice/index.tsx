@@ -1,15 +1,20 @@
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
 import { memo } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
+import styled from 'styled-components';
+
+import { checkIfMainGroup } from '@/utils/group';
+
+import { MAIN_GROUP_ID } from '@/features/groups/mockData';
 import { selectStockIds } from '@/features/selectors';
+
+import useModal from '@/views/List/hooks/useModal';
+
 import { BorderButton } from '@/components/Button';
 import Icon from '@/components/Icon';
-import useModal from '@/views/List/hooks/useModal';
+
 import EditCurrentPriceModal from './EditCurrentPriceModal';
-import { useParams } from 'react-router-dom';
-import { MAIN_GROUP_ID } from '@/features/groups/mockData';
-import { checkIfMainGroup } from '@/utils/group';
 
 function EditCurrentPrice() {
   const { groupId = MAIN_GROUP_ID } = useParams();

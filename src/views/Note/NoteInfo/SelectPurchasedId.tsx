@@ -1,14 +1,14 @@
 import { useSelector } from 'react-redux';
 
+import { selectNoteCollection } from '@/features/notes';
 import {
   selectStockPurchasedIds,
   selectStocks,
 } from '@/features/stockList/selectors';
-import { selectNoteCollection } from '@/features/notes';
 
+import Icon from '@/components/Icon';
 import Tag2 from '@/components/Tag2';
 import { TagDropbox2Settings } from '@/components/Tag2/Tag2Dropbox';
-import Icon from '@/components/Icon';
 
 import { StyledField, StyledName } from './components';
 import { NoteFormOnChange } from './type';

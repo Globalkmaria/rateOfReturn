@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
-import ListTableSkeleton from './ListTableSkeleton';
+import Search from '@/components/Search';
+
 import GroupButtonSkeleton from './GroupButtons/GroupButtonSkeleton';
 import GroupSummarySkeleton from './GroupSummary/GroupSummarySkeleton';
+import ListTableSkeleton from './ListTableSkeleton';
 import EditCurrentPriceSkeleton from './StockListContent/StockTableMenu/EditCurrentPrice/EditCurrentPriceSkeleton';
-import Search from '@/components/Search';
 
 const StockListSkeleton = () => {
   return (

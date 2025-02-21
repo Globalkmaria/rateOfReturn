@@ -1,14 +1,17 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { resetUserData } from '@/features';
-import WarningModal from '@/components/WarningModal';
-import { selectIsLoggedIn } from '@/features/user/selectors';
 import userDataService from '@/service/userData/userData';
-import { STOCK_INITIAL_STATE } from '@/features/stockList/stockListSlice';
+
 import { GROUP_INITIAL_STATE } from '@/features/groups/groupsSlice';
 import { SOLD_INITIAL_STATE } from '@/features/solds';
-import { useState } from 'react';
+import { STOCK_INITIAL_STATE } from '@/features/stockList/stockListSlice';
+import { selectIsLoggedIn } from '@/features/user/selectors';
+
+import WarningModal from '@/components/WarningModal';
+
+import { resetUserData } from '@/features';
 
 type Props = {
   onClose: () => void;

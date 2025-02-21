@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react';
+
 import { SignupInfoState } from './Signup';
 import FormInput from '../../components/form/Input';
 

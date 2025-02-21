@@ -1,21 +1,24 @@
 import { ChangeEvent, MouseEvent, memo } from 'react';
+
 import styled from 'styled-components';
 
-import { Input } from '../../../components/Input/Input';
+import { getFixedLocaleString } from '@/utils/number';
+
 import {
   TableCell,
   TableCellProps,
   TableHead,
   TableHeadProps,
 } from '@/components/Table';
+
 import { InputProps } from '../../../components/Input/BaseInput';
-import { getFixedLocaleString } from '@/utils/number';
+import { Input } from '../../../components/Input/Input';
 
 type InputCellProps = {
   disabled?: boolean;
   value: string;
   withFixed?: boolean;
-} & Omit<InputProps, 'value'>;
+} & Omit<InputProps<string | number>, 'value'>;
 type CheckboxCellProps = {
   onClick: (checked: boolean) => void;
   value: boolean;

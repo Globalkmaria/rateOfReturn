@@ -1,15 +1,17 @@
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 
-import { Table, TableBody } from '@/components/Table';
+import styled from 'styled-components';
+
 import { selectSoldList } from '@/features/solds';
 
-import SoldTableHeader from './SoldTableHeader';
-import SoldItem from './SoldItem';
+import { Table, TableBody } from '@/components/Table';
+
 import { SOLD_SORT_OPTIONS_FUNCTIONS, SoldSortOptions } from './const';
 import { validateSoldQuery } from './helper';
 import NoSold from './NoSold';
+import SoldItem from './SoldItem';
+import SoldTableHeader from './SoldTableHeader';
 
 function SoldTable() {
   const [searchParams, setSearchParams] = useSearchParams();

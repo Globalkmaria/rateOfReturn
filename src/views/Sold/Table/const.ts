@@ -1,6 +1,8 @@
-import { HeaderItemProps } from '@/views/List/Header/HeaderItem';
-import SoldSortTableHead, { SoldSortTableHeadProps } from './SoldSortTableHead';
 import { SoldsState } from '@/features/solds';
+
+import { HeaderItemProps } from '@/views/List/Header/HeaderItem';
+
+import SoldSortTableHead, { SoldSortTableHeadProps } from './SoldSortTableHead';
 import {
   createNumericSortFunction,
   createStringSortFunction,

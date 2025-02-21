@@ -1,9 +1,11 @@
 import { z } from 'zod';
-import { PurchasedItemInfo } from '../../../features/stockList/type';
+
 import {
   alertAndReturnValue,
   getDecimalPlacesSchema,
 } from '@/utils/validation';
+
+import { PurchasedItemInfo } from '../../../features/stockList/type';
 
 export type ValidityResult = { message?: string; isValid: boolean };
 type FieldType = keyof typeof schema;

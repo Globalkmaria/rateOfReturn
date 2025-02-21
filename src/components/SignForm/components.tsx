@@ -1,8 +1,9 @@
 import { memo } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+
 import { FcGoogle } from 'react-icons/fc';
+import styled from 'styled-components';
 
 import { BorderButton, ContainedButton } from '../Button';
 import { StyledSubText } from './SignForm';

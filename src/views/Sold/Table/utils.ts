@@ -1,10 +1,14 @@
-import { Sold, SoldsState } from '@/features/solds';
-import { getPercentage, localStringToNumber } from '@/utils';
+import { z } from 'zod';
+
 import {
   alertAndReturnValueZod,
   getDecimalPlacesSchema,
 } from '@/utils/validation';
-import { z } from 'zod';
+
+import { Sold, SoldsState } from '@/features/solds';
+
+import { getPercentage, localStringToNumber } from '@/utils';
+
 import { SortFunction } from './const';
 
 const soldPriceSchema = z

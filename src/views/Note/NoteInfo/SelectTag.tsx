@@ -1,15 +1,16 @@
 import { useSelector } from 'react-redux';
 
+import { selectNotes } from '@/features/notes';
+import { selectSoldList } from '@/features/solds';
+import { selectStockTags } from '@/features/stockList/selectors';
+
+import Icon from '@/components/Icon';
 import Tag2 from '@/components/Tag2';
 import { TagDropbox2Settings } from '@/components/Tag2/Tag2Dropbox';
-import { selectStockTags } from '@/features/stockList/selectors';
-import Icon from '@/components/Icon';
 
 import { StyledField, StyledName } from './components';
 import { NoteFormOnChange } from './type';
 import { getTagOptionList } from '../helper';
-import { selectNotes } from '@/features/notes';
-import { selectSoldList } from '@/features/solds';
 
 interface SelectTagProps {
   tag: string | null;

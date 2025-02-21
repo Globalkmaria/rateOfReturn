@@ -1,9 +1,10 @@
 import { memo } from 'react';
+
 import styled from 'styled-components';
 
-import Search from '../../../../components/Search';
 import AddSampleData from './AddSampleData';
 import EditCurrentPrice from './EditCurrentPrice';
+import Search from '../../../../components/Search';
 
 type Props = {
   searchQuery: string;

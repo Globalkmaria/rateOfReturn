@@ -1,5 +1,5 @@
-import { SignupInfoState } from './Signup';
 import { checkFieldValidity, getFieldValidConfig } from './fieldValidator';
+import { SignupInfoState } from './Signup';
 
 export const getEmailValidConfig = (state: SignupInfoState) => {
   return getFieldValidConfig({ type: 'email', value: state.username });

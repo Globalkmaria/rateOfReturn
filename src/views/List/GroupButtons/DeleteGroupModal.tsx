@@ -1,13 +1,14 @@
-import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 
-import { Group } from '../../../features/groups/type';
-import { selectGroups } from '../../../features/groups/selectors';
-import PortalModal from '../../../components/Modal/PortalModal';
+import styled from 'styled-components';
 
-import useModal from '../hooks/useModal';
-import DeleteGroupWarning from './DeleteGroupWarning';
 import IconButton from '@/components/IconButton';
+
+import DeleteGroupWarning from './DeleteGroupWarning';
+import PortalModal from '../../../components/Modal/PortalModal';
+import { selectGroups } from '../../../features/groups/selectors';
+import { Group } from '../../../features/groups/type';
+import useModal from '../hooks/useModal';
 
 const NO_GROUP_MESSAGE = 'There is no group.';
 

@@ -1,4 +1,7 @@
 import { CurrentPriceChanges } from '@/views/List/StockListContent/StockTableMenu/EditCurrentPrice/EditCurrentPriceModal';
+
+import { localStringToNumber } from '@/utils';
+
 import {
   EditCurrentPricesRepReq,
   EditUserItemRepData,
@@ -6,7 +9,6 @@ import {
 } from '../../repository/userStocks/type';
 import { generateDataEntry } from '../utils';
 import { EditUserItemServiceData, EditUserStockServiceData } from './type';
-import { localStringToNumber } from '@/utils';
 
 export const renameStockKeysForServer = (
   data: EditUserStockServiceData,

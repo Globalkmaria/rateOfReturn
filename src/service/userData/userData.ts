@@ -1,4 +1,9 @@
+import formatGroupAsServerFormat from '@/utils/formatGroupAsServerFormat';
+import formatStockAsServerFormat from '@/utils/formatStockAsServerFormat';
+
+import { GROUP_STATE_SAMPLE } from '@/features/groups/mockData';
 import { STOCK_STATE_SAMPLE } from '@/features/stockList/mockData';
+
 import {
   ReplaceUserDataRepReq,
   MergeUserDataRepReq,
@@ -10,9 +15,6 @@ import UserDataRepository, {
 import { Result } from '../type';
 import { UserDataServiceRes } from './type';
 import { transformUserDataForFrontend } from './util';
-import { GROUP_STATE_SAMPLE } from '@/features/groups/mockData';
-import formatStockAsServerFormat from '@/utils/formatStockAsServerFormat';
-import formatGroupAsServerFormat from '@/utils/formatGroupAsServerFormat';
 
 class UserDataService {
   repo: UserDataRepository;

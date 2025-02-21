@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { Doughnut } from 'react-chartjs-2';
 
 import {
   Chart as ChartJS,
@@ -9,8 +9,8 @@ import {
   ChartData,
   ChartOptions,
 } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import styled from 'styled-components';
 
 import { TagsInfo, getChartData } from './utils';
 

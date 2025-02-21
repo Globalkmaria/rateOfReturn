@@ -1,13 +1,14 @@
 import { useRef } from 'react';
+
 import styled from 'styled-components';
 
-import { TopStock } from '../../../repository/topStocks/type';
-import ExpandCard from '../../../components/ExpandCard';
-import Metrics from './Metrics';
-import Ratios from './Ratios';
+import CardHeader from './CardHeader';
 import Categories from './Categories';
 import Logo from './Logo';
-import CardHeader from './CardHeader';
+import Metrics from './Metrics';
+import Ratios from './Ratios';
+import ExpandCard from '../../../components/ExpandCard';
+import { TopStock } from '../../../repository/topStocks/type';
 
 type CardProps = {
   stock: TopStock;

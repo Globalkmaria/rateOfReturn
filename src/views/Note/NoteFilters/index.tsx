@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
+
 import styled from 'styled-components';
 
 import { selectNoteCollection } from '@/features/notes';

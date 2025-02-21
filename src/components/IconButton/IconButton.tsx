@@ -5,8 +5,8 @@ import {
   BackgroundButton,
   BackgroundButtonProps,
 } from '../Button';
-import { ICON_TITLES, IconButtonType } from '../Icon/const';
 import Icon from '../Icon';
+import { ICON_TITLES, IconButtonType } from '../Icon/const';
 
 type IconButtonProps = {
   icon: IconButtonType;

@@ -1,11 +1,14 @@
-import { useRouteError, Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
+import { useRouteError, Link, useNavigate } from 'react-router-dom';
+
+import styled from 'styled-components';
+
+import { isValidObject } from '@/utils/typeCheck';
+
+import { resetUserData } from '@/features';
 
 import { ContainedButton } from '../components/Button';
 import { handleGetDataFile } from '../utils/file';
-import { resetUserData } from '@/features';
-import { isValidObject } from '@/utils/typeCheck';
 
 const ErrorPage = () => {
   const dispatch = useDispatch();

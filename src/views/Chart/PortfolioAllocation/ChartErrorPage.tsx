@@ -1,6 +1,7 @@
+import styled from 'styled-components';
+
 import { ContainedAnchor } from '@/components/Anchor';
 import Icon from '@/components/Icon';
-import styled from 'styled-components';
 
 type Props = {
   title: string;

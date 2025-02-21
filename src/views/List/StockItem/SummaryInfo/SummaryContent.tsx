@@ -1,10 +1,11 @@
 import { memo, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
+
 import styled from 'styled-components';
 
-import { TableCell } from '../../../../components/Table';
-import { Input } from '../../../../components/Input/Input';
 import { TransformedValue } from '../../../../components/Input/BaseInput';
+import { Input } from '../../../../components/Input/Input';
+import { TableCell } from '../../../../components/Table';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
 import { InputCell, NumberCell, StyledTextWrapper } from '../components';
 import { useGetStockSummaryData } from './hooks/useGetStockSummaryData';

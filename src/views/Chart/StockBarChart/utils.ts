@@ -2,15 +2,16 @@ import { Context } from 'chartjs-plugin-datalabels';
 import dayjs from 'dayjs';
 
 import {
-  PurchasedItemInfo,
-  StockList,
-  StocksCollection,
-} from '@/features/stockList/type';
-import {
   getFixedLocaleString,
   getPercentage,
   localStringToNumber,
 } from '@/utils/number';
+
+import {
+  PurchasedItemInfo,
+  StockList,
+  StocksCollection,
+} from '@/features/stockList/type';
 
 export const getStockOptions = (stockList: StocksCollection) => {
   return stockList.allIds.map(stockId => {

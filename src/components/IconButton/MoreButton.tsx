@@ -1,9 +1,10 @@
 import { useRef } from 'react';
 
+import useModal from '@/views/List/hooks/useModal';
+
 import IconButton from './IconButton';
 import { BaseButtonProps } from '../Button';
 import Dropbox, { DropboxStyleProps } from '../Dropbox';
-import useModal from '@/views/List/hooks/useModal';
 
 interface Props extends DropboxStyleProps, React.PropsWithChildren {
   disabled?: boolean;

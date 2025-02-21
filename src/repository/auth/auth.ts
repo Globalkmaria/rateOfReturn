@@ -1,5 +1,3 @@
-import { config } from '../../config.js';
-import HttpClient, { ErrorResponse } from '../../network/http';
 import {
   LoginRepRes,
   LoginResReq,
@@ -7,6 +5,8 @@ import {
   SignupRepReq,
   SignupRepRes,
 } from './type.js';
+import { config } from '../../config.js';
+import HttpClient, { ErrorResponse } from '../../network/http';
 
 class AuthRepository {
   http: HttpClient;

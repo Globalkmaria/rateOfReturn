@@ -1,12 +1,13 @@
 import { PropsWithChildren, ReactElement, ReactNode } from 'react';
-import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { ThemeProvider } from 'styled-components';
+import { MemoryRouter } from 'react-router-dom';
+
 import { RenderOptions, render } from '@testing-library/react';
+import { ThemeProvider } from 'styled-components';
 
 import { AppStore, RootState, preloadedStoreState, setupStore } from '../store';
-import { theme } from '../styles/theme';
 import GlobalStyles from '../styles/GlobalStyles';
+import { theme } from '../styles/theme';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: Partial<RootState>;

@@ -1,7 +1,9 @@
 import { ButtonHTMLAttributes } from 'react';
+
 import styled from 'styled-components';
 
 import { ColorsTypes } from '@/styles/theme';
+
 import { HoverDarker, getHoverColor } from './helper';
 
 const _SIZES = ['s', 'm', 'l'] as const;

@@ -1,8 +1,10 @@
 import { memo } from 'react';
+
+import styled from 'styled-components';
+
+import { useAddNewStock } from './hooks/useAddNewStock';
 import { ContainedButton } from '../../../components/Button';
 import { TableCell, TableRow } from '../../../components/Table';
-import { useAddNewStock } from './hooks/useAddNewStock';
-import styled from 'styled-components';
 
 const AddNewStock = () => {
   const { onAddNewStock } = useAddNewStock();

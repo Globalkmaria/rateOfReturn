@@ -1,8 +1,10 @@
-import { MAIN_GROUP_ID } from '@/features/groups/mockData';
-import { selectStockIds } from '@/features/selectors';
-import { checkIfMainGroup } from '@/utils/group';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+
+import { checkIfMainGroup } from '@/utils/group';
+
+import { MAIN_GROUP_ID } from '@/features/groups/mockData';
+import { selectStockIds } from '@/features/selectors';
 
 export function useShowAddSampleBtn() {
   const { groupId = MAIN_GROUP_ID } = useParams();
