@@ -31,19 +31,20 @@ function StockListContent() {
   const stockIds = useSelector(selectGroupStockInfo(groupId)).allIds;
 
   const groupIds = useSelector(selectGroupsIds);
+
   const isValidGroupId = validateGroupId(groupId, groupIds);
-  if (!isValidGroupId) return <ListErrorPage />;
-
-  const filteredStockIds = isMainGroupSelected
-    ? filterStockByName(deferredQuery, stockList)
-    : stockIds;
-
   const onSearchQueryChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchQuery(e.target.value);
     },
     [],
   );
+
+  if (!isValidGroupId) return <ListErrorPage />;
+
+  const filteredStockIds = isMainGroupSelected
+    ? filterStockByName(deferredQuery, stockList)
+    : stockIds;
 
   return (
     <>

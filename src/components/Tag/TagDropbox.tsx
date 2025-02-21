@@ -34,7 +34,8 @@ function TagDropbox({
   height,
   ref,
 }: TagDropboxProps & TagDropboxSettings) {
-  const containerRef = ref ?? useRef<HTMLDivElement>(null);
+  const newContainerRef = useRef<HTMLDivElement>(null);
+  const containerRef = ref ?? newContainerRef;
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>('');
 
@@ -73,7 +74,7 @@ function TagDropbox({
     }
   };
 
-  const onDeleteSelectedOption: React.MouseEventHandler = e => {
+  const onDeleteSelectedOption: React.MouseEventHandler = () => {
     onOptionSelect('');
   };
 

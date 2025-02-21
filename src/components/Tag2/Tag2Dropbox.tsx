@@ -48,7 +48,8 @@ function TagDropbox2<T extends Tag2OptionType>({
   chipTextColor,
 }: TagDropbox2Props<T>) {
   placeholder = selectedOption ? '' : placeholder;
-  const containerRef = ref ?? useRef<HTMLDivElement>(null);
+  const newContainerRef = useRef<HTMLDivElement>(null);
+  const containerRef = ref ?? newContainerRef;
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>('');
   const getLabel = (option: T) =>
@@ -86,7 +87,7 @@ function TagDropbox2<T extends Tag2OptionType>({
   };
 
   const onClickNewOption = () => {
-    onCreateNewOption && onCreateNewOption(inputValue);
+    if (onCreateNewOption) onCreateNewOption(inputValue);
     setInputValue('');
     onCloseModal();
   };
@@ -97,7 +98,7 @@ function TagDropbox2<T extends Tag2OptionType>({
     }
   };
 
-  const onDeleteSelectedOption: React.MouseEventHandler = e => {
+  const onDeleteSelectedOption: React.MouseEventHandler = () => {
     onOptionSelect(null);
   };
 

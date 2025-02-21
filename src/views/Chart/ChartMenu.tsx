@@ -6,9 +6,7 @@ import { UnderlineAnchor } from '@/components/Anchor';
 
 type MenuProps = { selected: boolean; disabled?: boolean };
 
-interface ChartMenuProps {}
-
-const ChartMenu = ({}: ChartMenuProps) => {
+const ChartMenu = ({}) => {
   const { currentLevelPath } = useRouter(1);
 
   return (

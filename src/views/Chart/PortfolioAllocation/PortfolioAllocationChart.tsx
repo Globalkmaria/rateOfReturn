@@ -21,7 +21,7 @@ interface Props {
 }
 
 const PortfolioAllocationChart = ({ stockAllocationInfo }: Props) => {
-  // @ts-ignore
+  // @ts-expect-error - ChartData type is not exported from ChartJS
   const chartData: ChartData<'doughnut'> = getChartData(stockAllocationInfo);
   const options: ChartOptions<'doughnut'> = {
     layout: {

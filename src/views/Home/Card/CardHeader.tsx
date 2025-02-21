@@ -5,7 +5,7 @@ import { TopStock } from '../../../repository/topStocks/type';
 
 type CardHeaderProps = {
   stock: TopStock;
-  investRef: RefObject<HTMLAnchorElement>;
+  investRef: RefObject<HTMLAnchorElement | null>;
 };
 
 const CardHeader = ({ stock, investRef }: CardHeaderProps) => {
@@ -14,7 +14,12 @@ const CardHeader = ({ stock, investRef }: CardHeaderProps) => {
       <StyledName>{stock.name}</StyledName>
       <StyledSubHeader>
         <StyledSymbol>{stock.symbol}</StyledSymbol>
-        <StyledInvesting ref={investRef} href={stock.investUrl} target={'_blank'} rel='noreferrer'>
+        <StyledInvesting
+          ref={investRef}
+          href={stock.investUrl}
+          target={'_blank'}
+          rel='noreferrer'
+        >
           investing.com
         </StyledInvesting>
       </StyledSubHeader>

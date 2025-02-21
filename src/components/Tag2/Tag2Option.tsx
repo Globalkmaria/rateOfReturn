@@ -34,7 +34,7 @@ function Tag2Option<T extends Tag2OptionType>({
   const { onOpenModal, onCloseModal, showModal } = useModal();
 
   const onDelete = () => {
-    onDeleteOption && onDeleteOption(option);
+    if (onDeleteOption) onDeleteOption(option);
     onCloseModal();
   };
   const label = typeof option === 'string' ? option : option.label;

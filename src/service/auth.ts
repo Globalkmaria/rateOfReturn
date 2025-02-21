@@ -20,7 +20,10 @@ class AuthService {
     }
   }
 
-  async signup(username: string, password: string): Promise<SignupRepRes | null> {
+  async signup(
+    username: string,
+    password: string,
+  ): Promise<SignupRepRes | null> {
     try {
       const result = await this.repo.signup({ username, password });
       if ('error' in result) {

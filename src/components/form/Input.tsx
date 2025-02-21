@@ -9,7 +9,14 @@ export interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
   validityConfig?: ValidityTextProps;
 }
 
-const FormInput = ({ id, labelText, validityConfig, required, className, ...props }: FormInputProps) => {
+const FormInput = ({
+  id,
+  labelText,
+  validityConfig,
+  required,
+  className,
+  ...props
+}: FormInputProps) => {
   const inputInfo = labelText || validityConfig;
   return (
     <StyledFormInput className={className}>
@@ -21,7 +28,12 @@ const FormInput = ({ id, labelText, validityConfig, required, className, ...prop
               {required && <StyledRequired>*</StyledRequired>}
             </StyledLabel>
           )}
-          {validityConfig && <ValidityText text={validityConfig.text} isValid={validityConfig.isValid} />}
+          {validityConfig && (
+            <ValidityText
+              text={validityConfig.text}
+              isValid={validityConfig.isValid}
+            />
+          )}
         </StyledInputInfo>
       )}
       <StyledInput id={id} {...props} />

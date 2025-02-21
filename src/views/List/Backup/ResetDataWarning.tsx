@@ -80,7 +80,7 @@ const MESSAGE = (
   <>
     If you reset, current data will be deleted. <br /> Please note that this
     action is irreversible. <br />
-    If you want to get backup file before reset, click the 'Get Backup File'
+    If you want to get backup file before reset, click the {`'Get Backup File'`}
     first.
     <br /> Are you sure you want to reset?
   </>

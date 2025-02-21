@@ -40,7 +40,7 @@ interface Props {
 }
 
 function BarChart({ stockBarChartInfos, stockName }: Props) {
-  // @ts-ignore
+  // @ts-expect-error - ChartData type is not exported from ChartJS
   const data: ChartData<'bar'> = stockData(stockName, stockBarChartInfos);
 
   return (

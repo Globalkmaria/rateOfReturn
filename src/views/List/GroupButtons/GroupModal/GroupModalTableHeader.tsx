@@ -1,4 +1,9 @@
-import { TableHead, TableHeader, TableRow, TableWithProps } from '../../../../components/Table';
+import {
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableWithProps,
+} from '../../../../components/Table';
 
 interface HeaderItemProps extends TableWithProps {
   id: string;

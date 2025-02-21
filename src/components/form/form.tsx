@@ -18,5 +18,6 @@ export default Form;
 const StyledForm = styled('form')<{ gap?: number | string }>`
   display: flex;
   flex-direction: column;
-  gap: ${({ gap }) => (gap ? (typeof gap === 'string' ? gap : `${gap}px`) : '1.3rem')};
+  gap: ${({ gap }) =>
+    gap ? (typeof gap === 'string' ? gap : `${gap}px`) : '1.3rem'};
 `;

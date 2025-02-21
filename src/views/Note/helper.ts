@@ -24,10 +24,10 @@ export const getNoteFilterOptions = (notes: NotesState['collection']) => {
   for (const note of notes.allIds) {
     const { purchasedId, soldId, tag, stockName } = notes.byId[note];
 
-    stockName && stockNames.add(stockName);
-    purchasedId && purchasedIds.add(purchasedId);
-    soldId && soldIds.add(soldId);
-    tag && tags.add(tag);
+    if (stockName) stockNames.add(stockName);
+    if (purchasedId) purchasedIds.add(purchasedId);
+    if (soldId) soldIds.add(soldId);
+    if (tag) tags.add(tag);
   }
 
   return {
@@ -80,7 +80,7 @@ export const getPurchasedIdOptionList = (
 
   for (const note of notes.allIds) {
     const { purchasedId } = notes.byId[note];
-    purchasedId && ids.add(purchasedId);
+    if (purchasedId) ids.add(purchasedId);
   }
 
   return [...ids];
@@ -94,7 +94,7 @@ export const getSoldIdOptionList = (
 
   for (const note of notes.allIds) {
     const { soldId } = notes.byId[note];
-    soldId && ids.add(soldId);
+    if (soldId) ids.add(soldId);
   }
 
   return [...ids];
@@ -109,13 +109,13 @@ export const getTagOptionList = (
 
   for (const note of notes.allIds) {
     const { tag } = notes.byId[note];
-    tag && tags.add(tag);
+    if (tag) tags.add(tag);
   }
 
   for (const soldId of solds.allIds) {
     const sold = solds.byId[soldId];
     const { tag } = sold;
-    tag && tags.add(tag);
+    if (tag) tags.add(tag);
   }
 
   return [...tags];

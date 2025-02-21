@@ -76,10 +76,13 @@ const getPurchasedItems = (
 const getCheckInfoPurchaseItems = (
   items: UserStock['items'],
 ): StockCheckInfo['purchasedItems'] => {
-  return Object.keys(items).reduce((purchasedItems, id) => {
-    purchasedItems[id] = true;
-    return purchasedItems;
-  }, {} as StockCheckInfo['purchasedItems']);
+  return Object.keys(items).reduce(
+    (purchasedItems, id) => {
+      purchasedItems[id] = true;
+      return purchasedItems;
+    },
+    {} as StockCheckInfo['purchasedItems'],
+  );
 };
 
 const generateInitialCheckInfo = (

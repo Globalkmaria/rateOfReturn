@@ -12,7 +12,11 @@ const ConfirmInput = ({ onChange, signupInfo }: ConfirmInputProps) => {
   const isValid = password === confirmPassword;
   const validPassword = confirmPassword.length > 0;
 
-  const validText = validPassword ? (isValid ? 'Matched!' : 'Check your password') : '';
+  const validText = validPassword
+    ? isValid
+      ? 'Matched!'
+      : 'Check your password'
+    : '';
 
   const validityConfig = {
     text: validText,

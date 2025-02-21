@@ -10,10 +10,11 @@ import { getInitialCheckedItemsInfo } from '@/features/checkedItems/utils';
 import { useNavigate } from 'react-router-dom';
 import { formatNotesAsServerFormat } from '@/utils/formatNotesAsServerFormat';
 import { useState } from 'react';
+import { RootState } from '@/store';
 
 type Props = {
   onClose: () => void;
-  data: any;
+  data?: null | RootState;
 };
 
 const BackupWarningModal = ({ onClose, data }: Props) => {
@@ -78,7 +79,11 @@ const BackupWarningModal = ({ onClose, data }: Props) => {
         stockList: data.stockList,
         groups: data.groups,
         checkedItems:
-          data.checkedItems ?? getInitialCheckedItemsInfo(data.stockList),
+          data.checkedItems ??
+          getInitialCheckedItemsInfo({
+            data: data.stockList.stocks,
+            value: false,
+          }),
         solds: data.solds,
         notes: data.notes,
       }),

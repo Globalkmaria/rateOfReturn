@@ -46,7 +46,7 @@ class AuthRepository {
     });
   }
 
-  async logout(): Promise<any | ErrorResponse> {
+  async logout(): Promise<unknown | ErrorResponse> {
     return this.http.fetch('/logout', {
       method: 'GET',
     });

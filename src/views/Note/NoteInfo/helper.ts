@@ -1,6 +1,6 @@
 import { NoteFormState } from './type';
 
-const isEqual = (a: any, b: any) => {
+const isEqual = (a: unknown, b: unknown) => {
   if (a === b) return true;
 
   if (a && b && typeof a === 'object' && typeof b === 'object') {
@@ -18,10 +18,19 @@ const isEqual = (a: any, b: any) => {
     ) {
       const aKeys = Object.keys(a);
       const bKeys = Object.keys(b);
+
       if (aKeys.length !== bKeys.length) return false;
+
       for (const key of aKeys) {
-        if (!isEqual(a[key], b[key])) return false;
+        if (
+          !isEqual(
+            (a as Record<string, unknown>)[key],
+            (b as Record<string, unknown>)[key],
+          )
+        )
+          return false;
       }
+
       return true;
     }
 

@@ -15,16 +15,16 @@ export const useInitWithLocalData = () => {
 
   const initData = () => {
     const localStock = getLocalStorageItem('stockList');
-    localStock && dispatch(initStockList(localStock));
+    if (localStock) dispatch(initStockList(localStock));
 
     const localGroups = getLocalStorageItem('groups');
-    localGroups && dispatch(initGroups(localGroups));
+    if (localGroups) dispatch(initGroups(localGroups));
 
     const localSolds = getLocalStorageItem('solds');
-    localSolds && dispatch(initSolds(localSolds));
+    if (localSolds) dispatch(initSolds(localSolds));
 
     const localNotes = getLocalStorageItem('notes');
-    localNotes && dispatch(initNotes(localNotes));
+    if (localNotes) dispatch(initNotes(localNotes));
 
     const stocks = localStock?.stocks || stockList.stocks;
     const checkedItemsInfo = getInitialCheckedItemsInfo({

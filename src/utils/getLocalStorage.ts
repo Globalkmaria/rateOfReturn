@@ -5,6 +5,6 @@ export const getLocalStorageItem = (key: string) => {
   return null;
 };
 
-export const setLocalStorageItem = (key: string, value: any) => {
+export const setLocalStorageItem = (key: string, value: unknown) => {
   localStorage.setItem(key, JSON.stringify(value));
 };

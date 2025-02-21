@@ -26,8 +26,8 @@ function SoldSortTableHead<T extends string>({
     currentOption === asc
       ? FaSortUp
       : currentOption === desc
-      ? FaSortDown
-      : FaSort;
+        ? FaSortDown
+        : FaSort;
   const isSelected = Icon !== FaSort;
 
   const onClick: MouseEventHandler<HTMLButtonElement> = () => {

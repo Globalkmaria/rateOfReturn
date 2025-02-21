@@ -13,10 +13,15 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   store?: AppStore;
 }
 
-export const renderWithProviders = (ui: ReactElement, extendedRenderOptions: ExtendedRenderOptions = {}) => {
+export const renderWithProviders = (
+  ui: ReactElement,
+  extendedRenderOptions: ExtendedRenderOptions = {},
+) => {
   const {
     preloadedState = {},
-    store = setupStore(Object.keys(preloadedState).length ? preloadedState : preloadedStoreState),
+    store = setupStore(
+      Object.keys(preloadedState).length ? preloadedState : preloadedStoreState,
+    ),
     ...renderOptions
   } = extendedRenderOptions;
   const Wrapper = ({ children }: PropsWithChildren) => (

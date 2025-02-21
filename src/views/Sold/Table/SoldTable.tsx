@@ -11,9 +11,7 @@ import { SOLD_SORT_OPTIONS_FUNCTIONS, SoldSortOptions } from './const';
 import { validateSoldQuery } from './helper';
 import NoSold from './NoSold';
 
-interface Props {}
-
-function SoldTable({}: Props) {
+function SoldTable() {
   const [searchParams, setSearchParams] = useSearchParams();
   const sortBy = searchParams.get('sortBy') ?? '';
   const soldList = useSelector(selectSoldList);

@@ -39,8 +39,8 @@ export const StyledIconButton = styled(BackgroundButton)(
   }),
 );
 
-const SIZES = ['s', 'm', 'l'] as const;
-type Sizes = { [key in (typeof SIZES)[number]]: string };
+const _SIZES = ['s', 'm', 'l'] as const;
+type Sizes = { [key in (typeof _SIZES)[number]]: string };
 
 const FONT_SIZES: Sizes = {
   s: '1rem',

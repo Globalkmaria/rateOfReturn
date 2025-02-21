@@ -21,7 +21,7 @@ interface Props {
 }
 
 const TagAllocationChart = ({ tagsInfo }: Props) => {
-  // @ts-ignore
+  // @ts-expect-error - ChartData type is not exported from ChartJS
   const chartData: ChartData<'doughnut'> = getChartData(tagsInfo);
   const options: ChartOptions<'doughnut'> = {
     layout: {

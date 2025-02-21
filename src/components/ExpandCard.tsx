@@ -17,7 +17,10 @@ const ExpandCard = ({ open, children, transition = 200 }: ExpandCardProps) => {
       <StyledWrapper open={open} transition={transition}>
         <StyledExpand>{children}</StyledExpand>
       </StyledWrapper>
-      <StyledExpandButton type='button' aria-label={`expand ${open ? 'close' : 'open'} button`}>
+      <StyledExpandButton
+        type='button'
+        aria-label={`expand ${open ? 'close' : 'open'} button`}
+      >
         {open ? <MdExpandLess /> : <MdExpandMore />}
       </StyledExpandButton>
     </div>

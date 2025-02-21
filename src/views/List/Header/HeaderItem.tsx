@@ -19,7 +19,7 @@ type TableHeadPropsVariant = {
   notTableHead?: false;
   Component?:
     | IStyledComponent<'web', DefaultTheme | TableHeadProps | never>
-    | ((props: any) => React.ReactElement);
+    | ((props: unknown) => React.ReactElement);
 };
 export type HeaderItemProps = BaseHeaderItemProps &
   (NotTableHeadProps | TableHeadPropsVariant);

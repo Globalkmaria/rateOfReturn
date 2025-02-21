@@ -12,17 +12,25 @@ const Logo = ({ stock }: LogoProps) => {
     <StyledLogo>
       <picture>
         <source
-          srcSet={changeImgUrl(stock.img.webp300) || changeImgUrl(stock.img.webp)}
+          srcSet={
+            changeImgUrl(stock.img.webp300) || changeImgUrl(stock.img.webp)
+          }
           media='(max-width: 576px)'
           type='image/webp'
           height={150}
         />
         <source
-          srcSet={changeImgUrl(stock.img.webp400) || changeImgUrl(stock.img.webp)}
+          srcSet={
+            changeImgUrl(stock.img.webp400) || changeImgUrl(stock.img.webp)
+          }
           type='image/webp'
           height={200}
         />
-        <img src={changeImgUrl(stock.img.jpg)} alt={`${stock.name} logo`} height={200} />
+        <img
+          src={changeImgUrl(stock.img.jpg)}
+          alt={`${stock.name} logo`}
+          height={200}
+        />
       </picture>
     </StyledLogo>
   );
@@ -35,7 +43,9 @@ const StyledLogo = styled('div')`
   display: flex;
   justify-content: center;
   border-radius: 20px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 10px 20px -12px, rgba(0, 0, 0, 0.3) 0px 5px 36px -18px;
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 10px 20px -12px,
+    rgba(0, 0, 0, 0.3) 0px 5px 36px -18px;
 
   img {
     padding: 20px;

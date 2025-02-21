@@ -71,10 +71,13 @@ function EditCurrentPriceModal({ onClose }: Props) {
       }
     }
 
-    const data = Object.entries(changes).reduce((acc, [id, value]) => {
-      acc[id] = getFixedLocaleString(value);
-      return acc;
-    }, {} as { [key: string]: string });
+    const data = Object.entries(changes).reduce(
+      (acc, [id, value]) => {
+        acc[id] = getFixedLocaleString(value);
+        return acc;
+      },
+      {} as { [key: string]: string },
+    );
 
     dispatch(updateStocksCurrentPrice(data));
     setChanges({});

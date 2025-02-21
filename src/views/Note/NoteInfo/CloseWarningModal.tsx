@@ -12,8 +12,8 @@ function CloseWarningModal({ onCloseMainModal, onContinueWriting }: Props) {
   return (
     <PortalModal title='Unsaved changes' onClose={onContinueWriting}>
       <StyledMessage>
-        Changes that you made won't be saved. <br /> Are you sure you want to
-        close?
+        {`Changes that you made won't be saved.`} <br /> Are you sure you want
+        to close?
       </StyledMessage>
       <StyledButtons>
         <BorderButton size='m' width={150} onClick={onCloseMainModal}>

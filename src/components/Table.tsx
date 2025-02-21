@@ -6,6 +6,7 @@ export interface TableWithProps {
   minWidth?: number;
 }
 
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 interface TableProps extends TableHTMLAttributes<HTMLTableElement> {}
 interface TableHeaderProps
   extends TableHTMLAttributes<HTMLTableSectionElement> {}
@@ -19,6 +20,7 @@ export interface TableCellProps
     TableWithProps {
   align?: 'left' | 'center' | 'right';
 }
+/* eslint-enable @typescript-eslint/no-empty-object-type */
 
 export const Table = styled('table')<TableProps>(() => ({
   borderSpacing: '0px',

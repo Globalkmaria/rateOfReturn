@@ -114,7 +114,7 @@ export const getCurrentDateAndTime = () => {
   return { date, time };
 };
 
-export const checkNoChange = (values: { [key: string]: any }) =>
+export const checkNoChange = (values: { [key: string]: unknown }) =>
   Object.keys(values).length === 0;
 
 export const getChangedStockData = (

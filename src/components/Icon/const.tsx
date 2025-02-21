@@ -31,8 +31,9 @@ import { BsDatabaseAdd, BsAlphabet, BsTable } from 'react-icons/bs';
 import { MdOutlineOutput, MdOutlineDateRange } from 'react-icons/md';
 import { BiError, BiCabinet } from 'react-icons/bi';
 import { PiProjectorScreenChartBold } from 'react-icons/pi';
+import { ReactElement } from 'react';
 
-const ICON_NAMES = [
+const _ICON_NAMES = [
   'edit',
   'save',
   'lock',
@@ -66,10 +67,10 @@ const ICON_NAMES = [
   'person',
 ] as const;
 
-export type IconButtonType = (typeof ICON_NAMES)[number];
+export type IconButtonType = (typeof _ICON_NAMES)[number];
 
 export const ICONS: {
-  [key in IconButtonType]: JSX.Element;
+  [key in IconButtonType]: ReactElement;
 } = {
   edit: <MdOutlineEdit />,
   save: <FaRegSave />,
