@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { selectIsLoggedIn } from '../features/user/selectors';
-import useModal from '../views/List/hooks/useModal';
-import { isLocalStorageEmpty } from '../utils/isLocalStorageEmpty';
-import MergeLocalDataModal from '../views/Home/MergeLocalDataModal';
 import {
   getLocalStorageItem,
   setLocalStorageItem,
 } from '@/utils/getLocalStorage';
+
+import { selectIsLoggedIn } from '../features/user/selectors';
+import { isLocalStorageEmpty } from '../utils/isLocalStorageEmpty';
+import MergeLocalDataModal from '../views/Home/MergeLocalDataModal';
+import useModal from '../views/List/hooks/useModal';
 
 function MainModal() {
   const isLoggedIn = useSelector(selectIsLoggedIn);

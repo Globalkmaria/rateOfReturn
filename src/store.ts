@@ -1,19 +1,18 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import stockListReducer, {
-  STOCK_INITIAL_STATE,
-} from './features/stockList/stockListSlice';
 import checkedItemsReducer from './features/checkedItems/checkedItemsSlice';
+import { getInitialCheckedItemsInfo } from './features/checkedItems/utils';
 import groupsReducerReducer, {
   GROUP_INITIAL_STATE,
 } from './features/groups/groupsSlice';
+import { NOTE_INITIAL_STATE, noteReducer } from './features/notes';
+import { SOLD_INITIAL_STATE, soldReducer } from './features/solds';
+import stockListReducer, {
+  STOCK_INITIAL_STATE,
+} from './features/stockList/stockListSlice';
 import userSliceReducer, {
   USER_INITIAL_STATE,
 } from './features/user/userSlice';
-
-import { getInitialCheckedItemsInfo } from './features/checkedItems/utils';
-import { SOLD_INITIAL_STATE, soldReducer } from './features/solds';
-import { NOTE_INITIAL_STATE, noteReducer } from './features/notes';
 
 const rootReducer = combineReducers({
   stockList: stockListReducer,

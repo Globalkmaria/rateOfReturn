@@ -1,6 +1,7 @@
 import { getFixedLocaleString } from '@/utils';
-import { STOCKS_DATA } from '../../../__test__/mock/stocks';
+
 import { getGroupPurchasedData, getStockSummaryInfo } from './utils';
+import { STOCKS_DATA } from '../../../__test__/mock/stocks';
 
 describe('getStockSummaryInfo should return correct data', () => {
   test('when main group is selected', () => {

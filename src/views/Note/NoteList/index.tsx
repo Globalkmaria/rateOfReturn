@@ -1,13 +1,13 @@
 import { useCallback, useState } from 'react';
-import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
+
+import styled from 'styled-components';
 
 import { selectNoteCollection } from '@/features/notes';
 
 import useModal from '@/views/List/hooks/useModal';
 
-import EditNote from '../NoteInfo/modals/EditNote';
 import {
   getFilteredNoteIdsBySearchParams,
   getFilteredNoteIdsByTitle,
@@ -15,6 +15,7 @@ import {
 } from '../helper';
 import NoNote from '../NoNote';
 import NoteItem from './NoteItem';
+import EditNote from '../NoteInfo/modals/EditNote';
 
 interface Props {
   searchTitle: string;

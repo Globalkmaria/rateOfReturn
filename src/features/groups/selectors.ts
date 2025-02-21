@@ -1,8 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 
+import { getGroupStockInfo } from './filters';
 import { GroupsState } from './type';
 import { selectStocks } from '../stockList/selectors';
-import { getGroupStockInfo } from './filters';
 
 export const selectGroups = (state: { groups: GroupsState }) => state.groups;
 export const selectGroupsIds = (state: { groups: GroupsState }) =>

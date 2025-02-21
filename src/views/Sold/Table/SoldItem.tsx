@@ -1,38 +1,40 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import styled from 'styled-components';
 
 import userSoldsService from '@/service/userSolds/service';
 
-import { EditButton, MoreButton } from '@/components/IconButton';
-import { TransformedValue } from '@/components/Input/BaseInput';
-import { Input } from '@/components/Input/Input';
-import { TableCell, TableRow } from '@/components/Table';
-import { StyledChip, StyledChipText } from '@/components/Tag';
-import { StyledIconButton } from '@/components/IconButton/IconButton';
-import { DropboxItem } from '@/components/Dropbox/DropboxItem';
-import Icon from '@/components/Icon';
-
-import { Sold } from '@/features/solds/type';
-import { selectIsLoggedIn } from '@/features/user/selectors';
-import { deleteSold, selectSoldItem, updateSold } from '@/features/solds';
-
-import { getLocalDateTime } from '@/utils';
 import {
   getFixedLocaleString,
   getPercentage,
   localStringToNumber,
 } from '@/utils/number';
 
+import { deleteSold, selectSoldItem, updateSold } from '@/features/solds';
+import { Sold } from '@/features/solds/type';
+import { selectIsLoggedIn } from '@/features/user/selectors';
+
+import useModal from '@/views/List/hooks/useModal';
 import {
   InputCell,
   NumberCell,
   StyledTextWrapper,
 } from '@/views/List/StockItem/components';
-import useModal from '@/views/List/hooks/useModal';
+import { INITIAL_NOTE_FORM_STATE } from '@/views/Note/NoteInfo/const';
 import AddNote from '@/views/Note/NoteInfo/modals/AddNote';
 import { NoteFormState } from '@/views/Note/NoteInfo/type';
-import { INITIAL_NOTE_FORM_STATE } from '@/views/Note/NoteInfo/const';
+
+import { DropboxItem } from '@/components/Dropbox/DropboxItem';
+import Icon from '@/components/Icon';
+import { EditButton, MoreButton } from '@/components/IconButton';
+import { StyledIconButton } from '@/components/IconButton/IconButton';
+import { TransformedValue } from '@/components/Input/BaseInput';
+import { Input } from '@/components/Input/Input';
+import { TableCell, TableRow } from '@/components/Table';
+import { StyledChip, StyledChipText } from '@/components/Tag';
+
+import { getLocalDateTime } from '@/utils';
 
 import DeleteSoldModal from './DeleteSoldModal';
 import { checkSoldPrice } from './utils';

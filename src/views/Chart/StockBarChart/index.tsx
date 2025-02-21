@@ -1,16 +1,18 @@
 import { Suspense, lazy } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import styled from 'styled-components';
 
 import { selectStocks } from '@/features/stockList/selectors';
+
+import RadioSelect from '@/components/RadioSelect';
 import { Skeleton } from '@/components/Skeleton';
 
 import { getStockBarChartInfos, getStockOptions } from './utils';
 import NoStockMessage from '../NoStockMessage';
 import BarChartTable from './BarChartTable';
-import { useNavigate, useParams } from 'react-router-dom';
 import ChartErrorPage from '../PortfolioAllocation/ChartErrorPage';
-import RadioSelect from '@/components/RadioSelect';
 
 const BarChart = lazy(() => import('./BarChart'));
 

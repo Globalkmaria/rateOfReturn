@@ -1,4 +1,5 @@
 import { ChangeEvent, InputHTMLAttributes, Ref } from 'react';
+
 import styled from 'styled-components';
 
 export type OnInputChangeType = (
@@ -26,16 +27,16 @@ interface BaseInputProps {
   padding?: number;
 }
 
-export type InputValidation = (value: any) => boolean;
+export type InputValidation<T> = (value: T) => boolean;
 
-export interface InputProps
+export interface InputProps<T>
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onBlur'>,
     BaseInputProps {
   type?: InputType;
   value?: string;
   onChange?: OnInputChangeType;
   onBlur?: OnInputChangeType;
-  validation?: InputValidation;
+  validation?: InputValidation<T>;
   ref?: Ref<HTMLInputElement>;
 }
 

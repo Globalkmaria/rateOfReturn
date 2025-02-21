@@ -1,10 +1,13 @@
+import { Context } from 'chartjs-plugin-datalabels';
+
+import { getFixedLocaleString, getPercentage } from '@/utils/number';
+
 import { StockListState } from '@/features/stockList/type';
+
 import {
   TotalSummary,
   getTotalSummary,
 } from '../../../features/groups/filters';
-import { Context } from 'chartjs-plugin-datalabels';
-import { getFixedLocaleString, getPercentage } from '@/utils/number';
 import { PercentageAndTotalPrice } from '../type';
 
 interface TagsTotal {
@@ -59,7 +62,7 @@ export const getChartData = (tagsInfo: TagsInfo) => {
         anchor: 'bottom',
         offset: 8,
         color: 'white',
-        formatter: function (_: any, ctx: Context) {
+        formatter: function (_: unknown, ctx: Context) {
           return ctx.active ? null : ctx.dataset.data[ctx.dataIndex] + '%';
         },
         borderColor: 'white',
@@ -76,21 +79,21 @@ export const getChartData = (tagsInfo: TagsInfo) => {
         font: { size: 18, weight: 'bold' },
         offset: 0,
         padding: 0,
-        formatter: function (_: any, ctx: Context) {
-          // @ts-ignore
+        formatter: function (_: unknown, ctx: Context) {
+          // @ts-expect-error - ctx.dataset is not typed
           return ctx.active ? null : ctx.chart.data.labels[ctx.dataIndex];
         },
       },
       value: {
         color: function (ctx: Context) {
-          // @ts-ignore
+          // @ts-expect-error - ctx.dataset is not typed
           return ctx.dataset.backgroundColor[ctx.dataIndex].replace('0.6', '1');
         },
         font: { size: 15, weight: 'bold' },
         align: 'bottom',
         padding: 4,
         offset: 3,
-        formatter: function (_: any, ctx: Context) {
+        formatter: function (_: unknown, ctx: Context) {
           return ctx.active ? null : ctx.dataset.data[ctx.dataIndex] + '%';
         },
         backgroundColor: 'white',

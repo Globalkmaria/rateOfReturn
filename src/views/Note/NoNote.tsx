@@ -4,9 +4,9 @@ import { BorderButton } from '@/components/Button';
 import Icon from '@/components/Icon';
 import { NoListText } from '@/components/Text';
 
+import { INITIAL_NOTE_FORM_STATE } from './NoteInfo/const';
 import useModal from '../List/hooks/useModal';
 import AddNote from './NoteInfo/modals/AddNote';
-import { INITIAL_NOTE_FORM_STATE } from './NoteInfo/const';
 
 function NoNote() {
   const { showModal, onOpenModal, onCloseModal } = useModal();

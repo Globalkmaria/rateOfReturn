@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/react';
-
-import { renderWithStyle } from '../../../__test__/renderUI';
 import userEvent from '@testing-library/user-event';
+
 import TestInput from './TestInput';
+import { renderWithStyle } from '../../../__test__/renderUI';
 
 describe('Input component', () => {
   let user: ReturnType<typeof userEvent.setup>;

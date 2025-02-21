@@ -1,15 +1,17 @@
 import { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { TableCell } from '@/components/Table';
-import Tag from '@/components/Tag';
+import userStocksService from '@/service/userStocks/userStocks';
+
 import { selectStockTags } from '@/features/stockList/selectors';
 import {
   addStockTag,
   deleteStockTag,
 } from '@/features/stockList/stockListSlice';
 import { selectIsLoggedIn } from '@/features/user/selectors';
-import userStocksService from '@/service/userStocks/userStocks';
+
+import { TableCell } from '@/components/Table';
+import Tag from '@/components/Tag';
 
 interface Props {
   disabled: boolean;

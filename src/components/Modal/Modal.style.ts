@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import IconButton from '../IconButton';
 
 export const StyledModal = styled('div').withConfig({

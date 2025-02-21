@@ -1,5 +1,6 @@
-import { ValidityResult } from '@/views/List/StockItem/validity';
 import { z } from 'zod';
+
+import { ValidityResult } from '@/views/List/StockItem/validity';
 
 export const getDecimalPlacesSchema = (places: number) =>
   z.number().refine(
@@ -14,15 +15,13 @@ export const alertAndReturnValue = (result: ValidityResult) => {
   return result.isValid;
 };
 
-export const alertAndReturnValueZod = (
-  result: z.SafeParseReturnType<any, any>,
+export const alertAndReturnValueZod = <T, V>(
+  result: z.SafeParseReturnType<T, V>,
 ) => {
   if (!result.success) alert(result.error.issues[0].message);
 
   return result.success;
 };
 
-export const checkNullish = (value: any) =>
-  value === null || value === undefined;
-
-export const isDefined = (value: any) => value !== null && value !== undefined;
+export const isDefined = (value: unknown) =>
+  value !== null && value !== undefined;

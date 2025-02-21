@@ -1,7 +1,8 @@
+import styled from 'styled-components';
+
 import { BorderAnchor } from '@/components/Anchor';
 import Flex from '@/components/Flex';
 import { NoListText } from '@/components/Text';
-import styled from 'styled-components';
 
 function NoSold() {
   return (

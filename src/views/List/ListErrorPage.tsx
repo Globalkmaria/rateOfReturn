@@ -1,7 +1,9 @@
+import { useParams } from 'react-router-dom';
+
+import styled from 'styled-components';
+
 import { ContainedAnchor } from '@/components/Anchor';
 import Icon from '@/components/Icon';
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
 
 function ListErrorPage() {
   const { groupId } = useParams();

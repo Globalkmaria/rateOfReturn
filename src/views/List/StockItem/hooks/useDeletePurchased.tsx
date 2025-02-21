@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { deletePurchasedItem } from '@/features';
+
+import { selectStockInfoById } from '../../../../features/stockList/selectors';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 import userStocksService from '../../../../service/userStocks/userStocks';
-import { selectStockInfoById } from '../../../../features/stockList/selectors';
-import { deletePurchasedItem } from '@/features';
 
 interface Props {
   onClose: () => void;

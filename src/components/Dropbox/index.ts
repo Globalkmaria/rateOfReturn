@@ -1,6 +1,6 @@
 import { default as DropboxContainer } from './Dropbox';
-import { DropboxWrapper } from './DropboxWrapper';
 import { DropboxItem } from './DropboxItem';
+import { DropboxWrapper } from './DropboxWrapper';
 
 const Dropbox = {
   Wrapper: DropboxWrapper,

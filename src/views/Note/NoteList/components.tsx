@@ -1,6 +1,7 @@
+import styled from 'styled-components';
+
 import Flex from '@/components/Flex';
 import Icon, { IconProps } from '@/components/Icon';
-import styled from 'styled-components';
 
 export const StyledDate = styled(Flex)`
   display: flex;

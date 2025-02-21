@@ -1,7 +1,6 @@
-import { FormEvent } from 'react';
-import { LoginInfoState } from '../Login';
-import authService from '../../../service/auth';
 import { useSetUserAndNavigate } from '../../../hooks/useSetUserAndNavigate';
+import authService from '../../../service/auth';
+import { LoginInfoState } from '../Login';
 
 const useLoginSubmit = (loginInfo: LoginInfoState) => {
   const loginRedirect = useSetUserAndNavigate();

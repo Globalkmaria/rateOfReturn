@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
 import useModal from '@/views/List/hooks/useModal';
+
+import { StyledChip, StyledChipText } from '.';
 import DeleteWarningModal from '../DeleteWarningModal';
 import Icon from '../Icon';
-import { StyledChip, StyledChipText } from '.';
 
 interface OptionProps {
   onOptionClick: (option: string) => void;

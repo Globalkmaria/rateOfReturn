@@ -1,7 +1,7 @@
+import { MAIN_GROUP_ID } from './mockData';
 import { RootState } from '../../store';
 import { getStockTotals } from '../../views/List/StockItem/utils';
 import { StockList, StockListState } from '../stockList/type';
-import { MAIN_GROUP_ID } from './mockData';
 
 export type SummaryInfo = {
   totalPurchasePrice: number;

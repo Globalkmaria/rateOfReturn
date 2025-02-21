@@ -1,7 +1,8 @@
 import { MouseEventHandler } from 'react';
-import styled from 'styled-components';
 
 import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
+import styled from 'styled-components';
+
 import { TableHead } from '@/components/Table';
 
 export interface SoldSortTableHeadProps<T extends string> {
@@ -26,8 +27,8 @@ function SoldSortTableHead<T extends string>({
     currentOption === asc
       ? FaSortUp
       : currentOption === desc
-      ? FaSortDown
-      : FaSort;
+        ? FaSortDown
+        : FaSort;
   const isSelected = Icon !== FaSort;
 
   const onClick: MouseEventHandler<HTMLButtonElement> = () => {

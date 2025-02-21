@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react';
-import SignForm from '../../components/SignForm/SignForm';
-import { useFormChange } from '../../hooks/useFormChange';
+
+import ConfirmInput from './ConfirmInput';
 import { getEmailValidConfig, getPasswordValidConfig } from './helper';
 import { useSignupSubmit } from './hooks/useSignupSubmit';
-import ConfirmInput from './ConfirmInput';
+import SignForm from '../../components/SignForm/SignForm';
+import { useFormChange } from '../../hooks/useFormChange';
 
 export type SignupInfoState = {
   username: string;

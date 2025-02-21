@@ -1,10 +1,12 @@
 import { useRef } from 'react';
+
 import styled from 'styled-components';
+
+import BackupModal from '@/views/List/Backup/BackupModal';
+import useModal from '@/views/List/hooks/useModal';
 
 import Dropbox from '@/components/Dropbox';
 import IconButton from '@/components/IconButton';
-import BackupModal from '@/views/List/Backup/BackupModal';
-import useModal from '@/views/List/hooks/useModal';
 
 function Setting() {
   const settingControl = useModal();

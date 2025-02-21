@@ -8,12 +8,12 @@ import { selectIsLoggedIn } from '@/features/user/selectors';
 
 import PortalModal from '@/components/Modal/PortalModal';
 
-import NotePopupForm from '../NotePopupForm';
-import { StyledForm, StyledNoteModal } from '../components';
-import { NoteFormKeys, NoteFormState } from '../type';
 import CloseWarningModal from '../CloseWarningModal';
+import { StyledForm, StyledNoteModal } from '../components';
 import { checkEditNoteFormHasChanges, isNoteEmpty } from '../helper';
+import NotePopupForm from '../NotePopupForm';
 import NoteSubmitButton from '../NoteSubmitButton';
+import { NoteFormKeys, NoteFormState } from '../type';
 
 interface NotePopupProps {
   onCloseModal: () => void;

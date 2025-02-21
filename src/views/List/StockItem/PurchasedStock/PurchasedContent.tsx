@@ -1,13 +1,15 @@
 import { Dispatch, SetStateAction, memo } from 'react';
 import { useSelector } from 'react-redux';
+
 import styled from 'styled-components';
+
+import { EditUserItemServiceData } from '@/service/userStocks/type';
 
 import { TableCell } from '../../../../components/Table';
 import { selectPurchasedItemsById } from '../../../../features/stockList/selectors';
 import { NumberCell, StyledTextWrapper } from '../components';
 import PurchasedInput from './PurchasedInput';
 import { getPurchasedData } from './utils';
-import { EditUserItemServiceData } from '@/service/userStocks/type';
 
 type Props = {
   stockId: string;

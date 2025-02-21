@@ -1,6 +1,8 @@
-import { MAIN_GROUP_ID } from '@/features/groups/mockData';
-import { checkIfMainGroup } from '@/utils/group';
 import { useParams } from 'react-router-dom';
+
+import { checkIfMainGroup } from '@/utils/group';
+
+import { MAIN_GROUP_ID } from '@/features/groups/mockData';
 
 function useIsMainGroup() {
   const { groupId = MAIN_GROUP_ID } = useParams();

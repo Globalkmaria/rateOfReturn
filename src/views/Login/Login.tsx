@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
+import useLoginSubmit from './hooks/useLoginSubmit';
 import SignForm from '../../components/SignForm/SignForm';
 import { useFormChange } from '../../hooks/useFormChange';
-import useLoginSubmit from './hooks/useLoginSubmit';
 
 export type LoginInfoState = {
   username: string;

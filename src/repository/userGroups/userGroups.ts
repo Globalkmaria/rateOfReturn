@@ -1,10 +1,10 @@
-import { config } from '../../config';
-import HttpClient, { ErrorResponse } from '../../network/http';
 import {
   AddNewUserGroupRepReq,
   AddNewUserGroupRepRes,
   PurchasedItemGroupRepReq,
 } from './type';
+import { config } from '../../config';
+import HttpClient, { ErrorResponse } from '../../network/http';
 
 class UserGroupsRepository {
   httpClient: HttpClient;

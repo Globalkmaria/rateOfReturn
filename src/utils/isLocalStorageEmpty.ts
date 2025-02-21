@@ -1,7 +1,8 @@
+import { NotesState } from '@/features/notes';
 import { SoldsState } from '@/features/solds';
+
 import { GroupsState } from '../features/groups/type';
 import { StockListState } from '../features/stockList/type';
-import { NotesState } from '@/features/notes';
 
 export const isLocalStorageEmpty = (): boolean => {
   const stocks = localStorage.getItem('stockList');

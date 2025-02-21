@@ -72,7 +72,7 @@ const soldSlice = createSlice({
       ...SOLD_INITIAL_STATE,
       ...action.payload.solds,
     }));
-    builder.addCase(resetUserData, (state, action) => SOLD_INITIAL_STATE);
+    builder.addCase(resetUserData, () => SOLD_INITIAL_STATE);
   },
 });
 

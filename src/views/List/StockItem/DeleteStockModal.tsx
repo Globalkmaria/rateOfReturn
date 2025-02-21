@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
+import useDeletePurchased from './hooks/useDeletePurchased';
+import useDeleteStock from './hooks/useDeleteStock';
 import { ContainedButton } from '../../../components/Button';
 import PortalModal from '../../../components/Modal/PortalModal';
-import useDeleteStock from './hooks/useDeleteStock';
-import useDeletePurchased from './hooks/useDeletePurchased';
 
 export type DeleteModalProps = {
   onClose: () => void;

@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 
 import useModal from '@/views/List/hooks/useModal';
+
+import { ColorsKeys } from '@/styles/theme';
+
+import { Chip, ChipText } from '../Chip';
 import DeleteWarningModal from '../DeleteWarningModal';
 import Icon from '../Icon';
-import { Chip, ChipText } from '../Chip';
-import { ColorsKeys } from '@/styles/theme';
 
 export interface TagOption {
   label: string;
@@ -34,7 +36,7 @@ function Tag2Option<T extends Tag2OptionType>({
   const { onOpenModal, onCloseModal, showModal } = useModal();
 
   const onDelete = () => {
-    onDeleteOption && onDeleteOption(option);
+    if (onDeleteOption) onDeleteOption(option);
     onCloseModal();
   };
   const label = typeof option === 'string' ? option : option.label;

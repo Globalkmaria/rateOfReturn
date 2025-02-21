@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-import PortalModal from '../../../components/Modal/PortalModal';
+import Reset from './Reset';
 import SaveAsFile from './SaveAsFile';
 import SetBackup from './SetBackup';
-import Reset from './Reset';
+import PortalModal from '../../../components/Modal/PortalModal';
 
 type Props = {
   onClose: () => void;

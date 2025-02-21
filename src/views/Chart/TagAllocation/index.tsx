@@ -1,23 +1,27 @@
 import { Suspense, lazy } from 'react';
-import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import styled from 'styled-components';
+
+import { validateGroupId } from '@/utils/group';
+
+import { MAIN_GROUP_ID } from '@/features/groups/mockData';
 import {
   selectGroupStockInfo,
   selectGroups,
   selectGroupsIds,
 } from '@/features/groups/selectors';
-import { MAIN_GROUP_ID } from '@/features/groups/mockData';
-import { validateGroupId } from '@/utils/group';
-import { getOptions } from '../../List/GroupButtons/utils';
+
+import RadioSelect from '@/components/RadioSelect';
+
 import Description from './TagAllocationDescription';
+import { getOptions } from '../../List/GroupButtons/utils';
 import { DoughnutSkeleton } from '../ChartSkeleton';
 import NoStockMessage from '../NoStockMessage';
 import TagTable from './TagTable';
 import { getTagsInfo } from './utils';
 import ChartErrorPage from '../PortfolioAllocation/ChartErrorPage';
-import RadioSelect from '@/components/RadioSelect';
 
 const Chart = lazy(() => import('./TagAllocationChart'));
 

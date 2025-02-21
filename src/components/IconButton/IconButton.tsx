@@ -5,8 +5,8 @@ import {
   BackgroundButton,
   BackgroundButtonProps,
 } from '../Button';
-import { ICON_TITLES, IconButtonType } from '../Icon/const';
 import Icon from '../Icon';
+import { ICON_TITLES, IconButtonType } from '../Icon/const';
 
 type IconButtonProps = {
   icon: IconButtonType;
@@ -39,8 +39,8 @@ export const StyledIconButton = styled(BackgroundButton)(
   }),
 );
 
-const SIZES = ['s', 'm', 'l'] as const;
-type Sizes = { [key in (typeof SIZES)[number]]: string };
+const _SIZES = ['s', 'm', 'l'] as const;
+type Sizes = { [key in (typeof _SIZES)[number]]: string };
 
 const FONT_SIZES: Sizes = {
   s: '1rem',

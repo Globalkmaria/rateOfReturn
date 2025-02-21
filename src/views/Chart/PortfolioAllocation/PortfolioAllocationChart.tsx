@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { Doughnut } from 'react-chartjs-2';
 
 import {
   Chart as ChartJS,
@@ -9,8 +9,8 @@ import {
   ChartData,
   ChartOptions,
 } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import styled from 'styled-components';
 
 import { StockAllocationInfo, getChartData } from './utils';
 
@@ -21,7 +21,7 @@ interface Props {
 }
 
 const PortfolioAllocationChart = ({ stockAllocationInfo }: Props) => {
-  // @ts-ignore
+  // @ts-expect-error - ChartData type is not exported from ChartJS
   const chartData: ChartData<'doughnut'> = getChartData(stockAllocationInfo);
   const options: ChartOptions<'doughnut'> = {
     layout: {

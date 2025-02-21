@@ -1,17 +1,19 @@
+import { EditUserStockServiceReq } from '@/service/userStocks/type';
+
 import {
   getAverage,
   getFixedLocaleString,
   getPercentage,
   localStringToNumber,
 } from '@/utils/number';
+
+import { ChangedSummaryInputs } from './SummaryInfo/hooks/useStockSummaryInputChange';
+import { SummaryInfoData } from './SummaryInfo/SummaryInfo';
 import {
   PurchasedItemInfo,
   StockList,
   StockMainInfo,
 } from '../../../features/stockList/type';
-import { SummaryInfoData } from './SummaryInfo/SummaryInfo';
-import { ChangedSummaryInputs } from './SummaryInfo/hooks/useStockSummaryInputChange';
-import { EditUserStockServiceReq } from '@/service/userStocks/type';
 
 const getPurchasedInfo = (data: StockList['purchasedItems'], id: string) =>
   data.byId[id];
@@ -114,7 +116,7 @@ export const getCurrentDateAndTime = () => {
   return { date, time };
 };
 
-export const checkNoChange = (values: { [key: string]: any }) =>
+export const checkNoChange = (values: { [key: string]: unknown }) =>
   Object.keys(values).length === 0;
 
 export const getChangedStockData = (

@@ -1,11 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { getInitialCheckedItemsInfo, updateCheckedItemsState } from './utils';
+
 import {
   CheckedItemsInfo,
   CheckedItemsState,
   UpdateCheckedItemsInfoPayload,
 } from './type';
-import { MOCK_DATA } from '../stockList/mockData';
+import { getInitialCheckedItemsInfo, updateCheckedItemsState } from './utils';
 import {
   addGroup,
   addNewStock,
@@ -18,6 +18,7 @@ import {
   setBackupData,
 } from '../actions';
 import { addNewSold, addNewSoldList } from '../solds';
+import { MOCK_DATA } from '../stockList/mockData';
 
 export const CHECKED_INITIAL_STATE: CheckedItemsState = {
   allChecked: true,

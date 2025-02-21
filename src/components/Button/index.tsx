@@ -1,23 +1,25 @@
 import { ButtonHTMLAttributes } from 'react';
+
 import styled from 'styled-components';
 
 import { ColorsTypes } from '@/styles/theme';
+
 import { HoverDarker, getHoverColor } from './helper';
 
-const SIZES = ['s', 'm', 'l'] as const;
-type Sizes = { [key in (typeof SIZES)[number]]: string };
-const COLOR_KEYS = [
+const _SIZES = ['s', 'm', 'l'] as const;
+type Sizes = { [key in (typeof _SIZES)[number]]: string };
+const _COLOR_KEYS = [
   'primary',
   'secondary1',
   'secondary2',
   'warning',
   'primary2',
 ] as const;
-type Colors = { [key in (typeof COLOR_KEYS)[number]]: string };
+type Colors = { [key in (typeof _COLOR_KEYS)[number]]: string };
 export interface BaseButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
-  size?: (typeof SIZES)[number];
-  color?: (typeof COLOR_KEYS)[number];
+  size?: (typeof _SIZES)[number];
+  color?: (typeof _COLOR_KEYS)[number];
   height?: number;
   width?: number;
   fullWidth?: boolean;

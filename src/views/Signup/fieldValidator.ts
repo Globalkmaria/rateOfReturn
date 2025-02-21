@@ -36,7 +36,10 @@ const schema = {
   password: passwordValidSchema,
 };
 
-export const checkFieldValidity = ({ type, value }: FieldValidParams): checkValidityResult => {
+export const checkFieldValidity = ({
+  type,
+  value,
+}: FieldValidParams): checkValidityResult => {
   const result = schema[type].safeParse(value);
   return {
     isValid: result.success,
@@ -44,7 +47,10 @@ export const checkFieldValidity = ({ type, value }: FieldValidParams): checkVali
   };
 };
 
-export const getFieldValidConfig = ({ type, value }: FieldValidParams): FieldValidConfig => {
+export const getFieldValidConfig = ({
+  type,
+  value,
+}: FieldValidParams): FieldValidConfig => {
   if (!value.length) return { isValid: true, text: '' };
 
   const { isValid, message } = checkFieldValidity({ type, value });

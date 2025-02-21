@@ -1,12 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { STOCK_STATE_SAMPLE } from './mockData';
-import {
-  StockListState,
-  UpdateStockPayload,
-  UpdatePurchasedItemPayload,
-  StockMainPayload,
-} from './type';
+
 import {
   addNewStock,
   addPurchasedItem,
@@ -17,7 +10,17 @@ import {
   resetUserData,
   setBackupData,
 } from '@/features';
+
+import { STOCK_STATE_SAMPLE } from './mockData';
+import {
+  StockListState,
+  UpdateStockPayload,
+  UpdatePurchasedItemPayload,
+  StockMainPayload,
+} from './type';
 import { addNewSold, addNewSoldList } from '../solds';
+
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 export const STOCK_INITIAL_STATE: StockListState = {
   stocks: {

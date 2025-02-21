@@ -1,5 +1,3 @@
-import { config } from '../../config.js';
-import HttpClient, { ErrorResponse } from '../../network/http';
 import {
   LoginRepRes,
   LoginResReq,
@@ -7,6 +5,8 @@ import {
   SignupRepReq,
   SignupRepRes,
 } from './type.js';
+import { config } from '../../config.js';
+import HttpClient, { ErrorResponse } from '../../network/http';
 
 class AuthRepository {
   http: HttpClient;
@@ -46,7 +46,7 @@ class AuthRepository {
     });
   }
 
-  async logout(): Promise<any | ErrorResponse> {
+  async logout(): Promise<unknown | ErrorResponse> {
     return this.http.fetch('/logout', {
       method: 'GET',
     });

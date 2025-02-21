@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux';
 
-import { selectStocks } from '@/features/stockList/selectors';
 import { selectNotes } from '@/features/notes';
+import { selectStocks } from '@/features/stockList/selectors';
 
+import Icon from '@/components/Icon';
 import Tag2 from '@/components/Tag2';
 import { TagDropbox2Settings } from '@/components/Tag2/Tag2Dropbox';
 import { TagOption } from '@/components/Tag2/Tag2Option';
-import Icon from '@/components/Icon';
 
 import { getStockNameOptionList } from '../helper';
 import { StyledField, StyledName } from './components';

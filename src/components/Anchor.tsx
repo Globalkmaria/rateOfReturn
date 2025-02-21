@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
+
 import styled from 'styled-components';
 
 import { ColorsTypes } from '@/styles/theme';
+
 import {
   BUTTON_COLORS,
   BackgroundButton,

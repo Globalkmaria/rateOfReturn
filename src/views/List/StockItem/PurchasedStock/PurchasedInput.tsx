@@ -1,12 +1,14 @@
 import { Dispatch, SetStateAction, memo, useEffect, useRef } from 'react';
+
 import styled from 'styled-components';
+
+import { EditUserItemServiceData } from '@/service/userStocks/type';
 
 import { Input } from '../../../../components/Input/Input';
 import { TableCell } from '../../../../components/Table';
 import { PurchasedItemInfo } from '../../../../features/stockList/type';
 import { InputCell } from '../components';
 import { PurchasedInputChangeProps } from './PurchasedStock';
-import { EditUserItemServiceData } from '@/service/userStocks/type';
 import { checkCurrentPrice, checkQuantity } from '../validity';
 
 type Props = {

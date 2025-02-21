@@ -1,27 +1,34 @@
 import { useDispatch, useSelector } from 'react-redux';
+
 import styled from 'styled-components';
 
-import { TableCell } from '@/components/Table';
-import useModal from '../../hooks/useModal';
-import { EditButton, MoreButton } from '@/components/IconButton';
-import { DropboxItem } from '@/components/Dropbox/DropboxItem';
-import AddToGroupModal from './AddToGroupModal';
-import { DeleteStockModal } from '../DeleteStockModal';
 import userSoldsService from '@/service/userSolds/service';
+
 import getDateAndTime from '@/utils/getDateAndTime';
-import { NewSold } from '@/repository/userSolds';
-import { selectIsLoggedIn } from '@/features/user/selectors';
-import { selectPurchasedItemsById } from '@/features/stockList/selectors';
+
 import {
   addNewSold,
   generateSoldInfoFromPurchasedInfo,
 } from '@/features/solds';
-import { generateSoldItem } from '../SummaryInfo/utils';
-import Icon from '@/components/Icon';
-import useIsMainGroup from '../../hooks/useIsMainGroup';
-import { NoteFormState } from '@/views/Note/NoteInfo/type';
-import AddNote from '@/views/Note/NoteInfo/modals/AddNote';
+import { selectPurchasedItemsById } from '@/features/stockList/selectors';
+import { selectIsLoggedIn } from '@/features/user/selectors';
+
 import { INITIAL_NOTE_FORM_STATE } from '@/views/Note/NoteInfo/const';
+import AddNote from '@/views/Note/NoteInfo/modals/AddNote';
+import { NoteFormState } from '@/views/Note/NoteInfo/type';
+
+import { DropboxItem } from '@/components/Dropbox/DropboxItem';
+import Icon from '@/components/Icon';
+import { EditButton, MoreButton } from '@/components/IconButton';
+import { TableCell } from '@/components/Table';
+
+import { NewSold } from '@/repository/userSolds';
+
+import AddToGroupModal from './AddToGroupModal';
+import useIsMainGroup from '../../hooks/useIsMainGroup';
+import useModal from '../../hooks/useModal';
+import { DeleteStockModal } from '../DeleteStockModal';
+import { generateSoldItem } from '../SummaryInfo/utils';
 
 interface Props {
   stockId: string;

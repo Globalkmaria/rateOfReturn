@@ -1,12 +1,12 @@
-import { config } from '../../config';
-import HttpClient, { ErrorResponse } from '../../network/http';
-import { Result } from '../../service/type';
 import {
   ReplaceUserDataRepReq,
   UserDataRepRes,
   MergeUserDataRepReq,
   AddCurrentPageSample,
 } from './type';
+import { config } from '../../config';
+import HttpClient, { ErrorResponse } from '../../network/http';
+import { Result } from '../../service/type';
 
 class UserDataRepository {
   httpClient: HttpClient;

@@ -1,23 +1,25 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import styled from 'styled-components';
 
-import { selectNoteItem, updateNote } from '@/features/notes';
-import PortalModal from '@/components/Modal/PortalModal';
-import { ContainedButton } from '@/components/Button';
-import Flex from '@/components/Flex';
-
-import NotePopupForm from '../NotePopupForm';
-import { INITIAL_NOTE_FORM_STATE } from '../const';
-import { NoteFormKeys, NoteFormState } from '../type';
-import { StyledForm, StyledNoteModal } from '../components';
-import { formatNoteDate } from '../../NoteList/helper';
-import { StyledDate, StyledDateIcon } from '../../NoteList/components';
-import CloseWarningModal from '../CloseWarningModal';
-import { checkEditNoteFormHasChanges } from '../helper';
-import { selectIsLoggedIn } from '@/features/user/selectors';
 import userNotesService from '@/service/userNotes/service';
+
+import { selectNoteItem, updateNote } from '@/features/notes';
+import { selectIsLoggedIn } from '@/features/user/selectors';
+
+import Flex from '@/components/Flex';
+import PortalModal from '@/components/Modal/PortalModal';
+
+import { StyledDate, StyledDateIcon } from '../../NoteList/components';
+import { formatNoteDate } from '../../NoteList/helper';
+import CloseWarningModal from '../CloseWarningModal';
+import { StyledForm, StyledNoteModal } from '../components';
+import { INITIAL_NOTE_FORM_STATE } from '../const';
+import { checkEditNoteFormHasChanges } from '../helper';
+import NotePopupForm from '../NotePopupForm';
 import NoteSubmitButton from '../NoteSubmitButton';
+import { NoteFormKeys, NoteFormState } from '../type';
 
 interface NotePopupProps {
   onCloseModal: () => void;
@@ -29,7 +31,7 @@ function EditNote({ onCloseModal, noteId }: NotePopupProps) {
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const [showWarning, setShowWarning] = useState(false);
-  const { id, createdAt, updatedAt, stockName, stockId, ...restProps } =
+  const { createdAt, updatedAt, stockName, stockId, ...restProps } =
     useSelector(selectNoteItem(noteId));
 
   const stockNameOption =

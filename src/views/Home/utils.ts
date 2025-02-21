@@ -1,4 +1,5 @@
 import { formatSoldAsServerFormat } from '@/utils/formatSoldsAsServerFormat';
+
 import { config } from '../../config';
 import formatGroupAsServerFormat from '../../utils/formatGroupAsServerFormat';
 import formatStockAsServerFormat from '../../utils/formatStockAsServerFormat';

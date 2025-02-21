@@ -1,17 +1,17 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
+
 import { BaseInput, InputProps, InputType } from './BaseInput';
 import { getTransformedValue } from './utils';
 
 export function Input({
   type = 'text',
   onChange,
-  onBlur,
   className,
   value = '',
   validation = () => true,
   ref,
   ...restProps
-}: InputProps) {
+}: Omit<InputProps<string | number>, 'onBlur'>) {
   const isNumberType = NUMBER_TYPE.includes(type);
   const inputType = isNumberType ? 'text' : type;
   const align = type === 'number' ? 'right' : 'left';
@@ -27,7 +27,7 @@ export function Input({
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const transformedValue = getTransformedValue(e, validation, type);
-    onChange && onChange(e, transformedValue);
+    if (onChange) onChange(e, transformedValue);
 
     if (isNumberType && transformedValue) {
       let nextSelection =

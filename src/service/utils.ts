@@ -1,6 +1,6 @@
 export const generateDataEntry = <
-  D1 extends Record<string, any>,
-  D2 extends Record<string, any>,
+  D1 extends Record<string, unknown>,
+  D2 extends Record<string, unknown>,
 >(
   sourceData: D1,
 ) => {

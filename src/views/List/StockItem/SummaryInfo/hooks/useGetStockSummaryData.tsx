@@ -3,10 +3,13 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { fixedAsNumber } from '@/utils/number';
-import useIsMainGroup from '@/views/List/hooks/useIsMainGroup';
+
 import { MAIN_GROUP_ID } from '@/features/groups/mockData';
-import { selectStockInfoById } from '@/features/stockList/selectors';
 import { selectGroupInfo } from '@/features/groups/selectors';
+import { selectStockInfoById } from '@/features/stockList/selectors';
+
+import useIsMainGroup from '@/views/List/hooks/useIsMainGroup';
+
 import { getStockSummaryInfo } from '../../utils';
 
 export type SummaryData = {

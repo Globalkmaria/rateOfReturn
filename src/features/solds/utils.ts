@@ -1,11 +1,13 @@
 import getDateAndTime from '@/utils/getDateAndTime';
+
+import { localStringToNumber } from '@/utils';
+
+import { Sold } from './type';
 import {
   PurchaseItemCollection,
   PurchasedItemInfo,
   StockMainInfo,
 } from '../stockList/type';
-import { Sold } from './type';
-import { localStringToNumber } from '@/utils';
 
 export const generateSoldInfoFromPurchasedInfo = (
   stock: StockMainInfo,

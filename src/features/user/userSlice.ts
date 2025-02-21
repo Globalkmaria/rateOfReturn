@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+
 import { User } from './type';
 
 export const USER_INITIAL_STATE: User = {

@@ -1,8 +1,8 @@
 import { screen, within } from '@testing-library/react';
 
-import { CalculateStockSummaryResult, calculateGroupSummary } from '../utils';
 import { renderWithProviders } from '../../../../__test__/renderUI';
 import GroupSummary from '../GroupSummary';
+import { CalculateStockSummaryResult, calculateGroupSummary } from '../utils';
 
 jest.mock('../utils', () => ({
   calculateGroupSummary: jest.fn(),

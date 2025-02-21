@@ -1,3 +1,8 @@
+import { ReactElement } from 'react';
+
+import { BiError, BiCabinet } from 'react-icons/bi';
+import { BsDatabaseAdd, BsAlphabet, BsTable } from 'react-icons/bs';
+import { CgClose, CgMoreAlt } from 'react-icons/cg';
 import {
   FaLock,
   FaLockOpen,
@@ -13,13 +18,6 @@ import {
   FiCheck,
   FiPieChart,
 } from 'react-icons/fi';
-import {
-  MdDeleteOutline,
-  MdOutlinePriceChange,
-  MdOutlineEdit,
-  MdArrowDropDown,
-} from 'react-icons/md';
-import { CgClose, CgMoreAlt } from 'react-icons/cg';
 import { IoMdAdd, IoMdRemove } from 'react-icons/io';
 import {
   IoEllipsisVertical,
@@ -27,12 +25,16 @@ import {
   IoPricetagOutline,
   IoPersonCircleOutline,
 } from 'react-icons/io5';
-import { BsDatabaseAdd, BsAlphabet, BsTable } from 'react-icons/bs';
+import {
+  MdDeleteOutline,
+  MdOutlinePriceChange,
+  MdOutlineEdit,
+  MdArrowDropDown,
+} from 'react-icons/md';
 import { MdOutlineOutput, MdOutlineDateRange } from 'react-icons/md';
-import { BiError, BiCabinet } from 'react-icons/bi';
 import { PiProjectorScreenChartBold } from 'react-icons/pi';
 
-const ICON_NAMES = [
+const _ICON_NAMES = [
   'edit',
   'save',
   'lock',
@@ -66,10 +68,10 @@ const ICON_NAMES = [
   'person',
 ] as const;
 
-export type IconButtonType = (typeof ICON_NAMES)[number];
+export type IconButtonType = (typeof _ICON_NAMES)[number];
 
 export const ICONS: {
-  [key in IconButtonType]: JSX.Element;
+  [key in IconButtonType]: ReactElement;
 } = {
   edit: <MdOutlineEdit />,
   save: <FaRegSave />,

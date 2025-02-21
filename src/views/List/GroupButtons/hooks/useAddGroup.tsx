@@ -1,15 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+import { addGroup } from '@/features';
 
 import { selectCheckedPurchasedItems } from '../../../../features/checkedItems/selectors';
+import { getInitialCheckedItemsInfo } from '../../../../features/checkedItems/utils';
 import { selectNextGroupId } from '../../../../features/groups/selectors';
 import { getNewGroupInfo } from '../../../../features/groups/utils';
-import { getInitialCheckedItemsInfo } from '../../../../features/checkedItems/utils';
+import { selectStocks } from '../../../../features/stockList/selectors';
 import { selectIsLoggedIn } from '../../../../features/user/selectors';
 import userGroupsService from '../../../../service/userGroups/userGroups';
-import { selectStocks } from '../../../../features/stockList/selectors';
 import { changeCheckInfoToGroupFormat } from '../utils';
-import { addGroup } from '@/features';
-import { useNavigate } from 'react-router-dom';
 
 export function useAddGroup() {
   const dispatch = useDispatch();

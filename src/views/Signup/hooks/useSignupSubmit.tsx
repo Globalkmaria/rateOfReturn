@@ -1,4 +1,3 @@
-import { FormEvent } from 'react';
 import { useSetUserAndNavigate } from '../../../hooks/useSetUserAndNavigate';
 import authService from '../../../service/auth';
 import { checkSignFormValidity } from '../helper';

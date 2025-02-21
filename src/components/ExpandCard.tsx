@@ -1,23 +1,36 @@
-import { ReactNode } from 'react';
-import styled from 'styled-components';
+import { ReactNode, useState } from 'react';
+
 import { MdExpandLess, MdExpandMore } from 'react-icons/md';
+import styled from 'styled-components';
 
 type StyledExpandCardProps = {
-  open: boolean;
   transition?: number;
+  className?: string;
 };
 
 type ExpandCardProps = {
   children?: ReactNode;
 } & StyledExpandCardProps;
 
-const ExpandCard = ({ open, children, transition = 200 }: ExpandCardProps) => {
+const ExpandCard = ({
+  className,
+  children,
+  transition = 200,
+}: ExpandCardProps) => {
+  const [open, setOpen] = useState(false);
+  const handleClick = () => setOpen(!open);
+
+  const ariaLabel = `expand ${open ? 'close' : 'open'} button`;
   return (
-    <div>
+    <div className={className}>
       <StyledWrapper open={open} transition={transition}>
         <StyledExpand>{children}</StyledExpand>
       </StyledWrapper>
-      <StyledExpandButton type='button' aria-label={`expand ${open ? 'close' : 'open'} button`}>
+      <StyledExpandButton
+        aria-label={ariaLabel}
+        type='button'
+        onClick={handleClick}
+      >
         {open ? <MdExpandLess /> : <MdExpandMore />}
       </StyledExpandButton>
     </div>
@@ -28,7 +41,10 @@ export default ExpandCard;
 
 const StyledWrapper = styled('div').withConfig({
   shouldForwardProp: prop => !['open', 'transition'].includes(prop),
-})<StyledExpandCardProps>`
+})<{
+  open: boolean;
+  transition: number;
+}>`
   display: grid;
   grid-template-rows: ${({ open }) => (open ? '1fr' : '0fr')};
   overflow: hidden;

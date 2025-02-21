@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import { TopStock } from '../../../repository/topStocks/type';
 import { StyledLabel } from './Card';
+import { TopStock } from '../../../repository/topStocks/type';
 
 type CategoriesProps = {
   stock: TopStock;

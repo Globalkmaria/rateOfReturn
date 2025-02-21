@@ -1,6 +1,7 @@
-import { useDispatch } from 'react-redux';
-import { updateCheckedItems } from '../../../../../features/checkedItems/checkedItemsSlice';
 import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { updateCheckedItems } from '../../../../../features/checkedItems/checkedItemsSlice';
 
 const useChangeStockCheckbox = (stockId: string) => {
   const dispatch = useDispatch();
