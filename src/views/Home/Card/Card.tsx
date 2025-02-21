@@ -1,4 +1,4 @@
-import { MouseEvent, useRef, useState } from 'react';
+import { useRef } from 'react';
 import styled from 'styled-components';
 
 import { TopStock } from '../../../repository/topStocks/type';
@@ -14,21 +14,15 @@ type CardProps = {
 };
 
 const Card = ({ stock }: CardProps) => {
-  const [open, setOpen] = useState(false);
   const investLink = useRef<HTMLAnchorElement>(null);
 
-  const onExpand = (e: MouseEvent<HTMLDivElement>) => {
-    if (e.target === investLink.current) return;
-    setOpen(prev => !prev);
-  };
-
   return (
-    <div onClick={onExpand}>
+    <div>
       <StyledContent>
         <CardHeader stock={stock} investRef={investLink} />
         <Logo stock={stock} />
         <Categories stock={stock} />
-        <ExpandCard open={open}>
+        <ExpandCard>
           <StyledExpandContent>
             <div>
               <StyledDescriptionLabel>Description</StyledDescriptionLabel>
