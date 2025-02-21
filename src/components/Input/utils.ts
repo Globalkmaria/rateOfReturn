@@ -45,7 +45,7 @@ const removeInvalidedEdgeChars = (value: string) => {
 
 const trimDecimalInsertPaste = (
   value: string,
-  validation: (value: any) => boolean,
+  validation: (value: number) => boolean,
 ): TransformedValue => {
   const cleanedValue = removeInvalidedEdgeChars(value);
   const commaRemovedValue = removeComma(cleanedValue);
@@ -63,7 +63,7 @@ const trimDecimalInsertPaste = (
 
 const trimDecimalInsertText = (
   value: string,
-  validation: InputValidation,
+  validation: InputValidation<number>,
 ): TransformedValue => {
   const validDots = checkValidDots(value);
   if (!validDots) return null;
@@ -83,7 +83,7 @@ const trimDecimalInsertText = (
 
 const handleDecimalChange = (
   e: ChangeEvent<HTMLInputElement>,
-  validation: InputValidation,
+  validation: InputValidation<number>,
 ): TransformedValue => {
   const value = e.target.value;
   if (value === '') return ['', 0];
@@ -99,7 +99,7 @@ const handleDecimalChange = (
 
 const trimNumberInsertPaste = (
   value: string,
-  validation: (value: any) => boolean,
+  validation: (value: number) => boolean,
 ): TransformedValue => {
   const cleanedValue = removeInvalidedEdgeChars(value);
   const commaRemovedValue = removeComma(cleanedValue);
@@ -117,7 +117,7 @@ const trimNumberInsertPaste = (
 
 const trimNumberInsertText = (
   value: string,
-  validation: InputValidation,
+  validation: InputValidation<number>,
 ): TransformedValue => {
   const commaRemovedValue = removeComma(value);
 
@@ -134,7 +134,7 @@ const trimNumberInsertText = (
 
 const handleNumberChange = (
   e: ChangeEvent<HTMLInputElement>,
-  validation: InputValidation,
+  validation: InputValidation<number>,
 ): TransformedValue => {
   const value = e.target.value;
   if (value === '') return ['', 0];
@@ -150,7 +150,7 @@ const handleNumberChange = (
 
 const handleChange = (
   e: ChangeEvent<HTMLInputElement>,
-  validation: InputValidation,
+  validation: InputValidation<string>,
 ) => {
   const isValid = validation(e.target.value);
   if (!isValid) return null;
@@ -159,7 +159,7 @@ const handleChange = (
 
 export const getTransformedValue = (
   e: ChangeEvent<HTMLInputElement>,
-  validation: InputValidation,
+  validation: InputValidation<string | number>,
   type: InputType,
 ): TransformedValue => {
   switch (type) {
