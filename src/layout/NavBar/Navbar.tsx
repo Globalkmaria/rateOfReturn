@@ -11,7 +11,7 @@ import Setting from './Setting';
 
 export type NavbarElement = Pick<
   RouterElement,
-  'id' | 'label' | 'path' | 'disabled' | 'icon'
+  'id' | 'label' | 'path' | 'icon' | 'disabled'
 >;
 
 const Navbar = () => {
