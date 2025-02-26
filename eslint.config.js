@@ -5,7 +5,6 @@ import eslintPluginJsxA11y from 'eslint-plugin-jsx-a11y';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 import eslintPluginTs from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
-
 import jestConfig from 'eslint-plugin-jest';
 
 export default [
