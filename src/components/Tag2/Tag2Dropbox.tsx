@@ -19,19 +19,19 @@ export type TagDropbox2Settings<T extends Tag2OptionType> = {
   placeholder?: string;
 } & Pick<Tag2OptionProps<T>, 'onDeleteOption' | 'showDeleteItem'>;
 
-type TagDropbox2Props<T extends Tag2OptionType> = {
+type TagDropbox2Props<T extends Tag2OptionType, V extends HTMLElement> = {
   selectedOption?: T | null;
   onCloseModal: () => void;
   width: number;
-  tagContainerRef: React.RefObject<HTMLDivElement>;
-  ref?: RefObject<HTMLDivElement>;
+  tagContainerRef: React.RefObject<V | null>;
+  ref?: RefObject<HTMLDivElement | null>;
   chipColor: ColorsKeys;
   chipTextColor: ColorsKeys;
 } & TagDropbox2Settings<T>;
 
 const TAG_MAX_LENGTH = 20;
 
-function TagDropbox2<T extends Tag2OptionType>({
+function TagDropbox2<T extends Tag2OptionType, V extends HTMLElement>({
   options,
   selectedOption,
   onOptionSelect,
@@ -48,7 +48,7 @@ function TagDropbox2<T extends Tag2OptionType>({
   placeholder = 'Search for an option...',
   chipColor,
   chipTextColor,
-}: TagDropbox2Props<T>) {
+}: TagDropbox2Props<T, V>) {
   placeholder = selectedOption ? '' : placeholder;
   const newContainerRef = useRef<HTMLDivElement>(null);
   const containerRef = ref ?? newContainerRef;
