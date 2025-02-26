@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
 
-import { ContainedAnchor } from '@/components/Anchor';
-
 import { resetUserData } from '@/features';
 
 import Personal from './Personal';
@@ -46,9 +44,4 @@ const StyledAuthBtns = styled('div')`
   justify-content: end;
   gap: 10px;
   grid-area: auth-btns;
-
-  & > ${ContainedAnchor} {
-    font-weight: 500;
-    font-size: 0.8rem;
-  }
 `;

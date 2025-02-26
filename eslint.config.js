@@ -5,6 +5,7 @@ import eslintPluginJsxA11y from 'eslint-plugin-jsx-a11y';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 import eslintPluginTs from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
+import jestConfig from 'eslint-plugin-jest';
 
 export default [
   {
@@ -21,6 +22,7 @@ export default [
       prettier: eslintPluginPrettier,
       '@typescript-eslint': eslintPluginTs,
       import: eslintPluginImport,
+      jest: jestConfig,
     },
     rules: {
       ...eslintPluginReact.configs.recommended.rules,
@@ -39,7 +41,6 @@ export default [
         'error',
         {
           groups: [
-            'builtin', // Node.js built-ins (fs, path, etc.)
             'external', // npm packages
             'internal', // Your project's internal aliases
             ['parent', 'sibling', 'index'], // Relative imports
@@ -48,7 +49,7 @@ export default [
           ],
           pathGroups: [
             {
-              pattern: '{react,react-*}', // Ensures React imports are grouped first
+              pattern: '{react,react-*}',
               group: 'external',
               position: 'before',
             },
@@ -88,9 +89,9 @@ export default [
             },
           ],
           pathGroupsExcludedImportTypes: ['builtin'],
-          'newlines-between': 'always', // Ensure newline between import groups
+          'newlines-between': 'always',
           alphabetize: {
-            order: 'asc', // Sort imports alphabetically
+            order: 'asc',
             caseInsensitive: true,
           },
         },
@@ -99,7 +100,7 @@ export default [
     settings: {
       'import/resolver': {
         typescript: {
-          alwaysTryTypes: true, // Try to resolve types for better linting
+          alwaysTryTypes: true,
         },
       },
       react: {
