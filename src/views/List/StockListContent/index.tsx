@@ -18,8 +18,8 @@ import StockTableMenu from './StockTableMenu';
 import GroupSummary from '../GroupSummary/GroupSummary';
 import useIsMainGroup from '../hooks/useIsMainGroup';
 import ListErrorPage from '../ListErrorPage';
+import StockCards from '../StockCards';
 
-const StockTable = lazy(() => import('../StockTable'));
 const GroupButtons = lazy(() => import('../GroupButtons/GroupButtons'));
 
 function StockListContent() {
@@ -62,7 +62,8 @@ function StockListContent() {
         </StyledTopMenu>
         <GroupSummary />
       </StyledControlBar>
-      <StockTable stockIds={filteredStockIds} />
+      {/* <StockTable stockIds={filteredStockIds} /> */}
+      <StockCards />
     </>
   );
 }
