@@ -1,6 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {
+  getOrCreateMainInfo,
+  getOrCreatePurchasedItem,
+  getOrCreatePurchasedItems,
+  getOrCreateStockEntry,
+} from './helper';
+import {
   TemporalStockListState,
   UpdateTemporalPurchasedPayload,
   UpdateTemporalStockPayload,
@@ -26,11 +32,9 @@ const temporalStockListSlice = createSlice({
       action: PayloadAction<UpdateTemporalStockPayload>,
     ) => {
       const { stockId, name, value } = action.payload;
-      if (!state.stockList[stockId]) state.stockList[stockId] = {};
-      if (!state.stockList[stockId].mainInfo)
-        state.stockList[stockId].mainInfo = {};
-
-      state.stockList[stockId].mainInfo[name] = value;
+      const stockEntry = getOrCreateStockEntry(state, stockId);
+      const mainInfo = getOrCreateMainInfo(stockEntry);
+      mainInfo[name] = value;
     },
 
     updateTemporalPurchaseItem: (
@@ -38,13 +42,13 @@ const temporalStockListSlice = createSlice({
       action: PayloadAction<UpdateTemporalPurchasedPayload>,
     ) => {
       const { stockId, purchasedId, name, value } = action.payload;
-      if (!state.stockList[stockId]) state.stockList[stockId] = {};
-      if (!state.stockList[stockId].purchasedItems)
-        state.stockList[stockId].purchasedItems = {};
-      if (!state.stockList[stockId].purchasedItems[purchasedId])
-        state.stockList[stockId].purchasedItems[purchasedId] = {};
-
-      state.stockList[stockId].purchasedItems[purchasedId][name] = value;
+      const stockEntry = getOrCreateStockEntry(state, stockId);
+      const purchasedItems = getOrCreatePurchasedItems(stockEntry);
+      const purchasedItem = getOrCreatePurchasedItem(
+        purchasedItems,
+        purchasedId,
+      );
+      purchasedItem[name] = value;
     },
 
     resetTemporalStockList: (state: TemporalStockListState) => {
