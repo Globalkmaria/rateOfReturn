@@ -56,5 +56,5 @@ export const logInSaveStock = async ({
 
   const result = await userStocksService.editUserStockData(formattedStockData);
 
-  if (!result.success) return alert(result.message);
+  return result;
 };

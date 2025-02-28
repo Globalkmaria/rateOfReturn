@@ -37,10 +37,17 @@ function StockListEditButton() {
 
     startTransition(async () => {
       if (isLoggedIn) {
-        await logInSaveStock({
+        const result = await logInSaveStock({
           changedStockData: temporalStockList.stockList,
           originalStockData: stockList,
         });
+
+        if (!result.success) {
+          alert(
+            result.message ?? 'Could not save stock. Please try again later.',
+          );
+          return;
+        }
       }
 
       dispatch(updateStockList(temporalStockList.stockList));
