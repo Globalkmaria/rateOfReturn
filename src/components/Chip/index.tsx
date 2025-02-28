@@ -5,9 +5,10 @@ import { ColorsKeys } from '@/styles/theme';
 export interface ChipProps {
   color?: ColorsKeys;
   width?: number;
+  fontColor?: ColorsKeys;
 }
 
-export const Chip = styled.div<Pick<ChipProps, 'color'>>`
+export const Chip = styled.div<Pick<ChipProps, 'color' | 'fontColor'>>`
   display: flex;
   align-items: center;
   gap: 5px;
@@ -17,10 +18,11 @@ export const Chip = styled.div<Pick<ChipProps, 'color'>>`
   background: ${({ theme, color }) =>
     color ? theme.colors[color] : theme.colors.grey300};
   border-radius: 5px;
+  color: ${({ theme, fontColor }) => theme.colors[fontColor || 'black']};
 `;
 
 export const ChipText = styled.span.withConfig({
-  shouldForwardProp: prop => !['width'].includes(prop),
+  shouldForwardProp: prop => !['width', 'fontColor'].includes(prop),
 })<ChipProps>`
   max-width: ${({ width }) => width}px;
   white-space: nowrap;

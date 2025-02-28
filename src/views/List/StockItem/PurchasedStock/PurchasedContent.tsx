@@ -7,7 +7,7 @@ import { EditUserItemServiceData } from '@/service/userStocks/type';
 
 import { TableCell } from '../../../../components/Table';
 import { selectPurchasedItemsById } from '../../../../features/stockList/selectors';
-import { NumberCell, StyledTextWrapper } from '../components';
+import { NumberCell, ProfitRate } from '../components';
 import PurchasedInput from './PurchasedInput';
 import { getPurchasedData } from './utils';
 
@@ -46,11 +46,7 @@ const PurchasedContent = ({
       <NumberCell withFixed value={mainInfo.currentPrice} />
       <NumberCell withFixed value={purchasedData.evaluationPrice} />
       <NumberCell withFixed value={purchasedData.formattedEvaluationProfit} />
-      <StyledProfitRate align='right'>
-        <StyledTextWrapper>
-          {purchasedData.formattedProfitRate}
-        </StyledTextWrapper>
-      </StyledProfitRate>
+      <ProfitRate profitRate={purchasedData.formattedProfitRate} />
     </>
   );
 };
@@ -59,8 +55,4 @@ export default memo(PurchasedContent);
 
 const StyledStockName = styled(TableCell)`
   color: ${({ theme }) => theme.colors.subtitle};
-`;
-
-const StyledProfitRate = styled(TableCell)`
-  white-space: nowrap;
 `;

@@ -7,7 +7,7 @@ import { TransformedValue } from '../../../../components/Input/BaseInput';
 import { Input } from '../../../../components/Input/Input';
 import { TableCell } from '../../../../components/Table';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';
-import { InputCell, NumberCell, StyledTextWrapper } from '../components';
+import { InputCell, NumberCell, ProfitRate } from '../components';
 import { useGetStockSummaryData } from './hooks/useGetStockSummaryData';
 import { ChangedSummaryInputs } from './hooks/useStockSummaryInputChange';
 import StockTag from './StockTag';
@@ -81,9 +81,7 @@ const SummaryContent = ({
       />
       <NumberCell withFixed value={summaryData.evaluationPrice} />
       <NumberCell withFixed value={summaryData.evaluationProfit} />
-      <StyledProfitRate align='right'>
-        <StyledTextWrapper>{summaryData.profitRate} </StyledTextWrapper>
-      </StyledProfitRate>
+      <ProfitRate profitRate={summaryData.profitRate} />
     </>
   );
 };
@@ -92,8 +90,4 @@ export default memo(SummaryContent);
 
 const StyledStockName = styled(Input)`
   font-weight: 500;
-`;
-
-const StyledProfitRate = styled(TableCell)`
-  white-space: nowrap;
 `;

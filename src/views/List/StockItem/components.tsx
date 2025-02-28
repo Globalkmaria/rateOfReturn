@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { getFixedLocaleString } from '@/utils/number';
 
+import { Chip } from '@/components/Chip';
 import {
   TableCell,
   TableCellProps,
@@ -11,22 +12,10 @@ import {
   TableHeadProps,
 } from '@/components/Table';
 
+import { ColorsKeys } from '@/styles/theme';
+
 import { InputProps } from '../../../components/Input/BaseInput';
 import { Input } from '../../../components/Input/Input';
-
-type InputCellProps = {
-  disabled?: boolean;
-  value: string;
-  withFixed?: boolean;
-} & Omit<InputProps<string | number>, 'value'>;
-type CheckboxCellProps = {
-  onClick: (checked: boolean) => void;
-  value: boolean;
-  type?: 'td' | 'th';
-  disabled?: boolean;
-  title?: string;
-  className?: string;
-} & Pick<TableHeadProps, 'fixedWidth' | 'minWidth'>;
 
 type NumberCellProps = {
   value: number | string;
@@ -49,6 +38,12 @@ export const NumberCell = memo(function NumberCell({
   );
 });
 
+type InputCellProps = {
+  disabled?: boolean;
+  value: string;
+  withFixed?: boolean;
+} & Omit<InputProps<string | number>, 'value'>;
+
 export const InputCell = ({
   value,
   disabled,
@@ -69,6 +64,15 @@ export const InputCell = ({
     </TableCell>
   );
 };
+
+type CheckboxCellProps = {
+  onClick: (checked: boolean) => void;
+  value: boolean;
+  type?: 'td' | 'th';
+  disabled?: boolean;
+  title?: string;
+  className?: string;
+} & Pick<TableHeadProps, 'fixedWidth' | 'minWidth'>;
 
 export const CheckboxCell = ({
   onClick,
@@ -107,4 +111,28 @@ export const CheckboxCell = ({
 
 export const StyledTextWrapper = styled('div')`
   padding: 5px;
+`;
+
+interface ProfitRateProps {
+  profitRate: string;
+}
+export function ProfitRate({ profitRate }: ProfitRateProps) {
+  const color: ColorsKeys = parseInt(profitRate) >= 0 ? 'teal700' : 'red700';
+
+  return (
+    <StyledProfitRateCell>
+      <StyledProfitRate color={color} fontColor='white'>
+        {profitRate}
+      </StyledProfitRate>
+    </StyledProfitRateCell>
+  );
+}
+
+const StyledProfitRateCell = styled(TableCell)`
+  white-space: nowrap;
+`;
+
+const StyledProfitRate = styled(Chip)`
+  width: 100%;
+  justify-content: center;
 `;
