@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
+import ResetDataWarning from './ResetDataWarning';
 import { ContainedButton } from '../../../components/Button';
 import useModal from '../hooks/useModal';
-import ResetDataWarning from './ResetDataWarning';
 
 const Reset = () => {
   const { showModal, onOpenModal, onCloseModal } = useModal();

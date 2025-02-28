@@ -1,14 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
 import styled from 'styled-components';
 
+import { resetUserData } from '@/features';
+
+import Personal from './Personal';
 import { ContainedButton } from '../../components/Button';
-import authService from '../../service/auth';
 import { selectIsLoggedIn } from '../../features/user/selectors';
 import { resetUser } from '../../features/user/userSlice';
-import { resetUserData } from '@/features';
-import { ContainedAnchor } from '@/components/Anchor';
-import Personal from './Personal';
+import authService from '../../service/auth';
 
 const AuthBtns = () => {
   const dispatch = useDispatch();
@@ -43,9 +44,4 @@ const StyledAuthBtns = styled('div')`
   justify-content: end;
   gap: 10px;
   grid-area: auth-btns;
-
-  & > ${ContainedAnchor} {
-    font-weight: 500;
-    font-size: 0.8rem;
-  }
 `;

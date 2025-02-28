@@ -1,20 +1,27 @@
-import { Group } from '../groups/type';
-import { StockListState } from '../stockList/type';
 import {
   CheckedItemsInfo,
-  CheckedItemsState,
   StockCheckInfo,
   UpdateCheckedItemsInfoPayload,
   getCheckedItemsInfoProps,
 } from './type';
+import { Group } from '../groups/type';
+import { StockListState } from '../stockList/type';
 
 const getCheckItemPurchasedInfos = (items: string[], value: boolean) =>
-  items.reduce((info, purchasedId) => {
-    info[purchasedId] = value;
-    return info;
-  }, {} as StockCheckInfo['purchasedItems']);
+  items.reduce(
+    (info, purchasedId) => {
+      info[purchasedId] = value;
+      return info;
+    },
+    {} as StockCheckInfo['purchasedItems'],
+  );
 
-const getCheckedItemsInfo = <T>({ value, data, getStockIds, getPurchasedIds }: getCheckedItemsInfoProps<T>) => {
+const getCheckedItemsInfo = <T>({
+  value,
+  data,
+  getStockIds,
+  getPurchasedIds,
+}: getCheckedItemsInfoProps<T>) => {
   const init: CheckedItemsInfo = {
     allChecked: value,
     stocksCheckInfo: {},
@@ -43,7 +50,8 @@ export const getInitialCheckedItemsInfo = ({
     value,
     data,
     getStockIds: data => data.allIds,
-    getPurchasedIds: (data, stockId) => data.byId[stockId].purchasedItems.allIds,
+    getPurchasedIds: (data, stockId) =>
+      data.byId[stockId].purchasedItems.allIds,
   });
 };
 
@@ -62,7 +70,13 @@ export const getInitialCheckedItemsInfoFromGroupFormat = ({
   });
 };
 
-const updateAllCheckedItems = ({ state, value }: { state: CheckedItemsInfo; value: boolean }) => {
+const updateAllCheckedItems = ({
+  state,
+  value,
+}: {
+  state: CheckedItemsInfo;
+  value: boolean;
+}) => {
   state.allChecked = value;
   for (const stockId in state.stocksCheckInfo) {
     state.stocksCheckInfo[stockId].allChecked = value;
@@ -107,7 +121,10 @@ const updatePurchasedCheckedItems = ({
   return state;
 };
 
-export const updateCheckedItemsState = (state: CheckedItemsInfo, payload: UpdateCheckedItemsInfoPayload) => {
+export const updateCheckedItemsState = (
+  state: CheckedItemsInfo,
+  payload: UpdateCheckedItemsInfoPayload,
+) => {
   const { checked, type } = payload;
   switch (type) {
     case 'all':

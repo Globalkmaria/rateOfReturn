@@ -1,7 +1,10 @@
-import { StockListState } from '@/features/stockList/type';
-import { getTotalSummary } from '../../../features/groups/filters';
 import { Context } from 'chartjs-plugin-datalabels';
+
 import { getFixedLocaleString, getPercentage } from '@/utils/number';
+
+import { StockListState } from '@/features/stockList/type';
+
+import { getTotalSummary } from '../../../features/groups/filters';
 import { PercentageAndTotalPrice } from '../type';
 
 const BASE_BACKGROUND_COLORS = [
@@ -54,7 +57,7 @@ export const getChartData = (stockAllocationInfo: StockAllocationInfo) => {
         anchor: 'bottom',
         offset: 8,
         color: 'white',
-        formatter: function (_: any, ctx: Context) {
+        formatter: function (_: unknown, ctx: Context) {
           return ctx.active ? null : ctx.dataset.data[ctx.dataIndex] + '%';
         },
         borderColor: 'white',
@@ -70,21 +73,21 @@ export const getChartData = (stockAllocationInfo: StockAllocationInfo) => {
         font: { size: 18, weight: 'bold' },
         offset: 0,
         padding: 0,
-        formatter: function (_: any, ctx: Context) {
-          // @ts-ignore
+        formatter: function (_: unknown, ctx: Context) {
+          // @ts-expect-error - ChartData type is not exported from ChartJS
           return ctx.active ? null : ctx.chart.data.labels[ctx.dataIndex];
         },
       },
       value: {
         color: function (ctx: Context) {
-          // @ts-ignore
+          // @ts-expect-error - ChartData type is not exported from ChartJS
           return ctx.dataset.backgroundColor[ctx.dataIndex].replace('0.6', '1');
         },
         font: { size: 15, weight: 'bold' },
         align: 'bottom',
         padding: 4,
         offset: 3,
-        formatter: function (_: any, ctx: Context) {
+        formatter: function (_: unknown, ctx: Context) {
           return ctx.active ? null : ctx.dataset.data[ctx.dataIndex] + '%';
         },
         backgroundColor: 'white',
@@ -125,10 +128,13 @@ export const getStockAllocationInfo = (stockInfo: StockListState['stocks']) => {
   const summary = getTotalSummary(stockInfo);
 
   const stockIds = stockInfo.allIds;
-  const stockIdAndNamePairs = stockIds.reduce((acc, stockId) => {
-    acc[stockId] = summary.stocksSummary[stockId].stockName;
-    return acc;
-  }, {} as Record<string, string>);
+  const stockIdAndNamePairs = stockIds.reduce(
+    (acc, stockId) => {
+      acc[stockId] = summary.stocksSummary[stockId].stockName;
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
 
   const buyPrice: Record<string, PercentageAndTotalPrice> = {};
   const currentPrice: Record<string, PercentageAndTotalPrice> = {};

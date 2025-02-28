@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { Bar } from 'react-chartjs-2';
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,9 +12,11 @@ import {
   ChartOptions,
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import styled from 'styled-components';
+
+import { StockList } from '@/features/stockList/type';
 
 import { StockBarChartInfos, stockData } from './utils';
-import { StockList } from '@/features/stockList/type';
 
 ChartJS.register(
   CategoryScale,
@@ -40,7 +42,7 @@ interface Props {
 }
 
 function BarChart({ stockBarChartInfos, stockName }: Props) {
-  // @ts-ignore
+  // @ts-expect-error - ChartData type is not exported from ChartJS
   const data: ChartData<'bar'> = stockData(stockName, stockBarChartInfos);
 
   return (

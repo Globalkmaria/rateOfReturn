@@ -1,10 +1,11 @@
 import { createAction } from '@reduxjs/toolkit';
-import { UserDataServiceRes } from '../service/userData/type';
-import { PurchasedItemInfo, StockList, StockListState } from './stockList/type';
+
 import { CheckedItemsInfo, StockCheckInfo } from './checkedItems/type';
 import { Group, GroupsState } from './groups/type';
-import { SoldsState } from './solds';
 import { NotesState } from './notes';
+import { SoldsState } from './solds';
+import { PurchasedItemInfo, StockList, StockListState } from './stockList/type';
+import { UserDataServiceRes } from '../service/userData/type';
 
 export const initUserData =
   createAction<UserDataServiceRes>('stock/initUserData');

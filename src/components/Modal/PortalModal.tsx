@@ -50,7 +50,7 @@ function PortalModal({
   };
 
   useEffect(() => {
-    modalContent.current && modalContent.current?.focus();
+    if (modalContent.current) modalContent.current?.focus();
   }, []);
 
   if (!isOpen) return null;

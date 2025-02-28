@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import userDataService from '../../../service/userData/userData';
-import { selectIsLoggedIn } from '../../../features/user/selectors';
 import { initUserData } from '@/features';
+
+import { selectIsLoggedIn } from '../../../features/user/selectors';
+import userDataService from '../../../service/userData/userData';
 
 const useGetUserData = () => {
   const dispatch = useDispatch();

@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import { selectSolds } from '@/features/solds';
+
 import { selectIsLoggedIn } from '../../../features/user/selectors';
 import { setLocalStorageItem } from '../../../utils/getLocalStorage';
-import { selectSolds } from '@/features/solds';
 
 const useSaveChangedSoldsData = (firstLoad: boolean) => {
   const solds = useSelector(selectSolds);

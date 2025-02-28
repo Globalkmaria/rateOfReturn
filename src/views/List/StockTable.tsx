@@ -1,13 +1,14 @@
 import { memo } from 'react';
+
 import styled from 'styled-components';
 
-import { Table, TableBody } from '../../components/Table';
-import StockItem from './StockItem/StockItem';
-import StockListHeader from './Header/StockListHeader';
-import AddNewStock from './AddNewStock/AddNewStock';
 import { StyledIconButton } from '@/components/IconButton/IconButton';
-import { StyledSummaryRow } from './StockItem/SummaryInfo/SummaryInfo';
+
+import StockListHeader from './Header/StockListHeader';
 import useIsMainGroup from './hooks/useIsMainGroup';
+import StockItem from './StockItem/StockItem';
+import { Table, TableBody } from '../../components/Table';
+import { StyledSummaryRow } from './StockItem/SummaryInfo/SummaryInfo';
 
 type Props = {
   stockIds: string[];
@@ -26,7 +27,6 @@ function StockTable({ stockIds }: Props) {
           {stockIds.map(stockId => (
             <StockItem stockId={stockId} key={stockId} />
           ))}
-          {isMainGroup && <AddNewStock />}
         </TableBody>
       </Table>
     </StyledTable>
@@ -37,7 +37,7 @@ export default memo(StockTable);
 
 const StyledStockTableBase = styled('div')`
   overflow-x: overlay;
-  padding-bottom: 100px;
+  padding-bottom: 120px;
 
   th,
   td {

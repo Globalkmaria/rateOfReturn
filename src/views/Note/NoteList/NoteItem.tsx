@@ -1,21 +1,22 @@
 import { MouseEventHandler, memo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import styled from 'styled-components';
 
 import userNotesService from '@/service/userNotes/service';
+
+import { shortenText } from '@/utils/text';
+import { isDefined } from '@/utils/validation';
+
+import { deleteNote, selectNoteItem } from '@/features/notes';
+import { selectIsLoggedIn } from '@/features/user/selectors';
 
 import { Chip, ChipText } from '@/components/Chip';
 import Flex from '@/components/Flex';
 import IconButton from '@/components/IconButton';
 
-import { selectIsLoggedIn } from '@/features/user/selectors';
-import { deleteNote, selectNoteItem } from '@/features/notes';
-
-import { shortenText } from '@/utils/text';
-import { isDefined } from '@/utils/validation';
-
-import { formatNoteDate } from './helper';
 import { StyledDate, StyledDateIcon } from './components';
+import { formatNoteDate } from './helper';
 
 interface NoteItemProps {
   id: string;

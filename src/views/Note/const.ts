@@ -1,4 +1,5 @@
 import { Note, NotesState } from '@/features/notes';
+
 import { createNumericSortFunction } from '@/utils';
 
 export const NOTE_FILTER_KEYS: Record<string, keyof Note> = {

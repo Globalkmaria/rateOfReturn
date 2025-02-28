@@ -1,4 +1,5 @@
 import { NotesState } from '@/features/notes';
+
 import { ReplaceUserDataRepReq } from '@/repository/userData/type';
 
 export function formatNotesAsServerFormat(

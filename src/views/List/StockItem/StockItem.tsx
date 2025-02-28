@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { MAIN_GROUP_ID } from '@/features/groups/mockData';
-import { selectStockInfoById } from '@/features/stockList/selectors';
 import { selectGroupInfo } from '@/features/groups/selectors';
-import SummaryInfo from './SummaryInfo/SummaryInfo';
+import { selectStockInfoById } from '@/features/stockList/selectors';
+
 import PurchasedStock from './PurchasedStock/PurchasedStock';
+import SummaryInfo from './SummaryInfo/SummaryInfo';
 import useIsMainGroup from '../hooks/useIsMainGroup';
 
 export interface StockItemProps {
@@ -23,15 +24,13 @@ const StockItem = ({ stockId }: StockItemProps) => {
     ? stockInfo.purchasedItems.allIds
     : groupInfo.stocks.byId[stockId];
 
-  const lastIdx = purchasedItems.length - 1;
   return (
     <>
       <SummaryInfo stockId={stockId} />
-      {purchasedItems.map((purchasedId, i) => (
+      {purchasedItems.map(purchasedId => (
         <PurchasedStock
           stockId={stockId}
           purchasedId={purchasedId}
-          isLastIdx={lastIdx === i}
           key={purchasedId}
         />
       ))}

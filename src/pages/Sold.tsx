@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
-import styled from 'styled-components';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import SoldTableContainer from '@/views/Sold/Table/SoldTableContainer';
+import styled from 'styled-components';
+
 import { validateSoldQuery } from '@/views/Sold/Table/helper';
+import SoldTableContainer from '@/views/Sold/Table/SoldTableContainer';
 
 function SoldPage() {
   const navigate = useNavigate();
@@ -11,8 +12,8 @@ function SoldPage() {
   const sortBy = searchParams.get('sortBy') ?? '';
 
   useEffect(() => {
-    if (!validateSoldQuery(sortBy)) return navigate('/sold');
-  }, []);
+    if (!validateSoldQuery(sortBy)) navigate('/sold');
+  }, [sortBy]);
 
   return (
     <>

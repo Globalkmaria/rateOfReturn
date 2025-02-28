@@ -1,9 +1,11 @@
 import { z } from 'zod';
-import { PurchasedItemInfo } from '../../../features/stockList/type';
+
 import {
   alertAndReturnValue,
   getDecimalPlacesSchema,
 } from '@/utils/validation';
+
+import { PurchasedItemInfo } from '../../../features/stockList/type';
 
 export type ValidityResult = { message?: string; isValid: boolean };
 type FieldType = keyof typeof schema;
@@ -71,7 +73,8 @@ const PURCHASED_ITEM_FIELD_PAIRS: Partial<
   purchasedPrice: 'price',
 };
 
-export const checkCurrentPrice = (value: number) => {
+export const checkCurrentPrice = (StringValue: string) => {
+  const value = Number(StringValue);
   const isValidDecimal = decimalPlacesSchema.safeParse(value);
   if (!isValidDecimal.success) {
     alert(isValidDecimal.error.issues[0].message);
@@ -84,5 +87,5 @@ export const checkCurrentPrice = (value: number) => {
 export const checkStockName = (value: string) =>
   alertAndReturnValue(checkStockValidity('name', value));
 
-export const checkQuantity = (value: number) =>
+export const checkQuantity = (value: string) =>
   alertAndReturnValue(checkStockValidity('quantity', value));

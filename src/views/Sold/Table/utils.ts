@@ -1,10 +1,14 @@
-import { Sold, SoldsState } from '@/features/solds';
-import { getPercentage, localStringToNumber } from '@/utils';
+import { z } from 'zod';
+
 import {
   alertAndReturnValueZod,
   getDecimalPlacesSchema,
 } from '@/utils/validation';
-import { z } from 'zod';
+
+import { Sold, SoldsState } from '@/features/solds';
+
+import { getPercentage, localStringToNumber } from '@/utils';
+
 import { SortFunction } from './const';
 
 const soldPriceSchema = z
@@ -16,7 +20,8 @@ const soldPriceSchema = z
 
 const decimalPlacesSchema = getDecimalPlacesSchema(4);
 
-export const checkSoldPrice = (value: number) => {
+export const checkSoldPrice = (stringValue: string) => {
+  const value = Number(stringValue);
   const isValidDecimal = decimalPlacesSchema.safeParse(value);
   if (!isValidDecimal.success) {
     alert(isValidDecimal.error.issues[0].message);

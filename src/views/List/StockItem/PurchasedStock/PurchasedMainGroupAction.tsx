@@ -1,45 +1,43 @@
 import { useDispatch, useSelector } from 'react-redux';
+
 import styled from 'styled-components';
 
-import { TableCell } from '@/components/Table';
-import useModal from '../../hooks/useModal';
-import { EditButton, MoreButton } from '@/components/IconButton';
-import { DropboxItem } from '@/components/Dropbox/DropboxItem';
-import AddToGroupModal from './AddToGroupModal';
-import { DeleteStockModal } from '../DeleteStockModal';
 import userSoldsService from '@/service/userSolds/service';
+
 import getDateAndTime from '@/utils/getDateAndTime';
-import { NewSold } from '@/repository/userSolds';
-import { selectIsLoggedIn } from '@/features/user/selectors';
-import { selectPurchasedItemsById } from '@/features/stockList/selectors';
+
 import {
   addNewSold,
   generateSoldInfoFromPurchasedInfo,
 } from '@/features/solds';
-import { generateSoldItem } from '../SummaryInfo/utils';
-import Icon from '@/components/Icon';
-import useIsMainGroup from '../../hooks/useIsMainGroup';
-import { NoteFormState } from '@/views/Note/NoteInfo/type';
-import AddNote from '@/views/Note/NoteInfo/modals/AddNote';
+import { selectPurchasedItemsById } from '@/features/stockList/selectors';
+import { selectIsStockListEditMode } from '@/features/temporalStockList/selectors';
+import { selectIsLoggedIn } from '@/features/user/selectors';
+
 import { INITIAL_NOTE_FORM_STATE } from '@/views/Note/NoteInfo/const';
+import AddNote from '@/views/Note/NoteInfo/modals/AddNote';
+import { NoteFormState } from '@/views/Note/NoteInfo/type';
+
+import { DropboxItem } from '@/components/Dropbox/DropboxItem';
+import Icon from '@/components/Icon';
+import { MoreButton } from '@/components/IconButton';
+import { TableCell } from '@/components/Table';
+
+import { NewSold } from '@/repository/userSolds';
+
+import AddToGroupModal from './AddToGroupModal';
+import useModal from '../../hooks/useModal';
+import { DeleteStockModal } from '../DeleteStockModal';
+import { generateSoldItem } from '../SummaryInfo/utils';
 
 interface Props {
   stockId: string;
   purchasedId: string;
-  isLock: boolean;
-  isLastIdx: boolean;
-  onToggleLock: () => void;
 }
-function PurchasedMainGroupAction({
-  stockId,
-  purchasedId,
-  isLock,
-  onToggleLock,
-  isLastIdx,
-}: Props) {
+function PurchasedMainGroupAction({ stockId, purchasedId }: Props) {
+  const isEditMode = useSelector(selectIsStockListEditMode);
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const isMainGroupSelected = useIsMainGroup();
   const { mainInfo, purchasedItem } = useSelector(
     selectPurchasedItemsById(stockId, purchasedId),
   );
@@ -81,15 +79,10 @@ function PurchasedMainGroupAction({
     <>
       <TableCell>
         <StyledButtonGroup>
-          <EditButton
-            isLock={isLock}
-            onClick={onToggleLock}
-            disabled={!isMainGroupSelected}
-          />
           <MoreButton width={80} vertical={'bottom'} horizontal='right'>
             <DropboxItem
               onClick={onItemSold}
-              disabled={!isLock}
+              disabled={isEditMode}
               title='To sold list'
             >
               <Icon icon='sold' />

@@ -1,12 +1,14 @@
+import { useState } from 'react';
+
 import styled from 'styled-components';
 
-import Modal from '../../components/Modal/Modal';
+import { setLocalStorageItem } from '@/utils/getLocalStorage';
+
+import { getLocalState } from './utils';
 import { ContainedButton } from '../../components/Button';
+import Modal from '../../components/Modal/Modal';
 import userDataService from '../../service/userData/userData';
 import useGetUserData from '../List/hooks/useGetUserData';
-import { getLocalState } from './utils';
-import { useState } from 'react';
-import { setLocalStorageItem } from '@/utils/getLocalStorage';
 
 type Props = {
   onClose: () => void;

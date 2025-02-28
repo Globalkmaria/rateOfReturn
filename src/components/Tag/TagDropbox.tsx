@@ -1,10 +1,11 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
+
 import styled from 'styled-components';
 
-import TagOption from './TagOption';
-import { BaseInput } from '../Input/BaseInput';
 import { StyledChip, StyledChipText } from '.';
+import TagOption from './TagOption';
 import Icon from '../Icon';
+import { BaseInput } from '../Input/BaseInput';
 
 export interface TagDropboxSettings {
   height?: number;
@@ -34,7 +35,8 @@ function TagDropbox({
   height,
   ref,
 }: TagDropboxProps & TagDropboxSettings) {
-  const containerRef = ref ?? useRef<HTMLDivElement>(null);
+  const newContainerRef = useRef<HTMLDivElement>(null);
+  const containerRef = ref ?? newContainerRef;
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>('');
 
@@ -73,7 +75,7 @@ function TagDropbox({
     }
   };
 
-  const onDeleteSelectedOption: React.MouseEventHandler = e => {
+  const onDeleteSelectedOption: React.MouseEventHandler = () => {
     onOptionSelect('');
   };
 

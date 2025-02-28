@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+
 import styled from 'styled-components';
 
-import { RootState } from '../../../store';
-import { ContainedButton } from '../../../components/Button';
-import useModal from '../hooks/useModal';
 import BackupWarningModal from './BackupWarningModal';
+import { ContainedButton } from '../../../components/Button';
+import { RootState } from '../../../store';
+import useModal from '../hooks/useModal';
 
 const SetBackup = () => {
   const [data, setData] = useState<RootState | null>(null);

@@ -1,20 +1,17 @@
-import {
-  DetailedHTMLProps,
-  HTMLAttributes,
-  memo,
-  useCallback,
-  useMemo,
-} from 'react';
-import { FastOmit } from 'styled-components/dist/types';
-import styled, { IStyledComponent } from 'styled-components';
+import { DetailedHTMLProps, HTMLAttributes, memo } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
+import styled, { IStyledComponent } from 'styled-components';
+import { FastOmit } from 'styled-components/dist/types';
+
+import { checkIfMainGroup } from '@/utils/group';
+
+import { MAIN_GROUP_ID } from '@/features/groups/mockData';
+
+import { CalculateStockSummaryResult, calculateGroupSummary } from './utils';
 import { selectGroupInfo } from '../../../features/groups/selectors';
 import { selectStocks } from '../../../features/stockList/selectors';
-import { CalculateStockSummaryResult, calculateGroupSummary } from './utils';
-import { useParams } from 'react-router-dom';
-import { MAIN_GROUP_ID } from '@/features/groups/mockData';
-import { checkIfMainGroup } from '@/utils/group';
 
 type Contents = {
   key: keyof CalculateStockSummaryResult;
@@ -35,30 +32,21 @@ function GroupSummary() {
 
   const groupInfo = useSelector(selectGroupInfo(groupId));
   const stocks = useSelector(selectStocks);
+
   const summary = calculateGroupSummary({
     stocksData: stocks,
     groupData: isMainGroupSelected ? null : groupInfo,
   });
 
-  const getContents = useCallback(
-    ({ key, title, format, Component }: Contents[0]) => (
-      <Component title={`${key}`} key={key}>
-        <StyledTitle>{title}</StyledTitle>
-        <StyledText>{format(summary[key])}</StyledText>
-      </Component>
-    ),
-    [summary],
+  const getContents = ({ key, title, format, Component }: Contents[0]) => (
+    <Component title={`${key}`} key={key}>
+      <StyledTitle>{title}</StyledTitle>
+      <StyledText>{format(summary[key])}</StyledText>
+    </Component>
   );
 
-  const firstRow = useMemo(
-    () => SUMMARY_CONTENTS.slice(0, 2).map(getContents),
-    [getContents],
-  );
-
-  const secondRow = useMemo(
-    () => SUMMARY_CONTENTS.slice(2).map(getContents),
-    [getContents],
-  );
+  const firstRow = SUMMARY_CONTENTS.slice(0, 2).map(getContents);
+  const secondRow = SUMMARY_CONTENTS.slice(2).map(getContents);
 
   return (
     <StyledGroupSummary>

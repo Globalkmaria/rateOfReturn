@@ -1,11 +1,14 @@
 import { useRef } from 'react';
+
 import styled from 'styled-components';
 
 import useModal from '@/views/List/hooks/useModal';
+
+import { ColorsKeys } from '@/styles/theme';
+
 import TagDropbox, { TagDropbox2Settings } from './Tag2Dropbox';
 import { Chip, ChipText } from '../Chip';
 import { Tag2OptionType } from './Tag2Option';
-import { ColorsKeys } from '@/styles/theme';
 
 interface Props<T extends Tag2OptionType> {
   width?: number;

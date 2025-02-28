@@ -1,4 +1,9 @@
+import { NotesState } from '@/features/notes';
 import { SoldsState } from '@/features/solds';
+
+import { getDateFromIOSString, getFixedLocaleString } from '@/utils';
+
+import { UserDataServiceRes } from './type';
 import {
   CheckedItemsInfo,
   CheckedItemsState,
@@ -15,9 +20,6 @@ import {
   UserStock,
   UserStocks,
 } from '../../repository/userData/type';
-import { UserDataServiceRes } from './type';
-import { getDateFromIOSString, getFixedLocaleString } from '@/utils';
-import { NotesState } from '@/features/notes';
 
 const getMainInfo = (
   stockId: string,
@@ -76,10 +78,13 @@ const getPurchasedItems = (
 const getCheckInfoPurchaseItems = (
   items: UserStock['items'],
 ): StockCheckInfo['purchasedItems'] => {
-  return Object.keys(items).reduce((purchasedItems, id) => {
-    purchasedItems[id] = true;
-    return purchasedItems;
-  }, {} as StockCheckInfo['purchasedItems']);
+  return Object.keys(items).reduce(
+    (purchasedItems, id) => {
+      purchasedItems[id] = true;
+      return purchasedItems;
+    },
+    {} as StockCheckInfo['purchasedItems'],
+  );
 };
 
 const generateInitialCheckInfo = (

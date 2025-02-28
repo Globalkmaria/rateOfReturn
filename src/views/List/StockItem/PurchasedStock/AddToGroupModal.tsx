@@ -1,17 +1,21 @@
 import { useDispatch, useSelector } from 'react-redux';
+
 import styled from 'styled-components';
 
-import IconButton from '@/components/IconButton';
-import PortalModal from '@/components/Modal/PortalModal';
+import userGroupsService from '@/service/userGroups/userGroups';
+
 import {
   addPurchasedItemToGroup,
   removePurchasedItemFromGroup,
 } from '@/features/groups/groupsSlice';
 import { selectGroups } from '@/features/groups/selectors';
 import { Group } from '@/features/groups/type';
-import { checkPurchasedItemInGroup } from './utils';
-import userGroupsService from '@/service/userGroups/userGroups';
 import { selectIsLoggedIn } from '@/features/user/selectors';
+
+import IconButton from '@/components/IconButton';
+import PortalModal from '@/components/Modal/PortalModal';
+
+import { checkPurchasedItemInGroup } from './utils';
 
 interface AddToGroupModalProps {
   onClose: () => void;

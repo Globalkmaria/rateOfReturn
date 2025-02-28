@@ -23,18 +23,22 @@ export const TOP_STOCKS: TopStock[] = [
     img: {
       url: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/apple_logo_400.webp',
       webp: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/apple_logo_400.webp',
-      webp300: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/apple_logo_300.webp',
-      webp400: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/apple_logo_400.webp',
+      webp300:
+        'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/apple_logo_300.webp',
+      webp400:
+        'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/apple_logo_400.webp',
       jpg: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/apple_logo.jpg',
     },
     id: '64d2085483f9e147ec003cd8',
-    imgUrl: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/apple_logo.webp',
+    imgUrl:
+      'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/apple_logo.webp',
     investUrl: 'https://www.investing.com/equities/apple-computer-inc',
   },
   {
     name: 'Microsoft',
     symbol: 'MSFT',
-    description: 'Microsoft Corporation develops and supports software, services, devices and solutions worldwide.',
+    description:
+      'Microsoft Corporation develops and supports software, services, devices and solutions worldwide.',
     industry: 'Software & IT Services',
     sector: 'Technology',
     financial: {
@@ -52,19 +56,23 @@ export const TOP_STOCKS: TopStock[] = [
     img: {
       url: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/Microsoft_logo_400.webp',
       webp: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/Microsoft_logo_400.webp',
-      webp300: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/Microsoft_logo_300.webp',
-      webp400: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/Microsoft_logo_400.webp',
+      webp300:
+        'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/Microsoft_logo_300.webp',
+      webp400:
+        'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/Microsoft_logo_400.webp',
       jpg: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/microsoft_logo.jpg',
     },
     id: '64d20a9283f9e147ec003cd9',
-    imgUrl: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/Microsoft_logo.svg.webp',
+    imgUrl:
+      'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/Microsoft_logo.svg.webp',
     investUrl: 'https://www.investing.com/equities/microsoft-corp',
   },
   {
     rank: 3,
     name: 'Alphabet (Google)',
     symbol: 'GOOG',
-    description: "The Company's segments include Google Services, Google Cloud, and Other Bets",
+    description:
+      "The Company's segments include Google Services, Google Cloud, and Other Bets",
     industry: 'Software & IT Services',
     sector: 'Technology',
     financial: {
@@ -81,12 +89,15 @@ export const TOP_STOCKS: TopStock[] = [
     img: {
       url: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/google_logo_400.webp',
       webp: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/google_logo_400.webp',
-      webp300: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/google_logo_300.webp',
-      webp400: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/google_logo_400.webp',
+      webp300:
+        'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/google_logo_300.webp',
+      webp400:
+        'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/google_logo_400.webp',
       jpg: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/google_logo.jpg',
     },
     id: '64d20e2c83f9e147ec003cdb',
-    imgUrl: 'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/google_logo.svg.webp',
+    imgUrl:
+      'https://rorconst.s3.ap-northeast-2.amazonaws.com/logo/google_logo.svg.webp',
     investUrl: 'https://www.investing.com/equities/google-inc-c',
   },
 ];

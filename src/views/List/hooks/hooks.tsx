@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { initStockList } from '../../../features/stockList/stockListSlice';
-import { initGroups } from '../../../features/groups/groupsSlice';
-import { getInitialCheckedItemsInfo } from '../../../features/checkedItems/utils';
-import { initCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
-import { selectStockList } from '../../../features/stockList/selectors';
-import { getLocalStorageItem } from '../../../utils/getLocalStorage';
-import { initSolds } from '@/features/solds';
 import { initNotes } from '@/features/notes';
+import { initSolds } from '@/features/solds';
+
+import { initCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
+import { getInitialCheckedItemsInfo } from '../../../features/checkedItems/utils';
+import { initGroups } from '../../../features/groups/groupsSlice';
+import { selectStockList } from '../../../features/stockList/selectors';
+import { initStockList } from '../../../features/stockList/stockListSlice';
+import { getLocalStorageItem } from '../../../utils/getLocalStorage';
 
 export const useInitWithLocalData = () => {
   const dispatch = useDispatch();
@@ -15,16 +16,16 @@ export const useInitWithLocalData = () => {
 
   const initData = () => {
     const localStock = getLocalStorageItem('stockList');
-    localStock && dispatch(initStockList(localStock));
+    if (localStock) dispatch(initStockList(localStock));
 
     const localGroups = getLocalStorageItem('groups');
-    localGroups && dispatch(initGroups(localGroups));
+    if (localGroups) dispatch(initGroups(localGroups));
 
     const localSolds = getLocalStorageItem('solds');
-    localSolds && dispatch(initSolds(localSolds));
+    if (localSolds) dispatch(initSolds(localSolds));
 
     const localNotes = getLocalStorageItem('notes');
-    localNotes && dispatch(initNotes(localNotes));
+    if (localNotes) dispatch(initNotes(localNotes));
 
     const stocks = localStock?.stocks || stockList.stocks;
     const checkedItemsInfo = getInitialCheckedItemsInfo({

@@ -4,10 +4,10 @@ import { BorderButton } from '@/components/Button';
 import Icon from '@/components/Icon';
 import Search from '@/components/Search';
 
+import NoteFilters from './NoteFilters';
+import { INITIAL_NOTE_FORM_STATE } from './NoteInfo/const';
 import useModal from '../List/hooks/useModal';
 import AddNote from './NoteInfo/modals/AddNote';
-import { INITIAL_NOTE_FORM_STATE } from './NoteInfo/const';
-import NoteFilters from './NoteFilters';
 
 interface Props {
   disabled?: boolean;

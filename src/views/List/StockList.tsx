@@ -1,9 +1,10 @@
 import { Suspense } from 'react';
+
 import styled from 'styled-components';
 
-import { BaseInput } from '../../components/Input/BaseInput';
-import StockListSkeleton from './StockListSkeleton';
 import StockListContent from './StockListContent';
+import StockListSkeleton from './StockListSkeleton';
+import { BaseInput } from '../../components/Input/BaseInput';
 
 const StockList = () => {
   return (

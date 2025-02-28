@@ -1,7 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit';
+
+import { checkIfMainGroup } from '@/utils/group';
+
 import { selectGroupInfo } from './groups/selectors';
 import { selectStocks } from './stockList/selectors';
-import { checkIfMainGroup } from '@/utils/group';
 
 export const selectStockIds = (groupId: string) =>
   createSelector(

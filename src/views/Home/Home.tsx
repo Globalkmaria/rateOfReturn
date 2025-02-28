@@ -1,8 +1,10 @@
-import styled from 'styled-components';
-import Card from './Card/Card';
-import topStocksService from '../../service/topStocks';
 import { useEffect, useState } from 'react';
+
+import styled from 'styled-components';
+
+import Card from './Card/Card';
 import { TopStock } from '../../repository/topStocks/type';
+import topStocksService from '../../service/topStocks';
 
 const Home = () => {
   const [stocks, setStocks] = useState<TopStock[]>([]);

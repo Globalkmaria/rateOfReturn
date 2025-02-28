@@ -1,5 +1,6 @@
 import { config } from '@/config';
 import HttpClient, { ErrorResponse } from '@/network/http';
+
 import { AddNewSoldsRepReq, EditSoldsRepReq } from './type';
 import { ReplaceUserDataRepReq } from '../userData/type';
 

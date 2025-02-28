@@ -1,13 +1,14 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 
-import Dropbox from '@/components/Dropbox';
-import IconButton from '@/components/IconButton';
+import styled from 'styled-components';
 
 import useModal from '@/views/List/hooks/useModal';
 
+import Dropbox from '@/components/Dropbox';
+import IconButton from '@/components/IconButton';
+
 import { cacheLoginPage, cacheSignupPage } from './utils';
-import styled from 'styled-components';
 
 function Personal() {
   const { showModal, onToggleModal, onCloseModal } = useModal();

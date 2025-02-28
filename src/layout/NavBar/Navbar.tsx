@@ -1,15 +1,17 @@
 import { memo } from 'react';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+
+import styled from 'styled-components';
+
+import { RouterElement } from '@/router/router';
 
 import AuthBtns from './AuthBtns';
 import Menu from './Menu';
-import { RouterElement } from '@/router/router';
 import Setting from './Setting';
 
 export type NavbarElement = Pick<
   RouterElement,
-  'id' | 'label' | 'path' | 'disabled' | 'icon'
+  'id' | 'label' | 'path' | 'icon' | 'disabled'
 >;
 
 const Navbar = () => {

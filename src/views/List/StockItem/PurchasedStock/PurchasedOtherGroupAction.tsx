@@ -1,23 +1,25 @@
-import IconButton from '@/components/IconButton';
-import { TableCell } from '@/components/Table';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
+import styled from 'styled-components';
+
+import userGroupsService from '@/service/userGroups/userGroups';
+
 import { removePurchasedItemFromGroup } from '@/features/groups/groupsSlice';
 import { MAIN_GROUP_ID } from '@/features/groups/mockData';
 import { selectIsLoggedIn } from '@/features/user/selectors';
-import userGroupsService from '@/service/userGroups/userGroups';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
+
+import IconButton from '@/components/IconButton';
+import { TableCell } from '@/components/Table';
 
 interface Props {
   stockId: string;
   purchasedId: string;
-  isLock: boolean;
 }
 
 function PurchasedOtherGroupAction({ stockId, purchasedId }: Props) {
   const dispatch = useDispatch();
   const { groupId = MAIN_GROUP_ID } = useParams();
-
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const onRemoveItemFromGroup = async () => {

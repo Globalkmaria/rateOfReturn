@@ -2,15 +2,16 @@ import { Context } from 'chartjs-plugin-datalabels';
 import dayjs from 'dayjs';
 
 import {
-  PurchasedItemInfo,
-  StockList,
-  StocksCollection,
-} from '@/features/stockList/type';
-import {
   getFixedLocaleString,
   getPercentage,
   localStringToNumber,
 } from '@/utils/number';
+
+import {
+  PurchasedItemInfo,
+  StockList,
+  StocksCollection,
+} from '@/features/stockList/type';
 
 export const getStockOptions = (stockList: StocksCollection) => {
   return stockList.allIds.map(stockId => {
@@ -74,13 +75,13 @@ const DATA_LABELS = {
   labels: {
     value: {
       color: function (ctx: Context) {
-        // @ts-ignore
+        // @ts-expect-error - ctx.dataset is not typed
         return ctx.dataset.backgroundColor[ctx.dataIndex].replace('0.5', '1');
       },
       backgroundColor: 'white',
       borderRadius: 4,
       font: { size: 15, weight: 'bold' },
-      formatter: function (_: any, ctx: Context) {
+      formatter: function (_: unknown, ctx: Context) {
         return ctx.active ? null : ctx.dataset.data[ctx.dataIndex] + '%';
       },
     },

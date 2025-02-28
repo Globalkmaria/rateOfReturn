@@ -1,6 +1,7 @@
+import styled from 'styled-components';
+
 import { ContainedButton } from '@/components/Button';
 import PortalModal from '@/components/Modal/PortalModal';
-import styled from 'styled-components';
 
 interface Props {
   onClose: () => void;

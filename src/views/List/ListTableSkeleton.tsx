@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux';
+
 import styled from 'styled-components';
 
-import { selectStocks } from '../../features/stockList/selectors';
-import { Skeleton } from '../../components/Skeleton';
 import { getListTableSkeletonHeight } from './utils';
+import { Skeleton } from '../../components/Skeleton';
+import { selectStocks } from '../../features/stockList/selectors';
 
 function ListTableSkeleton() {
   const stocks = useSelector(selectStocks);

@@ -1,10 +1,13 @@
+import { EditUserItemServiceData } from '@/service/userStocks/type';
+
 import { Group } from '@/features/groups/type';
+
+import { getFixedLocaleString, localStringToNumber } from '@/utils';
+
 import {
   PurchasedItemInfo,
   StockMainInfo,
 } from '../../../../features/stockList/type';
-import { getFixedLocaleString, localStringToNumber } from '@/utils';
-import { EditUserItemServiceData } from '@/service/userStocks/type';
 
 export const getPurchasedData = ({
   purchasedItem,
@@ -63,7 +66,6 @@ export const getChangedPurchasedData = (
   purchasedPrice: getFixedLocaleString(
     changedInputs.purchasedPrice ?? purchasedItem.purchasedPrice,
   ),
-  needInit: false,
 });
 
 export const checkPurchasedItemInGroup = (

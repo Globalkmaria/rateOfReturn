@@ -1,4 +1,5 @@
 import { localStringToNumber } from '@/utils';
+
 import { Group } from '../../../features/groups/type';
 import { StockListState } from '../../../features/stockList/type';
 interface CalculateGroupSummary {

@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+
 import { AddNewNotePayload, NotesState, UpdateNotePayload } from './type';
 import { initUserData, resetUserData, setBackupData } from '../actions';
 import { NOTES_MOCK_DATA } from './mockData';

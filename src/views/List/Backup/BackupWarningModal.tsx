@@ -1,19 +1,24 @@
-import { useDispatch, useSelector } from 'react-redux';
-import WarningModal from '../../../components/WarningModal';
-import formatStockAsServerFormat from '../../../utils/formatStockAsServerFormat';
-import formatGroupAsServerFormat from '../../../utils/formatGroupAsServerFormat';
-import userDataService from '../../../service/userData/userData';
-import { formatSoldAsServerFormat } from '@/utils/formatSoldsAsServerFormat';
-import { selectIsLoggedIn } from '@/features/user/selectors';
-import { setBackupData } from '@/features';
-import { getInitialCheckedItemsInfo } from '@/features/checkedItems/utils';
-import { useNavigate } from 'react-router-dom';
-import { formatNotesAsServerFormat } from '@/utils/formatNotesAsServerFormat';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+import { formatNotesAsServerFormat } from '@/utils/formatNotesAsServerFormat';
+import { formatSoldAsServerFormat } from '@/utils/formatSoldsAsServerFormat';
+
+import { getInitialCheckedItemsInfo } from '@/features/checkedItems/utils';
+import { selectIsLoggedIn } from '@/features/user/selectors';
+
+import { setBackupData } from '@/features';
+import { RootState } from '@/store';
+
+import WarningModal from '../../../components/WarningModal';
+import userDataService from '../../../service/userData/userData';
+import formatGroupAsServerFormat from '../../../utils/formatGroupAsServerFormat';
+import formatStockAsServerFormat from '../../../utils/formatStockAsServerFormat';
 
 type Props = {
   onClose: () => void;
-  data: any;
+  data?: null | RootState;
 };
 
 const BackupWarningModal = ({ onClose, data }: Props) => {
@@ -78,7 +83,11 @@ const BackupWarningModal = ({ onClose, data }: Props) => {
         stockList: data.stockList,
         groups: data.groups,
         checkedItems:
-          data.checkedItems ?? getInitialCheckedItemsInfo(data.stockList),
+          data.checkedItems ??
+          getInitialCheckedItemsInfo({
+            data: data.stockList.stocks,
+            value: false,
+          }),
         solds: data.solds,
         notes: data.notes,
       }),

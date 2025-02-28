@@ -1,9 +1,11 @@
 import { ChangeEvent, ReactElement } from 'react';
+
 import styled from 'styled-components';
-import FormInput from '../form/Input';
-import Form from '../form/form';
-import { ValidityTextProps } from '../form/ValidityText';
+
 import { AuthSubmitButton, OtherOptions } from './components';
+import Form from '../form/form';
+import FormInput from '../form/Input';
+import { ValidityTextProps } from '../form/ValidityText';
 
 type SignFormProps = {
   onSubmit: () => void;

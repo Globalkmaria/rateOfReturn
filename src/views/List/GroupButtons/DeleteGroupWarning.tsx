@@ -1,7 +1,8 @@
-import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import userGroupsService from '@/service/userGroups/userGroups';
+
 import { deleteGroup } from '@/features/groups/groupsSlice';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 

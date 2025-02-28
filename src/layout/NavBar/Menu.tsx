@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import { BackgroundAnchor } from '@/components/Anchor';
 import Icon from '@/components/Icon';
 
-import { SidebarContent } from '../../router/router';
 import { useRouter } from '../../hooks/useRouter';
+import { SidebarContent } from '../../router/router';
 
-type MenuProps = { selected: boolean; disabled?: boolean };
+type MenuProps = { selected: boolean; disabled?: boolean; to: string };
 
 const Menu = () => {
   const { currentLevelPath } = useRouter(0);
+
   return (
     <StyledList>
       {SidebarContent.map(element => {

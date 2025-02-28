@@ -1,11 +1,13 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
+
 import styled from 'styled-components';
 
-import { BaseInput } from '../Input/BaseInput';
-import Icon from '../Icon';
-import { Chip, ChipText } from '../Chip';
-import Tag2Option, { Tag2OptionProps, Tag2OptionType } from './Tag2Option';
 import { ColorsKeys } from '@/styles/theme';
+
+import { Chip, ChipText } from '../Chip';
+import Icon from '../Icon';
+import Tag2Option, { Tag2OptionProps, Tag2OptionType } from './Tag2Option';
+import { BaseInput } from '../Input/BaseInput';
 
 export type TagDropbox2Settings<T extends Tag2OptionType> = {
   height?: number;
@@ -17,19 +19,19 @@ export type TagDropbox2Settings<T extends Tag2OptionType> = {
   placeholder?: string;
 } & Pick<Tag2OptionProps<T>, 'onDeleteOption' | 'showDeleteItem'>;
 
-type TagDropbox2Props<T extends Tag2OptionType> = {
+type TagDropbox2Props<T extends Tag2OptionType, V extends HTMLElement> = {
   selectedOption?: T | null;
   onCloseModal: () => void;
   width: number;
-  tagContainerRef: React.RefObject<HTMLDivElement>;
-  ref?: RefObject<HTMLDivElement>;
+  tagContainerRef: React.RefObject<V | null>;
+  ref?: RefObject<HTMLDivElement | null>;
   chipColor: ColorsKeys;
   chipTextColor: ColorsKeys;
 } & TagDropbox2Settings<T>;
 
 const TAG_MAX_LENGTH = 20;
 
-function TagDropbox2<T extends Tag2OptionType>({
+function TagDropbox2<T extends Tag2OptionType, V extends HTMLElement>({
   options,
   selectedOption,
   onOptionSelect,
@@ -46,9 +48,10 @@ function TagDropbox2<T extends Tag2OptionType>({
   placeholder = 'Search for an option...',
   chipColor,
   chipTextColor,
-}: TagDropbox2Props<T>) {
+}: TagDropbox2Props<T, V>) {
   placeholder = selectedOption ? '' : placeholder;
-  const containerRef = ref ?? useRef<HTMLDivElement>(null);
+  const newContainerRef = useRef<HTMLDivElement>(null);
+  const containerRef = ref ?? newContainerRef;
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>('');
   const getLabel = (option: T) =>
@@ -86,7 +89,7 @@ function TagDropbox2<T extends Tag2OptionType>({
   };
 
   const onClickNewOption = () => {
-    onCreateNewOption && onCreateNewOption(inputValue);
+    if (onCreateNewOption) onCreateNewOption(inputValue);
     setInputValue('');
     onCloseModal();
   };
@@ -97,7 +100,7 @@ function TagDropbox2<T extends Tag2OptionType>({
     }
   };
 
-  const onDeleteSelectedOption: React.MouseEventHandler = e => {
+  const onDeleteSelectedOption: React.MouseEventHandler = () => {
     onOptionSelect(null);
   };
 

@@ -1,17 +1,18 @@
-import {
-  getAverage,
-  getFixedLocaleString,
-  getPercentage,
-  localStringToNumber,
-} from '@/utils/number';
+import { getEditUserItemRepData } from '@/service/userStocks/utils';
+
+import { getAverage, getPercentage, localStringToNumber } from '@/utils/number';
+
 import {
   PurchasedItemInfo,
   StockList,
+  StockListState,
   StockMainInfo,
-} from '../../../features/stockList/type';
+} from '@/features/stockList/type';
+import { TemporalStockListState } from '@/features/temporalStockList/type';
+
+import { EditUserStockRepReq } from '@/repository/userStocks/type';
+
 import { SummaryInfoData } from './SummaryInfo/SummaryInfo';
-import { ChangedSummaryInputs } from './SummaryInfo/hooks/useStockSummaryInputChange';
-import { EditUserStockServiceReq } from '@/service/userStocks/type';
 
 const getPurchasedInfo = (data: StockList['purchasedItems'], id: string) =>
   data.byId[id];
@@ -114,30 +115,81 @@ export const getCurrentDateAndTime = () => {
   return { date, time };
 };
 
-export const checkNoChange = (values: { [key: string]: any }) =>
+export const checkNoChange = (values: { [key: string]: unknown }) =>
   Object.keys(values).length === 0;
 
-export const getChangedStockData = (
-  changedInputs: ChangedSummaryInputs,
-  mainInfo: StockMainInfo,
-): StockMainInfo => {
-  const currentPrice = getFixedLocaleString(
-    changedInputs.currentPrice ?? mainInfo.currentPrice,
-  );
+export const getEditUserStockData = ({
+  changedStockData,
+  originalStockData,
+}: {
+  changedStockData: TemporalStockListState['stockList'];
+  originalStockData: StockListState['stocks'];
+}): EditUserStockRepReq => {
+  const result: EditUserStockRepReq = {};
 
-  return { ...mainInfo, ...changedInputs, currentPrice, needInit: false };
+  for (const stockId of Object.keys(changedStockData)) {
+    const changedStock = changedStockData[stockId];
+    const originalStock = originalStockData.byId[stockId];
+    result[stockId] = {};
+
+    addStockInfo({ originalStock, changedStock, stockId, result });
+    addItems({ originalStock, changedStock, stockId, result });
+  }
+
+  return result;
 };
 
-export const getEditUserStockData = (
-  changedInputs: ChangedSummaryInputs,
-  mainInfo: StockMainInfo,
-): Partial<EditUserStockServiceReq['data']> => {
-  const currentPrice = changedInputs.currentPrice ?? mainInfo.currentPrice;
-  const numCurrentPrice = localStringToNumber(currentPrice);
+const addStockInfo = ({
+  originalStock,
+  changedStock,
+  stockId,
+  result,
+}: {
+  originalStock: StockList;
+  changedStock: TemporalStockListState['stockList'][string];
+  stockId: string;
+  result: EditUserStockRepReq;
+}) => {
+  const changedMainInfo = changedStock.mainInfo;
+  if (!changedMainInfo) return;
+  const originalMainInfo = originalStock.mainInfo;
 
-  return {
-    stockName: changedInputs.stockName ?? mainInfo.stockName,
-    tag: changedInputs.tag ?? mainInfo.tag,
-    currentPrice: numCurrentPrice,
+  const combined: StockMainInfo = {
+    ...originalMainInfo,
+    ...changedMainInfo,
   };
+  result[stockId].info = {
+    id: stockId,
+    name: combined.stockName,
+    currentPrice: localStringToNumber(combined.currentPrice),
+    tag: combined.tag ?? '',
+  };
+};
+
+const addItems = ({
+  originalStock,
+  changedStock,
+  stockId,
+  result,
+}: {
+  originalStock: StockList;
+  changedStock: TemporalStockListState['stockList'][string];
+  stockId: string;
+  result: EditUserStockRepReq;
+}) => {
+  const purchasedIds = Object.keys(changedStock.purchasedItems ?? {});
+
+  for (const purchasedId of purchasedIds) {
+    const changedPurchased = changedStock.purchasedItems?.[purchasedId];
+    const originalPurchased = originalStock.purchasedItems.byId[purchasedId];
+
+    if (!result[stockId].items) result[stockId].items = {};
+    const combinedPurchased: PurchasedItemInfo = {
+      ...originalPurchased,
+      ...changedPurchased,
+    };
+
+    result[stockId].items[purchasedId] =
+      getEditUserItemRepData(combinedPurchased);
+  }
 };

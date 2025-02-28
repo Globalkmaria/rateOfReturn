@@ -1,7 +1,10 @@
-import { config } from '@/config';
-import { NoteContent } from '@/features/notes';
-import HttpClient from '@/network/http';
 import { ErrorResponse } from 'react-router-dom';
+
+import { NoteContent } from '@/features/notes';
+
+import { config } from '@/config';
+import HttpClient from '@/network/http';
+
 import { AddNewNoteRes, EditNoteRes } from './type';
 
 class UserNotesRepository {

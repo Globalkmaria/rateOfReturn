@@ -1,6 +1,8 @@
 import { ChangeEvent } from 'react';
-import { InputType, InputValidation, TransformedValue } from './BaseInput';
+
 import { removeComma } from '@/utils';
+
+import { InputType, InputValidation, TransformedValue } from './BaseInput';
 
 const checkValidDots = (value: string) => {
   if (value[0] === '.') return false;
@@ -45,7 +47,7 @@ const removeInvalidedEdgeChars = (value: string) => {
 
 const trimDecimalInsertPaste = (
   value: string,
-  validation: (value: any) => boolean,
+  validation: (value: string) => boolean,
 ): TransformedValue => {
   const cleanedValue = removeInvalidedEdgeChars(value);
   const commaRemovedValue = removeComma(cleanedValue);
@@ -53,7 +55,7 @@ const trimDecimalInsertPaste = (
   const numValue = Number(commaRemovedValue);
   if (isNaN(numValue)) return null;
 
-  const isValid = validation(numValue);
+  const isValid = validation(numValue.toString());
   if (!isValid) return null;
 
   const localValue = getLocalString(commaRemovedValue);
@@ -73,7 +75,7 @@ const trimDecimalInsertText = (
   const numValue = Number(commaRemovedValue);
   if (isNaN(numValue)) return null;
 
-  const isValid = validation(numValue);
+  const isValid = validation(numValue.toString());
   if (!isValid) return null;
 
   const localValue = getLocalString(commaRemovedValue);
@@ -99,7 +101,7 @@ const handleDecimalChange = (
 
 const trimNumberInsertPaste = (
   value: string,
-  validation: (value: any) => boolean,
+  validation: (value: string) => boolean,
 ): TransformedValue => {
   const cleanedValue = removeInvalidedEdgeChars(value);
   const commaRemovedValue = removeComma(cleanedValue);
@@ -107,7 +109,7 @@ const trimNumberInsertPaste = (
   const numValue = Number(commaRemovedValue);
   if (isNaN(numValue)) return null;
 
-  const isValid = validation(numValue);
+  const isValid = validation(numValue.toString());
   if (!isValid) return null;
 
   const localValue = numValue.toLocaleString();
@@ -124,7 +126,7 @@ const trimNumberInsertText = (
   const numValue = Number(commaRemovedValue);
   if (isNaN(numValue)) return null;
 
-  const isValid = validation(numValue);
+  const isValid = validation(numValue.toString());
   if (!isValid) return null;
 
   const localValue = numValue.toLocaleString();

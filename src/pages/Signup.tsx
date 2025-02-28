@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import SignupComponent from '../views/Signup/Signup';
 
 const Signup = () => {

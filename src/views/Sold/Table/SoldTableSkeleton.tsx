@@ -1,5 +1,6 @@
-import { Skeleton } from '@/components/Skeleton';
 import styled from 'styled-components';
+
+import { Skeleton } from '@/components/Skeleton';
 
 function SoldTableSkeleton() {
   return <Container />;

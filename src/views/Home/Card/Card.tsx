@@ -1,34 +1,29 @@
-import { MouseEvent, useRef, useState } from 'react';
+import { useRef } from 'react';
+
 import styled from 'styled-components';
 
-import { TopStock } from '../../../repository/topStocks/type';
-import ExpandCard from '../../../components/ExpandCard';
-import Metrics from './Metrics';
-import Ratios from './Ratios';
+import CardHeader from './CardHeader';
 import Categories from './Categories';
 import Logo from './Logo';
-import CardHeader from './CardHeader';
+import Metrics from './Metrics';
+import Ratios from './Ratios';
+import ExpandCard from '../../../components/ExpandCard';
+import { TopStock } from '../../../repository/topStocks/type';
 
 type CardProps = {
   stock: TopStock;
 };
 
 const Card = ({ stock }: CardProps) => {
-  const [open, setOpen] = useState(false);
   const investLink = useRef<HTMLAnchorElement>(null);
 
-  const onExpand = (e: MouseEvent<HTMLDivElement>) => {
-    if (e.target === investLink.current) return;
-    setOpen(prev => !prev);
-  };
-
   return (
-    <div onClick={onExpand}>
+    <div>
       <StyledContent>
         <CardHeader stock={stock} investRef={investLink} />
         <Logo stock={stock} />
         <Categories stock={stock} />
-        <ExpandCard open={open}>
+        <ExpandCard>
           <StyledExpandContent>
             <div>
               <StyledDescriptionLabel>Description</StyledDescriptionLabel>

@@ -1,11 +1,12 @@
+import { ReplaceUserDataRepReq } from '@/repository/userData/type';
 import UserSoldsRepository, {
   AddNewSoldsRepReq,
   userSoldsRepository,
 } from '@/repository/userSolds';
+
 import { Result } from '../type';
-import { ReplaceUserDataRepReq } from '@/repository/userData/type';
-import { generateEditUserSoldRepData } from './utils';
 import { EditSoldServiceReq } from './type';
+import { generateEditUserSoldRepData } from './utils';
 
 class UserSoldsService {
   repo: UserSoldsRepository;

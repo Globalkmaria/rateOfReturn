@@ -32,7 +32,7 @@ export type StockInfo = {
   id: string;
 };
 
-type UserStockInfo = Omit<StockInfo, 'currentPrice'> & {
+export type UserStockInfo = Omit<StockInfo, 'currentPrice'> & {
   currentPrice: number;
 };
 

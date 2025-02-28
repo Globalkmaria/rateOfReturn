@@ -1,13 +1,13 @@
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { renderWithProviders } from '@/__test__/renderUI';
-import { MOCK_STATE } from '@/__test__/mock/mockState';
-
 import { Note as NoteType } from '@/features/notes';
 
-import { getNoteFilterOptions } from './helper';
+import { MOCK_STATE } from '@/__test__/mock/mockState';
+import { renderWithProviders } from '@/__test__/renderUI';
+
 import Note from '.';
+import { getNoteFilterOptions } from './helper';
 
 describe('Note page', () => {
   const { notes } = MOCK_STATE;

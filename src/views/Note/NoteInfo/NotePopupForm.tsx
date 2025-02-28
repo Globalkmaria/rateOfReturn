@@ -2,9 +2,9 @@ import styled from 'styled-components';
 
 import Textarea from '@/components/Textarea';
 
-import SelectStockName from './SelectStockName';
 import SelectPurchasedId from './SelectPurchasedId';
 import SelectSoldId from './SelectSoldId';
+import SelectStockName from './SelectStockName';
 import SelectTag from './SelectTag';
 import { NoteFormKeys, NoteFormState } from './type';
 

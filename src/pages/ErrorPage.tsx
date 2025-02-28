@@ -1,16 +1,24 @@
-import { useRouteError, Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
+import { useRouteError, Link, useNavigate } from 'react-router-dom';
+
+import styled from 'styled-components';
+
+import { isValidObject } from '@/utils/typeCheck';
+
+import { resetUserData } from '@/features';
 
 import { ContainedButton } from '../components/Button';
 import { handleGetDataFile } from '../utils/file';
-import { resetUserData } from '@/features';
 
 const ErrorPage = () => {
   const dispatch = useDispatch();
   const router = useNavigate();
-  const error: any = useRouteError();
+  const error = useRouteError();
   console.error(error);
+
+  const errorMessage = isValidObject(error)
+    ? `${'statusText' in error && error.statusText} ${'message' in error && error.message}`
+    : 'An unexpected error has occurred.';
 
   const onReset = () => {
     dispatch(resetUserData());
@@ -28,7 +36,7 @@ const ErrorPage = () => {
         <h1>Oops!</h1>
         <p>Sorry, an unexpected error has occurred.</p>
         <p>
-          <i>{error.statusText || error.message}</i>
+          <i>{errorMessage}</i>
         </p>
       </StyledContent>
       <Link to='/'>
@@ -37,15 +45,23 @@ const ErrorPage = () => {
         </ContainedButton>
       </Link>
 
-      <StyledContent>If 'Returning Home' Does Not Work, Try Resetting Data.</StyledContent>
-      <ContainedButton onClick={handleGetDataFile} title='Save File Button' size='m' color={'warning'}>
+      <StyledContent>
+        {`If 'Returning Home' Does Not Work, Try Resetting Data.`}
+      </StyledContent>
+      <ContainedButton
+        onClick={handleGetDataFile}
+        title='Save File Button'
+        size='m'
+        color={'warning'}
+      >
         Get Backup File
       </ContainedButton>
 
       <StyledWarning>
         If you reset data, all data will be deleted.
         <br />
-        If you want to get backup file before reset, click the 'Get Backup File' first.
+        {`If you want to get backup file before reset, click the 'Get Backup File'`}
+        first.
       </StyledWarning>
 
       <ContainedButton onClick={onResetAndReturnHome} size='m'>

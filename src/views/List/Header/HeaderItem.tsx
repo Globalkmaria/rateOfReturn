@@ -1,7 +1,7 @@
 import styled, { DefaultTheme, IStyledComponent } from 'styled-components';
 
-import { TableHead, TableHeadProps } from '../../../components/Table';
 import CheckAllCheckbox from './CheckAllCheckbox';
+import { TableHead, TableHeadProps } from '../../../components/Table';
 
 type HeaderListComponent = typeof CheckAllCheckbox;
 
@@ -19,7 +19,7 @@ type TableHeadPropsVariant = {
   notTableHead?: false;
   Component?:
     | IStyledComponent<'web', DefaultTheme | TableHeadProps | never>
-    | ((props: any) => React.ReactElement);
+    | ((props: unknown) => React.ReactElement);
 };
 export type HeaderItemProps = BaseHeaderItemProps &
   (NotTableHeadProps | TableHeadPropsVariant);

@@ -1,9 +1,11 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Home from '../../pages/Home';
-import { renderWithProviders } from '../../__test__/renderUI';
-import { TOP_STOCKS } from '../../__test__/mock/topStocks';
+
 import { createServer } from '@/__test__/server';
+
+import { TOP_STOCKS } from '../../__test__/mock/topStocks';
+import { renderWithProviders } from '../../__test__/renderUI';
+import Home from '../../pages/Home';
 
 createServer([
   {
@@ -56,9 +58,8 @@ describe('Home page', () => {
       await screen.findAllByRole('link', { name: 'investing.com' })
     )[0];
     await user.click(link);
-    const afterExpendButton = await screen.findAllByLabelText(
-      /expand open button/i,
-    );
+    const afterExpendButton =
+      await screen.findAllByLabelText(/expand open button/i);
     expect(afterExpendButton).toHaveLength(expendedLength);
   });
 });

@@ -1,11 +1,10 @@
 import { RouteObject, createBrowserRouter } from 'react-router-dom';
-import { Router as RemixRouter } from '@remix-run/router/dist/router';
 
 import { IconButtonType } from '@/components/Icon/const';
 
+import { rootRouterData } from './routerData';
 import GeneralLayout from '../layout/GeneralLayout';
 import { NavbarElement } from '../layout/NavBar/Navbar';
-import { rootRouterData } from './routerData';
 import ErrorPage from '../pages/ErrorPage';
 
 export interface RouterElement {
@@ -34,7 +33,7 @@ const getChildrenPath = (route?: RouteObject): RouteObject[] | undefined => {
   });
 };
 
-export const routers: RemixRouter = createBrowserRouter(
+export const routers = createBrowserRouter(
   rootRouterData.map(router => {
     return {
       path: router.path,
@@ -60,7 +59,6 @@ export const SidebarContent: NavbarElement[] = rootRouterData.reduce(
         id: router.id,
         path: router.relocatedPath || router.path,
         label: router.label,
-        disabled: router.disabled,
         icon: router.icon,
       },
     ];
