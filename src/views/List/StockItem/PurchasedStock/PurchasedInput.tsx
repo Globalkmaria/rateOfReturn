@@ -28,6 +28,11 @@ const PurchasedInput = ({ isLock, purchasedItem, stockId }: Props) => {
     selectTemporalPurchasedItemsById(stockId, purchasedItem.purchasedId),
   );
 
+  const combinedPurchasedItem = {
+    ...purchasedItem,
+    ...temporalPurchasedItem,
+  };
+
   const onInputChange: PurchasedInputChangeProps = (e, transformedValue) => {
     const fieldName = e.target.name as keyof EditUserItemServiceData;
     if (transformedValue === null) return;
@@ -55,10 +60,7 @@ const PurchasedInput = ({ isLock, purchasedItem, stockId }: Props) => {
             onChange={onInputChange}
             disabled={isLock}
             type='date'
-            value={
-              temporalPurchasedItem?.purchasedDate ??
-              purchasedItem.purchasedDate
-            }
+            value={combinedPurchasedItem.purchasedDate}
             fullWidth
             aria-label='purchased date'
             ref={focusedInput}
@@ -69,10 +71,7 @@ const PurchasedInput = ({ isLock, purchasedItem, stockId }: Props) => {
             disabled={isLock}
             type='time'
             aria-label='purchased time'
-            value={
-              temporalPurchasedItem?.purchasedTime ??
-              purchasedItem.purchasedTime
-            }
+            value={combinedPurchasedItem.purchasedTime}
             fullWidth
           />
         </StyledDateTime>
@@ -80,10 +79,7 @@ const PurchasedInput = ({ isLock, purchasedItem, stockId }: Props) => {
       <InputCell
         name='purchasedQuantity'
         onChange={onInputChange}
-        value={
-          temporalPurchasedItem?.purchasedQuantity ??
-          purchasedItem.purchasedQuantity
-        }
+        value={combinedPurchasedItem.purchasedQuantity}
         disabled={isLock}
         aria-label='purchased quantity'
         validation={checkQuantity}
@@ -93,9 +89,7 @@ const PurchasedInput = ({ isLock, purchasedItem, stockId }: Props) => {
         type='decimal'
         name='purchasedPrice'
         onChange={onInputChange}
-        value={
-          temporalPurchasedItem?.purchasedPrice ?? purchasedItem.purchasedPrice
-        }
+        value={combinedPurchasedItem.purchasedPrice}
         aria-label='purchased price'
         disabled={isLock}
         validation={checkCurrentPrice}

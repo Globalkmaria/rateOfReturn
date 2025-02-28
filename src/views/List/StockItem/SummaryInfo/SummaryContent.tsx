@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { selectStockInfoById } from '@/features/stockList/selectors';
-import { StockMainInfo } from '@/features/stockList/type';
 import {
   selectIsStockListEditMode,
   selectTemporalStockMainInfoById,
@@ -19,6 +18,7 @@ import { InputCell, NumberCell, ProfitRate } from '../components';
 import { useGetStockSummaryData } from './hooks/useGetStockSummaryData';
 import StockTag from './StockTag';
 import { checkCurrentPrice, checkStockName } from '../validity';
+import { getNameAndValue } from './helper';
 
 type Props = {
   stockId: string;
@@ -45,14 +45,16 @@ const SummaryContent = ({ stockId }: Props) => {
       e: React.ChangeEvent<HTMLInputElement>,
       transformedValue: TransformedValue,
     ) => {
-      const fieldName = e.target.name as keyof StockMainInfo;
-      if (transformedValue === null) return;
+      const result = getNameAndValue(e, transformedValue);
+      if (!result) return;
 
-      const value = Array.isArray(transformedValue)
-        ? transformedValue[0]
-        : transformedValue;
-
-      dispatch(updateTemporalStock({ stockId, name: fieldName, value }));
+      dispatch(
+        updateTemporalStock({
+          stockId,
+          name: result.name,
+          value: result.value,
+        }),
+      );
     },
     [stockId, dispatch],
   );
