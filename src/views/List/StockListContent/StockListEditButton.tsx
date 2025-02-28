@@ -22,7 +22,7 @@ function StockListEditButton() {
   const isLock = !temporalStockList.isEditMode;
   const [isLoading, startTransition] = useTransition();
 
-  const disabled = isLoading || isLock || !stockList.allIds.length;
+  const disabled = isLoading || !stockList.allIds.length;
 
   const toggleLock = async () => {
     if (isLock) {
@@ -51,7 +51,7 @@ function StockListEditButton() {
   };
 
   return (
-    <EditButton disabled={disabled} isLock={disabled} onClick={toggleLock} />
+    <EditButton disabled={disabled} isLock={isLock} onClick={toggleLock} />
   );
 }
 
