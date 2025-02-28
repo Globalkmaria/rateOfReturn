@@ -1,7 +1,12 @@
 import userStocksService from '@/service/userStocks/userStocks';
 
 import { StockListState } from '@/features/stockList/type';
-import { TemporalStockListState } from '@/features/temporalStockList/type';
+import {
+  TemporalPurchaseItems,
+  TemporalStockListState,
+} from '@/features/temporalStockList/type';
+
+import { getFixedLocaleString } from '@/utils';
 
 import { getEditUserStockData } from '../StockItem/utils';
 
@@ -57,4 +62,56 @@ export const logInSaveStock = async ({
   const result = await userStocksService.editUserStockData(formattedStockData);
 
   return result;
+};
+
+const formatMainInfo = (
+  mainInfo: TemporalStockListState['stockList'][string]['mainInfo'],
+) => {
+  const formattedMainInfo = { ...mainInfo };
+  if (formattedMainInfo.currentPrice) {
+    formattedMainInfo.currentPrice = getFixedLocaleString(
+      formattedMainInfo.currentPrice,
+    );
+  }
+  return formattedMainInfo;
+};
+
+const formatPurchasedItems = (purchasedItems: TemporalPurchaseItems) => {
+  const formattedItems: typeof purchasedItems = {};
+
+  Object.entries(purchasedItems).forEach(([itemKey, itemData]) => {
+    const formattedItem = { ...itemData };
+    if (formattedItem.purchasedPrice) {
+      formattedItem.purchasedPrice = getFixedLocaleString(
+        formattedItem.purchasedPrice,
+      );
+    }
+    formattedItems[itemKey] = formattedItem;
+  });
+
+  return formattedItems;
+};
+
+export const formatTempStockList = (
+  temporalStockList: TemporalStockListState['stockList'],
+): TemporalStockListState['stockList'] => {
+  return Object.entries(temporalStockList).reduce(
+    (formattedList, [stockId, stockData]) => {
+      const formattedStock: TemporalStockListState['stockList'][string] = {};
+
+      if (stockData.mainInfo) {
+        formattedStock.mainInfo = formatMainInfo(stockData.mainInfo);
+      }
+
+      if (stockData.purchasedItems) {
+        formattedStock.purchasedItems = formatPurchasedItems(
+          stockData.purchasedItems,
+        );
+      }
+
+      formattedList[stockId] = formattedStock;
+      return formattedList;
+    },
+    {} as TemporalStockListState['stockList'],
+  );
 };

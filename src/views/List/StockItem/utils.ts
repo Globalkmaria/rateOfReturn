@@ -133,7 +133,6 @@ export const getEditUserStockData = ({
     result[stockId] = {};
 
     addStockInfo({ originalStock, changedStock, stockId, result });
-
     addItems({ originalStock, changedStock, stockId, result });
   }
 

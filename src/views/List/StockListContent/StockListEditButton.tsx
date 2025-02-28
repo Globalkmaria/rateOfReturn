@@ -12,7 +12,7 @@ import { selectIsLoggedIn } from '@/features/user/selectors';
 
 import { EditButton } from '@/components/IconButton';
 
-import { logInSaveStock } from './helper';
+import { formatTempStockList, logInSaveStock } from './helper';
 
 function StockListEditButton() {
   const dispatch = useDispatch();
@@ -35,10 +35,12 @@ function StockListEditButton() {
       return;
     }
 
+    const formattedStockData = formatTempStockList(temporalStockList.stockList);
+
     startTransition(async () => {
       if (isLoggedIn) {
         const result = await logInSaveStock({
-          changedStockData: temporalStockList.stockList,
+          changedStockData: formattedStockData,
           originalStockData: stockList,
         });
 
@@ -50,7 +52,7 @@ function StockListEditButton() {
         }
       }
 
-      dispatch(updateStockList(temporalStockList.stockList));
+      dispatch(updateStockList(formattedStockData));
 
       dispatch(updateTemporalStockListEditMode(false));
       dispatch(resetTemporalStockList());
