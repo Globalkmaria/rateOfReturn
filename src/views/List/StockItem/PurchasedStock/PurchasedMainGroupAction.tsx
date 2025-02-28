@@ -11,6 +11,7 @@ import {
   generateSoldInfoFromPurchasedInfo,
 } from '@/features/solds';
 import { selectPurchasedItemsById } from '@/features/stockList/selectors';
+import { selectIsStockListEditMode } from '@/features/temporalStockList/selectors';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 
 import { INITIAL_NOTE_FORM_STATE } from '@/views/Note/NoteInfo/const';
@@ -19,13 +20,12 @@ import { NoteFormState } from '@/views/Note/NoteInfo/type';
 
 import { DropboxItem } from '@/components/Dropbox/DropboxItem';
 import Icon from '@/components/Icon';
-import { EditButton, MoreButton } from '@/components/IconButton';
+import { MoreButton } from '@/components/IconButton';
 import { TableCell } from '@/components/Table';
 
 import { NewSold } from '@/repository/userSolds';
 
 import AddToGroupModal from './AddToGroupModal';
-import useIsMainGroup from '../../hooks/useIsMainGroup';
 import useModal from '../../hooks/useModal';
 import { DeleteStockModal } from '../DeleteStockModal';
 import { generateSoldItem } from '../SummaryInfo/utils';
@@ -33,20 +33,11 @@ import { generateSoldItem } from '../SummaryInfo/utils';
 interface Props {
   stockId: string;
   purchasedId: string;
-  isLock: boolean;
-  isLastIdx: boolean;
-  onToggleLock: () => void;
 }
-function PurchasedMainGroupAction({
-  stockId,
-  purchasedId,
-  isLock,
-  onToggleLock,
-  isLastIdx,
-}: Props) {
+function PurchasedMainGroupAction({ stockId, purchasedId }: Props) {
+  const isLock = useSelector(selectIsStockListEditMode);
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const isMainGroupSelected = useIsMainGroup();
   const { mainInfo, purchasedItem } = useSelector(
     selectPurchasedItemsById(stockId, purchasedId),
   );
@@ -88,11 +79,6 @@ function PurchasedMainGroupAction({
     <>
       <TableCell>
         <StyledButtonGroup>
-          <EditButton
-            isLock={isLock}
-            onClick={onToggleLock}
-            disabled={!isMainGroupSelected}
-          />
           <MoreButton width={80} vertical={'bottom'} horizontal='right'>
             <DropboxItem
               onClick={onItemSold}

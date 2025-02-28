@@ -8,7 +8,9 @@ export interface ChipProps {
   fontColor?: ColorsKeys;
 }
 
-export const Chip = styled.div<Pick<ChipProps, 'color' | 'fontColor'>>`
+export const Chip = styled.div.withConfig({
+  shouldForwardProp: prop => !['fontColor'].includes(prop),
+})<Pick<ChipProps, 'color' | 'fontColor'>>`
   display: flex;
   align-items: center;
   gap: 5px;
@@ -22,7 +24,7 @@ export const Chip = styled.div<Pick<ChipProps, 'color' | 'fontColor'>>`
 `;
 
 export const ChipText = styled.span.withConfig({
-  shouldForwardProp: prop => !['width', 'fontColor'].includes(prop),
+  shouldForwardProp: prop => !['width'].includes(prop),
 })<ChipProps>`
   max-width: ${({ width }) => width}px;
   white-space: nowrap;

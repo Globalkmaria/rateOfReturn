@@ -39,7 +39,7 @@ export const HEADER_LIST: HeaderItemProps[] = [
   { id: '9', label: 'Total Current Value', minWidth: 100 },
   { id: '10', label: 'Profit/Loss', minWidth: 100 },
   { id: '11', label: 'ROI (%)', minWidth: 90 },
-  { id: '12', label: 'Actions', fixedWidth: 80 },
+  { id: '12', label: 'Actions', fixedWidth: 60 },
 ];
 
 const NOT_SUBGROUP_COL = ['1', '12'];

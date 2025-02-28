@@ -1,8 +1,12 @@
-import { Dispatch, SetStateAction, memo, useEffect, useRef } from 'react';
+import { memo, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 
 import { EditUserItemServiceData } from '@/service/userStocks/type';
+
+import { selectTemporalPurchasedItemsById } from '@/features/temporalStockList/selectors';
+import { updateTemporalPurchaseItem } from '@/features/temporalStockList/temporalStockListSlice';
 
 import { Input } from '../../../../components/Input/Input';
 import { TableCell } from '../../../../components/Table';
@@ -14,33 +18,33 @@ import { checkCurrentPrice, checkQuantity } from '../validity';
 type Props = {
   purchasedItem: PurchasedItemInfo;
   isLock: boolean;
-  setChangedInputs: Dispatch<SetStateAction<EditUserItemServiceData>>;
-  changedInputs: EditUserItemServiceData;
+  stockId: string;
 };
 
-const PurchasedInput = ({
-  isLock,
-  purchasedItem,
-  changedInputs,
-  setChangedInputs,
-}: Props) => {
+const PurchasedInput = ({ isLock, purchasedItem, stockId }: Props) => {
+  const dispatch = useDispatch();
   const focusedInput = useRef<HTMLInputElement>(null);
+  const temporalPurchasedItem = useSelector(
+    selectTemporalPurchasedItemsById(stockId, purchasedItem.purchasedId),
+  );
 
   const onInputChange: PurchasedInputChangeProps = (e, transformedValue) => {
     const fieldName = e.target.name as keyof EditUserItemServiceData;
     if (transformedValue === null) return;
 
-    let value = transformedValue;
-    if (fieldName === 'purchasedPrice' || fieldName === 'purchasedQuantity') {
-      value = transformedValue[0];
-    }
+    const value = Array.isArray(transformedValue)
+      ? transformedValue[0]
+      : transformedValue;
 
-    setChangedInputs(prev => ({ ...prev, [fieldName]: value }));
+    dispatch(
+      updateTemporalPurchaseItem({
+        stockId,
+        purchasedId: purchasedItem.purchasedId,
+        name: fieldName,
+        value,
+      }),
+    );
   };
-
-  useEffect(() => {
-    if (!focusedInput.current?.disabled) focusedInput.current?.focus();
-  }, [isLock]);
 
   return (
     <>
@@ -51,7 +55,10 @@ const PurchasedInput = ({
             onChange={onInputChange}
             disabled={isLock}
             type='date'
-            value={changedInputs.purchasedDate ?? purchasedItem.purchasedDate}
+            value={
+              temporalPurchasedItem?.purchasedDate ??
+              purchasedItem.purchasedDate
+            }
             fullWidth
             aria-label='purchased date'
             ref={focusedInput}
@@ -62,7 +69,10 @@ const PurchasedInput = ({
             disabled={isLock}
             type='time'
             aria-label='purchased time'
-            value={changedInputs.purchasedTime ?? purchasedItem.purchasedTime}
+            value={
+              temporalPurchasedItem?.purchasedTime ??
+              purchasedItem.purchasedTime
+            }
             fullWidth
           />
         </StyledDateTime>
@@ -71,7 +81,8 @@ const PurchasedInput = ({
         name='purchasedQuantity'
         onChange={onInputChange}
         value={
-          changedInputs.purchasedQuantity ?? purchasedItem.purchasedQuantity
+          temporalPurchasedItem?.purchasedQuantity ??
+          purchasedItem.purchasedQuantity
         }
         disabled={isLock}
         aria-label='purchased quantity'
@@ -82,7 +93,9 @@ const PurchasedInput = ({
         type='decimal'
         name='purchasedPrice'
         onChange={onInputChange}
-        value={changedInputs.purchasedPrice ?? purchasedItem.purchasedPrice}
+        value={
+          temporalPurchasedItem?.purchasedPrice ?? purchasedItem.purchasedPrice
+        }
         aria-label='purchased price'
         disabled={isLock}
         validation={checkCurrentPrice}

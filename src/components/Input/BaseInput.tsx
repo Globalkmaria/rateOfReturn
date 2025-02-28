@@ -27,16 +27,16 @@ interface BaseInputProps {
   padding?: number;
 }
 
-export type InputValidation<T> = (value: T) => boolean;
+export type InputValidation = (value: string) => boolean;
 
-export interface InputProps<T>
+export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onBlur'>,
     BaseInputProps {
   type?: InputType;
   value?: string;
   onChange?: OnInputChangeType;
   onBlur?: OnInputChangeType;
-  validation?: InputValidation<T>;
+  validation?: InputValidation;
   ref?: Ref<HTMLInputElement>;
 }
 

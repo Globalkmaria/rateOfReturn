@@ -42,7 +42,7 @@ type InputCellProps = {
   disabled?: boolean;
   value: string;
   withFixed?: boolean;
-} & Omit<InputProps<string | number>, 'value'>;
+} & Omit<InputProps, 'value'>;
 
 export const InputCell = ({
   value,

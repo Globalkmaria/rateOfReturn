@@ -1,10 +1,9 @@
-import { memo, useEffect, useState } from 'react';
+import { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 
 import userSoldsService from '@/service/userSolds/service';
-import userStocksService from '@/service/userStocks/userStocks';
 
 import getDateAndTime from '@/utils/getDateAndTime';
 
@@ -12,10 +11,7 @@ import { selectStockCheckedInfo } from '@/features/checkedItems/selectors';
 import { addNewSoldList } from '@/features/solds';
 import { generateSoldListWithStockInfo } from '@/features/solds/utils';
 import { selectStockInfoById } from '@/features/stockList/selectors';
-import {
-  updateStock,
-  updateStockNeedInit,
-} from '@/features/stockList/stockListSlice';
+import { selectIsStockListEditMode } from '@/features/temporalStockList/selectors';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 
 import { INITIAL_NOTE_FORM_STATE } from '@/views/Note/NoteInfo/const';
@@ -24,20 +20,14 @@ import { NoteFormState } from '@/views/Note/NoteInfo/type';
 
 import { DropboxItem } from '@/components/Dropbox/DropboxItem';
 import Icon from '@/components/Icon';
-import { EditButton, MoreButton } from '@/components/IconButton';
+import { MoreButton } from '@/components/IconButton';
 import { TableCell, TableRow } from '@/components/Table';
 
-import useModal from '../../hooks/useModal';
 import { CheckboxCell } from '../components';
-import { DeleteStockModal } from '../DeleteStockModal';
-import {
-  checkNoChange,
-  getChangedStockData,
-  getEditUserStockData,
-} from '../utils';
 import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';
-import { useStockSummaryInputChange } from './hooks/useStockSummaryInputChange';
 import SummaryContent from './SummaryContent';
+import useModal from '../../hooks/useModal';
+import { DeleteStockModal } from '../DeleteStockModal';
 import { generateSoldItems } from './utils';
 import useIsMainGroup from '../../hooks/useIsMainGroup';
 import { useAddItem } from '../hooks/useAddItem';
@@ -64,10 +54,8 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
     selectStockInfoById(stockId),
   );
 
-  const [isLock, setIsLock] = useState(!mainInfo.needInit);
+  const isLock = useSelector(selectIsStockListEditMode);
   const { showModal, onOpenModal, onCloseModal } = useModal();
-  const { changedInputs, initChangedInputs, onInputChange, onTagChange } =
-    useStockSummaryInputChange(stockId);
 
   const { showModalNote, onCloseModalNote, onOpenModalNote } = useModal('note');
   const addNoteInitialFormState: NoteFormState = {
@@ -80,31 +68,6 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
   };
 
   const onChangeCheckbox = useChangeStockCheckbox(stockId);
-
-  const toggleLock = async () => {
-    if (mainInfo.needInit) dispatch(updateStockNeedInit(stockId));
-    if (isLock) return setIsLock(false);
-
-    if (checkNoChange(changedInputs)) return setIsLock(true);
-
-    if (isLoggedIn) {
-      const result = await userStocksService.editUserStock({
-        stockId,
-        data: getEditUserStockData(changedInputs, mainInfo),
-      });
-
-      if (!result.success) return alert(result.message);
-    }
-
-    dispatch(
-      updateStock({
-        stockId: stockId,
-        stockData: getChangedStockData(changedInputs, mainInfo),
-      }),
-    );
-    initChangedInputs();
-    setIsLock(true);
-  };
 
   const onStockSold = async () => {
     if (isLoggedIn) {
@@ -128,17 +91,6 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
 
   const onAddItem = useAddItem(stockId);
 
-  useEffect(() => {
-    if (isMainGroupSelected && mainInfo.needInit) setIsLock(!mainInfo.needInit);
-    else setIsLock(true);
-  }, [isMainGroupSelected]);
-
-  useEffect(() => {
-    return () => {
-      if (mainInfo.needInit) dispatch(updateStockNeedInit(stockId));
-    };
-  }, []);
-
   return (
     <StyledSummaryRow data-testid='current__stock-summary'>
       {isMainGroupSelected ? (
@@ -149,22 +101,11 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
           title='Check all group items'
         />
       ) : null}
-      <SummaryContent
-        stockId={stockId}
-        isLock={isLock}
-        onInputChange={onInputChange}
-        changedInputs={changedInputs}
-        onTagChange={onTagChange}
-      />
+      <SummaryContent stockId={stockId} />
       {isMainGroupSelected ? (
         <>
           <TableCell>
             <StyledButtonGroup>
-              <EditButton
-                isLock={isLock}
-                onClick={toggleLock}
-                disabled={!isMainGroupSelected}
-              />
               <MoreButton width={100} vertical='bottom' horizontal='right'>
                 <DropboxItem onClick={onStockSold} disabled={!isLock}>
                   <Icon icon='sold' /> Sold

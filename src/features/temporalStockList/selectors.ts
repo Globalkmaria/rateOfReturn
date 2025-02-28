@@ -12,7 +12,7 @@ export const selectTemporalStockInfoById = (stockId: string) =>
 export const selectTemporalStockMainInfoById = (stockId: string) =>
   createSelector(
     [selectTemporalStockInfoById(stockId)],
-    stocks => stocks.mainInfo,
+    stocks => stocks?.mainInfo,
   );
 export const selectTemporalPurchasedItemsById = (
   stockId: string,
@@ -20,7 +20,7 @@ export const selectTemporalPurchasedItemsById = (
 ) =>
   createSelector(
     [selectTemporalStockInfoById(stockId)],
-    stocks => stocks.purchasedItems?.[purchasedId],
+    stocks => stocks?.purchasedItems?.[purchasedId],
   );
 
 export const selectIsStockListEditMode = (state: RootState) =>

@@ -5,30 +5,21 @@ export type StockMainPayload = {
   purchasedId: string;
 };
 
-export type UpdateStockPayload = {
-  stockId: string;
-  stockData: StockMainInfo;
-};
-
-export type UpdatePurchasedItemPayload = {
-  purchasedData: PurchasedItemInfo;
-} & StockMainPayload;
-
 export interface StockMainInfo {
+  stockId: string;
+
   stockName: string;
   currentPrice: string;
-  stockId: string;
-  needInit?: boolean;
   tag?: string;
 }
 
 export interface PurchasedItemInfo {
   purchasedId: string;
+
   purchasedDate: string;
   purchasedTime: string;
   purchasedQuantity: string;
   purchasedPrice: string;
-  needInit?: boolean;
 }
 
 export type PurchaseItemCollection = Collections<PurchasedItemInfo>;
