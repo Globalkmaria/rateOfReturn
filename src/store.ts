@@ -10,6 +10,10 @@ import { SOLD_INITIAL_STATE, soldReducer } from './features/solds';
 import stockListReducer, {
   STOCK_INITIAL_STATE,
 } from './features/stockList/stockListSlice';
+import {
+  TEMPORAL_STOCK_INITIAL_STATE,
+  temporalStockReducer,
+} from './features/temporalStockList/temporalStockListSlice';
 import userSliceReducer, {
   USER_INITIAL_STATE,
 } from './features/user/userSlice';
@@ -21,6 +25,7 @@ const rootReducer = combineReducers({
   user: userSliceReducer,
   solds: soldReducer,
   notes: noteReducer,
+  temporalStockList: temporalStockReducer,
 });
 
 export const store = configureStore({
@@ -31,6 +36,7 @@ export const store = configureStore({
     user: userSliceReducer,
     solds: soldReducer,
     notes: noteReducer,
+    temporalStockList: temporalStockReducer,
   },
 });
 
@@ -51,6 +57,7 @@ export const preloadedStoreState: RootState = {
   }),
   solds: SOLD_INITIAL_STATE,
   notes: NOTE_INITIAL_STATE,
+  temporalStockList: TEMPORAL_STOCK_INITIAL_STATE,
 };
 
 export type RootState = ReturnType<typeof store.getState>;
