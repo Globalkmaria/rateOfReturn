@@ -1,4 +1,9 @@
+import userStocksService from '@/service/userStocks/userStocks';
+
 import { StockListState } from '@/features/stockList/type';
+import { TemporalStockListState } from '@/features/temporalStockList/type';
+
+import { getEditUserStockData } from '../StockItem/utils';
 
 const filterStockByName = (
   name: string,
@@ -35,4 +40,21 @@ export const getFilteredStockIds = ({
 
   const sorted = filtered?.toSorted((a, b) => Number(b) - Number(a));
   return sorted ?? [];
+};
+
+export const logInSaveStock = async ({
+  changedStockData,
+  originalStockData,
+}: {
+  changedStockData: TemporalStockListState['stockList'];
+  originalStockData: StockListState['stocks'];
+}) => {
+  const formattedStockData = getEditUserStockData({
+    changedStockData,
+    originalStockData,
+  });
+
+  const result = await userStocksService.editUserStockData(formattedStockData);
+
+  if (!result.success) return alert(result.message);
 };

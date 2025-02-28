@@ -1,5 +1,7 @@
 import { CurrentPriceChanges } from '@/views/List/StockListContent/StockTableMenu/EditCurrentPrice/EditCurrentPriceModal';
 
+import { EditUserStockRepReq } from '@/repository/userStocks/type';
+
 import {
   AddNewUserItemRepReq,
   AddNewUserItemRepRes,
@@ -12,12 +14,7 @@ import UserStocksRepository, {
   userStocksRepository,
 } from '../../repository/userStocks/userStocks';
 import { Result } from '../type';
-import { EditUserItemServiceReq, EditUserStockServiceReq } from './type';
-import {
-  generateServerCurrentPrices,
-  getEditUserItemRepData,
-  renameStockKeysForServer,
-} from './utils';
+import { generateServerCurrentPrices } from './utils';
 
 class UserStocksService {
   repo: UserStocksRepository;
@@ -43,12 +40,15 @@ class UserStocksService {
     }
   }
 
-  async editUserStock(params: EditUserStockServiceReq): Promise<Result> {
+  async editUserStockData(data: EditUserStockRepReq): Promise<Result> {
     try {
-      const data = renameStockKeysForServer(params.data);
-      const result = await this.repo.editUserStock({ ...params, data });
+      const result = await this.repo.editUserStockData(data);
 
       if (!result) return { success: true };
+
+      if (result?.response?.status === 401) {
+        return { success: false, message: 'Please log in to edit stock data.' };
+      }
 
       if (result?.response?.status === 400)
         return { success: false, message: 'Please check the input data.' };
@@ -95,28 +95,6 @@ class UserStocksService {
       console.log(err);
       alert('Could not add new purchase item');
       return null;
-    }
-  }
-
-  async editUserItem(params: EditUserItemServiceReq): Promise<Result> {
-    try {
-      const data = getEditUserItemRepData(params.data);
-      const result = await this.repo.editUserItem({
-        ...params,
-        data,
-      });
-
-      if (!result) return { success: true };
-      if (result?.response?.status === 400)
-        return { success: false, message: 'Please check the input data.' };
-
-      throw new Error('Error accrued while updating purchased item in server.');
-    } catch (err) {
-      console.log(err);
-      return {
-        success: false,
-        message: 'Could not change stock data.',
-      };
     }
   }
 

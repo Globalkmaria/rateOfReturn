@@ -13,14 +13,14 @@ export interface StockMainInfo {
   tag?: string;
 }
 
-export interface PurchasedItemInfo {
+export type PurchasedItemInfo = {
   purchasedId: string;
 
   purchasedDate: string;
   purchasedTime: string;
   purchasedQuantity: string;
   purchasedPrice: string;
-}
+};
 
 export type PurchaseItemCollection = Collections<PurchasedItemInfo>;
 
