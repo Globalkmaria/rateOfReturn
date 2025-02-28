@@ -1,6 +1,6 @@
 import { StockListState } from '@/features/stockList/type';
 
-export const filterStockByName = (
+const filterStockByName = (
   name: string,
   stockList: StockListState['stocks'],
 ): string[] => {
@@ -16,4 +16,23 @@ export const filterStockByName = (
 
     return acc;
   }, []);
+};
+
+export const getFilteredStockIds = ({
+  isMainGroupSelected,
+  deferredQuery,
+  stockIds,
+  stockList,
+}: {
+  isMainGroupSelected: boolean;
+  deferredQuery: string;
+  stockIds: string[];
+  stockList: StockListState['stocks'];
+}) => {
+  const filtered = isMainGroupSelected
+    ? filterStockByName(deferredQuery, stockList)
+    : stockIds;
+
+  const sorted = filtered?.toSorted((a, b) => Number(b) - Number(a));
+  return sorted ?? [];
 };

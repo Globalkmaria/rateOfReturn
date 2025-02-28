@@ -1,4 +1,4 @@
-import { lazy, useCallback, useDeferredValue, useState } from 'react';
+import { lazy, useCallback, useDeferredValue, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ import {
 } from '@/features/groups/selectors';
 import { selectStocks } from '@/features/stockList/selectors';
 
-import { filterStockByName } from './helper';
+import { getFilteredStockIds } from './helper';
 import StockTableMenu from './StockTableMenu';
 import AddNewStock from '../AddNewStock/AddNewStock';
 import GroupSummary from '../GroupSummary/GroupSummary';
@@ -44,11 +44,18 @@ function StockListContent() {
     [],
   );
 
-  if (!isValidGroupId) return <ListErrorPage />;
+  const filteredStockIds = useMemo(
+    () =>
+      getFilteredStockIds({
+        isMainGroupSelected,
+        deferredQuery,
+        stockIds,
+        stockList,
+      }),
+    [isMainGroupSelected, deferredQuery, stockIds, stockList],
+  );
 
-  const filteredStockIds = isMainGroupSelected
-    ? filterStockByName(deferredQuery, stockList)
-    : stockIds;
+  if (!isValidGroupId) return <ListErrorPage />;
 
   return (
     <>
