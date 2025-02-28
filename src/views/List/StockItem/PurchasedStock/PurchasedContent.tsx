@@ -1,34 +1,28 @@
-import { Dispatch, SetStateAction, memo } from 'react';
+import { memo } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 
-import { EditUserItemServiceData } from '@/service/userStocks/type';
+import { selectIsStockListEditMode } from '@/features/temporalStockList/selectors';
 
 import { TableCell } from '../../../../components/Table';
 import { selectPurchasedItemsById } from '../../../../features/stockList/selectors';
-import { NumberCell, StyledTextWrapper } from '../components';
+import { NumberCell, ProfitRate } from '../components';
 import PurchasedInput from './PurchasedInput';
 import { getPurchasedData } from './utils';
 
 type Props = {
   stockId: string;
   purchasedId: string;
-  isLock: boolean;
-  setChangedInputs: Dispatch<SetStateAction<EditUserItemServiceData>>;
-  changedInputs: EditUserItemServiceData;
 };
 
-const PurchasedContent = ({
-  stockId,
-  purchasedId,
-  setChangedInputs,
-  changedInputs,
-  isLock,
-}: Props) => {
+const PurchasedContent = ({ stockId, purchasedId }: Props) => {
   const { mainInfo, purchasedItem } = useSelector(
     selectPurchasedItemsById(stockId, purchasedId),
   );
+
+  const isEditMode = useSelector(selectIsStockListEditMode);
+  const isLock = !isEditMode;
   const purchasedData = getPurchasedData({ purchasedItem, mainInfo });
   return (
     <>
@@ -37,8 +31,7 @@ const PurchasedContent = ({
         {purchasedId}
       </TableCell>
       <PurchasedInput
-        setChangedInputs={setChangedInputs}
-        changedInputs={changedInputs}
+        stockId={stockId}
         purchasedItem={purchasedItem}
         isLock={isLock}
       />
@@ -46,11 +39,7 @@ const PurchasedContent = ({
       <NumberCell withFixed value={mainInfo.currentPrice} />
       <NumberCell withFixed value={purchasedData.evaluationPrice} />
       <NumberCell withFixed value={purchasedData.formattedEvaluationProfit} />
-      <StyledProfitRate align='right'>
-        <StyledTextWrapper>
-          {purchasedData.formattedProfitRate}
-        </StyledTextWrapper>
-      </StyledProfitRate>
+      <ProfitRate profitRate={purchasedData.formattedProfitRate} />
     </>
   );
 };
@@ -59,8 +48,4 @@ export default memo(PurchasedContent);
 
 const StyledStockName = styled(TableCell)`
   color: ${({ theme }) => theme.colors.subtitle};
-`;
-
-const StyledProfitRate = styled(TableCell)`
-  white-space: nowrap;
 `;

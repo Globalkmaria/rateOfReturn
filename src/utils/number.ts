@@ -9,10 +9,13 @@ export const fixedAsNumber = (
   fractionDigits: number = 2,
 ): number => Number(num.toFixed(fractionDigits));
 
-export const getFixedLocaleString = (
+export const getIntegerAndDecimal = (
   num: string | number,
   fractionDigits: number = 4,
-): string => {
+): {
+  integer: string;
+  fixedDecimal: string;
+} => {
   if (typeof num === 'string') {
     num = num.replace(/,/g, '');
   }
@@ -24,6 +27,14 @@ export const getFixedLocaleString = (
       ? decimal.padEnd(fractionDigits, '0')
       : decimal.slice(0, fractionDigits)
     : '0000';
+  return { integer, fixedDecimal };
+};
+
+export const getFixedLocaleString = (
+  num: string | number,
+  fractionDigits: number = 4,
+): string => {
+  const { integer, fixedDecimal } = getIntegerAndDecimal(num, fractionDigits);
   return `${Number(integer).toLocaleString()}.${fixedDecimal}`;
 };
 

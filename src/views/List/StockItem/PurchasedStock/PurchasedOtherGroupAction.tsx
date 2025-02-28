@@ -15,13 +15,11 @@ import { TableCell } from '@/components/Table';
 interface Props {
   stockId: string;
   purchasedId: string;
-  isLock: boolean;
 }
 
 function PurchasedOtherGroupAction({ stockId, purchasedId }: Props) {
   const dispatch = useDispatch();
   const { groupId = MAIN_GROUP_ID } = useParams();
-
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const onRemoveItemFromGroup = async () => {

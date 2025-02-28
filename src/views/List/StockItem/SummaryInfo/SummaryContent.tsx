@@ -1,49 +1,69 @@
-import { memo, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { memo, useCallback, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 
-import { TransformedValue } from '../../../../components/Input/BaseInput';
+import { selectStockInfoById } from '@/features/stockList/selectors';
+import {
+  selectIsStockListEditMode,
+  selectTemporalStockMainInfoById,
+} from '@/features/temporalStockList/selectors';
+import { updateTemporalStock } from '@/features/temporalStockList/temporalStockListSlice';
+
+import { TransformedValue } from '@/components/Input/BaseInput';
+
 import { Input } from '../../../../components/Input/Input';
 import { TableCell } from '../../../../components/Table';
-import { selectStockInfoById } from '../../../../features/stockList/selectors';
-import { InputCell, NumberCell, StyledTextWrapper } from '../components';
+import { InputCell, NumberCell, ProfitRate } from '../components';
 import { useGetStockSummaryData } from './hooks/useGetStockSummaryData';
-import { ChangedSummaryInputs } from './hooks/useStockSummaryInputChange';
 import StockTag from './StockTag';
 import { checkCurrentPrice, checkStockName } from '../validity';
+import { getNameAndValue } from './helper';
 
 type Props = {
   stockId: string;
-  isLock: boolean;
-  onInputChange: (
-    e: React.ChangeEvent<HTMLInputElement>,
-    transformedValue: TransformedValue,
-  ) => void;
-  changedInputs: ChangedSummaryInputs;
-  onTagChange: (option: string) => void;
 };
 
-const SummaryContent = ({
-  stockId,
-  isLock,
-  onInputChange,
-  changedInputs,
-  onTagChange,
-}: Props) => {
+const SummaryContent = ({ stockId }: Props) => {
+  const dispatch = useDispatch();
   const focusedInput = useRef<HTMLInputElement>(null);
-  const stockInfo = useSelector(selectStockInfoById(stockId));
+  const temporalStockMainInfo = useSelector(
+    selectTemporalStockMainInfoById(stockId),
+  );
+  const { mainInfo: stockMainInfo } = useSelector(selectStockInfoById(stockId));
   const summaryData = useGetStockSummaryData(stockId);
+  const isEditMode = useSelector(selectIsStockListEditMode);
+  const isLock = !isEditMode;
 
-  const stockName = changedInputs.stockName ?? stockInfo.mainInfo.stockName;
+  const stockName = temporalStockMainInfo?.stockName ?? stockMainInfo.stockName;
   const formattedCurrentPrice =
-    changedInputs.currentPrice ?? stockInfo.mainInfo.currentPrice;
+    temporalStockMainInfo?.currentPrice ?? stockMainInfo.currentPrice;
+  const selectedOption = temporalStockMainInfo?.tag ?? stockMainInfo.tag;
 
-  const selectedOption = changedInputs.tag ?? stockInfo.mainInfo.tag;
+  const onInputChange = useCallback(
+    (
+      e: React.ChangeEvent<HTMLInputElement>,
+      transformedValue: TransformedValue,
+    ) => {
+      const result = getNameAndValue(e, transformedValue);
+      if (!result) return;
 
-  useEffect(() => {
-    if (!focusedInput.current?.disabled) focusedInput.current?.focus();
-  }, [isLock]);
+      dispatch(
+        updateTemporalStock({
+          stockId,
+          name: result.name,
+          value: result.value,
+        }),
+      );
+    },
+    [stockId, dispatch],
+  );
+
+  const onTagChange = useCallback(
+    (value: string) =>
+      dispatch(updateTemporalStock({ stockId, name: 'tag', value })),
+    [stockId],
+  );
 
   return (
     <>
@@ -81,9 +101,7 @@ const SummaryContent = ({
       />
       <NumberCell withFixed value={summaryData.evaluationPrice} />
       <NumberCell withFixed value={summaryData.evaluationProfit} />
-      <StyledProfitRate align='right'>
-        <StyledTextWrapper>{summaryData.profitRate} </StyledTextWrapper>
-      </StyledProfitRate>
+      <ProfitRate profitRate={summaryData.profitRate} />
     </>
   );
 };
@@ -92,8 +110,4 @@ export default memo(SummaryContent);
 
 const StyledStockName = styled(Input)`
   font-weight: 500;
-`;
-
-const StyledProfitRate = styled(TableCell)`
-  white-space: nowrap;
 `;

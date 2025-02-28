@@ -5,7 +5,6 @@ export const getNewMainInfo = (newStockId: string): StockMainInfo => {
     stockName: '',
     currentPrice: '',
     stockId: newStockId,
-    needInit: true,
   };
 };
 
@@ -20,7 +19,6 @@ export const getNewPurchasedItemInfo = (
     purchasedQuantity: '',
     purchasedPrice: '',
     purchasedTime: time,
-    needInit: true,
   };
 };
 

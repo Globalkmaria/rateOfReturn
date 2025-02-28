@@ -12,8 +12,8 @@ function SoldPage() {
   const sortBy = searchParams.get('sortBy') ?? '';
 
   useEffect(() => {
-    if (!validateSoldQuery(sortBy)) return navigate('/sold');
-  }, []);
+    if (!validateSoldQuery(sortBy)) navigate('/sold');
+  }, [sortBy]);
 
   return (
     <>

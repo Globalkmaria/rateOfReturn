@@ -47,7 +47,7 @@ const removeInvalidedEdgeChars = (value: string) => {
 
 const trimDecimalInsertPaste = (
   value: string,
-  validation: (value: number) => boolean,
+  validation: (value: string) => boolean,
 ): TransformedValue => {
   const cleanedValue = removeInvalidedEdgeChars(value);
   const commaRemovedValue = removeComma(cleanedValue);
@@ -55,7 +55,7 @@ const trimDecimalInsertPaste = (
   const numValue = Number(commaRemovedValue);
   if (isNaN(numValue)) return null;
 
-  const isValid = validation(numValue);
+  const isValid = validation(numValue.toString());
   if (!isValid) return null;
 
   const localValue = getLocalString(commaRemovedValue);
@@ -65,7 +65,7 @@ const trimDecimalInsertPaste = (
 
 const trimDecimalInsertText = (
   value: string,
-  validation: InputValidation<number>,
+  validation: InputValidation,
 ): TransformedValue => {
   const validDots = checkValidDots(value);
   if (!validDots) return null;
@@ -75,7 +75,7 @@ const trimDecimalInsertText = (
   const numValue = Number(commaRemovedValue);
   if (isNaN(numValue)) return null;
 
-  const isValid = validation(numValue);
+  const isValid = validation(numValue.toString());
   if (!isValid) return null;
 
   const localValue = getLocalString(commaRemovedValue);
@@ -85,7 +85,7 @@ const trimDecimalInsertText = (
 
 const handleDecimalChange = (
   e: ChangeEvent<HTMLInputElement>,
-  validation: InputValidation<number>,
+  validation: InputValidation,
 ): TransformedValue => {
   const value = e.target.value;
   if (value === '') return ['', 0];
@@ -101,7 +101,7 @@ const handleDecimalChange = (
 
 const trimNumberInsertPaste = (
   value: string,
-  validation: (value: number) => boolean,
+  validation: (value: string) => boolean,
 ): TransformedValue => {
   const cleanedValue = removeInvalidedEdgeChars(value);
   const commaRemovedValue = removeComma(cleanedValue);
@@ -109,7 +109,7 @@ const trimNumberInsertPaste = (
   const numValue = Number(commaRemovedValue);
   if (isNaN(numValue)) return null;
 
-  const isValid = validation(numValue);
+  const isValid = validation(numValue.toString());
   if (!isValid) return null;
 
   const localValue = numValue.toLocaleString();
@@ -119,14 +119,14 @@ const trimNumberInsertPaste = (
 
 const trimNumberInsertText = (
   value: string,
-  validation: InputValidation<number>,
+  validation: InputValidation,
 ): TransformedValue => {
   const commaRemovedValue = removeComma(value);
 
   const numValue = Number(commaRemovedValue);
   if (isNaN(numValue)) return null;
 
-  const isValid = validation(numValue);
+  const isValid = validation(numValue.toString());
   if (!isValid) return null;
 
   const localValue = numValue.toLocaleString();
@@ -136,7 +136,7 @@ const trimNumberInsertText = (
 
 const handleNumberChange = (
   e: ChangeEvent<HTMLInputElement>,
-  validation: InputValidation<number>,
+  validation: InputValidation,
 ): TransformedValue => {
   const value = e.target.value;
   if (value === '') return ['', 0];
@@ -152,7 +152,7 @@ const handleNumberChange = (
 
 const handleChange = (
   e: ChangeEvent<HTMLInputElement>,
-  validation: InputValidation<string>,
+  validation: InputValidation,
 ) => {
   const isValid = validation(e.target.value);
   if (!isValid) return null;
@@ -161,7 +161,7 @@ const handleChange = (
 
 export const getTransformedValue = (
   e: ChangeEvent<HTMLInputElement>,
-  validation: InputValidation<string | number>,
+  validation: InputValidation,
   type: InputType,
 ): TransformedValue => {
   switch (type) {

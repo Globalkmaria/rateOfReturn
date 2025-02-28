@@ -7,7 +7,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
         stockName: 'SPDR S&P 500',
         currentPrice: '523.3000',
         stockId: '2',
-        needInit: false,
         tag: 'stock etf',
       },
       purchasedItems: {
@@ -18,7 +17,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
             purchasedQuantity: '4',
             purchasedPrice: '399.3250',
             purchasedTime: '23:26',
-            needInit: false,
           },
           '3': {
             purchasedId: '3',
@@ -26,7 +24,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
             purchasedQuantity: '9',
             purchasedPrice: '395.6061',
             purchasedTime: '23:30',
-            needInit: false,
           },
         },
         allIds: ['2', '3'],
@@ -37,7 +34,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
         stockName: 'TLT',
         currentPrice: '90.8600',
         stockId: '4',
-        needInit: false,
         tag: 'bond',
       },
       purchasedItems: {
@@ -48,7 +44,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
             purchasedQuantity: '8',
             purchasedPrice: '93.7700',
             purchasedTime: '23:31',
-            needInit: false,
           },
           '12': {
             purchasedId: '12',
@@ -56,7 +51,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
             purchasedQuantity: '10',
             purchasedPrice: '94.5800',
             purchasedTime: '23:32',
-            needInit: false,
           },
         },
         allIds: ['5', '12'],
@@ -67,7 +61,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
         stockName: 'IEF',
         currentPrice: '92.8800',
         stockId: '14',
-        needInit: false,
         tag: 'bond',
       },
       purchasedItems: {
@@ -78,7 +71,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
             purchasedQuantity: '8',
             purchasedPrice: '90.5500',
             purchasedTime: '23:36',
-            needInit: false,
           },
         },
         allIds: ['14'],
@@ -89,7 +81,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
         stockName: 'QQQ',
         currentPrice: '445.9300',
         stockId: '15',
-        needInit: false,
         tag: 'stock etf',
       },
       purchasedItems: {
@@ -100,7 +91,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
             purchasedQuantity: '2',
             purchasedPrice: '341.9650',
             purchasedTime: '23:40',
-            needInit: false,
           },
           '16': {
             purchasedId: '16',
@@ -108,7 +98,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
             purchasedQuantity: '7',
             purchasedPrice: '327.2728',
             purchasedTime: '23:42',
-            needInit: false,
           },
         },
         allIds: ['15', '16'],
@@ -119,7 +108,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
         stockName: 'Alphabet',
         currentPrice: '171.9300',
         stockId: '22',
-        needInit: false,
         tag: 'stock',
       },
       purchasedItems: {
@@ -130,7 +118,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
             purchasedQuantity: '24',
             purchasedPrice: '120.5643',
             purchasedTime: '00:44',
-            needInit: false,
           },
         },
         allIds: ['22'],
@@ -141,7 +128,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
         stockName: 'Amazon',
         currentPrice: '187.0700',
         stockId: '23',
-        needInit: false,
         tag: 'stock',
       },
       purchasedItems: {
@@ -152,7 +138,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
             purchasedQuantity: '18',
             purchasedPrice: '133.4882',
             purchasedTime: '00:44',
-            needInit: false,
           },
         },
         allIds: ['23'],
@@ -163,7 +148,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
         stockName: 'Tesla',
         currentPrice: '174.9500',
         stockId: '29',
-        needInit: false,
         tag: 'stock',
       },
       purchasedItems: {
@@ -174,7 +158,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
             purchasedQuantity: '8',
             purchasedPrice: '191.2300',
             purchasedTime: '00:47',
-            needInit: false,
           },
           '30': {
             purchasedId: '30',
@@ -182,7 +165,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
             purchasedQuantity: '4',
             purchasedPrice: '199.4700',
             purchasedTime: '00:49',
-            needInit: false,
           },
           '32': {
             purchasedId: '32',
@@ -190,7 +172,6 @@ export const MOCK_DATA: StockListState['stocks'] = {
             purchasedQuantity: '6',
             purchasedPrice: '173.8700',
             purchasedTime: '02:49',
-            needInit: false,
           },
         },
         allIds: ['29', '30', '32'],

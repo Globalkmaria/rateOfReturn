@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { StyledIconButton } from '@/components/IconButton/IconButton';
 
-import AddNewStock from './AddNewStock/AddNewStock';
 import StockListHeader from './Header/StockListHeader';
 import useIsMainGroup from './hooks/useIsMainGroup';
 import StockItem from './StockItem/StockItem';
@@ -28,7 +27,6 @@ function StockTable({ stockIds }: Props) {
           {stockIds.map(stockId => (
             <StockItem stockId={stockId} key={stockId} />
           ))}
-          {isMainGroup && <AddNewStock />}
         </TableBody>
       </Table>
     </StyledTable>
@@ -39,7 +37,7 @@ export default memo(StockTable);
 
 const StyledStockTableBase = styled('div')`
   overflow-x: overlay;
-  padding-bottom: 100px;
+  padding-bottom: 120px;
 
   th,
   td {

@@ -1,43 +1,31 @@
+import { PurchasedItemInfo } from '@/features/stockList/type';
+
 import { CurrentPriceChanges } from '@/views/List/StockListContent/StockTableMenu/EditCurrentPrice/EditCurrentPriceModal';
 
 import { localStringToNumber } from '@/utils';
 
 import {
   EditCurrentPricesRepReq,
-  EditUserItemRepData,
-  EditUserStockRepReq,
+  EditUserStockItem,
 } from '../../repository/userStocks/type';
 import { generateDataEntry } from '../utils';
-import { EditUserItemServiceData, EditUserStockServiceData } from './type';
-
-export const renameStockKeysForServer = (
-  data: EditUserStockServiceData,
-): EditUserStockRepReq['data'] => {
-  const mapFn = generateDataEntry<
-    EditUserStockServiceData,
-    EditUserStockRepReq['data']
-  >(data);
-
-  return {
-    ...mapFn('stockName', 'name'),
-    ...mapFn('currentPrice', 'currentPrice'),
-    ...mapFn('tag', 'tag'),
-  };
-};
 
 export const getEditUserItemRepData = (
-  changedInputs: EditUserItemServiceData,
-): EditUserItemRepData => {
-  const mapFn = generateDataEntry<EditUserItemServiceData, EditUserItemRepData>(
+  changedInputs: PurchasedItemInfo,
+): EditUserStockItem => {
+  const mapFn = generateDataEntry<PurchasedItemInfo, EditUserStockItem>(
     changedInputs,
   );
 
-  return {
+  const result = {
+    ...mapFn('purchasedId', 'id'),
     ...mapFn('purchasedDate', 'buyDate'),
     ...mapFn('purchasedTime', 'buyTime'),
     ...mapFn('purchasedPrice', 'buyPrice', localStringToNumber),
     ...mapFn('purchasedQuantity', 'quantity', localStringToNumber),
-  };
+  } as EditUserStockItem;
+
+  return result;
 };
 
 export const generateServerCurrentPrices = (

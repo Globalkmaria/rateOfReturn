@@ -24,15 +24,13 @@ const StockItem = ({ stockId }: StockItemProps) => {
     ? stockInfo.purchasedItems.allIds
     : groupInfo.stocks.byId[stockId];
 
-  const lastIdx = purchasedItems.length - 1;
   return (
     <>
       <SummaryInfo stockId={stockId} />
-      {purchasedItems.map((purchasedId, i) => (
+      {purchasedItems.map(purchasedId => (
         <PurchasedStock
           stockId={stockId}
           purchasedId={purchasedId}
-          isLastIdx={lastIdx === i}
           key={purchasedId}
         />
       ))}

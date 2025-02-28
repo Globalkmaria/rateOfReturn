@@ -66,7 +66,6 @@ export const getChangedPurchasedData = (
   purchasedPrice: getFixedLocaleString(
     changedInputs.purchasedPrice ?? purchasedItem.purchasedPrice,
   ),
-  needInit: false,
 });
 
 export const checkPurchasedItemInGroup = (

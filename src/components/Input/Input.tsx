@@ -11,7 +11,7 @@ export function Input({
   validation = () => true,
   ref,
   ...restProps
-}: Omit<InputProps<string | number>, 'onBlur'>) {
+}: Omit<InputProps, 'onBlur'>) {
   const isNumberType = NUMBER_TYPE.includes(type);
   const inputType = isNumberType ? 'text' : type;
   const align = type === 'number' ? 'right' : 'left';

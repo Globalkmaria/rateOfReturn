@@ -1,4 +1,4 @@
-import { lazy, useCallback, useDeferredValue, useState } from 'react';
+import { lazy, useCallback, useDeferredValue, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -13,11 +13,13 @@ import {
 } from '@/features/groups/selectors';
 import { selectStocks } from '@/features/stockList/selectors';
 
-import { filterStockByName } from './helper';
+import { getFilteredStockIds } from './helper';
 import StockTableMenu from './StockTableMenu';
+import AddNewStock from '../AddNewStock/AddNewStock';
 import GroupSummary from '../GroupSummary/GroupSummary';
 import useIsMainGroup from '../hooks/useIsMainGroup';
 import ListErrorPage from '../ListErrorPage';
+import StockListEditButton from './StockListEditButton';
 
 const StockTable = lazy(() => import('../StockTable'));
 const GroupButtons = lazy(() => import('../GroupButtons/GroupButtons'));
@@ -42,11 +44,18 @@ function StockListContent() {
     [],
   );
 
-  if (!isValidGroupId) return <ListErrorPage />;
+  const filteredStockIds = useMemo(
+    () =>
+      getFilteredStockIds({
+        isMainGroupSelected,
+        deferredQuery,
+        stockIds,
+        stockList,
+      }),
+    [isMainGroupSelected, deferredQuery, stockIds, stockList],
+  );
 
-  const filteredStockIds = isMainGroupSelected
-    ? filterStockByName(deferredQuery, stockList)
-    : stockIds;
+  if (!isValidGroupId) return <ListErrorPage />;
 
   return (
     <>
@@ -62,6 +71,12 @@ function StockListContent() {
         </StyledTopMenu>
         <GroupSummary />
       </StyledControlBar>
+      {isMainGroupSelected && (
+        <StyledStockActions>
+          <StockListEditButton />
+          <AddNewStock />
+        </StyledStockActions>
+      )}
       <StockTable stockIds={filteredStockIds} />
     </>
   );
@@ -76,11 +91,18 @@ const StyledControlBar = styled('div')`
 const StyledTopMenu = styled('div')`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
 
   @media ${({ theme }) => theme.devices.mobile} {
     width: 100%;
     flex-wrap: wrap;
     row-gap: 5px;
   }
+`;
+
+const StyledStockActions = styled('div')`
+  display: flex;
+  margin-bottom: 16px;
+  justify-content: flex-end;
+  gap: 10px;
 `;
