@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {
   addNewStock,
@@ -14,9 +14,8 @@ import {
 import { STOCK_STATE_SAMPLE } from './mockData';
 import { StockListState } from './type';
 import { addNewSold, addNewSoldList } from '../solds';
+import { updatePurchasedItems, updateStockMainInfo } from './helper';
 import { TemporalStockListState } from '../temporalStockList/type';
-
-import type { PayloadAction } from '@reduxjs/toolkit';
 
 export const STOCK_INITIAL_STATE: StockListState = {
   stocks: {
@@ -43,22 +42,13 @@ const stockListSlice = createSlice({
     ) => {
       const stockIds = Object.keys(action.payload);
       stockIds.forEach(stockId => {
-        if (state.stocks.byId[stockId]) {
-          const { mainInfo, purchasedItems } = action.payload[stockId];
-          if (mainInfo)
-            state.stocks.byId[stockId].mainInfo = {
-              ...state.stocks.byId[stockId].mainInfo,
-              ...mainInfo,
-            };
-          if (purchasedItems) {
-            const purchasedIds = Object.keys(purchasedItems);
-            purchasedIds.forEach(purchasedId => {
-              state.stocks.byId[stockId].purchasedItems.byId[purchasedId] = {
-                ...state.stocks.byId[stockId].purchasedItems.byId[purchasedId],
-                ...purchasedItems[purchasedId],
-              };
-            });
-          }
+        const stockUpdate = action.payload[stockId];
+        const existingStock = state.stocks.byId[stockId];
+        if (existingStock) {
+          const { mainInfo, purchasedItems } = stockUpdate;
+          if (mainInfo) updateStockMainInfo(existingStock, mainInfo);
+          if (purchasedItems)
+            updatePurchasedItems(existingStock, purchasedItems);
         }
       });
     },
