@@ -77,6 +77,7 @@ const PurchasedInput = ({ isLock, purchasedItem, stockId }: Props) => {
         </StyledDateTime>
       </TableCell>
       <InputCell
+        type='number'
         name='purchasedQuantity'
         onChange={onInputChange}
         value={combinedPurchasedItem.purchasedQuantity}

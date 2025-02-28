@@ -88,4 +88,4 @@ export const checkStockName = (value: string) =>
   alertAndReturnValue(checkStockValidity('name', value));
 
 export const checkQuantity = (value: string) =>
-  alertAndReturnValue(checkStockValidity('quantity', value));
+  alertAndReturnValue(checkStockValidity('quantity', Number(value)));
