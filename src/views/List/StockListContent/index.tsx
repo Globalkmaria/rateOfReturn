@@ -71,10 +71,12 @@ function StockListContent() {
         </StyledTopMenu>
         <GroupSummary />
       </StyledControlBar>
-      <StyledStockActions>
-        <StockListEditButton />
-        <AddNewStock />
-      </StyledStockActions>
+      {isMainGroupSelected && (
+        <StyledStockActions>
+          <StockListEditButton />
+          <AddNewStock />
+        </StyledStockActions>
+      )}
       <StockTable stockIds={filteredStockIds} />
     </>
   );

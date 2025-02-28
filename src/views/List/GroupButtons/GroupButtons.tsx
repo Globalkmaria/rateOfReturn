@@ -8,6 +8,7 @@ import { checkIfMainGroup } from '@/utils/group';
 
 import { updateCheckedItems } from '@/features/checkedItems/checkedItemsSlice';
 import { MAIN_GROUP_ID } from '@/features/groups/mockData';
+import { selectIsStockListEditMode } from '@/features/temporalStockList/selectors';
 
 import IconButton from '@/components/IconButton';
 import RadioSelect from '@/components/RadioSelect';
@@ -38,11 +39,16 @@ const GroupButtons = () => {
   const isMainGroupSelected = checkIfMainGroup(groupId);
   const groups = useSelector(selectGroups);
   const checkedItems = useSelector(selectCheckedPurchasedItems);
+  const isEditMode = useSelector(selectIsStockListEditMode);
   const options = getOptions(groups);
   const showAddGroup = !!checkedItems.length;
   const noGroups = !groups.groups.allIds.length;
 
   const onSelectClick = (value: string) => {
+    if (isEditMode) {
+      alert('You can not switch groups while in edit mode');
+      return;
+    }
     dispatch(updateCheckedItems({ type: 'all', checked: true }));
     navigate(`groups/${value}`);
   };

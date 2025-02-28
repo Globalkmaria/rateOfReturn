@@ -16,11 +16,11 @@ import { logInSaveStock } from './helper';
 
 function StockListEditButton() {
   const dispatch = useDispatch();
+  const [isLoading, startTransition] = useTransition();
   const temporalStockList = useSelector(selectTemporalStockList);
   const stockList = useSelector(selectStocks);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const isLock = !temporalStockList.isEditMode;
-  const [isLoading, startTransition] = useTransition();
 
   const disabled = isLoading || !stockList.allIds.length;
 
