@@ -12,9 +12,10 @@ import { EditButton } from '@/components/IconButton';
 function StockListEditButton() {
   const dispatch = useDispatch();
   const temporalStockList = useSelector(selectTemporalStockList);
+  const isLock = !temporalStockList.isEditMode;
 
   const toggleLock = async () => {
-    if (!temporalStockList.isEditMode) {
+    if (isLock) {
       dispatch(updateTemporalStockListEditMode(true));
     } else {
       // TODO login logic
@@ -24,9 +25,7 @@ function StockListEditButton() {
     }
   };
 
-  return (
-    <EditButton isLock={temporalStockList.isEditMode} onClick={toggleLock} />
-  );
+  return <EditButton isLock={isLock} onClick={toggleLock} />;
 }
 
 export default StockListEditButton;

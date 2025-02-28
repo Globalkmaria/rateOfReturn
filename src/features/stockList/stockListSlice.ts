@@ -138,7 +138,7 @@ const stockListSlice = createSlice({
       ...STOCK_INITIAL_STATE,
       ...action.payload.stockList,
     }));
-    builder.addCase(addStockSampleData, () => STOCK_STATE_SAMPLE);
+    builder.addCase(addStockSampleData, () => ({ ...STOCK_STATE_SAMPLE }));
     builder.addCase(addNewSold, (state, action) => {
       const { soldInfo, stockId } = action.payload;
       const purchasedItems = state.stocks.byId[stockId].purchasedItems;

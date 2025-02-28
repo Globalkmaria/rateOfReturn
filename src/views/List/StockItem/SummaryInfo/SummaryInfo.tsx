@@ -54,7 +54,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
     selectStockInfoById(stockId),
   );
 
-  const isLock = useSelector(selectIsStockListEditMode);
+  const isEditMode = useSelector(selectIsStockListEditMode);
   const { showModal, onOpenModal, onCloseModal } = useModal();
 
   const { showModalNote, onCloseModalNote, onOpenModalNote } = useModal('note');
@@ -107,7 +107,7 @@ const SummaryInfo = ({ stockId }: SummaryInfoProps) => {
           <TableCell>
             <StyledButtonGroup>
               <MoreButton width={100} vertical='bottom' horizontal='right'>
-                <DropboxItem onClick={onStockSold} disabled={!isLock}>
+                <DropboxItem onClick={onStockSold} disabled={isEditMode}>
                   <Icon icon='sold' /> Sold
                 </DropboxItem>
                 <DropboxItem onClick={onAddItem} title='Add same stock'>

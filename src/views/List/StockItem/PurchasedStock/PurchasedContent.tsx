@@ -21,7 +21,8 @@ const PurchasedContent = ({ stockId, purchasedId }: Props) => {
     selectPurchasedItemsById(stockId, purchasedId),
   );
 
-  const isLock = useSelector(selectIsStockListEditMode);
+  const isEditMode = useSelector(selectIsStockListEditMode);
+  const isLock = !isEditMode;
   const purchasedData = getPurchasedData({ purchasedItem, mainInfo });
   return (
     <>

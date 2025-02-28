@@ -32,7 +32,8 @@ const SummaryContent = ({ stockId }: Props) => {
   );
   const { mainInfo: stockMainInfo } = useSelector(selectStockInfoById(stockId));
   const summaryData = useGetStockSummaryData(stockId);
-  const isLock = useSelector(selectIsStockListEditMode);
+  const isEditMode = useSelector(selectIsStockListEditMode);
+  const isLock = !isEditMode;
 
   const stockName = temporalStockMainInfo?.stockName ?? stockMainInfo.stockName;
   const formattedCurrentPrice =

@@ -8,7 +8,7 @@ import {
 
 export const TEMPORAL_STOCK_INITIAL_STATE: TemporalStockListState = {
   stockList: {},
-  isEditMode: true,
+  isEditMode: false,
 };
 
 const temporalStockListSlice = createSlice({

@@ -35,7 +35,7 @@ interface Props {
   purchasedId: string;
 }
 function PurchasedMainGroupAction({ stockId, purchasedId }: Props) {
-  const isLock = useSelector(selectIsStockListEditMode);
+  const isEditMode = useSelector(selectIsStockListEditMode);
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const { mainInfo, purchasedItem } = useSelector(
@@ -82,7 +82,7 @@ function PurchasedMainGroupAction({ stockId, purchasedId }: Props) {
           <MoreButton width={80} vertical={'bottom'} horizontal='right'>
             <DropboxItem
               onClick={onItemSold}
-              disabled={!isLock}
+              disabled={isEditMode}
               title='To sold list'
             >
               <Icon icon='sold' />
