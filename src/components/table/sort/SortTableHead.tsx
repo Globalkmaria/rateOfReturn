@@ -1,11 +1,11 @@
 import { MouseEventHandler } from 'react';
 
-import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 import styled from 'styled-components';
 
-import { TableHead } from '@/components/Table';
+import Icon from '@/components/Icon';
+import { TableHead, TableHeadProps } from '@/components/table/Table';
 
-export interface SoldSortTableHeadProps<T extends string> {
+export interface SortTableHeadProps<T extends string> extends TableHeadProps {
   options: {
     asc: T;
     desc: T;
@@ -15,21 +15,22 @@ export interface SoldSortTableHeadProps<T extends string> {
   children: React.ReactNode;
 }
 
-function SoldSortTableHead<T extends string>({
+function SortTableHead<T extends string>({
   options,
   currentOption,
   onChangeSort,
   children,
   ...restProps
-}: SoldSortTableHeadProps<T>) {
+}: SortTableHeadProps<T>) {
   const { asc, desc } = options;
-  const Icon =
+  const iconName =
     currentOption === asc
-      ? FaSortUp
+      ? 'sortArrowUp'
       : currentOption === desc
-        ? FaSortDown
-        : FaSort;
-  const isSelected = Icon !== FaSort;
+        ? 'sortArrowDown'
+        : 'sortArrowUpDown';
+
+  const isSelected = iconName !== 'sortArrowUpDown';
 
   const onClick: MouseEventHandler<HTMLButtonElement> = () => {
     if (isSelected) onChangeSort(asc === currentOption ? desc : asc);
@@ -40,13 +41,13 @@ function SoldSortTableHead<T extends string>({
     <TableHead {...restProps}>
       <StyledButton onClick={onClick}>
         {children}
-        <Icon />
+        <Icon size='xs' icon={iconName} />
       </StyledButton>
     </TableHead>
   );
 }
 
-export default SoldSortTableHead;
+export default SortTableHead;
 
 export const StyledButton = styled.button.attrs({ type: 'button' })`
   display: flex;

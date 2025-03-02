@@ -10,6 +10,9 @@ import {
   FaRegFolder,
   FaHashtag,
   FaRegStickyNote,
+  FaSortUp,
+  FaSortDown,
+  FaSort,
 } from 'react-icons/fa';
 import {
   FiFolderPlus,
@@ -66,6 +69,9 @@ const _ICON_NAMES = [
   'table',
   'project',
   'person',
+  'sortArrowUp',
+  'sortArrowDown',
+  'sortArrowUpDown',
 ] as const;
 
 export type IconButtonType = (typeof _ICON_NAMES)[number];
@@ -104,6 +110,9 @@ export const ICONS: {
   table: <BsTable />,
   project: <PiProjectorScreenChartBold />,
   person: <IoPersonCircleOutline />,
+  sortArrowUp: <FaSortUp />,
+  sortArrowDown: <FaSortDown />,
+  sortArrowUpDown: <FaSort />,
 };
 
 export const ICON_TITLES: { [key in IconButtonType]: string } = {
@@ -138,4 +147,7 @@ export const ICON_TITLES: { [key in IconButtonType]: string } = {
   table: 'Table',
   project: 'Project',
   person: 'Person',
+  sortArrowUp: 'Sort ascending',
+  sortArrowDown: 'Sort descending',
+  sortArrowUpDown: 'Sort',
 };

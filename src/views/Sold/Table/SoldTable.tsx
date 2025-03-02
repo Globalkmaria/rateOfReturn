@@ -1,38 +1,33 @@
 import { useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
 
 import styled from 'styled-components';
 
 import { selectSoldList } from '@/features/solds';
 
-import { Table, TableBody } from '@/components/Table';
+import { Table, TableBody } from '@/components/table/Table';
 
-import { SOLD_SORT_OPTIONS_FUNCTIONS, SoldSortOptions } from './const';
-import { validateSoldQuery } from './helper';
+import { SOLD_SORT_OPTIONS_FUNCTIONS, SORT_OPTIONS } from './const';
 import NoSold from './NoSold';
 import SoldItem from './SoldItem';
 import SoldTableHeader from './SoldTableHeader';
+import useSort from '../../../components/table/sort/useSort';
 
 function SoldTable() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const sortBy = searchParams.get('sortBy') ?? '';
   const soldList = useSelector(selectSoldList);
+  const { sortBy, isValidSortBy, sortedList, onSortChange } = useSort({
+    list: soldList,
+    sortOptions: SORT_OPTIONS,
+    sortFunctions: SOLD_SORT_OPTIONS_FUNCTIONS,
+  });
 
-  if (!validateSoldQuery(sortBy)) return null;
-
-  const sortedList = SOLD_SORT_OPTIONS_FUNCTIONS[sortBy](soldList);
-  const handleSortChange = (sortBy: SoldSortOptions) =>
-    setSearchParams({ sortBy });
+  if (!isValidSortBy) return null;
 
   const noSold = !sortedList.length;
 
   return (
     <StyleSoldTableWrapper>
       <StyledSoldTable>
-        <SoldTableHeader
-          currentOption={sortBy}
-          onChangeSort={handleSortChange}
-        />
+        <SoldTableHeader currentOption={sortBy} onChangeSort={onSortChange} />
         <TableBody>
           {sortedList.map(id => (
             <SoldItem id={id} key={id} />

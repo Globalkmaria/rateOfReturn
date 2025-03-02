@@ -5,11 +5,9 @@ import {
   getDecimalPlacesSchema,
 } from '@/utils/validation';
 
-import { Sold, SoldsState } from '@/features/solds';
+import { Sold } from '@/features/solds';
 
 import { getPercentage, localStringToNumber } from '@/utils';
-
-import { SortFunction } from './const';
 
 const soldPriceSchema = z
   .number()
@@ -35,30 +33,6 @@ export const getMilliseconds = (date: string, time: string) => {
 };
 
 // SORT FUNCTIONS
-
-export const getSortedIdsCopy = <T>(
-  list: SoldsState['list'],
-  extractSortValue: (item: Sold) => T,
-  compareValues: (a: T, b: T) => number,
-) =>
-  list.allIds.toSorted((a, b) =>
-    compareValues(
-      extractSortValue(list.byId[a]),
-      extractSortValue(list.byId[b]),
-    ),
-  );
-
-export const createNumericSortFunction =
-  (getter: (item: Sold) => number, ascending: boolean): SortFunction =>
-  list =>
-    getSortedIdsCopy(list, getter, (a, b) => (ascending ? a - b : b - a));
-
-export const createStringSortFunction =
-  (getter: (item: Sold) => string, ascending: boolean): SortFunction =>
-  list =>
-    getSortedIdsCopy(list, getter, (a, b) =>
-      ascending ? a.localeCompare(b) : b.localeCompare(a),
-    );
 
 export const getId = (item: Sold) => Number(item.id);
 
