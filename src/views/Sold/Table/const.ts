@@ -22,7 +22,8 @@ import {
 
 type SoldHeaderItemsProps =
   | HeaderItemProps
-  | (HeaderItemProps & SoldSortTableHeadProps<SoldSortOptions>);
+  | (HeaderItemProps &
+      Pick<SoldSortTableHeadProps<SoldSortOptions>, 'options'>);
 
 export type SortFunction = (
   list: SoldsState['list'],
@@ -182,7 +183,7 @@ export const SOLD_HEADER_LIST: SoldHeaderItemsProps[] = [
   },
   {
     id: '10',
-    label: 'Sold Total Value',
+    label: 'Total Sold Value',
     minWidth: 120,
     Component: SoldSortTableHead,
     options: {
@@ -202,7 +203,7 @@ export const SOLD_HEADER_LIST: SoldHeaderItemsProps[] = [
   },
   {
     id: '12',
-    label: 'Rate of Return',
+    label: 'ROI (%)',
     minWidth: 100,
     Component: SoldSortTableHead,
     options: {
