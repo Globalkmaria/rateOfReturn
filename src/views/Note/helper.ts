@@ -171,5 +171,11 @@ export const getSortedNoteIds = (
   if (!sort) return filteredNoteIds;
   if (!NOTE_SORT_OPTIONS_KEYS.includes(sort)) return filteredNoteIds;
 
-  return NOTE_SORT_OPTIONS_FUNCTIONS[sort](notes, filteredNoteIds);
+  return NOTE_SORT_OPTIONS_FUNCTIONS[sort](
+    {
+      ids: notes.allIds,
+      items: notes.byId,
+    },
+    filteredNoteIds,
+  );
 };
