@@ -10,7 +10,7 @@ import {
   TableCellProps,
   TableHead,
   TableHeadProps,
-} from '@/components/Table';
+} from '@/components/table/Table';
 
 import { ColorsKeys } from '@/styles/theme';
 

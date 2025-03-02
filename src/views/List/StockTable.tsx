@@ -7,8 +7,8 @@ import { StyledIconButton } from '@/components/IconButton/IconButton';
 import StockListHeader from './Header/StockListHeader';
 import useIsMainGroup from './hooks/useIsMainGroup';
 import StockItem from './StockItem/StockItem';
-import { Table, TableBody } from '../../components/Table';
 import { StyledSummaryRow } from './StockItem/SummaryInfo/SummaryInfo';
+import { Table, TableBody } from '../../components/table/Table';
 
 type Props = {
   stockIds: string[];

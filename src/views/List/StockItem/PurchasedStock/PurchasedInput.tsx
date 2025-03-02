@@ -5,12 +5,13 @@ import styled from 'styled-components';
 
 import { EditUserItemServiceData } from '@/service/userStocks/type';
 
+import { PurchasedItemInfo } from '@/features/stockList/type';
 import { selectTemporalPurchasedItemsById } from '@/features/temporalStockList/selectors';
 import { updateTemporalPurchaseItem } from '@/features/temporalStockList/temporalStockListSlice';
 
-import { Input } from '../../../../components/Input/Input';
-import { TableCell } from '../../../../components/Table';
-import { PurchasedItemInfo } from '../../../../features/stockList/type';
+import { Input } from '@/components/Input/Input';
+import { TableCell } from '@/components/table/Table';
+
 import { InputCell } from '../components';
 import { PurchasedInputChangeProps } from './PurchasedStock';
 import { checkCurrentPrice, checkQuantity } from '../validity';

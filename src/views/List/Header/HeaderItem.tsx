@@ -1,7 +1,7 @@
 import styled, { DefaultTheme, IStyledComponent } from 'styled-components';
 
 import CheckAllCheckbox from './CheckAllCheckbox';
-import { TableHead, TableHeadProps } from '../../../components/Table';
+import { TableHead, TableHeadProps } from '../../../components/table/Table';
 
 type HeaderListComponent = typeof CheckAllCheckbox;
 

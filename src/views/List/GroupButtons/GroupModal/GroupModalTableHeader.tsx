@@ -3,7 +3,7 @@ import {
   TableHeader,
   TableRow,
   TableWithProps,
-} from '../../../../components/Table';
+} from '../../../../components/table/Table';
 
 interface HeaderItemProps extends TableWithProps {
   id: string;

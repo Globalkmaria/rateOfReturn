@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/Table';
+} from '@/components/table/Table';
 import { Ellipsis } from '@/components/Text';
 
 import { StockAllocationInfo } from './utils';

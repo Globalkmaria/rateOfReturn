@@ -31,7 +31,7 @@ import { EditButton, MoreButton } from '@/components/IconButton';
 import { StyledIconButton } from '@/components/IconButton/IconButton';
 import { TransformedValue } from '@/components/Input/BaseInput';
 import { Input } from '@/components/Input/Input';
-import { TableCell, TableRow } from '@/components/Table';
+import { TableCell, TableRow } from '@/components/table/Table';
 import { StyledChip, StyledChipText } from '@/components/Tag';
 
 import { getLocalDateTime } from '@/utils';

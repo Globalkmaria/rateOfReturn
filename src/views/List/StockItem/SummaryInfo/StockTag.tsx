@@ -10,7 +10,7 @@ import {
 } from '@/features/stockList/stockListSlice';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 
-import { TableCell } from '@/components/Table';
+import { TableCell } from '@/components/table/Table';
 import Tag from '@/components/Tag';
 
 interface Props {
