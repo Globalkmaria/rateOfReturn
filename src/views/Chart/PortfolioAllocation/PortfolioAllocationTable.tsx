@@ -1,15 +1,21 @@
+import { useMemo } from 'react';
+
 import styled from 'styled-components';
 
+import useSort from '@/components/table/sort/useSort';
 import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableHeader,
   TableRow,
 } from '@/components/table/Table';
 import { Ellipsis } from '@/components/Text';
 
+import PortfolioAllocationTableHeader from './PortfolioAllocationTableHeader';
+import {
+  PORTFOLIO_ALLOCATION_SORT_OPTIONS,
+  PORTFOLIO_ALLOCATION_SORT_OPTIONS_FUNCTIONS,
+} from './PortfolioAllocationTableHeader/const';
 import { StockAllocationInfo } from './utils';
 
 interface Props {
@@ -17,27 +23,35 @@ interface Props {
 }
 
 function PortfolioAllocationTable({ stockAllocationInfo }: Props) {
+  const sortProps = useMemo(
+    () => ({
+      ids: stockAllocationInfo.stockIds,
+      items: stockAllocationInfo,
+      sortOptions: PORTFOLIO_ALLOCATION_SORT_OPTIONS,
+      sortFunctionProps: {
+        ids: stockAllocationInfo.stockIds,
+        items: stockAllocationInfo,
+      },
+      sortFunctions: PORTFOLIO_ALLOCATION_SORT_OPTIONS_FUNCTIONS,
+    }),
+    [stockAllocationInfo],
+  );
+
+  const { sortBy, isValidSortBy, sortedList, onSortChange } =
+    useSort(sortProps);
+
+  if (!isValidSortBy) return null;
+
   return (
     <StyledWrapper>
       <StyledContainer>
         <StyledTable>
-          <TableHeader>
-            <TableRow>
-              <TableHead fixedWidth={180} rowSpan={2}>
-                Name
-              </TableHead>
-              <TableHead colSpan={2}>Buy</TableHead>
-              <TableHead colSpan={2}>Current</TableHead>
-            </TableRow>
-            <TableRow>
-              <TableHead width={110}>%</TableHead>
-              <TableHead width={180}>Total Price</TableHead>
-              <TableHead width={110}>%</TableHead>
-              <TableHead width={180}>Total Price</TableHead>
-            </TableRow>
-          </TableHeader>
+          <PortfolioAllocationTableHeader
+            currentOption={sortBy}
+            onSortChange={onSortChange}
+          />
           <TableBody>
-            {stockAllocationInfo.stockIds.map(stockId => (
+            {sortedList.map(stockId => (
               <Item
                 key={stockId}
                 stockId={stockId}
