@@ -2,10 +2,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  TableWithProps,
+  TableWidthProps,
 } from '../../../../components/table/Table';
 
-interface HeaderItemProps extends TableWithProps {
+interface HeaderItemProps extends TableWidthProps {
   id: string;
   label: string;
 }

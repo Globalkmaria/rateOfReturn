@@ -1,11 +1,18 @@
-import { SoldsState } from '@/features/solds';
+import { Sold } from '@/features/solds';
 
 import { HeaderItemProps } from '@/views/List/Header/HeaderItem';
 
-import SoldSortTableHead, { SoldSortTableHeadProps } from './SoldSortTableHead';
+import SortTableHead, {
+  SortTableHeadProps,
+} from '@/components/table/sort/SortTableHead';
 import {
   createNumericSortFunction,
   createStringSortFunction,
+  DeepSortFunction,
+  ExtractFunction,
+} from '@/components/table/sort/utils';
+
+import {
   getBuyPrice,
   getBuyQuantity,
   getBuyTotal,
@@ -22,14 +29,9 @@ import {
 
 type SoldHeaderItemsProps =
   | HeaderItemProps
-  | (HeaderItemProps &
-      Pick<SoldSortTableHeadProps<SoldSortOptions>, 'options'>);
+  | (HeaderItemProps & Pick<SortTableHeadProps<SoldSortOptions>, 'options'>);
 
-export type SortFunction = (
-  list: SoldsState['list'],
-) => SoldsState['list']['allIds'];
-
-export const SORT_OPTIONS = [
+export const SOLD_SORT_OPTIONS = [
   '',
   'id asc',
   'id desc',
@@ -57,13 +59,26 @@ export const SORT_OPTIONS = [
   'rateOfReturn desc',
 ] as const;
 
-export type SoldSortOptions = (typeof SORT_OPTIONS)[number];
+export type SoldSortOptions = (typeof SOLD_SORT_OPTIONS)[number];
+
+type SoldSortProps = {
+  ids: string[];
+  items: Record<string, Sold>;
+};
+
+type SoldSortFunction = DeepSortFunction<string, SoldSortProps>;
+
+export type SoldExtractFunction<V extends string | number> = ExtractFunction<
+  SoldSortProps,
+  string,
+  V
+>;
 
 export const SOLD_SORT_OPTIONS_FUNCTIONS: Record<
   SoldSortOptions,
-  (list: SoldsState['list']) => SoldsState['list']['allIds']
+  SoldSortFunction
 > = {
-  '': list => list.allIds,
+  '': ({ ids }) => ids,
   'id asc': createNumericSortFunction(getId, true),
   'id desc': createNumericSortFunction(getId, false),
   'stockName asc': createStringSortFunction(getStockName, true),
@@ -95,7 +110,7 @@ export const SOLD_HEADER_LIST: SoldHeaderItemsProps[] = [
     id: '1',
     label: '#',
     fixedWidth: 50,
-    Component: SoldSortTableHead,
+    Component: SortTableHead,
     options: {
       asc: 'id asc',
       desc: 'id desc',
@@ -105,7 +120,7 @@ export const SOLD_HEADER_LIST: SoldHeaderItemsProps[] = [
     id: '2',
     label: 'Stock Name',
     fixedWidth: 120,
-    Component: SoldSortTableHead,
+    Component: SortTableHead,
     options: {
       asc: 'stockName asc',
       desc: 'stockName desc',
@@ -115,7 +130,7 @@ export const SOLD_HEADER_LIST: SoldHeaderItemsProps[] = [
     id: '3',
     label: 'Tag',
     fixedWidth: 70,
-    Component: SoldSortTableHead,
+    Component: SortTableHead,
     options: {
       asc: 'tag asc',
       desc: 'tag desc',
@@ -125,7 +140,7 @@ export const SOLD_HEADER_LIST: SoldHeaderItemsProps[] = [
     id: '4',
     label: 'Quantity',
     minWidth: 50,
-    Component: SoldSortTableHead,
+    Component: SortTableHead,
     options: {
       asc: 'buyQuantity asc',
       desc: 'buyQuantity desc',
@@ -135,7 +150,7 @@ export const SOLD_HEADER_LIST: SoldHeaderItemsProps[] = [
     id: '5',
     label: 'Buy Date',
     fixedWidth: 200,
-    Component: SoldSortTableHead,
+    Component: SortTableHead,
     options: {
       asc: 'buyDate asc',
       desc: 'buyDate desc',
@@ -145,7 +160,7 @@ export const SOLD_HEADER_LIST: SoldHeaderItemsProps[] = [
     id: '6',
     label: 'Buy Unit Price',
     minWidth: 120,
-    Component: SoldSortTableHead,
+    Component: SortTableHead,
     options: {
       asc: 'buyUnitPrice asc',
       desc: 'buyUnitPrice desc',
@@ -155,7 +170,7 @@ export const SOLD_HEADER_LIST: SoldHeaderItemsProps[] = [
     id: '7',
     label: 'Buy Total Cost',
     minWidth: 120,
-    Component: SoldSortTableHead,
+    Component: SortTableHead,
     options: {
       asc: 'buyTotalCost asc',
       desc: 'buyTotalCost desc',
@@ -165,7 +180,7 @@ export const SOLD_HEADER_LIST: SoldHeaderItemsProps[] = [
     id: '8',
     label: 'Sold Date',
     fixedWidth: 230,
-    Component: SoldSortTableHead,
+    Component: SortTableHead,
     options: {
       asc: 'soldDate asc',
       desc: 'soldDate desc',
@@ -175,7 +190,7 @@ export const SOLD_HEADER_LIST: SoldHeaderItemsProps[] = [
     id: '9',
     label: 'Sold Unit Price',
     minWidth: 120,
-    Component: SoldSortTableHead,
+    Component: SortTableHead,
     options: {
       asc: 'soldUnitPrice asc',
       desc: 'soldUnitPrice desc',
@@ -185,7 +200,7 @@ export const SOLD_HEADER_LIST: SoldHeaderItemsProps[] = [
     id: '10',
     label: 'Total Sold Value',
     minWidth: 120,
-    Component: SoldSortTableHead,
+    Component: SortTableHead,
     options: {
       asc: 'soldTotalValue asc',
       desc: 'soldTotalValue desc',
@@ -195,7 +210,7 @@ export const SOLD_HEADER_LIST: SoldHeaderItemsProps[] = [
     id: '11',
     label: 'Return',
     minWidth: 100,
-    Component: SoldSortTableHead,
+    Component: SortTableHead,
     options: {
       asc: 'return asc',
       desc: 'return desc',
@@ -205,7 +220,7 @@ export const SOLD_HEADER_LIST: SoldHeaderItemsProps[] = [
     id: '12',
     label: 'ROI (%)',
     minWidth: 100,
-    Component: SoldSortTableHead,
+    Component: SortTableHead,
     options: {
       asc: 'rateOfReturn asc',
       desc: 'rateOfReturn desc',
