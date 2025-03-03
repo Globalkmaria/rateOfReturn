@@ -11,9 +11,9 @@ import {
 import { updateTemporalStock } from '@/features/temporalStockList/temporalStockListSlice';
 
 import { TransformedValue } from '@/components/Input/BaseInput';
+import { Input } from '@/components/Input/Input';
+import { TableCell } from '@/components/table/Table';
 
-import { Input } from '../../../../components/Input/Input';
-import { TableCell } from '../../../../components/Table';
 import { InputCell, NumberCell, ProfitRate } from '../components';
 import { useGetStockSummaryData } from './hooks/useGetStockSummaryData';
 import StockTag from './StockTag';

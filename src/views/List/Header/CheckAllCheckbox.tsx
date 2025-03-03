@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 
-import { TableHeadProps } from '../../../components/Table';
+import { TableHeadProps } from '../../../components/table/Table';
 import { updateCheckedItems } from '../../../features/checkedItems/checkedItemsSlice';
 import { selectIsAllChecked } from '../../../features/checkedItems/selectors';
 import useIsMainGroup from '../hooks/useIsMainGroup';

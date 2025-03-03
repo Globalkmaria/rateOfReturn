@@ -5,11 +5,9 @@ import {
   getDecimalPlacesSchema,
 } from '@/utils/validation';
 
-import { Sold, SoldsState } from '@/features/solds';
-
 import { getPercentage, localStringToNumber } from '@/utils';
 
-import { SortFunction } from './const';
+import { SoldExtractFunction } from './const';
 
 const soldPriceSchema = z
   .number()
@@ -36,56 +34,37 @@ export const getMilliseconds = (date: string, time: string) => {
 
 // SORT FUNCTIONS
 
-export const getSortedIdsCopy = <T>(
-  list: SoldsState['list'],
-  extractSortValue: (item: Sold) => T,
-  compareValues: (a: T, b: T) => number,
-) =>
-  list.allIds.toSorted((a, b) =>
-    compareValues(
-      extractSortValue(list.byId[a]),
-      extractSortValue(list.byId[b]),
-    ),
-  );
+export const getId: SoldExtractFunction<number> = (sortProps, id) => Number(id);
 
-export const createNumericSortFunction =
-  (getter: (item: Sold) => number, ascending: boolean): SortFunction =>
-  list =>
-    getSortedIdsCopy(list, getter, (a, b) => (ascending ? a - b : b - a));
+export const getStockName: SoldExtractFunction<string> = ({ items }, id) =>
+  items[id].stockName;
 
-export const createStringSortFunction =
-  (getter: (item: Sold) => string, ascending: boolean): SortFunction =>
-  list =>
-    getSortedIdsCopy(list, getter, (a, b) =>
-      ascending ? a.localeCompare(b) : b.localeCompare(a),
-    );
+export const getTag: SoldExtractFunction<string> = ({ items }, id) =>
+  items[id]?.tag ?? '';
 
-export const getId = (item: Sold) => Number(item.id);
+export const getBuyQuantity: SoldExtractFunction<number> = ({ items }, id) =>
+  items[id].purchasedQuantity;
 
-export const getStockName = (item: Sold) => item.stockName;
+export const getBuyTime: SoldExtractFunction<number> = ({ items }, id) =>
+  getMilliseconds(items[id].purchasedDate, items[id].purchasedTime);
 
-export const getTag = (item: Sold) => item?.tag ?? '';
+export const getBuyPrice: SoldExtractFunction<number> = ({ items }, id) =>
+  items[id].purchasedPrice;
 
-export const getBuyQuantity = (item: Sold) => item.purchasedQuantity;
+export const getBuyTotal: SoldExtractFunction<number> = (...props) =>
+  getBuyQuantity(...props) * getBuyPrice(...props);
 
-export const getBuyTime = (item: Sold) =>
-  getMilliseconds(item.purchasedDate, item.purchasedTime);
+export const getSoldTime: SoldExtractFunction<number> = ({ items }, id) =>
+  getMilliseconds(items[id].soldDate, items[id].soldTime);
 
-export const getBuyPrice = (item: Sold) => item.purchasedPrice;
+export const getSoldPrice: SoldExtractFunction<number> = ({ items }, id) =>
+  localStringToNumber(items[id].soldPrice);
 
-export const getBuyTotal = (item: Sold) =>
-  getBuyQuantity(item) * getBuyPrice(item);
+export const getSoldTotal: SoldExtractFunction<number> = (...props) =>
+  getBuyQuantity(...props) * getSoldPrice(...props);
 
-export const getSoldTime = (item: Sold) =>
-  getMilliseconds(item.soldDate, item.soldTime);
+export const getProfit: SoldExtractFunction<number> = (...props) =>
+  (getSoldPrice(...props) - getBuyPrice(...props)) * getBuyQuantity(...props);
 
-export const getSoldPrice = (item: Sold) => localStringToNumber(item.soldPrice);
-
-export const getSoldTotal = (item: Sold) =>
-  getBuyQuantity(item) * getSoldPrice(item);
-
-export const getProfit = (item: Sold) =>
-  (getSoldPrice(item) - getBuyPrice(item)) * getBuyQuantity(item);
-
-export const getReturnRatio = (item: Sold) =>
-  getPercentage(getProfit(item), getBuyPrice(item));
+export const getReturnRatio: SoldExtractFunction<number> = (...props) =>
+  getPercentage(getProfit(...props), getBuyPrice(...props));

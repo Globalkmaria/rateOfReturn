@@ -21,7 +21,7 @@ import { NoteFormState } from '@/views/Note/NoteInfo/type';
 import { DropboxItem } from '@/components/Dropbox/DropboxItem';
 import Icon from '@/components/Icon';
 import { MoreButton } from '@/components/IconButton';
-import { TableCell } from '@/components/Table';
+import { TableCell } from '@/components/table/Table';
 
 import { NewSold } from '@/repository/userSolds';
 

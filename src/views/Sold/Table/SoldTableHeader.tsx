@@ -1,13 +1,13 @@
 import HeaderItem from '@/views/List/Header/HeaderItem';
 
-import { TableHeader, TableRow } from '@/components/Table';
+import { SortTableHeadProps } from '@/components/table/sort/SortTableHead';
+import { TableHeader, TableRow } from '@/components/table/Table';
 
 import { SOLD_HEADER_LIST, SoldSortOptions } from './const';
-import { SoldSortTableHeadProps } from './SoldSortTableHead';
 
 type Props = Pick<
-  SoldSortTableHeadProps<SoldSortOptions>,
-  'currentOption' | 'onChangeSort'
+  SortTableHeadProps<SoldSortOptions>,
+  'currentOption' | 'onSortChange'
 >;
 
 function SoldTableHeader(props: Props) {

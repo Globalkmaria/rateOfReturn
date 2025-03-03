@@ -5,10 +5,12 @@ import styled from 'styled-components';
 
 import { EditUserItemServiceData } from '@/service/userStocks/type';
 
-import { TransformedValue } from '../../../../components/Input/BaseInput';
-import { TableRow } from '../../../../components/Table';
-import { updateCheckedItems } from '../../../../features/checkedItems/checkedItemsSlice';
-import { selectIsPurchasedItemChecked } from '../../../../features/checkedItems/selectors';
+import { updateCheckedItems } from '@/features/checkedItems/checkedItemsSlice';
+import { selectIsPurchasedItemChecked } from '@/features/checkedItems/selectors';
+
+import { TransformedValue } from '@/components/Input/BaseInput';
+import { TableRow } from '@/components/table/Table';
+
 import useIsMainGroup from '../../hooks/useIsMainGroup';
 import { CheckboxCell } from '../components';
 import PurchasedContent from './PurchasedContent';
