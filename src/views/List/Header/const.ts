@@ -1,4 +1,4 @@
-import { TableHead } from '@/components/Table';
+import { TableHead } from '@/components/table/Table';
 
 import CheckAllCheckbox from './CheckAllCheckbox';
 import { HeaderItemProps, StyledBuyId, StyledStockName } from './HeaderItem';

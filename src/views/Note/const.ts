@@ -1,6 +1,10 @@
-import { Note, NotesState } from '@/features/notes';
+import { Note } from '@/features/notes';
 
-import { createNumericSortFunction } from '@/utils';
+import {
+  createNumericSortFunction,
+  DeepSortFunction,
+  ExtractFunction,
+} from '@/components/table/sort/utils';
 
 export const NOTE_FILTER_KEYS: Record<string, keyof Note> = {
   PURCHASED_ID: 'purchasedId',
@@ -44,15 +48,31 @@ export const NOTE_SORT_OPTIONS: {
   },
 ];
 
-const getNoteCreatedDate = (note: Note) => new Date(note.createdAt).getTime();
-const getNoteUpdatedDate = (note: Note) => new Date(note.updatedAt).getTime();
+type NoteSortProps = {
+  ids: string[];
+  items: Record<string, Note>;
+};
+
+const getNoteCreatedDate: NoteExtractFunction<number> = (
+  { items }: NoteSortProps,
+  id: string,
+) => new Date(items[id].createdAt).getTime();
+const getNoteUpdatedDate: NoteExtractFunction<number> = (
+  { items }: NoteSortProps,
+  id: string,
+) => new Date(items[id].updatedAt).getTime();
+
+type NoteSortFunction = DeepSortFunction<string, NoteSortProps>;
+
+export type NoteExtractFunction<V extends string | number> = ExtractFunction<
+  NoteSortProps,
+  string,
+  V
+>;
 
 export const NOTE_SORT_OPTIONS_FUNCTIONS: Record<
   NoteSortOptionsKeys,
-  (
-    notes: NotesState['collection'],
-    ids: string[],
-  ) => NotesState['collection']['allIds']
+  NoteSortFunction
 > = {
   'createdDate-asc': createNumericSortFunction(getNoteCreatedDate, true),
   'createdDate-desc': createNumericSortFunction(getNoteCreatedDate, false),

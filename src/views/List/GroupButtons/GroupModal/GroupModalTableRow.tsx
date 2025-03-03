@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { localStringToNumber } from '@/utils';
 
 import { Input } from '../../../../components/Input/Input';
-import { TableCell, TableRow } from '../../../../components/Table';
+import { TableCell, TableRow } from '../../../../components/table/Table';
 import { updateCheckedItems } from '../../../../features/checkedItems/checkedItemsSlice';
 import { selectIsPurchasedItemChecked } from '../../../../features/checkedItems/selectors';
 import { selectStockInfoById } from '../../../../features/stockList/selectors';

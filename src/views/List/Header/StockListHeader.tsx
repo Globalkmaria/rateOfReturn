@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { HEADER_LIST, SUB_GROUP_HEADER_LIST } from './const';
 import HeaderItem from './HeaderItem';
-import { TableHeader, TableRow } from '../../../components/Table';
+import { TableHeader, TableRow } from '../../../components/table/Table';
 import useIsMainGroup from '../hooks/useIsMainGroup';
 
 const StockListHeader = () => {

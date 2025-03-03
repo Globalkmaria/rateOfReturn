@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/Table';
+} from '@/components/table/Table';
 
 import { StockBarChartInfo, StockBarChartInfos } from './utils';
 

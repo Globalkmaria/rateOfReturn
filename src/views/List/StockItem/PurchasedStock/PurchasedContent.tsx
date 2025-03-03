@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 
+import { selectPurchasedItemsById } from '@/features/stockList/selectors';
 import { selectIsStockListEditMode } from '@/features/temporalStockList/selectors';
 
-import { TableCell } from '../../../../components/Table';
-import { selectPurchasedItemsById } from '../../../../features/stockList/selectors';
+import { TableCell } from '@/components/table/Table';
+
 import { NumberCell, ProfitRate } from '../components';
 import PurchasedInput from './PurchasedInput';
 import { getPurchasedData } from './utils';

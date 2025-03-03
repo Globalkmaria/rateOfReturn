@@ -2,7 +2,7 @@ import { TableHTMLAttributes } from 'react';
 
 import styled from 'styled-components';
 
-export interface TableWithProps {
+export interface TableWidthProps {
   fixedWidth?: number;
   minWidth?: number;
 }
@@ -12,13 +12,12 @@ interface TableProps extends TableHTMLAttributes<HTMLTableElement> {}
 interface TableHeaderProps
   extends TableHTMLAttributes<HTMLTableSectionElement> {}
 interface TableBodyProps extends TableHTMLAttributes<HTMLTableSectionElement> {}
-export interface TableHeadProps
-  extends TableHTMLAttributes<HTMLTableCellElement>,
-    TableWithProps {}
+export type TableHeadProps = TableHTMLAttributes<HTMLTableCellElement> &
+  TableWidthProps;
 interface TableRowProps extends TableHTMLAttributes<HTMLTableRowElement> {}
 export interface TableCellProps
   extends TableHTMLAttributes<HTMLTableCellElement>,
-    TableWithProps {
+    TableWidthProps {
   align?: 'left' | 'center' | 'right';
 }
 /* eslint-enable @typescript-eslint/no-empty-object-type */

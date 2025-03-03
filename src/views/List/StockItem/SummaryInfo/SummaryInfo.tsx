@@ -21,7 +21,7 @@ import { NoteFormState } from '@/views/Note/NoteInfo/type';
 import { DropboxItem } from '@/components/Dropbox/DropboxItem';
 import Icon from '@/components/Icon';
 import { MoreButton } from '@/components/IconButton';
-import { TableCell, TableRow } from '@/components/Table';
+import { TableCell, TableRow } from '@/components/table/Table';
 
 import { CheckboxCell } from '../components';
 import useChangeStockCheckbox from './hooks/useChangeStockCheckbox';

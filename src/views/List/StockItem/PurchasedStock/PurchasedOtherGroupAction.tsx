@@ -10,7 +10,7 @@ import { MAIN_GROUP_ID } from '@/features/groups/mockData';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 
 import IconButton from '@/components/IconButton';
-import { TableCell } from '@/components/Table';
+import { TableCell } from '@/components/table/Table';
 
 interface Props {
   stockId: string;
