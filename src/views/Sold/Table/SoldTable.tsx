@@ -5,13 +5,13 @@ import styled from 'styled-components';
 
 import { selectSoldList } from '@/features/solds';
 
+import useSort from '@/components/table/sort/useSort';
 import { Table, TableBody } from '@/components/table/Table';
 
 import { SOLD_SORT_OPTIONS_FUNCTIONS, SOLD_SORT_OPTIONS } from './const';
 import NoSold from './NoSold';
 import SoldItem from './SoldItem';
 import SoldTableHeader from './SoldTableHeader';
-import useSort from '../../../components/table/sort/useSort';
 
 function SoldTable() {
   const soldList = useSelector(selectSoldList);

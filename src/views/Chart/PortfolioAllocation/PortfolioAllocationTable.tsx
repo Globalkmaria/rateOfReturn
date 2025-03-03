@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 
 import styled from 'styled-components';
 
@@ -126,7 +126,7 @@ interface ItemProps {
   stockAllocationInfo: StockAllocationInfo;
 }
 
-function Item({ stockId, stockAllocationInfo }: ItemProps) {
+const Item = memo(function Item({ stockId, stockAllocationInfo }: ItemProps) {
   return (
     <TableRow>
       <TableCell>
@@ -148,7 +148,7 @@ function Item({ stockId, stockAllocationInfo }: ItemProps) {
       </TableCell>
     </TableRow>
   );
-}
+});
 
 const StyledEllipsis = styled(Ellipsis)`
   @media ${({ theme }) => theme.devices.mobile} {

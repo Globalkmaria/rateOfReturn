@@ -11,7 +11,7 @@ export type DeepSortFunction<Id extends KeyType, SortProps> = (
   id: Id[],
 ) => Id[];
 
-export const getSortedIdsCopy = <
+const getSortedIdsCopy = <
   SortProps,
   Id extends KeyType,
   V extends string | number,
@@ -30,9 +30,12 @@ export const getSortedIdsCopy = <
     compare(extractValue(sortProps, a), extractValue(sortProps, b)),
   );
 
-export const createNumericSortFunction =
-  <Id extends KeyType, SortProps>(
-    extractValue: ExtractFunction<SortProps, Id, number>,
+type SortLogic<V extends string | number> = (a: V, b: V) => number;
+
+export const createSortFunction =
+  <V extends string | number>(asc: SortLogic<V>, desc: SortLogic<V>) =>
+  <SortProps, Id extends KeyType>(
+    extractValue: ExtractFunction<SortProps, Id, V>,
     ascending: boolean,
   ) =>
   (sortProps: SortProps, ids: Id[]) =>
@@ -40,18 +43,15 @@ export const createNumericSortFunction =
       sortProps,
       ids,
       extractValue,
-      compare: (a, b) => (ascending ? a - b : b - a),
+      compare: (a, b) => (ascending ? asc : desc)(a, b),
     });
 
-export const createStringSortFunction =
-  <Id extends KeyType, SortProps>(
-    extractValue: ExtractFunction<SortProps, Id, string>,
-    ascending: boolean,
-  ) =>
-  (sortProps: SortProps, ids: Id[]) =>
-    getSortedIdsCopy({
-      sortProps,
-      ids,
-      extractValue,
-      compare: (a, b) => (ascending ? a.localeCompare(b) : b.localeCompare(a)),
-    });
+export const createNumericSortFunction = createSortFunction<number>(
+  (a, b) => a - b,
+  (a, b) => b - a,
+);
+
+export const createStringSortFunction = createSortFunction<string>(
+  (a, b) => a.localeCompare(b),
+  (a, b) => b.localeCompare(a),
+);
