@@ -18,3 +18,27 @@ export const Skeleton = styled('div')`
     }
   }
 `;
+
+interface Skeleton2Props {
+  width?: string;
+  height?: string;
+  borderRadius?: string;
+  margin?: string;
+}
+
+export const Skeleton2 = styled(Skeleton)<Skeleton2Props>`
+  width: ${({ width }) => width || '100%'};
+  height: ${({ height }) => height || '100%'};
+  border-radius: ${({ borderRadius }) =>
+    borderRadius ? getBorderRadius(borderRadius as BorderRadius) : '0'};
+  margin: ${({ margin }) => margin || '0'};
+`;
+
+type BorderRadius = 's' | 'm';
+const borderRadiusValues = {
+  s: '5px',
+  m: '10px',
+};
+const getBorderRadius = (borderRadius: BorderRadius) => {
+  return borderRadiusValues[borderRadius] || borderRadius;
+};
