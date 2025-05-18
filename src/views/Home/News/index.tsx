@@ -6,19 +6,19 @@ import Feed from '@/components/Feed';
 
 function News() {
   return (
-    <NewsContainer>
-      <NewsTitle>📰 Latest Headlines</NewsTitle>
+    <StyledNewsContainer>
+      <StyledNewsTitle>📰 Latest Headlines</StyledNewsTitle>
 
       <Feed showDescription getFeed={getNYTFeed} title='The New York Times' />
       <Feed title='WSJ' getFeed={getWsjFeed} />
       <Feed title='Financial Times' getFeed={getFTFeed} />
-    </NewsContainer>
+    </StyledNewsContainer>
   );
 }
 
 export default News;
 
-const NewsContainer = styled.section`
+const StyledNewsContainer = styled.section`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -27,7 +27,7 @@ const NewsContainer = styled.section`
   gap: 20px;
 `;
 
-const NewsTitle = styled.h2`
+const StyledNewsTitle = styled.h2`
   font-size: 1.5rem;
   font-weight: bold;
   margin: 20px 0;
