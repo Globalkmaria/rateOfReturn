@@ -7,149 +7,88 @@ export type FeedItem = {
   link: string;
   pubDate: string;
   description: string;
+  source?: string;
 };
 
-export const getWsjFeed = async (): Promise<ResultWithData<FeedItem[]>> => {
-  try {
-    const proxyUrl = 'https://allorigins.hexlet.app/get?disableCache=true&url=';
-    const feedUrl = encodeURIComponent(
-      'https://news.google.com/rss/search?q=site:wsj.com',
-    );
+const PROXY = 'https://allorigins.hexlet.app/get?disableCache=true&url=';
 
-    const response = await axios.get(`${proxyUrl}${feedUrl}`);
-    const xmlString = response.data.contents;
-
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(xmlString, 'application/xml');
-
-    const itemsArray: FeedItem[] = Array.from(xml.querySelectorAll('item'))
-      .slice(0, 5)
-      .map(item => {
-        const rawDescription =
-          item.querySelector('description')?.textContent?.trim() ||
-          'No description';
-        const parser = new DOMParser();
-        const parsedDescriptionDoc = parser.parseFromString(
-          rawDescription,
-          'text/html',
-        );
-        const cleanDescription =
-          parsedDescriptionDoc.body.textContent?.trim() || rawDescription;
-
-        return {
-          title:
-            item
-              .querySelector('title')
-              ?.textContent?.trim()
-              .replace('- WSJ', '') || 'No title',
-          link: item.querySelector('link')?.textContent?.trim() || '#',
-          pubDate:
-            item.querySelector('pubDate')?.textContent?.trim() || 'No date',
-          description: cleanDescription,
-          source:
-            item.querySelector('source')?.textContent?.trim() ||
-            'Unknown source',
-        };
-      })
-      .filter(item => {
-        if (item.title.includes('Print Edition')) return false;
-        return true;
-      });
-    console.log(itemsArray);
-
-    return { data: itemsArray, success: itemsArray.length > 0 };
-  } catch (err) {
-    console.error('Failed to fetch or parse WSJ feed:', err);
-    return {
-      success: false,
-      message: 'WSJ feed could not be loaded.',
-    };
-  }
+const cleanDescription = (raw: string): string => {
+  const parser = new DOMParser();
+  const parsed = parser.parseFromString(raw, 'text/html');
+  return parsed.body.textContent?.trim() || raw;
 };
 
-export const getNYTFeed = async (): Promise<ResultWithData<FeedItem[]>> => {
-  try {
-    const proxyUrl = 'https://allorigins.hexlet.app/get?disableCache=true&url=';
-    const feedUrl = encodeURIComponent(
-      'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml',
-    );
+const parseFeed = (
+  xmlString: string,
+  sourceName: string,
+  removeSuffix?: string,
+  filterFn?: (item: FeedItem) => boolean,
+): FeedItem[] => {
+  const parser = new DOMParser();
+  const xml = parser.parseFromString(xmlString, 'application/xml');
 
-    const response = await axios.get(`${proxyUrl}${feedUrl}`);
-    const xmlString = response.data.contents;
+  let items = Array.from(xml.querySelectorAll('item'))
+    .slice(0, 5)
+    .map(item => {
+      const rawDescription =
+        item.querySelector('description')?.textContent?.trim() ||
+        'No description';
+      const titleRaw =
+        item.querySelector('title')?.textContent?.trim() || 'No title';
+      const title = removeSuffix
+        ? titleRaw.replace(removeSuffix, '')
+        : titleRaw;
 
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(xmlString, 'application/xml');
-
-    const itemsArray: FeedItem[] = Array.from(xml.querySelectorAll('item'))
-      .slice(0, 5)
-      .map(item => ({
-        title: item.querySelector('title')?.textContent?.trim() || 'No title',
+      return {
+        title,
         link: item.querySelector('link')?.textContent?.trim() || '#',
         pubDate:
           item.querySelector('pubDate')?.textContent?.trim() || 'No date',
-        description:
-          item.querySelector('description')?.textContent?.trim() ||
-          'No description',
-      }));
+        description: cleanDescription(rawDescription),
+        source: item.querySelector('source')?.textContent?.trim() || sourceName,
+      };
+    });
 
-    return { data: itemsArray, success: itemsArray.length > 0 };
-  } catch (err) {
-    console.error('Failed to fetch or parse NYT RSS feed:', err);
-    return {
-      success: false,
-      message: 'NYT feed could not be loaded.',
-    };
-  }
+  if (filterFn) items = items.filter(filterFn);
+  return items;
 };
 
-export const getFTFeed = async (): Promise<ResultWithData<FeedItem[]>> => {
+const fetchFeed = async (
+  feedUrl: string,
+  sourceName: string,
+  removeSuffix?: string,
+  filterFn?: (item: FeedItem) => boolean,
+): Promise<ResultWithData<FeedItem[]>> => {
   try {
-    const proxyUrl = 'https://allorigins.hexlet.app/get?disableCache=true&url=';
-    const feedUrl =
-      'https://news.google.com/rss/search?q=site:ft.com&hl=en-US&gl=US&ceid=US:en';
-
-    const response = await axios.get(`${proxyUrl}${feedUrl}`);
+    const encodedUrl = encodeURIComponent(feedUrl);
+    const response = await axios.get(`${PROXY}${encodedUrl}`);
     const xmlString = response.data.contents;
 
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(xmlString, 'application/xml');
-
-    const itemsArray: FeedItem[] = Array.from(xml.querySelectorAll('item'))
-      .slice(0, 5)
-      .map(item => {
-        const rawDescription =
-          item.querySelector('description')?.textContent?.trim() ||
-          'No description';
-        const parser = new DOMParser();
-        const parsedDescriptionDoc = parser.parseFromString(
-          rawDescription,
-          'text/html',
-        );
-        const cleanDescription =
-          parsedDescriptionDoc.body.textContent?.trim() || rawDescription;
-
-        return {
-          title:
-            item
-              .querySelector('title')
-              ?.textContent?.trim()
-              .replace('- Financial Times', '') || 'No title',
-          link: item.querySelector('link')?.textContent?.trim() || '#',
-          pubDate:
-            item.querySelector('pubDate')?.textContent?.trim() || 'No date',
-          description: cleanDescription,
-          source:
-            item.querySelector('source')?.textContent?.trim() ||
-            'Unknown source',
-        };
-      });
-
-    return { data: itemsArray, success: itemsArray.length > 0 };
+    const items = parseFeed(xmlString, sourceName, removeSuffix, filterFn);
+    return { data: items, success: items.length > 0 };
   } catch (err) {
-    console.error('Failed to fetch or parse FT RSS feed:', err);
+    console.error(`Failed to fetch or parse ${sourceName} feed:`, err);
     return {
       success: false,
-      message: 'FT feed could not be loaded.',
+      message: `${sourceName} feed could not be loaded.`,
     };
   }
 };
+
+export const getWsjFeed = () =>
+  fetchFeed(
+    'https://news.google.com/rss/search?q=site:wsj.com',
+    'WSJ',
+    '- WSJ',
+    item => !item.title.includes('Print Edition'),
+  );
+
+export const getNYTFeed = () =>
+  fetchFeed('https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml', 'NYT');
+
+export const getFTFeed = () =>
+  fetchFeed(
+    'https://news.google.com/rss/search?q=site:ft.com&hl=en-US&gl=US&ceid=US:en',
+    'FT',
+    '- Financial Times',
+  );
