@@ -1,19 +1,36 @@
 import { lazy } from 'react';
 
+import PortfolioAllocation from '@/views/Chart/PortfolioAllocation/PortfolioAllocation';
 import StockBarChart from '@/views/Chart/StockBarChart';
+import TagAllocation from '@/views/Chart/TagAllocation';
+import News from '@/views/Home/News';
+import TopStocks from '@/views/Home/TopStocks';
 
+import Chart from '@/pages/Chart';
+import Home from '@/pages/Home';
+import List from '@/pages/List';
 import Note from '@/pages/Note';
 import Sold from '@/pages/Sold';
 
 import { RouterElement } from './router';
-import Chart from '../pages/Chart';
-import Home from '../pages/Home';
-import List from '../pages/List';
-import PortfolioAllocation from '../views/Chart/PortfolioAllocation/PortfolioAllocation';
-import TagAllocation from '../views/Chart/TagAllocation';
 
 const Login = lazy(() => import('../pages/Login'));
 const Signup = lazy(() => import('../pages/Signup'));
+
+export const homeRouterData: RouterElement[] = [
+  {
+    id: '0',
+    path: '',
+    element: <News />,
+    label: 'News',
+  },
+  {
+    id: '1',
+    path: 'top-stocks',
+    element: <TopStocks />,
+    label: 'Top Stocks',
+  },
+];
 
 export const chartRouterData: RouterElement[] = [
   {
@@ -64,8 +81,10 @@ export const rootRouterData: RouterElement[] = [
   {
     id: '0',
     path: '/',
+    relocatedPath: `/`,
     label: 'Home',
     element: <Home />,
+    children: homeRouterData,
     icon: 'project',
   },
   {
@@ -100,7 +119,7 @@ export const rootRouterData: RouterElement[] = [
   {
     id: '4',
     path: '/chart',
-    relocatedPath: '/chart/portfolio-allocation',
+    relocatedPath: `/chart/${chartRouterData[0].path}`,
     label: 'Chart',
     element: <Chart />,
     children: chartRouterData,

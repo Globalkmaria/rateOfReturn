@@ -30,7 +30,7 @@ const NewsContainer = styled.section`
 const NewsTitle = styled.h2`
   font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin: 20px 0;
   color: ${({ theme }) => theme.colors.black};
   text-align: center;
   text-transform: uppercase;

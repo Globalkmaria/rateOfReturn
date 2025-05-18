@@ -41,7 +41,6 @@ const StyledTitle = styled('h2')`
   font-size: 24px;
   font-weight: 700;
   margin: 0;
-  padding: 20px;
   text-align: center;
 `;
 
