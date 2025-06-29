@@ -16,6 +16,8 @@ function StockAI() {
   const onSubmit: MouseEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
 
+    if (!stockName.trim()) return;
+
     setData('');
     setError('');
     setLoading(true);
@@ -24,7 +26,6 @@ function StockAI() {
     setLoading(false);
 
     if (result.success) {
-      console.log(result.data);
       setData(result.data.text);
       setError('');
       return;
@@ -53,14 +54,12 @@ function StockAI() {
         </BorderButton>
       </StyledSearchBar>
 
-      {loading && <StyledLoading>{LoadingMessage}</StyledLoading>}
-      {error && <div>{error}</div>}
+      <StyledContext>
+        {loading && <>{LoadingMessage}</>}
+        {error && <>{error}</>}
 
-      {data && (
-        <StyledResponse>
-          <Markdown>{data}</Markdown>
-        </StyledResponse>
-      )}
+        {data && <Markdown>{data}</Markdown>}
+      </StyledContext>
     </div>
   );
 }
@@ -98,10 +97,6 @@ const StyledInput = styled('input')`
   border-radius: 5px;
 `;
 
-const StyledLoading = styled('p')`
-  margin-top: 20px;
-`;
-
-const StyledResponse = styled('section')`
+const StyledContext = styled('section')`
   margin-top: 20px;
 `;

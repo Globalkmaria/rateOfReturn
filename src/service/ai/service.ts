@@ -21,6 +21,20 @@ class AiService {
         };
       }
 
+      if (result.response.status === 429) {
+        return {
+          success: false,
+          message: 'Too many requests. Please try again later.',
+        };
+      }
+
+      if (result.response.status === 400) {
+        return {
+          success: false,
+          message: 'Please check the stock name or symbol.',
+        };
+      }
+
       throw new Error(result.message);
     } catch (error) {
       console.error(error);
