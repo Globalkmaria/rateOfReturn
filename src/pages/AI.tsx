@@ -4,11 +4,9 @@ import StockAI from '@/views/AI';
 
 function AIPage() {
   return (
-    <>
-      <StyledChart>
-        <StockAI />
-      </StyledChart>
-    </>
+    <StyledChart>
+      <StockAI />
+    </StyledChart>
   );
 }
 
