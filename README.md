@@ -60,7 +60,10 @@ This project allows you to:
 8. **Note Management**
    - Description: Manage notes related to your stocks with advanced filtering, sorting, and automatic inclusion of relevant information.
    - Benefits: Keep organized records and efficiently manage your investment-related notes.
-
+9. **Integrated Financial News Feed**
+   - Description: Get the latest financial headlines from trusted sources like The Wall Street Journal (WSJ), The New York Times (NYT), and The Financial Times (FT) directly on the homepage.
+   - Benefits: Stay updated with real-time news without leaving the app, enhancing decision-making based on current events.
+  
 ## Skills and Technologies Used
 
 - **Frontend**
@@ -77,30 +80,38 @@ This project allows you to:
 ## Snapshot
 
 - Home page
-  <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/74db3c06-9461-458a-a40e-15cdf9999522">
+<br/>
+  <img width="700" alt="image" src="https://github.com/user-attachments/assets/f51c42de-8add-441f-b4e5-80e8b8f760b3" />
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/62055834-888e-4258-86ef-763c59e26780" />
+
 
 - Current page
+<br/>
   <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/0bc72060-1b76-4981-9290-d28a8852c52b">
   <img width="700" height="400" src="https://github.com/user-attachments/assets/ccdd4014-0d29-453b-9843-6d894d30862b">
   <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/cd5059d2-2655-4445-b677-e28e6f8642b6">
 
 - Add group
+<br/>
   <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/7f07aee1-e1f3-4e51-8771-c2a8ffe9a9f5">
 
 - Chart page
-
+<br/>
 <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/797604e3-9437-45cb-8545-e421f7bfcb2f">
 <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/b988be7f-2256-4d8f-a661-4922e4c4011d">
 
 - Sold page
-
+<br/>
 <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/4a1899f2-9472-4057-bc64-43933599cb1d">
 
 - Note page
+<br/>
   <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/1125f786-0755-4e0f-8fb4-ebf5f1791292">
   <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/849fe467-5138-4fae-811a-0a6eade2a63a">
 
 - Login page
+<br/>
   <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/8ee4c711-8d86-40fc-9ec3-73b38eda5f6c">
 - Data Sync when there is local data and login
+<br/>
   <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/a090f150-98f4-4fce-895a-032aafe42a8c">
