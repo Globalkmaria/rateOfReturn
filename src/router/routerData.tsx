@@ -6,6 +6,7 @@ import TagAllocation from '@/views/Chart/TagAllocation';
 import News from '@/views/Home/News';
 import TopStocks from '@/views/Home/TopStocks';
 
+import AIPage from '@/pages/AI';
 import Chart from '@/pages/Chart';
 import Home from '@/pages/Home';
 import List from '@/pages/List';
@@ -138,5 +139,12 @@ export const rootRouterData: RouterElement[] = [
     label: 'Note',
     element: <Note />,
     icon: 'note',
+  },
+  {
+    id: '7',
+    path: '/ai',
+    label: 'AI',
+    element: <AIPage />,
+    icon: 'ai',
   },
 ];
