@@ -7,3 +7,7 @@ export interface ResultWithData<T> {
   success: boolean;
   message?: string;
 }
+
+export type ResultWithData2<T> =
+  | { data: T; success: true }
+  | { success: false; message: string };

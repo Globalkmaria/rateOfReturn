@@ -36,6 +36,7 @@ import {
 } from 'react-icons/md';
 import { MdOutlineOutput, MdOutlineDateRange } from 'react-icons/md';
 import { PiProjectorScreenChartBold } from 'react-icons/pi';
+import { SiOpenai } from 'react-icons/si';
 
 const _ICON_NAMES = [
   'edit',
@@ -72,6 +73,7 @@ const _ICON_NAMES = [
   'sortArrowUp',
   'sortArrowDown',
   'sortArrowUpDown',
+  'ai',
 ] as const;
 
 export type IconButtonType = (typeof _ICON_NAMES)[number];
@@ -113,6 +115,7 @@ export const ICONS: {
   sortArrowUp: <FaSortUp />,
   sortArrowDown: <FaSortDown />,
   sortArrowUpDown: <FaSort />,
+  ai: <SiOpenai />,
 };
 
 export const ICON_TITLES: { [key in IconButtonType]: string } = {
@@ -150,4 +153,5 @@ export const ICON_TITLES: { [key in IconButtonType]: string } = {
   sortArrowUp: 'Sort ascending',
   sortArrowDown: 'Sort descending',
   sortArrowUpDown: 'Sort',
+  ai: 'AI',
 };
