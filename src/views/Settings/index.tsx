@@ -1,8 +1,11 @@
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
 
 import authService from '@/service/auth';
+
+import { selectIsLoggedIn } from '@/features/user/selectors';
 
 import { ContainedButton } from '@/components/Button';
 import WarningModal from '@/components/WarningModal';
@@ -12,8 +15,14 @@ import useModal from '../List/hooks/useModal';
 const Settings = () => {
   const navigate = useNavigate();
   const { showModal, onOpenModal, onCloseModal } = useModal();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const handleDeleteAccount = async () => {
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
+
     const result = await authService.deleteAccount();
 
     if (result) {
