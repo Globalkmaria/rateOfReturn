@@ -1,28 +1,54 @@
+import { useNavigate } from 'react-router-dom';
+
 import styled from 'styled-components';
 
 import { ContainedButton } from '@/components/Button';
+import WarningModal from '@/components/WarningModal';
+
+import useModal from '../List/hooks/useModal';
 
 const Settings = () => {
-  return (
-    <StyledContainer>
-      <StyledHeader>
-        <StyledTitle>Account Settings</StyledTitle>
-        <StyledSubtitle>
-          Manage your account preferences and data
-        </StyledSubtitle>
-      </StyledHeader>
+  const navigate = useNavigate();
+  const { showModal, onOpenModal, onCloseModal } = useModal();
 
-      <StyledDangerZone>
-        <StyledDangerTitle>Danger Zone</StyledDangerTitle>
-        <StyledDangerDescription>
-          Once you delete your account, there is no going back. Please be
-          certain.
-        </StyledDangerDescription>
-        <ContainedButton size='s' color={'warning'}>
-          Delete Account
-        </ContainedButton>
-      </StyledDangerZone>
-    </StyledContainer>
+  const handleDeleteAccount = () => {
+    // TODO: Implement actual account deletion logic
+    console.log('Account deletion confirmed');
+    onCloseModal();
+    navigate('/');
+  };
+
+  return (
+    <>
+      <StyledContainer>
+        <StyledHeader>
+          <StyledTitle>Account Settings</StyledTitle>
+          <StyledSubtitle>
+            Manage your account preferences and data
+          </StyledSubtitle>
+        </StyledHeader>
+
+        <StyledDangerZone>
+          <StyledDangerTitle>Danger Zone</StyledDangerTitle>
+          <StyledDangerDescription>
+            Once you delete your account, there is no going back. Please be
+            certain.
+          </StyledDangerDescription>
+          <ContainedButton size='s' color={'warning'} onClick={onOpenModal}>
+            Delete Account
+          </ContainedButton>
+        </StyledDangerZone>
+      </StyledContainer>
+
+      {showModal && (
+        <WarningModal
+          message='Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.'
+          onClose={onCloseModal}
+          onConfirm={handleDeleteAccount}
+          buttonName='Delete Account'
+        />
+      )}
+    </>
   );
 };
 
