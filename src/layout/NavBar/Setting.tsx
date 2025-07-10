@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
 
@@ -11,8 +12,14 @@ import IconButton from '@/components/IconButton';
 function Setting() {
   const settingControl = useModal();
   const backupControl = useModal();
+  const navigate = useNavigate();
 
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const onSettingLink = () => {
+    navigate('/settings');
+    settingControl.onCloseModal();
+  };
 
   return (
     <SettingWrapper ref={containerRef}>
@@ -30,6 +37,7 @@ function Setting() {
           horizontal={'right'}
         >
           <Item onClick={backupControl.onOpenModal}>Backup</Item>
+          <Item onClick={onSettingLink}>Settings</Item>
         </Dropbox.Container>
       )}
       {backupControl.showModal && (

@@ -11,6 +11,7 @@ import Chart from '@/pages/Chart';
 import Home from '@/pages/Home';
 import List from '@/pages/List';
 import Note from '@/pages/Note';
+import Settings from '@/pages/Settings';
 import Sold from '@/pages/Sold';
 
 import { RouterElement } from './router';
@@ -146,5 +147,12 @@ export const rootRouterData: RouterElement[] = [
     label: 'AI',
     element: <AIPage />,
     icon: 'ai',
+  },
+  {
+    id: '8',
+    path: '/settings',
+    label: 'Settings',
+    element: <Settings />,
+    notNav: true,
   },
 ];
