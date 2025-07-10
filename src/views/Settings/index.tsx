@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
@@ -6,27 +6,34 @@ import styled from 'styled-components';
 import authService from '@/service/auth';
 
 import { selectIsLoggedIn } from '@/features/user/selectors';
+import { resetUser } from '@/features/user/userSlice';
 
 import { ContainedButton } from '@/components/Button';
 import WarningModal from '@/components/WarningModal';
 
+import { resetUserData } from '@/features';
+
 import useModal from '../List/hooks/useModal';
 
 const Settings = () => {
-  const navigate = useNavigate();
+  const router = useNavigate();
   const { showModal, onOpenModal, onCloseModal } = useModal();
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const dispatch = useDispatch();
 
   const handleDeleteAccount = async () => {
     if (!isLoggedIn) {
-      navigate('/login');
+      router('/login');
       return;
     }
 
     const result = await authService.deleteAccount();
 
     if (result.success) {
-      navigate('/');
+      dispatch(resetUser());
+      dispatch(resetUserData());
+      localStorage.clear();
+      router('/');
     } else {
       alert(result.message);
     }
