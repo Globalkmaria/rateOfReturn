@@ -13,5 +13,4 @@ export type SignupRepRes = LoginRepRes;
 
 export type DeleteAccountRepRes = {
   message: string;
-  deletedUser: string;
 };

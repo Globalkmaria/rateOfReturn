@@ -73,16 +73,32 @@ class AuthService {
     }
   }
 
-  async deleteAccount(): Promise<boolean | null> {
+  async deleteAccount(): Promise<{
+    success: boolean;
+    message: string;
+  }> {
     try {
       const result = await this.repo.deleteAccount();
       if (result && 'error' in result) {
+        if (result.response.status === 403) {
+          return {
+            success: false,
+            message: 'Unauthorized to delete account. Please contact support.',
+          };
+        }
+
         throw new Error(result.message);
       }
-      return true;
+      return {
+        success: true,
+        message: 'Account deleted successfully',
+      };
     } catch (err) {
       console.log(err);
-      return null;
+      return {
+        success: false,
+        message: 'Failed to delete account. Please try again later.',
+      };
     }
   }
 }

@@ -25,10 +25,10 @@ const Settings = () => {
 
     const result = await authService.deleteAccount();
 
-    if (result) {
+    if (result.success) {
       navigate('/');
     } else {
-      alert('Failed to delete account. Please try again later.');
+      alert(result.message);
     }
 
     onCloseModal();
