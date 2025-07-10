@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-import SignupComponent from '../views/Signup/Signup';
+import SignupComponent from '@/views/Signup/Signup';
+
+import { StyledPage } from './style';
 
 const Signup = () => {
   return (
@@ -14,14 +16,9 @@ const Signup = () => {
 };
 
 export default Signup;
-const StyledSignup = styled('div')`
-  min-height: calc(100vh - 141px);
+const StyledSignup = styled(StyledPage)`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  @media ${({ theme }) => theme.devices.tablet} {
-    min-height: calc(100vh - 200px);
-  }
 `;

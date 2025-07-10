@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import styled from 'styled-components';
-
 import { validateSoldQuery } from '@/views/Sold/Table/helper';
 import SoldTableContainer from '@/views/Sold/Table/SoldTableContainer';
+
+import { StyledPage } from './style';
 
 function SoldPage() {
   const navigate = useNavigate();
@@ -18,19 +18,11 @@ function SoldPage() {
   return (
     <>
       <title>Check Out the Stocks You Sold | ROR</title>
-      <StyledContainer>
+      <StyledPage>
         <SoldTableContainer />
-      </StyledContainer>
+      </StyledPage>
     </>
   );
 }
 
 export default SoldPage;
-
-const StyledContainer = styled('div')`
-  padding: 20px 40px;
-
-  @media ${({ theme }) => theme.devices.mobile} {
-    padding: 20px;
-  }
-`;
