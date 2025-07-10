@@ -10,3 +10,8 @@ export type LoginRepRes = UserInfo;
 
 export type SignupRepReq = LoginResReq;
 export type SignupRepRes = LoginRepRes;
+
+export type DeleteAccountRepRes = {
+  message: string;
+  deletedUser: string;
+};

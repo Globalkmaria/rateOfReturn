@@ -1,4 +1,5 @@
 import {
+  DeleteAccountRepRes,
   LoginRepRes,
   LoginResReq,
   MeRepRes,
@@ -46,9 +47,15 @@ class AuthRepository {
     });
   }
 
-  async logout(): Promise<unknown | ErrorResponse> {
+  async logout(): Promise<undefined | ErrorResponse> {
     return this.http.fetch('/logout', {
       method: 'GET',
+    });
+  }
+
+  async deleteAccount(): Promise<DeleteAccountRepRes | ErrorResponse> {
+    return this.http.fetch('/account/complete', {
+      method: 'DELETE',
     });
   }
 }

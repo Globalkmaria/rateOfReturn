@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
 
+import authService from '@/service/auth';
+
 import { ContainedButton } from '@/components/Button';
 import WarningModal from '@/components/WarningModal';
 
@@ -11,11 +13,16 @@ const Settings = () => {
   const navigate = useNavigate();
   const { showModal, onOpenModal, onCloseModal } = useModal();
 
-  const handleDeleteAccount = () => {
-    // TODO: Implement actual account deletion logic
-    console.log('Account deletion confirmed');
+  const handleDeleteAccount = async () => {
+    const result = await authService.deleteAccount();
+
+    if (result) {
+      navigate('/');
+    } else {
+      alert('Failed to delete account. Please try again later.');
+    }
+
     onCloseModal();
-    navigate('/');
   };
 
   return (

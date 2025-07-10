@@ -72,6 +72,19 @@ class AuthService {
       return null;
     }
   }
+
+  async deleteAccount(): Promise<boolean | null> {
+    try {
+      const result = await this.repo.deleteAccount();
+      if (result && 'error' in result) {
+        throw new Error(result.message);
+      }
+      return true;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  }
 }
 
 const authService = new AuthService(authRepository);
