@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import { StyledPage } from './style';
 import StockList from '../views/List/StockList';
 
 const List = () => {
@@ -18,7 +19,7 @@ const List = () => {
 
 export default List;
 
-const StyledList = styled('div')`
+const StyledList = styled(StyledPage)`
   padding: 0 40px 20px 40px;
 
   @media ${({ theme }) => theme.devices.mobile} {

@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 import StockAI from '@/views/AI';
 
+import { StyledPage } from './style';
+
 function AIPage() {
   return (
     <StyledChart>
@@ -12,17 +14,7 @@ function AIPage() {
 
 export default AIPage;
 
-const StyledChart = styled('div')`
-  min-height: calc(100vh - 141px);
-  padding: 20px 40px;
+const StyledChart = styled(StyledPage)`
   display: flex;
   flex-direction: column;
-
-  @media ${({ theme }) => theme.devices.tablet} {
-    min-height: calc(100vh - 200px);
-  }
-
-  @media ${({ theme }) => theme.devices.mobile} {
-    padding: 20px;
-  }
 `;
