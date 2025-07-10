@@ -16,6 +16,11 @@ function Setting() {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const onSettingLink = () => {
+    navigate('/settings');
+    settingControl.onCloseModal();
+  };
+
   return (
     <SettingWrapper ref={containerRef}>
       <IconButton
@@ -32,14 +37,7 @@ function Setting() {
           horizontal={'right'}
         >
           <Item onClick={backupControl.onOpenModal}>Backup</Item>
-          <Item
-            onClick={() => {
-              navigate('/settings');
-              settingControl.onCloseModal();
-            }}
-          >
-            Settings
-          </Item>
+          <Item onClick={onSettingLink}>Settings</Item>
         </Dropbox.Container>
       )}
       {backupControl.showModal && (
