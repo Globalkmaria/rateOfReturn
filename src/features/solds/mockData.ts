@@ -6,6 +6,7 @@ export const SOLD_MOCK_DATA: SoldsState = {
       '1': {
         stockId: '34',
         stockName: 'APPLE',
+        symbol: 'AAPL',
         purchasedId: '34',
         purchasedQuantity: 12,
         purchasedDate: '2024-05-16',
@@ -20,6 +21,7 @@ export const SOLD_MOCK_DATA: SoldsState = {
       '2': {
         stockId: '29',
         stockName: 'Tesla',
+        symbol: 'TSLA',
         purchasedId: '31',
         purchasedQuantity: 7,
         purchasedDate: '2024-04-24',

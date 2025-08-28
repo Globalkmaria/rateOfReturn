@@ -4,6 +4,7 @@ export const MOCK_DATA: StockListState['stocks'] = {
   byId: {
     '2': {
       mainInfo: {
+        symbol: 'SPY',
         stockName: 'SPDR S&P 500',
         currentPrice: '523.3000',
         stockId: '2',
@@ -31,6 +32,7 @@ export const MOCK_DATA: StockListState['stocks'] = {
     },
     '4': {
       mainInfo: {
+        symbol: 'TLT',
         stockName: 'TLT',
         currentPrice: '90.8600',
         stockId: '4',
@@ -58,6 +60,7 @@ export const MOCK_DATA: StockListState['stocks'] = {
     },
     '14': {
       mainInfo: {
+        symbol: 'IEF',
         stockName: 'IEF',
         currentPrice: '92.8800',
         stockId: '14',
@@ -78,6 +81,7 @@ export const MOCK_DATA: StockListState['stocks'] = {
     },
     '15': {
       mainInfo: {
+        symbol: 'QQQ',
         stockName: 'QQQ',
         currentPrice: '445.9300',
         stockId: '15',
@@ -105,6 +109,7 @@ export const MOCK_DATA: StockListState['stocks'] = {
     },
     '22': {
       mainInfo: {
+        symbol: 'GOOG',
         stockName: 'Alphabet',
         currentPrice: '171.9300',
         stockId: '22',
@@ -125,6 +130,7 @@ export const MOCK_DATA: StockListState['stocks'] = {
     },
     '23': {
       mainInfo: {
+        symbol: 'AMZN',
         stockName: 'Amazon',
         currentPrice: '187.0700',
         stockId: '23',
@@ -145,6 +151,7 @@ export const MOCK_DATA: StockListState['stocks'] = {
     },
     '29': {
       mainInfo: {
+        symbol: 'TSLA',
         stockName: 'Tesla',
         currentPrice: '174.9500',
         stockId: '29',

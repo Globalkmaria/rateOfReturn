@@ -1,7 +1,12 @@
 import { TableHead } from '@/components/table/Table';
 
 import CheckAllCheckbox from './CheckAllCheckbox';
-import { HeaderItemProps, StyledBuyId, StyledStockName } from './HeaderItem';
+import {
+  HeaderItemProps,
+  StyledBuyId,
+  StyledStockName,
+  StyledSymbol,
+} from './HeaderItem';
 
 export const HEADER_LIST: HeaderItemProps[] = [
   {
@@ -10,6 +15,13 @@ export const HEADER_LIST: HeaderItemProps[] = [
     Component: CheckAllCheckbox,
     notTableHead: true,
     fixedWidth: 50,
+  },
+  {
+    id: '14',
+    label: 'Symbol',
+    fixedWidth: 120,
+    Component: StyledSymbol,
+    notTableHead: false,
   },
   {
     id: '2',

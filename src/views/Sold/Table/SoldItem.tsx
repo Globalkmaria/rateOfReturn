@@ -156,6 +156,7 @@ function SoldItem({ id }: Props) {
   return (
     <StyledContainer>
       <TableCell align='center'>{item.id}</TableCell>
+      <TableCell align='center'>{item.symbol}</TableCell>
       <TableCell>
         <StyledTextWrapper>{item.stockName}</StyledTextWrapper>
       </TableCell>

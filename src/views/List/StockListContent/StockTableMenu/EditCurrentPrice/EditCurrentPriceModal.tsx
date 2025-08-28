@@ -1,22 +1,18 @@
-import { useRef, useState } from 'react';
+import { useState, useTransition } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 
+import stockService from '@/service/stocks/service';
 import userStocksService from '@/service/userStocks/userStocks';
 
-import {
-  selectStockInfoById,
-  selectStocks,
-} from '@/features/stockList/selectors';
+import { selectStocks } from '@/features/stockList/selectors';
 import { updateStocksCurrentPrice } from '@/features/stockList/stockListSlice';
 import { StockMainInfo } from '@/features/stockList/type';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 
 import { HeaderItemProps } from '@/views/List/Header/HeaderItem';
-import { InputCell } from '@/views/List/StockItem/components';
 import { PurchasedInputChangeProps } from '@/views/List/StockItem/PurchasedStock/PurchasedStock';
-import { checkCurrentPrice } from '@/views/List/StockItem/validity';
 
 import { BorderButton, ContainedButton } from '@/components/Button';
 import Flex from '@/components/Flex';
@@ -25,13 +21,18 @@ import PortalModal from '@/components/Modal/PortalModal';
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/table/Table';
 
-import { getFixedLocaleString } from '@/utils';
+import EditCurrentPriceStockRow from './EditCurrentPriceStockRow';
+import {
+  formatPricesForStore,
+  getCurrentPriceChanges,
+  getFailedSymbols,
+  getFailedSymbolsErrorMessage,
+} from './helper';
 
 export interface CurrentPriceChanges {
   [key: string]: StockMainInfo['currentPrice'];
@@ -45,8 +46,12 @@ function EditCurrentPriceModal({ onClose }: Props) {
   const dispatch = useDispatch();
   const [changes, setChanges] = useState<CurrentPriceChanges>({});
   const [isSubModalOpen, setIsSubModalOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [errorIds, setErrorIds] = useState(new Set<string>());
   const stocks = useSelector(selectStocks);
   const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  const priceButtonText = isPending ? 'Loading...' : 'Get Price';
 
   const onInputChange: PurchasedInputChangeProps = (e, transformedValue) => {
     if (transformedValue === null) return;
@@ -72,15 +77,7 @@ function EditCurrentPriceModal({ onClose }: Props) {
       }
     }
 
-    const data = Object.entries(changes).reduce(
-      (acc, [id, value]) => {
-        acc[id] = getFixedLocaleString(value);
-        return acc;
-      },
-      {} as { [key: string]: string },
-    );
-
-    dispatch(updateStocksCurrentPrice(data));
+    dispatch(updateStocksCurrentPrice(formatPricesForStore(changes)));
     setChanges({});
     onClose();
   };
@@ -101,17 +98,53 @@ function EditCurrentPriceModal({ onClose }: Props) {
     onClose();
   };
 
+  const getPrice = () => {
+    startTransition(async () => {
+      const result = await stockService.getPrice(
+        stocks.allIds.map(id => stocks.byId[id].mainInfo.symbol),
+      );
+
+      if (!result.success) {
+        alert(result.message);
+        return;
+      }
+
+      const newChanges = getCurrentPriceChanges({
+        stocks,
+        changes,
+        fetchedQuotes: result.data.data.quotes,
+      });
+      setChanges(newChanges);
+
+      if (result.data.failedSymbols.length) {
+        alert(getFailedSymbolsErrorMessage(result.data.failedSymbols));
+
+        const errorIds = getFailedSymbols(stocks, result.data.failedSymbols);
+        setErrorIds(errorIds);
+      }
+    });
+  };
+
   return (
     <>
       <PortalModal title='Edit current prices' onClose={onCloseMainModal}>
         <StyledLinkBox>
           <StyledLink
             rel='noreferrer'
-            href='https://www.investing.com/'
+            href='https://finance.yahoo.com'
             target='_blank'
           >
-            investing.com
+            finance.yahoo.com
           </StyledLink>
+          <StyledPriceButtonContainer>
+            <BorderButton size='s' onClick={getPrice} disabled={isPending}>
+              {priceButtonText}
+            </BorderButton>
+            <StyledHelperText>
+              Previous close prices are updated when Get Price button is
+              clicked.
+            </StyledHelperText>
+          </StyledPriceButtonContainer>
         </StyledLinkBox>
         <StyledModal>
           <StyledTableWrapper>
@@ -127,11 +160,12 @@ function EditCurrentPriceModal({ onClose }: Props) {
               </TableHeader>
               <TableBody>
                 {stocks.allIds.map(stockId => (
-                  <StockPriceRow
+                  <EditCurrentPriceStockRow
                     key={stockId}
                     stockId={stockId}
                     changes={changes}
                     onChange={onInputChange}
+                    isError={errorIds.has(stockId)}
                   />
                 ))}
               </TableBody>
@@ -164,13 +198,18 @@ export default EditCurrentPriceModal;
 const HEADER_LIST: HeaderItemProps[] = [
   {
     id: '1',
-    label: 'Stock Name',
-    minWidth: 200,
+    label: 'Symbol',
+    minWidth: 80,
   },
   {
     id: '2',
+    label: 'Stock Name',
+    minWidth: 80,
+  },
+  {
+    id: '3',
     label: 'Current Price',
-    fixedWidth: 150,
+    fixedWidth: 100,
   },
 ];
 
@@ -186,6 +225,7 @@ const StyledModal = styled('div')`
 `;
 
 const StyledTableWrapper = styled('div')`
+  width: 100%;
   max-width: 1000px;
   max-height: 500px;
   overflow: auto;
@@ -197,12 +237,17 @@ const StyledTableWrapper = styled('div')`
 
   @media ${({ theme }) => theme.devices.mobile} {
     padding: 0;
+
+    th,
+    td {
+      font-size: 0.7rem;
+    }
   }
 `;
 
 const StyledLinkBox = styled('div')`
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
 `;
 
 const StyledLink = styled('a')`
@@ -210,50 +255,18 @@ const StyledLink = styled('a')`
   color: ${({ theme }) => theme.colors.grey600};
 `;
 
-const StyledButtonContainer = styled(Flex)`
-  margin-top: 20px;
+const StyledPriceButtonContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
 `;
 
-interface ItemProps {
-  stockId: string;
-  changes: CurrentPriceChanges;
-  onChange: PurchasedInputChangeProps;
-}
+const StyledHelperText = styled('p')`
+  font-size: 0.8rem;
+  color: ${({ theme }) => theme.colors.grey600};
+`;
 
-function StockPriceRow({ stockId, onChange, changes }: ItemProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const { mainInfo } = useSelector(selectStockInfoById(stockId));
-
-  const value = changes[stockId] ?? mainInfo.currentPrice;
-  const handleFocus = () => inputRef.current?.select();
-
-  return (
-    <StyledTableRow>
-      <TableCell>{mainInfo.stockName}</TableCell>
-      <InputCell
-        onFocus={handleFocus}
-        ref={inputRef}
-        name={stockId}
-        value={value}
-        align='right'
-        onChange={onChange}
-        validation={checkCurrentPrice}
-        type='decimal'
-      />
-    </StyledTableRow>
-  );
-}
-
-const StyledTableRow = styled(TableRow)`
-  &:hover {
-    background: ${({ theme }) => theme.colors.grey100};
-  }
-
-  input {
-    background: ${({ theme }) => theme.colors.grey200};
-
-    &:focus {
-      background: ${({ theme }) => theme.colors.grey200};
-    }
-  }
+const StyledButtonContainer = styled(Flex)`
+  margin-top: 20px;
 `;

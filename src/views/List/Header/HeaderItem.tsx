@@ -50,6 +50,12 @@ function HeaderItem({
 
 export default HeaderItem;
 
+export const StyledSymbol = styled(TableHead)`
+  @media ${({ theme }) => theme.devices.mobile} {
+    min-width: 150px;
+  }
+`;
+
 export const StyledStockName = styled(TableHead)`
   @media ${({ theme }) => theme.devices.mobile} {
     min-width: 70px;
