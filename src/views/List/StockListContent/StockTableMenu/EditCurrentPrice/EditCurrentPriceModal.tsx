@@ -1,8 +1,9 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useTransition } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 
+import stockService from '@/service/stocks/service';
 import userStocksService from '@/service/userStocks/userStocks';
 
 import {
@@ -47,6 +48,10 @@ function EditCurrentPriceModal({ onClose }: Props) {
   const [isSubModalOpen, setIsSubModalOpen] = useState(false);
   const stocks = useSelector(selectStocks);
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const [isPending, startTransition] = useTransition();
+  const [errorIds, setErrorIds] = useState(new Set<string>());
+
+  const priceButtonText = isPending ? 'Loading...' : 'Get Price';
 
   const onInputChange: PurchasedInputChangeProps = (e, transformedValue) => {
     if (transformedValue === null) return;
@@ -101,17 +106,82 @@ function EditCurrentPriceModal({ onClose }: Props) {
     onClose();
   };
 
+  const getPrice = () => {
+    startTransition(async () => {
+      const result = await stockService.getPrice(
+        stocks.allIds.map(id => stocks.byId[id].mainInfo.symbol),
+      );
+
+      if (!result.success) {
+        alert(result.message);
+        return;
+      }
+
+      const stockIds = stocks.allIds;
+      const baseChanges = stockIds.reduce((acc, id) => {
+        const info = stocks.byId[id].mainInfo;
+        acc[id] = acc[id] ?? info.currentPrice;
+        return acc;
+      }, changes);
+
+      const quotes = result.data.data.quotes.reduce(
+        (acc, quote) => {
+          acc[quote.symbol] = quote.previousClosePrice;
+          return acc;
+        },
+        {} as { [key: string]: number },
+      );
+
+      const newChanges = Object.entries(baseChanges).reduce((acc, [id]) => {
+        const symbol = stocks.byId[id].mainInfo.symbol.toUpperCase().trim();
+        const price = quotes[symbol];
+        if (price) {
+          acc[id] = getFixedLocaleString(price);
+        }
+
+        return acc;
+      }, baseChanges);
+
+      setChanges(newChanges);
+
+      if (result.data.failedSymbols.length) {
+        alert(
+          `Failed to get price for ${result.data.failedSymbols.join(', ')}. Please check the symbol and try again.`,
+        );
+        const failedSymbols = new Set(result.data.failedSymbols);
+        const errorIds = new Set(
+          stocks.allIds.filter(id =>
+            failedSymbols.has(
+              stocks.byId[id].mainInfo.symbol.toUpperCase().trim(),
+            ),
+          ),
+        );
+
+        setErrorIds(errorIds);
+      }
+    });
+  };
+
   return (
     <>
       <PortalModal title='Edit current prices' onClose={onCloseMainModal}>
         <StyledLinkBox>
           <StyledLink
             rel='noreferrer'
-            href='https://www.investing.com/'
+            href='https://finance.yahoo.com'
             target='_blank'
           >
-            investing.com
+            finance.yahoo.com
           </StyledLink>
+          <StyledPriceButtonContainer>
+            <BorderButton size='s' onClick={getPrice} disabled={isPending}>
+              {priceButtonText}
+            </BorderButton>
+            <StyledHelperText>
+              Previous close prices are updated when Get Price button is
+              clicked.
+            </StyledHelperText>
+          </StyledPriceButtonContainer>
         </StyledLinkBox>
         <StyledModal>
           <StyledTableWrapper>
@@ -132,6 +202,7 @@ function EditCurrentPriceModal({ onClose }: Props) {
                     stockId={stockId}
                     changes={changes}
                     onChange={onInputChange}
+                    isError={errorIds.has(stockId)}
                   />
                 ))}
               </TableBody>
@@ -164,13 +235,18 @@ export default EditCurrentPriceModal;
 const HEADER_LIST: HeaderItemProps[] = [
   {
     id: '1',
-    label: 'Stock Name',
-    minWidth: 200,
+    label: 'Symbol',
+    minWidth: 80,
   },
   {
     id: '2',
+    label: 'Stock Name',
+    minWidth: 80,
+  },
+  {
+    id: '3',
     label: 'Current Price',
-    fixedWidth: 150,
+    fixedWidth: 100,
   },
 ];
 
@@ -186,6 +262,7 @@ const StyledModal = styled('div')`
 `;
 
 const StyledTableWrapper = styled('div')`
+  width: 100%;
   max-width: 1000px;
   max-height: 500px;
   overflow: auto;
@@ -197,16 +274,33 @@ const StyledTableWrapper = styled('div')`
 
   @media ${({ theme }) => theme.devices.mobile} {
     padding: 0;
+
+    th,
+    td {
+      font-size: 0.7rem;
+    }
   }
 `;
 
 const StyledLinkBox = styled('div')`
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
 `;
 
 const StyledLink = styled('a')`
   text-decoration: underline;
+  color: ${({ theme }) => theme.colors.grey600};
+`;
+
+const StyledPriceButtonContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+`;
+
+const StyledHelperText = styled('p')`
+  font-size: 0.8rem;
   color: ${({ theme }) => theme.colors.grey600};
 `;
 
@@ -218,9 +312,10 @@ interface ItemProps {
   stockId: string;
   changes: CurrentPriceChanges;
   onChange: PurchasedInputChangeProps;
+  isError: boolean;
 }
 
-function StockPriceRow({ stockId, onChange, changes }: ItemProps) {
+function StockPriceRow({ stockId, onChange, changes, isError }: ItemProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const { mainInfo } = useSelector(selectStockInfoById(stockId));
 
@@ -228,7 +323,8 @@ function StockPriceRow({ stockId, onChange, changes }: ItemProps) {
   const handleFocus = () => inputRef.current?.select();
 
   return (
-    <StyledTableRow>
+    <StyledTableRow isError={isError}>
+      <TableCell>{mainInfo.symbol}</TableCell>
       <TableCell>{mainInfo.stockName}</TableCell>
       <InputCell
         onFocus={handleFocus}
@@ -244,9 +340,13 @@ function StockPriceRow({ stockId, onChange, changes }: ItemProps) {
   );
 }
 
-const StyledTableRow = styled(TableRow)`
+const StyledTableRow = styled(TableRow)<{ isError: boolean }>`
+  background: ${({ theme, isError }) =>
+    isError ? theme.colors.red100 : theme.colors.white};
+
   &:hover {
-    background: ${({ theme }) => theme.colors.grey100};
+    background: ${({ theme, isError }) =>
+      isError ? theme.colors.red100 : theme.colors.grey100};
   }
 
   input {
