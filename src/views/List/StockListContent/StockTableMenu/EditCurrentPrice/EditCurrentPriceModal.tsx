@@ -1,4 +1,4 @@
-import { useRef, useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components';
@@ -6,18 +6,13 @@ import styled from 'styled-components';
 import stockService from '@/service/stocks/service';
 import userStocksService from '@/service/userStocks/userStocks';
 
-import {
-  selectStockInfoById,
-  selectStocks,
-} from '@/features/stockList/selectors';
+import { selectStocks } from '@/features/stockList/selectors';
 import { updateStocksCurrentPrice } from '@/features/stockList/stockListSlice';
 import { StockMainInfo } from '@/features/stockList/type';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 
 import { HeaderItemProps } from '@/views/List/Header/HeaderItem';
-import { InputCell } from '@/views/List/StockItem/components';
 import { PurchasedInputChangeProps } from '@/views/List/StockItem/PurchasedStock/PurchasedStock';
-import { checkCurrentPrice } from '@/views/List/StockItem/validity';
 
 import { BorderButton, ContainedButton } from '@/components/Button';
 import Flex from '@/components/Flex';
@@ -26,13 +21,18 @@ import PortalModal from '@/components/Modal/PortalModal';
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/table/Table';
 
-import { getFixedLocaleString } from '@/utils';
+import EditCurrentPriceStockRow from './EditCurrentPriceStockRow';
+import {
+  formatPricesForStore,
+  getCurrentPriceChanges,
+  getFailedSymbols,
+  getFailedSymbolsErrorMessage,
+} from './helper';
 
 export interface CurrentPriceChanges {
   [key: string]: StockMainInfo['currentPrice'];
@@ -46,10 +46,10 @@ function EditCurrentPriceModal({ onClose }: Props) {
   const dispatch = useDispatch();
   const [changes, setChanges] = useState<CurrentPriceChanges>({});
   const [isSubModalOpen, setIsSubModalOpen] = useState(false);
-  const stocks = useSelector(selectStocks);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
   const [isPending, startTransition] = useTransition();
   const [errorIds, setErrorIds] = useState(new Set<string>());
+  const stocks = useSelector(selectStocks);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const priceButtonText = isPending ? 'Loading...' : 'Get Price';
 
@@ -77,15 +77,7 @@ function EditCurrentPriceModal({ onClose }: Props) {
       }
     }
 
-    const data = Object.entries(changes).reduce(
-      (acc, [id, value]) => {
-        acc[id] = getFixedLocaleString(value);
-        return acc;
-      },
-      {} as { [key: string]: string },
-    );
-
-    dispatch(updateStocksCurrentPrice(data));
+    dispatch(updateStocksCurrentPrice(formatPricesForStore(changes)));
     setChanges({});
     onClose();
   };
@@ -117,46 +109,17 @@ function EditCurrentPriceModal({ onClose }: Props) {
         return;
       }
 
-      const stockIds = stocks.allIds;
-      const baseChanges = stockIds.reduce((acc, id) => {
-        const info = stocks.byId[id].mainInfo;
-        acc[id] = acc[id] ?? info.currentPrice;
-        return acc;
-      }, changes);
-
-      const quotes = result.data.data.quotes.reduce(
-        (acc, quote) => {
-          acc[quote.symbol] = quote.previousClosePrice;
-          return acc;
-        },
-        {} as { [key: string]: number },
-      );
-
-      const newChanges = Object.entries(baseChanges).reduce((acc, [id]) => {
-        const symbol = stocks.byId[id].mainInfo.symbol.toUpperCase().trim();
-        const price = quotes[symbol];
-        if (price) {
-          acc[id] = getFixedLocaleString(price);
-        }
-
-        return acc;
-      }, baseChanges);
-
+      const newChanges = getCurrentPriceChanges({
+        stocks,
+        changes,
+        fetchedQuotes: result.data.data.quotes,
+      });
       setChanges(newChanges);
 
       if (result.data.failedSymbols.length) {
-        alert(
-          `Failed to get price for ${result.data.failedSymbols.join(', ')}. Please check the symbol and try again.`,
-        );
-        const failedSymbols = new Set(result.data.failedSymbols);
-        const errorIds = new Set(
-          stocks.allIds.filter(id =>
-            failedSymbols.has(
-              stocks.byId[id].mainInfo.symbol.toUpperCase().trim(),
-            ),
-          ),
-        );
+        alert(getFailedSymbolsErrorMessage(result.data.failedSymbols));
 
+        const errorIds = getFailedSymbols(stocks, result.data.failedSymbols);
         setErrorIds(errorIds);
       }
     });
@@ -197,7 +160,7 @@ function EditCurrentPriceModal({ onClose }: Props) {
               </TableHeader>
               <TableBody>
                 {stocks.allIds.map(stockId => (
-                  <StockPriceRow
+                  <EditCurrentPriceStockRow
                     key={stockId}
                     stockId={stockId}
                     changes={changes}
@@ -306,54 +269,4 @@ const StyledHelperText = styled('p')`
 
 const StyledButtonContainer = styled(Flex)`
   margin-top: 20px;
-`;
-
-interface ItemProps {
-  stockId: string;
-  changes: CurrentPriceChanges;
-  onChange: PurchasedInputChangeProps;
-  isError: boolean;
-}
-
-function StockPriceRow({ stockId, onChange, changes, isError }: ItemProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const { mainInfo } = useSelector(selectStockInfoById(stockId));
-
-  const value = changes[stockId] ?? mainInfo.currentPrice;
-  const handleFocus = () => inputRef.current?.select();
-
-  return (
-    <StyledTableRow isError={isError}>
-      <TableCell>{mainInfo.symbol}</TableCell>
-      <TableCell>{mainInfo.stockName}</TableCell>
-      <InputCell
-        onFocus={handleFocus}
-        ref={inputRef}
-        name={stockId}
-        value={value}
-        align='right'
-        onChange={onChange}
-        validation={checkCurrentPrice}
-        type='decimal'
-      />
-    </StyledTableRow>
-  );
-}
-
-const StyledTableRow = styled(TableRow)<{ isError: boolean }>`
-  background: ${({ theme, isError }) =>
-    isError ? theme.colors.red100 : theme.colors.white};
-
-  &:hover {
-    background: ${({ theme, isError }) =>
-      isError ? theme.colors.red100 : theme.colors.grey100};
-  }
-
-  input {
-    background: ${({ theme }) => theme.colors.grey200};
-
-    &:focus {
-      background: ${({ theme }) => theme.colors.grey200};
-    }
-  }
 `;
