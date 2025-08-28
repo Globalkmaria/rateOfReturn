@@ -7,7 +7,7 @@ export type StockMainPayload = {
 
 export interface StockMainInfo {
   stockId: string;
-
+  symbol: string;
   stockName: string;
   currentPrice: string;
   tag?: string;

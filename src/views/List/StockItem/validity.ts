@@ -10,6 +10,10 @@ import { PurchasedItemInfo } from '../../../features/stockList/type';
 export type ValidityResult = { message?: string; isValid: boolean };
 type FieldType = keyof typeof schema;
 
+const symbolSchema = z.string().max(10, {
+  message: 'Symbol must be at most 10 characters long',
+});
+
 const stockNameSchema = z
   .string()
   .max(40, { message: 'Stock name must be at most 40 characters long' });
@@ -33,6 +37,7 @@ const schema = {
   name: stockNameSchema,
   price: stockPriceSchema,
   quantity: stockQuantitySchema,
+  symbol: symbolSchema,
 };
 
 export const checkStockValidity = (
@@ -86,6 +91,9 @@ export const checkCurrentPrice = (StringValue: string) => {
 
 export const checkStockName = (value: string) =>
   alertAndReturnValue(checkStockValidity('name', value));
+
+export const checkSymbol = (value: string) =>
+  alertAndReturnValue(checkStockValidity('symbol', value));
 
 export const checkQuantity = (value: string) =>
   alertAndReturnValue(checkStockValidity('quantity', Number(value)));

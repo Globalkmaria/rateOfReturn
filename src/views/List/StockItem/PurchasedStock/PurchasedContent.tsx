@@ -27,6 +27,7 @@ const PurchasedContent = ({ stockId, purchasedId }: Props) => {
   const purchasedData = getPurchasedData({ purchasedItem, mainInfo });
   return (
     <>
+      <StyledSymbol>{mainInfo.symbol}</StyledSymbol>
       <StyledStockName>{mainInfo.stockName}</StyledStockName>
       <TableCell align='center' colSpan={1}>
         {purchasedId}
@@ -46,6 +47,10 @@ const PurchasedContent = ({ stockId, purchasedId }: Props) => {
 };
 
 export default memo(PurchasedContent);
+
+const StyledSymbol = styled(TableCell)`
+  color: ${({ theme }) => theme.colors.subtitle};
+`;
 
 const StyledStockName = styled(TableCell)`
   color: ${({ theme }) => theme.colors.subtitle};
