@@ -25,6 +25,7 @@ import {
   getStockName,
   getTag,
   getBuyTime,
+  getSymbol,
 } from './utils';
 
 type SoldHeaderItemsProps =
@@ -35,6 +36,8 @@ export const SOLD_SORT_OPTIONS = [
   '',
   'id asc',
   'id desc',
+  'symbol asc',
+  'symbol desc',
   'stockName asc',
   'stockName desc',
   'tag asc',
@@ -81,6 +84,8 @@ export const SOLD_SORT_OPTIONS_FUNCTIONS: Record<
   '': ({ ids }) => ids,
   'id asc': createNumericSortFunction(getId, true),
   'id desc': createNumericSortFunction(getId, false),
+  'symbol asc': createStringSortFunction(getSymbol, true),
+  'symbol desc': createStringSortFunction(getSymbol, false),
   'stockName asc': createStringSortFunction(getStockName, true),
   'stockName desc': createStringSortFunction(getStockName, false),
   'tag asc': createStringSortFunction(getTag, true),
@@ -114,6 +119,16 @@ export const SOLD_HEADER_LIST: SoldHeaderItemsProps[] = [
     options: {
       asc: 'id asc',
       desc: 'id desc',
+    },
+  },
+  {
+    id: '14',
+    label: 'Symbol',
+    fixedWidth: 50,
+    Component: SortTableHead,
+    options: {
+      asc: 'symbol asc',
+      desc: 'symbol desc',
     },
   },
   {

@@ -5,6 +5,7 @@ export interface Sold {
 
   stockName: string;
   stockId: string;
+  symbol: string;
   tag?: string;
 
   purchasedId: string;

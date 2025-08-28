@@ -39,6 +39,9 @@ export const getId: SoldExtractFunction<number> = (sortProps, id) => Number(id);
 export const getStockName: SoldExtractFunction<string> = ({ items }, id) =>
   items[id].stockName;
 
+export const getSymbol: SoldExtractFunction<string> = ({ items }, id) =>
+  items[id].symbol;
+
 export const getTag: SoldExtractFunction<string> = ({ items }, id) =>
   items[id]?.tag ?? '';
 
