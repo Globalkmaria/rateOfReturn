@@ -97,7 +97,8 @@ const StyledStockTableBase = styled('div')`
 const StyledMainStockTable = styled(StyledStockTableBase)`
   thead tr > :first-child,
   thead tr > :nth-child(2),
-  thead tr > :nth-child(3) {
+  thead tr > :nth-child(3),
+  thead tr > :nth-child(4) {
     z-index: 3;
     left: 0;
     top: 0;
@@ -106,56 +107,75 @@ const StyledMainStockTable = styled(StyledStockTableBase)`
     left: 50px;
   }
   thead tr > :nth-child(3) {
-    left: 230px;
+    left: 170px;
+  }
+  thead tr > :nth-child(4) {
+    left: 350px;
   }
 
   tbody tr > :first-child,
   tbody tr > :nth-child(2),
-  tbody tr > td:nth-child(3) {
+  tbody tr > td:nth-child(3),
+  tbody tr > td:nth-child(4) {
     position: sticky;
     z-index: 1;
     left: 0;
-  }
-
-  tbody tr > td[colspan='2']:nth-child(3) {
-    position: static;
-    z-index: auto;
-    left: auto;
   }
 
   tbody tr > :nth-child(2) {
     left: 50px;
   }
   tbody tr > td:nth-child(3) {
-    left: 230px;
+    left: 170px;
   }
-  tbody tr > td[colspan='2']:nth-child(3) {
-    left: auto;
+  tbody tr > td:nth-child(4) {
+    left: 350px;
   }
 
   @media ${({ theme }) => theme.devices.mobile} {
-    thead tr > :nth-child(2) {
-      left: 30px;
-    }
+    thead tr > :nth-child(2),
     thead tr > :nth-child(3) {
-      left: 100px;
+      position: static;
+      z-index: auto;
+      left: auto;
+      top: auto;
     }
 
-    tbody tr > :nth-child(2) {
+    thead tr > :first-child,
+    thead tr > :nth-child(4) {
+      z-index: 3;
+      left: 0;
+      top: 0;
+    }
+
+    thead tr > :nth-child(4) {
       left: 30px;
     }
+
+    tbody tr > :nth-child(2),
     tbody tr > td:nth-child(3) {
-      left: 100px;
-    }
-    tbody tr > td[colspan='2']:nth-child(3) {
+      position: static;
+      z-index: auto;
       left: auto;
+    }
+
+    tbody tr > :first-child,
+    tbody tr > td:nth-child(4) {
+      position: sticky;
+      z-index: 1;
+      left: 0;
+    }
+
+    tbody tr > td:nth-child(4) {
+      left: 30px;
     }
   }
 `;
 
 const StyledSubStockTable = styled(StyledStockTableBase)`
   thead tr > :first-child,
-  thead tr > :nth-child(2) {
+  thead tr > :nth-child(2),
+  thead tr > :nth-child(3) {
     z-index: 3;
     left: 0;
     top: 0;
@@ -163,36 +183,51 @@ const StyledSubStockTable = styled(StyledStockTableBase)`
   thead tr > :nth-child(2) {
     left: 120px;
   }
+  thead tr > :nth-child(3) {
+    left: 300px;
+  }
 
   tbody tr > :first-child,
-  tbody tr > td:nth-child(2) {
+  tbody tr > td:nth-child(2),
+  tbody tr > td:nth-child(3) {
     position: sticky;
     z-index: 1;
     left: 0px;
-  }
-  tbody tr > td[colspan='2']:nth-child(2) {
-    position: static;
-    z-index: auto;
-    left: auto;
   }
 
   tbody tr > td:nth-child(2) {
     left: 120px;
   }
-  tbody tr > td[colspan='2']:nth-child(2) {
-    left: auto;
+  tbody tr > td:nth-child(3) {
+    left: 300px;
   }
 
   @media ${({ theme }) => theme.devices.mobile} {
+    thead tr > :first-child,
     thead tr > :nth-child(2) {
-      left: 70px;
+      position: static;
+      z-index: auto;
+      left: auto;
+      top: auto;
     }
 
-    tbody tr > td:nth-child(2) {
-      left: 70px;
+    thead tr > :nth-child(3) {
+      z-index: 3;
+      left: 0;
+      top: 0;
     }
-    tbody tr > td[colspan='2']:nth-child(2) {
+
+    tbody tr > :first-child,
+    tbody tr > td:nth-child(2) {
+      position: static;
+      z-index: auto;
       left: auto;
+    }
+
+    tbody tr > td:nth-child(3) {
+      position: sticky;
+      z-index: 1;
+      left: 0px;
     }
   }
 `;

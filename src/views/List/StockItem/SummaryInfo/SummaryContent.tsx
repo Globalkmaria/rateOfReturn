@@ -17,7 +17,7 @@ import { TableCell } from '@/components/table/Table';
 import { InputCell, NumberCell, ProfitRate } from '../components';
 import { useGetStockSummaryData } from './hooks/useGetStockSummaryData';
 import StockTag from './StockTag';
-import { checkCurrentPrice, checkStockName } from '../validity';
+import { checkCurrentPrice, checkStockName, checkSymbol } from '../validity';
 import { getNameAndValue } from './helper';
 
 type Props = {
@@ -36,6 +36,7 @@ const SummaryContent = ({ stockId }: Props) => {
   const isLock = !isEditMode;
 
   const stockName = temporalStockMainInfo?.stockName ?? stockMainInfo.stockName;
+  const symbol = temporalStockMainInfo?.symbol ?? stockMainInfo.symbol;
   const formattedCurrentPrice =
     temporalStockMainInfo?.currentPrice ?? stockMainInfo.currentPrice;
   const selectedOption = temporalStockMainInfo?.tag ?? stockMainInfo.tag;
@@ -67,6 +68,18 @@ const SummaryContent = ({ stockId }: Props) => {
 
   return (
     <>
+      <TableCell>
+        <StyledSymbol
+          aria-label='symbol'
+          fullWidth
+          onChange={onInputChange}
+          name='symbol'
+          value={symbol}
+          disabled={isLock}
+          ref={focusedInput}
+          validation={checkSymbol}
+        />
+      </TableCell>
       <TableCell>
         <StyledStockName
           aria-label='stock name'
@@ -107,6 +120,10 @@ const SummaryContent = ({ stockId }: Props) => {
 };
 
 export default memo(SummaryContent);
+
+const StyledSymbol = styled(Input)`
+  font-weight: 500;
+`;
 
 const StyledStockName = styled(Input)`
   font-weight: 500;

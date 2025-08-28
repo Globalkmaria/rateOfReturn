@@ -9,5 +9,5 @@ export interface ResultWithData<T> {
 }
 
 export type ResultWithData2<T> =
-  | { data: T; success: true }
+  | { success: true; data: T }
   | { success: false; message: string };
