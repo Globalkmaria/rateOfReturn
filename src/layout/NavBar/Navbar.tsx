@@ -5,7 +5,9 @@ import styled from 'styled-components';
 
 import { RouterElement } from '@/router/router';
 
+import AuthBtns from './AuthBtns';
 import Menu from './Menu';
+import Setting from './Setting';
 
 export type NavbarElement = Pick<
   RouterElement,
@@ -19,6 +21,10 @@ const Navbar = () => {
         <StyledTitle>ROR</StyledTitle>
       </Link>
       <Menu />
+      <RightMenu>
+        <AuthBtns />
+        <Setting />
+      </RightMenu>
     </StyledNav>
   );
 };
@@ -52,4 +58,11 @@ const StyledNav = styled('nav')`
 const StyledTitle = styled.h1`
   grid-area: site-name;
   font-size: 1.2rem;
+`;
+
+const RightMenu = styled('div')`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
 `;

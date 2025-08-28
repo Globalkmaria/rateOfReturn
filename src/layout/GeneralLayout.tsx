@@ -11,6 +11,7 @@ import Footer from './Footer';
 import Loading from './Loading';
 import MainModal from './MainModal';
 import Navbar from './NavBar/Navbar';
+import { useCheckMe } from './useCheckMe';
 import useSyncUserData from './useSyncUserData';
 
 interface GeneralLayoutProps {
@@ -19,6 +20,7 @@ interface GeneralLayoutProps {
 
 const GeneralLayout = ({ children }: GeneralLayoutProps) => {
   const [firstLoad, setFirstLoad] = useState(true);
+  useCheckMe();
   useSyncUserData();
 
   useSaveChangedGroupsData(firstLoad);
