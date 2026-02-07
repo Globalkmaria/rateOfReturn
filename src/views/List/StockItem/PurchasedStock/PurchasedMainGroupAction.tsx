@@ -10,7 +10,7 @@ import {
   addNewSold,
   generateSoldInfoFromPurchasedInfo,
 } from '@/features/solds';
-import { selectPurchasedItemsById } from '@/features/stockList/selectors';
+import { selectStockInfoById } from '@/features/stockList/selectors';
 import { selectIsStockListEditMode } from '@/features/temporalStockList/selectors';
 import { selectIsLoggedIn } from '@/features/user/selectors';
 
@@ -38,9 +38,9 @@ function PurchasedMainGroupAction({ stockId, purchasedId }: Props) {
   const isEditMode = useSelector(selectIsStockListEditMode);
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const { mainInfo, purchasedItem } = useSelector(
-    selectPurchasedItemsById(stockId, purchasedId),
-  );
+  const stockInfo = useSelector(selectStockInfoById(stockId));
+  const mainInfo = stockInfo.mainInfo;
+  const purchasedItem = stockInfo.purchasedItems.byId[purchasedId];
 
   const deleteModal = useModal();
   const groupModal = useModal();

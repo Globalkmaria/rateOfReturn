@@ -10,7 +10,7 @@ import getDateAndTime from '../../../../utils/getDateAndTime';
 
 export function useAddItem(stockId: string) {
   const dispatch = useDispatch();
-  const localNextIds = useSelector(selectNextIds());
+  const localNextIds = useSelector(selectNextIds);
   const isLogin = useSelector(selectIsLoggedIn);
 
   const onAddItem = async () => {

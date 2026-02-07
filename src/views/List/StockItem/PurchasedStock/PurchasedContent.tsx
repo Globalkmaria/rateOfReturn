@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 
-import { selectPurchasedItemsById } from '@/features/stockList/selectors';
+import { selectStockInfoById } from '@/features/stockList/selectors';
 import { selectIsStockListEditMode } from '@/features/temporalStockList/selectors';
 
 import { TableCell } from '@/components/table/Table';
@@ -18,9 +18,9 @@ type Props = {
 };
 
 const PurchasedContent = ({ stockId, purchasedId }: Props) => {
-  const { mainInfo, purchasedItem } = useSelector(
-    selectPurchasedItemsById(stockId, purchasedId),
-  );
+  const stockInfo = useSelector(selectStockInfoById(stockId));
+  const mainInfo = stockInfo.mainInfo;
+  const purchasedItem = stockInfo.purchasedItems.byId[purchasedId];
 
   const isEditMode = useSelector(selectIsStockListEditMode);
   const isLock = !isEditMode;

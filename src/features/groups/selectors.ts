@@ -11,8 +11,9 @@ export const selectGroupsIds = (state: { groups: GroupsState }) =>
 export const selectNextGroupId = (state: { groups: GroupsState }) =>
   state.groups.nextGroupId + '';
 
-export const selectGroupInfo = (groupId: string) =>
-  createSelector([selectGroups], groupsInfo => groupsInfo.groups.byId[groupId]);
+export const selectGroupInfo =
+  (groupId: string) => (state: { groups: GroupsState }) =>
+    state.groups.groups.byId[groupId];
 
 export const selectGroupStockInfo = (groupId: string) =>
   createSelector([selectStocks, selectGroups], (stock, group) =>

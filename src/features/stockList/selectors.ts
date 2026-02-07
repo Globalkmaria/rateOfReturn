@@ -10,27 +10,22 @@ export const selectNextPurchasedId = (state: RootState) =>
 export const selectStocks = (state: RootState) => state.stockList.stocks;
 export const selectStockTags = (state: RootState) => state.stockList.tags;
 
-export const selectStockInfoById = (stockId: string) =>
-  createSelector([selectStocks], stocks => stocks.byId[stockId]);
-export const selectStockPurchasedIds = (stockId: string | null) =>
-  createSelector([selectStocks], stocks =>
+export const selectStockInfoById =
+  (stockId: string) => (state: RootState) =>
+    state.stockList.stocks.byId[stockId];
+
+const EMPTY_IDS: string[] = [];
+export const selectStockPurchasedIds =
+  (stockId: string | null) => (state: RootState) =>
     stockId === null
-      ? []
-      : (stocks.byId[stockId]?.purchasedItems?.allIds ?? []),
-  );
-export const selectPurchasedItemsById = (
-  stockId: string,
-  purchasedId: string,
-) =>
-  createSelector([selectStockInfoById(stockId)], stocks => ({
-    mainInfo: stocks.mainInfo,
-    purchasedItem: stocks.purchasedItems.byId[purchasedId],
-  }));
-export const selectNextIds = () =>
-  createSelector(
-    [selectNextStockId, selectNextPurchasedId],
-    (nextStockId, nextPurchasedId) => ({
-      nextStockId,
-      nextPurchasedId,
-    }),
-  );
+      ? EMPTY_IDS
+      : (state.stockList.stocks.byId[stockId]?.purchasedItems?.allIds ??
+        EMPTY_IDS);
+
+export const selectNextIds = createSelector(
+  [selectNextStockId, selectNextPurchasedId],
+  (nextStockId, nextPurchasedId) => ({
+    nextStockId,
+    nextPurchasedId,
+  }),
+);
