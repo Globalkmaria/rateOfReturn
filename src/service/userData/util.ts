@@ -26,6 +26,7 @@ const getMainInfo = (
   stock: UserStock['info'],
 ): StockList['mainInfo'] => ({
   stockId,
+  symbol: stock.symbol || '',
   stockName: stock.name,
   currentPrice: getFixedLocaleString(stock.currentPrice),
   tag: stock.tag,

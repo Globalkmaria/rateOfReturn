@@ -26,6 +26,7 @@ export type Item = {
 
 export type StockInfo = {
   name: string;
+  symbol: string;
   currentPrice: string;
   createdAt: Date;
   tag: string;

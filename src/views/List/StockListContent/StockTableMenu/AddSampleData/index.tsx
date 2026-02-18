@@ -10,7 +10,7 @@ import { selectIsLoggedIn } from '@/features/user/selectors';
 import { BorderButton } from '@/components/Button';
 import Icon from '@/components/Icon';
 
-import { addStockSampleData } from '@/features';
+import { addStockSampleData, initUserData } from '@/features';
 
 import { useShowAddSampleBtn } from './useShowAddSampleBtn';
 
@@ -24,6 +24,12 @@ const AddSampleData = () => {
     if (isLoggedIn) {
       const result = await userDataService.addStockAndGroupSample();
       if (!result.success) return;
+
+      const userData = await userDataService.getUserData();
+      if (userData) {
+        dispatch(initUserData(userData));
+        return;
+      }
     }
 
     dispatch(addStockSampleData());

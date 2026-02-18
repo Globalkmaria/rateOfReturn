@@ -17,10 +17,11 @@ const formatStockAsServerFormat = (
   for (const stockId in stocks) {
     const stock = stocks[stockId];
     const { mainInfo, purchasedItems } = stock;
-    const { stockName, currentPrice, tag } = mainInfo;
+    const { stockName, currentPrice, tag, symbol } = mainInfo;
     const formattedStock: UserStock = {
       info: {
         id: stockId,
+        symbol: symbol || '',
         name: stockName,
         currentPrice: localStringToNumber(currentPrice),
         tag: tag || '',
