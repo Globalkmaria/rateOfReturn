@@ -17,6 +17,7 @@ export const generateSoldItem = (
     purchasedQuantity: localStringToNumber(purchasedItem.purchasedQuantity),
     stockId: mainInfo.stockId,
     stockName: mainInfo.stockName,
+    symbol: mainInfo.symbol || '',
     soldPrice: localStringToNumber(mainInfo.currentPrice),
     tag: mainInfo.tag,
   };
