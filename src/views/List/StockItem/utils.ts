@@ -160,6 +160,7 @@ const addStockInfo = ({
   };
   result[stockId].info = {
     id: stockId,
+    symbol: combined.symbol || '',
     name: combined.stockName,
     currentPrice: localStringToNumber(combined.currentPrice),
     tag: combined.tag ?? '',

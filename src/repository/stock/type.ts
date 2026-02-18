@@ -2,8 +2,8 @@ export interface StockPriceRes {
   data: {
     quotes: {
       symbol: string;
-      name: number;
-      displayName: number;
+      name: string;
+      displayName: string;
       previousClosePrice: number;
     }[];
     date: string;

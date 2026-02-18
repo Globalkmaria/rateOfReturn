@@ -36,7 +36,7 @@ export const getCurrentPriceChanges = ({
     const info = stocks.byId[id].mainInfo;
     acc[id] = acc[id] ?? info.currentPrice;
     return acc;
-  }, changes);
+  }, { ...changes });
 
   const quotes = fetchedQuotes.reduce(
     (acc, quote) => {

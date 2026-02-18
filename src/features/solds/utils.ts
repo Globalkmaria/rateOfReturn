@@ -18,6 +18,7 @@ export const generateSoldInfoFromPurchasedInfo = (
   return {
     stockId: stock.stockId,
     stockName: stock.stockName,
+    symbol: stock.symbol || '',
     purchasedId: purchased.purchasedId,
     purchasedQuantity: localStringToNumber(purchased.purchasedQuantity),
 
