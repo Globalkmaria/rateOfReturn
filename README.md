@@ -1,7 +1,7 @@
 # Show me RoR(Rate of Return)
 
-Project Link : <https://showmeror.site>
-(Currently the backend is closed)
+> 배포가 중단된 상태입니다. 코드와 아래 스냅샷으로 확인해 주세요.
+> _Deployment is currently offline — please refer to the code and snapshots below._
 
 ## Table of Contents
 
